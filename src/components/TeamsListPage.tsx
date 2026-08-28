@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { loadTeams, createTeam, deleteTeam, duplicateTeam } from "../teamStorage";
+import { loadTeams, createTeam, deleteTeam, duplicateTeam, updateTeam } from "../teamStorage";
 import type { SavedTeam } from "../teamStorage";
+import { importShowdownTeam } from "../showdownImport";
 import "./TeamsListPage.css";
 
 const UNCATEGORIZED = "(uncategorized)";
@@ -8,6 +9,10 @@ const UNCATEGORIZED = "(uncategorized)";
 export default function TeamsListPage({ onOpenTeam }: { onOpenTeam: (teamId: string) => void }) {
   const [teams, setTeams] = useState<SavedTeam[]>([]);
   const [activeFolder, setActiveFolder] = useState<string>("(all)");
+  const [importOpen, setImportOpen] = useState(false);
+  const [importText, setImportText] = useState("");
+  const [importing, setImporting] = useState(false);
+  const [importError, setImportError] = useState<string | null>(null);
 
   useEffect(() => {
     setTeams(loadTeams());
@@ -20,6 +25,31 @@ export default function TeamsListPage({ onOpenTeam }: { onOpenTeam: (teamId: str
   function handleNewTeam() {
     const team = createTeam();
     onOpenTeam(team.id);
+  }
+
+  async function handleImport() {
+    setImporting(true);
+    setImportError(null);
+    try {
+      const { slots, failed } = await importShowdownTeam(importText);
+      if (slots.length === 0) {
+        setImportError("Couldn't read any Pokemon from that text. Check it's in Showdown export format.");
+        return;
+      }
+      const team = createTeam("Imported Team");
+      updateTeam({ ...team, slots });
+      if (failed.length > 0) {
+        // Partial success is still worth keeping - just tell them what dropped.
+        alert(`Imported ${slots.length} Pokemon. Couldn't find: ${failed.join(", ")}`);
+      }
+      setImportOpen(false);
+      setImportText("");
+      onOpenTeam(team.id);
+    } catch {
+      setImportError("Import failed. Is the backend running?");
+    } finally {
+      setImporting(false);
+    }
   }
 
   function handleDelete(id: string) {
@@ -58,9 +88,38 @@ export default function TeamsListPage({ onOpenTeam }: { onOpenTeam: (teamId: str
 
       <main className="teams-main">
         <h2>My Teams ({teams.length})</h2>
-        <button className="new-team-btn" onClick={handleNewTeam}>
-          + New Team
-        </button>
+        <div className="teams-actions">
+          <button className="new-team-btn" onClick={handleNewTeam}>
+            + New Team
+          </button>
+          <button className="import-team-btn" onClick={() => setImportOpen((o) => !o)}>
+            Import from Showdown
+          </button>
+        </div>
+
+        {importOpen && (
+          <div className="import-panel">
+            <p className="import-hint">
+              Paste a team in Pokemon Showdown export format (one Pokemon per block, separated by blank lines).
+            </p>
+            <textarea
+              className="import-textarea"
+              rows={10}
+              placeholder={"Garchomp @ Life Orb\nAbility: Rough Skin\nEVs: 32 Atk\nAdamant Nature\n- Earthquake\n- Dragon Claw"}
+              value={importText}
+              onChange={(e) => setImportText(e.target.value)}
+            />
+            {importError && <div className="import-error">{importError}</div>}
+            <div className="import-actions">
+              <button className="new-team-btn" onClick={handleImport} disabled={!importText.trim() || importing}>
+                {importing ? "Importing..." : "Import Team"}
+              </button>
+              <button className="import-cancel-btn" onClick={() => setImportOpen(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="teams-grid">
           {visibleTeams.map((team) => (
