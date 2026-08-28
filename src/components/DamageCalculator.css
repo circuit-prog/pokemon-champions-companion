@@ -1,117 +1,156 @@
 .damage-calculator {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 1.5rem;
   text-align: left;
 }
 
-.calc-columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.calc-field-controls {
+  display: flex;
+  align-items: center;
   gap: 1.5rem;
+  margin-bottom: 1.25rem;
+  background: #f7f9fc;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
 }
 
-.calc-side {
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 1rem;
+.calc-field-controls label {
   display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.calc-side label {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
+  align-items: center;
+  gap: 0.4rem;
   font-size: 0.85rem;
   color: #555;
 }
 
-.calc-side select,
-.calc-side input {
-  padding: 0.4rem;
+.calc-field-controls select {
+  padding: 0.3rem 0.5rem;
   border-radius: 6px;
   border: 1px solid #ccc;
 }
 
-.picker {
+.calc-crit-toggle {
+  cursor: pointer;
+}
+
+.calc-builders {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.calc-results-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.move-results-column h3 {
+  font-size: 0.9rem;
+  margin-bottom: 0.6rem;
+}
+
+.move-results-list {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.4rem;
+}
+
+.move-result-bar {
   position: relative;
-}
-
-.picker input {
-  padding: 0.5rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.picker-results {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: #fff;
-  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  z-index: 10;
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.picker-results button {
-  display: block;
-  width: 100%;
+  padding: 0.5rem 0.8rem;
+  background: white;
+  cursor: pointer;
+  overflow: hidden;
   text-align: left;
-  padding: 0.4rem 0.6rem;
-  border: none;
-  background: none;
-  cursor: pointer;
 }
 
-.picker-results button:hover {
-  background: #eef4ff;
+.move-result-bar.selected {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 1px #4a90e2;
 }
 
-.calc-run-btn {
-  margin-top: 1.25rem;
-  padding: 0.6rem 1.4rem;
-  border-radius: 8px;
-  border: none;
-  background: #4a90e2;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
+.move-result-bar-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0.18;
 }
 
-.calc-run-btn:hover {
-  background: #3a7bc8;
-}
-
-.calc-error {
-  margin-top: 1rem;
-  color: #a80000;
-  background: #ffe3e3;
-  border: 1px solid #ffb3b3;
-  border-radius: 8px;
-  padding: 0.6rem 1rem;
-}
-
-.calc-result {
-  margin-top: 1rem;
-  background: #f4f9f4;
-  border: 1px solid #cbe8cb;
-  border-radius: 8px;
-  padding: 1rem;
-}
-
-.calc-result .ko-text {
-  font-weight: bold;
-}
-
-.calc-meta {
-  color: #777;
+.move-result-bar-name {
+  position: relative;
+  font-weight: 600;
   font-size: 0.85rem;
+}
+
+.move-result-bar-pct {
+  position: relative;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.calc-detail {
+  border: 1px solid #cfe0ff;
+  background: #f4f8ff;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  max-width: 600px;
+}
+
+.calc-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.calc-detail-header img {
+  width: 32px;
+  height: 32px;
+}
+
+.vs-label {
+  color: #999;
+  margin: 0 0.2rem;
+}
+
+.calc-detail-move {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.calc-detail-damage {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0.3rem 0;
+}
+
+.calc-detail .ko-text {
+  font-weight: 600;
+  color: #2a5cb8;
+}
+
+.calc-summary-line {
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid #dbe6fb;
+  font-family: monospace;
+  font-size: 0.78rem;
+  color: #555;
+}
+
+.subtitle {
+  color: #666;
 }
