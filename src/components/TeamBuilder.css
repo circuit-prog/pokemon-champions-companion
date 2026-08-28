@@ -1,0 +1,171 @@
+.team-builder {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.subtitle {
+  color: #666;
+  margin-top: -0.5rem;
+}
+
+.error-banner {
+  background: #ffe3e3;
+  color: #a80000;
+  border: 1px solid #ffb3b3;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.pokemon-search {
+  margin-bottom: 2rem;
+}
+
+.pokemon-search input {
+  width: 100%;
+  padding: 0.6rem 0.9rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.search-status {
+  color: #888;
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+}
+
+.search-results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.search-result {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.search-result:hover {
+  background: #eef4ff;
+  border-color: #a8c8ff;
+}
+
+.search-result img {
+  width: 28px;
+  height: 28px;
+}
+
+.types {
+  color: #888;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.team-slot-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1rem;
+  background: #fff;
+}
+
+.team-slot-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  position: relative;
+}
+
+.team-slot-header img {
+  width: 48px;
+  height: 48px;
+}
+
+.team-slot-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  text-transform: capitalize;
+}
+
+.remove-btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  font-size: 1rem;
+}
+
+.remove-btn:hover {
+  color: #d33;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.stat-bar {
+  display: grid;
+  grid-template-columns: 32px 1fr 32px;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.stat-track {
+  background: #eee;
+  border-radius: 4px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.stat-fill {
+  background: linear-gradient(90deg, #8ec5ff, #4a90e2);
+  height: 100%;
+}
+
+.stat-value {
+  text-align: right;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.8rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.field select {
+  padding: 0.4rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.moves {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
