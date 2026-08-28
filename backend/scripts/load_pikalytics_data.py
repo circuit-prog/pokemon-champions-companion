@@ -15,7 +15,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.database import SessionLocal
-from app.models.pokemon import Pokemon, PokemonUsageStats
+from app.models.pokemon import Pokemon, PokemonUsageStats, TeamCore, TopTeam, UsageSnapshot
 
 DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "pikalytics_usage.json"
 
@@ -64,6 +64,57 @@ def main():
             loaded += 1
 
         print(f"Loaded usage stats for {loaded} Pokemon ({skipped} skipped).")
+
+        # Team cores and top teams are fully replaced each run (they're a
+        # snapshot of the current meta, not accumulated history).
+        db.query(TeamCore).delete()
+        for core in data.get("cores", []):
+            db.add(TeamCore(
+                format=fmt, size=core["size"], rank=core["rank"],
+                pokemon_json=json.dumps(core["pokemon"]),
+                teams=core.get("teams"), usage_percent=core.get("usage_percent"),
+            ))
+        db.commit()
+        print(f"Loaded {len(data.get('cores', []))} team cores.")
+
+        db.query(TopTeam).delete()
+        for team in data.get("top_teams", []):
+            db.add(TopTeam(
+                format=fmt, rank=team["rank"], author=team.get("author"),
+                record=team.get("record"), tournament=team.get("tournament"),
+                pokemon_json=json.dumps(team["pokemon"]),
+            ))
+        db.commit()
+        print(f"Loaded {len(data.get('top_teams', []))} top teams.")
+
+        # Snapshots ACCUMULATE - one row per Pokemon per scrape run, so we can
+        # chart usage/win-rate trends once enough runs have happened.
+        scraped_at = data.get("scraped_at")
+        if scraped_at:
+            existing = (
+                db.query(UsageSnapshot)
+                .filter(UsageSnapshot.format == fmt, UsageSnapshot.scraped_at == scraped_at)
+                .count()
+            )
+            if existing:
+                print(f"Snapshot for {scraped_at} already recorded, skipping.")
+            else:
+                for slug, entry in data["pokemon"].items():
+                    db.add(UsageSnapshot(
+                        format=fmt, scraped_at=scraped_at, pokemon_name=slug,
+                        rank=entry["rank"], win_rate=entry.get("win_rate"),
+                        record=entry.get("record"),
+                    ))
+                db.commit()
+                total_snapshots = db.query(UsageSnapshot).filter(UsageSnapshot.format == fmt).count()
+                distinct_runs = (
+                    db.query(UsageSnapshot.scraped_at)
+                    .filter(UsageSnapshot.format == fmt)
+                    .distinct()
+                    .count()
+                )
+                print(f"Recorded snapshot {scraped_at} "
+                      f"({total_snapshots} rows across {distinct_runs} run(s)).")
     finally:
         db.close()
 

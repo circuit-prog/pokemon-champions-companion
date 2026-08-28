@@ -108,3 +108,46 @@ class PokemonUsageStats(Base):
     teammates_json = Column(String, nullable=False, default="[]")
 
     pokemon = relationship("Pokemon", backref="usage_stats", uselist=False)
+
+
+class TeamCore(Base):
+    """Pokemon combinations that appear together most often on real teams
+    (2-, 3-, and 4-Pokemon cores), from Pikalytics' format index."""
+    __tablename__ = "team_cores"
+
+    id = Column(Integer, primary_key=True)
+    format = Column(String, nullable=False)
+    size = Column(Integer, nullable=False)  # 2, 3, or 4
+    rank = Column(Integer, nullable=False)  # rank within its size group
+    pokemon_json = Column(String, nullable=False)  # JSON list of display names
+    teams = Column(Integer, nullable=True)  # how many sampled teams ran this core
+    usage_percent = Column(Float, nullable=True)
+
+
+class TopTeam(Base):
+    """A high-performing team from a recent tracked tournament."""
+    __tablename__ = "top_teams"
+
+    id = Column(Integer, primary_key=True)
+    format = Column(String, nullable=False)
+    rank = Column(Integer, nullable=False)
+    author = Column(String, nullable=True)
+    record = Column(String, nullable=True)  # e.g. "13-2"
+    tournament = Column(String, nullable=True)
+    pokemon_json = Column(String, nullable=False)  # JSON list of display names
+
+
+class UsageSnapshot(Base):
+    """A point-in-time copy of one Pokemon's usage rank/win rate, written on
+    every scrape run so we can chart trends over time later. Pikalytics only
+    publishes current data, so history has to be accumulated going forward -
+    it can't be backfilled."""
+    __tablename__ = "usage_snapshots"
+
+    id = Column(Integer, primary_key=True)
+    format = Column(String, nullable=False)
+    scraped_at = Column(String, nullable=False, index=True)  # ISO8601 UTC
+    pokemon_name = Column(String, nullable=False, index=True)  # slug
+    rank = Column(Integer, nullable=False)
+    win_rate = Column(Float, nullable=True)
+    record = Column(String, nullable=True)

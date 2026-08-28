@@ -1,5 +1,315 @@
 {
   "format": "battledataregmbs3",
+  "scraped_at": "2026-08-28T19:00:52.434541+00:00",
+  "cores": [
+    {
+      "size": 2,
+      "rank": 1,
+      "pokemon": [
+        "Charizard-Mega-Y",
+        "Garchomp"
+      ],
+      "teams": 2155,
+      "usage_percent": 16.3
+    },
+    {
+      "size": 2,
+      "rank": 2,
+      "pokemon": [
+        "Garchomp",
+        "Kingambit"
+      ],
+      "teams": 1975,
+      "usage_percent": 14.9
+    },
+    {
+      "size": 2,
+      "rank": 3,
+      "pokemon": [
+        "Garchomp",
+        "Whimsicott"
+      ],
+      "teams": 1772,
+      "usage_percent": 13.4
+    },
+    {
+      "size": 2,
+      "rank": 4,
+      "pokemon": [
+        "Basculegion",
+        "Kingambit"
+      ],
+      "teams": 1619,
+      "usage_percent": 12.3
+    },
+    {
+      "size": 2,
+      "rank": 5,
+      "pokemon": [
+        "Archaludon",
+        "Pelipper"
+      ],
+      "teams": 1498,
+      "usage_percent": 11.3
+    },
+    {
+      "size": 3,
+      "rank": 1,
+      "pokemon": [
+        "Charizard-Mega-Y",
+        "Garchomp",
+        "Kingambit"
+      ],
+      "teams": 1203,
+      "usage_percent": 9.1
+    },
+    {
+      "size": 3,
+      "rank": 2,
+      "pokemon": [
+        "Garchomp",
+        "Kingambit",
+        "Whimsicott"
+      ],
+      "teams": 1058,
+      "usage_percent": 8.0
+    },
+    {
+      "size": 3,
+      "rank": 3,
+      "pokemon": [
+        "Charizard-Mega-Y",
+        "Garchomp",
+        "Whimsicott"
+      ],
+      "teams": 913,
+      "usage_percent": 6.9
+    },
+    {
+      "size": 3,
+      "rank": 4,
+      "pokemon": [
+        "Archaludon",
+        "Grimmsnarl",
+        "Pelipper"
+      ],
+      "teams": 874,
+      "usage_percent": 6.6
+    },
+    {
+      "size": 3,
+      "rank": 5,
+      "pokemon": [
+        "Charizard-Mega-Y",
+        "Garchomp",
+        "Sylveon"
+      ],
+      "teams": 837,
+      "usage_percent": 6.3
+    },
+    {
+      "size": 4,
+      "rank": 1,
+      "pokemon": [
+        "Basculegion",
+        "Charizard-Mega-Y",
+        "Garchomp",
+        "Whimsicott"
+      ],
+      "teams": 640,
+      "usage_percent": 4.8
+    },
+    {
+      "size": 4,
+      "rank": 2,
+      "pokemon": [
+        "Excadrill",
+        "Sinistcha",
+        "Staraptor-Mega",
+        "Tyranitar-Mega"
+      ],
+      "teams": 621,
+      "usage_percent": 4.7
+    },
+    {
+      "size": 4,
+      "rank": 3,
+      "pokemon": [
+        "Charizard-Mega-Y",
+        "Garchomp",
+        "Kingambit",
+        "Sylveon"
+      ],
+      "teams": 612,
+      "usage_percent": 4.6
+    },
+    {
+      "size": 4,
+      "rank": 4,
+      "pokemon": [
+        "Excadrill",
+        "Gholdengo",
+        "Sinistcha",
+        "Tyranitar-Mega"
+      ],
+      "teams": 607,
+      "usage_percent": 4.6
+    },
+    {
+      "size": 4,
+      "rank": 5,
+      "pokemon": [
+        "Excadrill",
+        "Gholdengo",
+        "Milotic",
+        "Staraptor-Mega"
+      ],
+      "teams": 606,
+      "usage_percent": 4.6
+    }
+  ],
+  "top_teams": [
+    {
+      "rank": 1,
+      "author": "shaikhvgc786",
+      "record": "13-2",
+      "tournament": "Maddo's Cup #10 | 100\u20ac for the Winner | Reg M-B",
+      "pokemon": [
+        "Raichu-Mega-Y",
+        "Farigiraf",
+        "Mawile-Mega",
+        "Garchomp",
+        "Vivillon",
+        "Torkoal"
+      ]
+    },
+    {
+      "rank": 2,
+      "author": "AyushXD",
+      "record": "13-2",
+      "tournament": "POK\u00c9MON CHAMPIONS INDIAN LEAGUE S2",
+      "pokemon": [
+        "Gengar-Mega",
+        "Archaludon",
+        "Politoed",
+        "Swampert-Mega",
+        "Vivillon",
+        "Incineroar"
+      ]
+    },
+    {
+      "rank": 3,
+      "author": "Beedrillvgc",
+      "record": "12-2",
+      "tournament": "Free entry! $250 Global VGC Welcome Tour!",
+      "pokemon": [
+        "Charizard-Mega-Y",
+        "Venusaur",
+        "Sinistcha",
+        "Incineroar",
+        "Floette-Eternal",
+        "Garchomp"
+      ]
+    },
+    {
+      "rank": 4,
+      "author": "Zach K",
+      "record": "9-0",
+      "tournament": "The Drywalls Series #15",
+      "pokemon": [
+        "Froslass-Mega",
+        "Scovillain-Mega",
+        "Lycanroc",
+        "Kingambit",
+        "Sneasler",
+        "Basculegion"
+      ]
+    },
+    {
+      "rank": 5,
+      "author": "\u5fb7\u5c3c\u7279\u7c89 1",
+      "record": "11-1",
+      "tournament": "Alpensee x Smogon VGC Tour (Reg M-B) #70",
+      "pokemon": [
+        "Charizard-Mega-Y",
+        "Whimsicott",
+        "Basculegion",
+        "Floette-Eternal",
+        "Garchomp",
+        "Incineroar"
+      ]
+    },
+    {
+      "rank": 6,
+      "author": "Aloy2023",
+      "record": "12-1",
+      "tournament": "\ud83c\udf4bSitrus-Series\ud83c\udf4b|Champions-MB|#68",
+      "pokemon": [
+        "Klefki",
+        "Venusaur-Mega",
+        "Tyranitar-Mega",
+        "Annihilape",
+        "Sinistcha",
+        "Arcanine-Hisui"
+      ]
+    },
+    {
+      "rank": 7,
+      "author": "ChefRich22",
+      "record": "11-1",
+      "tournament": "Talon's FIGHT CLUB #96 POKEMON CHAMPIONS",
+      "pokemon": [
+        "Charizard-Mega-Y",
+        "Pelipper",
+        "Archaludon",
+        "Venusaur",
+        "Swampert-Mega",
+        "Grimmsnarl"
+      ]
+    },
+    {
+      "rank": 8,
+      "author": "Sir_Aaron",
+      "record": "12-0",
+      "tournament": "\ud83c\udfc6 Champions League VGC August \u2694\ufe0f",
+      "pokemon": [
+        "Aerodactyl-Mega",
+        "Sneasler",
+        "Froslass-Mega",
+        "Tsareena",
+        "Kingambit",
+        "Basculegion"
+      ]
+    },
+    {
+      "rank": 9,
+      "author": "ChefRich22",
+      "record": "10-0",
+      "tournament": "HeroicTitan\u2019s VGC Battle Arena",
+      "pokemon": [
+        "Whimsicott",
+        "Delphox-Mega",
+        "Staraptor-Mega",
+        "Glimmora",
+        "Garchomp",
+        "Kingambit"
+      ]
+    },
+    {
+      "rank": 10,
+      "author": "Great Papayaman",
+      "record": "10-0",
+      "tournament": "Devils Den Tournaments #85",
+      "pokemon": [
+        "Mawile-Mega",
+        "Farigiraf",
+        "Incineroar",
+        "Garchomp",
+        "Venusaur",
+        "Charizard-Mega-Y"
+      ]
+    }
+  ],
   "pokemon": {
     "garchomp": {
       "rank": 1,

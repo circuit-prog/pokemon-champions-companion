@@ -161,6 +161,32 @@ class PokemonUsageOut(BaseModel):
     teammates: List[UsageEntry] = []
 
 
+class TeamCoreOut(BaseModel):
+    """A Pokemon combination that frequently appears together on real teams."""
+    size: int
+    rank: int
+    pokemon: List[str]
+    sprites: List[Optional[str]]
+    teams: Optional[int]
+    usage_percent: Optional[float]
+
+
+class TopTeamOut(BaseModel):
+    """A high-performing team from a recent tracked tournament."""
+    rank: int
+    author: Optional[str]
+    record: Optional[str]
+    tournament: Optional[str]
+    pokemon: List[str]
+    sprites: List[Optional[str]]
+
+
+class UsageTrendPoint(BaseModel):
+    scraped_at: str
+    rank: int
+    win_rate: Optional[float]
+
+
 class MetaRankingEntry(BaseModel):
     """One row of the meta usage leaderboard - lighter than PokemonUsageOut
     (no per-move/item/ability breakdown) for listing many Pokemon at once."""

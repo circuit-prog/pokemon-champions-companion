@@ -30,6 +30,7 @@ Usage:
 import json
 import re
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
@@ -99,13 +100,73 @@ def parse_detail(text):
     return {"moves": moves, "items": items, "abilities": abilities, "teammates": teammates}
 
 
+def parse_cores(text):
+    """Parse the '### N-Pokemon Cores' markdown tables into
+    [{"size", "rank", "pokemon": [...], "teams", "usage_percent"}]."""
+    cores = []
+    for size_match in re.finditer(r"### (\d)-Pokemon Cores\n(.*?)(?=\n###|\n## |\Z)", text, re.S):
+        size = int(size_match.group(1))
+        for row in re.finditer(
+            r"^\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|\s*(\d+)\s*\|\s*([\d.]+)%\s*\|$",
+            size_match.group(2),
+            re.MULTILINE,
+        ):
+            cores.append({
+                "size": size,
+                "rank": int(row.group(1)),
+                "pokemon": [p.strip() for p in row.group(2).split(",")],
+                "teams": int(row.group(3)),
+                "usage_percent": float(row.group(4)),
+            })
+    return cores
+
+
+def parse_top_teams(text):
+    """Parse the '## Recent Top Teams' table into
+    [{"rank", "author", "record", "tournament", "pokemon": [...]}]."""
+    idx = text.find("## Recent Top Teams")
+    if idx == -1:
+        return []
+    section = text[idx:]
+    next_header = section.find("\n## ", 1)
+    if next_header != -1:
+        section = section[:next_header]
+
+    teams = []
+    for line in section.splitlines():
+        if not line.startswith("|") or "---" in line:
+            continue
+        # Tournament names can contain escaped pipes (\|), so split on real
+        # column separators only, then unescape.
+        cells = [c.strip().replace("\\|", "|") for c in re.split(r"(?<!\\)\|", line)]
+        cells = [c for c in cells if c]  # drop the empty leading/trailing cells
+        if len(cells) != 5 or not cells[0].isdigit():
+            continue
+        teams.append({
+            "rank": int(cells[0]),
+            "author": cells[1],
+            "record": cells[2],
+            "tournament": cells[3],
+            "pokemon": [p.strip() for p in cells[4].split(",")],
+        })
+    return teams
+
+
 def main():
     print("Fetching Reg M-B index...")
     index_text = fetch(BASE)
     entries = parse_index(index_text)
-    print(f"Found {len(entries)} ranked Pokemon.")
+    cores = parse_cores(index_text)
+    top_teams = parse_top_teams(index_text)
+    print(f"Found {len(entries)} ranked Pokemon, {len(cores)} cores, {len(top_teams)} top teams.")
 
-    result = {"format": "battledataregmbs3", "pokemon": {}}
+    result = {
+        "format": "battledataregmbs3",
+        "scraped_at": datetime.now(timezone.utc).isoformat(),
+        "cores": cores,
+        "top_teams": top_teams,
+        "pokemon": {},
+    }
     for i, entry in enumerate(entries, start=1):
         slug = to_slug(entry["name"])
         try:
