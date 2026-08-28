@@ -9,7 +9,10 @@ import './App.css'
 type Tab = 'teams' | 'dex' | 'calc' | 'tools'
 
 function App() {
-  const [tab, setTab] = useState<Tab>('teams')
+  // A shared damage-calc link (?calc=...) should open straight into the calculator.
+  const [tab, setTab] = useState<Tab>(() =>
+    new URLSearchParams(window.location.search).has('calc') ? 'calc' : 'teams'
+  )
   const [editingTeamId, setEditingTeamId] = useState<string | null>(null)
 
   function goToTab(next: Tab) {

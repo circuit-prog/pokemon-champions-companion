@@ -3,6 +3,8 @@ import { calcDamage } from "../api";
 import type { MoveOut, DamageCalcResult } from "../api";
 import TargetPicker from "./TargetPicker";
 import type { TargetSpec } from "./TargetPicker";
+import SurvivalMinimizer from "./SurvivalMinimizer";
+import { buildShareUrl, readShareUrl, exportShowdownSet } from "../calcShare";
 import { TYPE_COLORS } from "../typeColors";
 import "./DamageCalculator.css";
 
@@ -238,6 +240,27 @@ export default function DamageCalculator() {
   const [field, setField] = useState<FieldState>(DEFAULT_FIELD);
   const [selected, setSelected] = useState<{ attacker: "p1" | "p2"; move: string; result: DamageCalcResult } | null>(null);
   const [copied, setCopied] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+
+  // Restore a shared calc from ?calc=... on first load.
+  useEffect(() => {
+    readShareUrl().then((restored) => {
+      if (!restored) return;
+      setP1(restored.p1);
+      setP2(restored.p2);
+      setField({ ...DEFAULT_FIELD, ...(restored.field as Partial<FieldState>) });
+    });
+  }, []);
+
+  function copyText(text: string, message: string) {
+    navigator.clipboard?.writeText(text).then(
+      () => {
+        setToast(message);
+        setTimeout(() => setToast(null), 1800);
+      },
+      () => {}
+    );
+  }
 
   function copySummary(text: string) {
     navigator.clipboard?.writeText(text).then(
@@ -247,6 +270,11 @@ export default function DamageCalculator() {
       },
       () => {}
     );
+  }
+
+  function applySurvivalSpread(hpEv: number, defStatKey: string, defEv: number) {
+    if (!p2) return;
+    setP2({ ...p2, evs: { ...p2.evs, hp: hpEv, [defStatKey]: defEv } as typeof p2.evs });
   }
 
   return (
@@ -259,6 +287,37 @@ export default function DamageCalculator() {
         <TargetPicker label="Pokemon 1" target={p1} onChange={setP1} advanced />
         <TargetPicker label="Pokemon 2" target={p2} onChange={setP2} advanced />
       </div>
+
+      {p1 && p2 && (
+        <div className="calc-export-row">
+          <button className="calc-export-btn" onClick={() => copyText(buildShareUrl(p1, p2, field), "Link copied")}>
+            Copy shareable link
+          </button>
+          <button
+            className="calc-export-btn"
+            onClick={() => copyText(exportShowdownSet(p1), `${p1.pokemon.display_name} set copied`)}
+          >
+            Export {p1.pokemon.display_name} set
+          </button>
+          <button
+            className="calc-export-btn"
+            onClick={() => copyText(exportShowdownSet(p2), `${p2.pokemon.display_name} set copied`)}
+          >
+            Export {p2.pokemon.display_name} set
+          </button>
+          {toast && <span className="calc-toast">{toast}</span>}
+        </div>
+      )}
+
+      {p1 && p2 && (
+        <SurvivalMinimizer
+          attacker={p1}
+          defender={p2}
+          field={field}
+          toCombatant={toCombatant}
+          onApply={applySurvivalSpread}
+        />
+      )}
 
       {p1 && p2 && (
         <div className="calc-results-columns">

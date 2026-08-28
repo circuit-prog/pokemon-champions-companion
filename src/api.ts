@@ -177,3 +177,33 @@ export function calcDamage(
     field,
   });
 }
+
+export interface SurvivalResult {
+  found: boolean;
+  reason?: string | null;
+  hp_ev?: number | null;
+  def_ev?: number | null;
+  def_stat_key?: string | null;
+  total_evs?: number | null;
+  worst_case_damage?: number | null;
+  worst_case_percent?: number | null;
+  resulting_hp?: number | null;
+}
+
+/** Solve for the cheapest EV spread that survives `moveName` with at least
+ *  `surviveAtHpPercent` of max HP remaining. */
+export function calcSurvival(
+  attacker: CombatantIn,
+  defender: CombatantIn,
+  moveName: string,
+  surviveAtHpPercent: number,
+  field: object = {}
+): Promise<SurvivalResult> {
+  return postJson<SurvivalResult>("/api/calc/survive", {
+    attacker,
+    defender,
+    move_name: moveName,
+    field,
+    survive_at_hp_percent: surviveAtHpPercent,
+  });
+}

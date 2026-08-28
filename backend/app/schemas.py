@@ -115,6 +115,33 @@ class DamageCalcResult(BaseModel):
     stab: Optional[float] = None
 
 
+class SurvivalRequest(BaseModel):
+    """Solve for the cheapest EV spread that survives an attack.
+
+    Mirrors DamageCalcRequest, but the defender's HP/Def/SpD EVs are what we
+    solve for rather than take as input.
+    """
+    attacker: CombatantIn
+    defender: CombatantIn
+    move_name: str
+    field: DamageCalcField = DamageCalcField()
+    survive_at_hp_percent: float = 1.0  # survive with at least this much HP left
+    fixed_hp_ev: Optional[int] = None   # optionally pin one of the stats
+    fixed_def_ev: Optional[int] = None
+
+
+class SurvivalResult(BaseModel):
+    found: bool
+    reason: Optional[str] = None
+    hp_ev: Optional[int] = None
+    def_ev: Optional[int] = None
+    def_stat_key: Optional[str] = None  # "def" or "spd", whichever the move targets
+    total_evs: Optional[int] = None
+    worst_case_damage: Optional[int] = None
+    worst_case_percent: Optional[float] = None
+    resulting_hp: Optional[int] = None
+
+
 class UsageEntry(BaseModel):
     name: str
     percent: Optional[float] = None
