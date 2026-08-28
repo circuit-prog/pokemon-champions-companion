@@ -57,6 +57,7 @@ class Move(Base):
     power = Column(Integer, nullable=True)
     accuracy = Column(Integer, nullable=True)
     pp = Column(Integer, nullable=True)
+    effect = Column(String, nullable=True)
 
     learned_by = relationship("Pokemon", secondary=pokemon_moves, back_populates="moves")
 
@@ -80,3 +81,24 @@ class Ability(Base):
     effect = Column(String, nullable=True)
 
     pokemon = relationship("Pokemon", secondary=pokemon_abilities, back_populates="abilities")
+
+
+class PokemonUsageStats(Base):
+    """Real Pokemon Champions competitive usage data, scraped from limitlessvgc.com.
+    Only exists for Pokemon actually seen in tracked tournaments (~83 as of writing) -
+    most Pokemon in the `pokemon` table won't have a row here.
+    """
+    __tablename__ = "pokemon_usage_stats"
+
+    id = Column(Integer, primary_key=True)
+    pokemon_id = Column(Integer, ForeignKey("pokemon.id"), unique=True, nullable=False)
+    format = Column(String, nullable=False)  # e.g. "m-a"
+    rank = Column(Integer, nullable=False)
+    usage_percent = Column(Float, nullable=True)
+
+    # Stored as JSON text: [{"name": "...", "percent": 65.3}, ...], already usage-sorted.
+    moves_json = Column(String, nullable=False, default="[]")
+    items_json = Column(String, nullable=False, default="[]")
+    abilities_json = Column(String, nullable=False, default="[]")
+
+    pokemon = relationship("Pokemon", backref="usage_stats", uselist=False)

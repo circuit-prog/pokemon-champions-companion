@@ -13,6 +13,7 @@ class MoveOut(BaseModel):
     power: Optional[int]
     accuracy: Optional[int]
     pp: Optional[int]
+    effect: Optional[str] = None
 
 
 class AbilityOut(BaseModel):
@@ -93,3 +94,19 @@ class DamageCalcResult(BaseModel):
     ko_text: Optional[str] = None
     type_effectiveness: Optional[float] = None
     stab: Optional[float] = None
+
+
+class UsageEntry(BaseModel):
+    name: str
+    percent: float
+
+
+class PokemonUsageOut(BaseModel):
+    """Real Pokemon Champions tournament usage data for one Pokemon.
+    Only exists for the subset of Pokemon actually seen in tracked play."""
+    format: str
+    rank: int
+    usage_percent: Optional[float]
+    moves: List[UsageEntry]
+    items: List[UsageEntry]
+    abilities: List[UsageEntry]

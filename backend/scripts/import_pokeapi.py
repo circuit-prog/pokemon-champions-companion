@@ -26,10 +26,11 @@ from app.models.pokemon import Pokemon, Move, Item, Ability
 POKEAPI_BASE = "https://pokeapi.co/api/v2"
 
 # How many Pokemon (by national dex order) to import on this run.
-# None = import the entire national dex (slow, ~1300 requests).
-# 600 is a practical proxy for "most of what sees competitive play" until we
-# have real Pokemon Champions usage data to filter by properly.
-LIMIT = 600
+# None = import the entire national dex (~1300 requests). We import everyone
+# so the roster/search is complete; real usage data (scrape_usage_ranking.py +
+# scrape_usage_detail.py) separately marks which ~83 Pokemon actually see
+# competitive play in Pokemon Champions right now, and what they run.
+LIMIT = None
 
 REQUEST_DELAY_SECONDS = 0.05  # be polite to the free public API
 
@@ -97,12 +98,12 @@ def import_pokemon(db, limit):
 
 
 def enrich_moves(db):
-    """Fill in real type/category/power/accuracy for moves referenced above.
+    """Fill in real type/category/power/accuracy/effect for moves referenced above.
 
     We only fetch full details for moves we actually linked (via the loop
     above), not every move in the game, to keep total requests reasonable.
     """
-    moves = db.query(Move).filter(Move.type == "unknown").all()
+    moves = db.query(Move).filter((Move.type == "unknown") | (Move.effect.is_(None))).all()
     print(f"Enriching {len(moves)} moves with full details...")
     for i, move in enumerate(moves, start=1):
         data = fetch(f"{POKEAPI_BASE}/move/{move.name}")
@@ -111,9 +112,24 @@ def enrich_moves(db):
         move.power = data.get("power")
         move.accuracy = data.get("accuracy")
         move.pp = data.get("pp")
+        effect_entries = [e for e in (data.get("effect_entries") or []) if e["language"]["name"] == "en"]
+        move.effect = effect_entries[0]["short_effect"] if effect_entries else None
         db.commit()
         if i % 10 == 0:
             print(f"  [{i}/{len(moves)}] moves enriched")
+
+
+def enrich_abilities(db):
+    """Fill in effect text for abilities referenced above."""
+    abilities = db.query(Ability).filter(Ability.effect.is_(None)).all()
+    print(f"Enriching {len(abilities)} abilities with effect text...")
+    for i, ability in enumerate(abilities, start=1):
+        data = fetch(f"{POKEAPI_BASE}/ability/{ability.name}")
+        effect_entries = [e for e in (data.get("effect_entries") or []) if e["language"]["name"] == "en"]
+        ability.effect = effect_entries[0]["short_effect"] if effect_entries else None
+        db.commit()
+        if i % 10 == 0:
+            print(f"  [{i}/{len(abilities)}] abilities enriched")
 
 
 def import_items(db, limit=400):
@@ -143,6 +159,7 @@ def main():
         print(f"Importing Pokemon (limit={LIMIT or 'ALL'})...")
         import_pokemon(db, LIMIT)
         enrich_moves(db)
+        enrich_abilities(db)
         import_items(db)
         print("Done.")
     finally:

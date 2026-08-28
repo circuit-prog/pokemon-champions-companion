@@ -21,6 +21,7 @@ export interface MoveOut {
   power: number | null;
   accuracy: number | null;
   pp: number | null;
+  effect: string | null;
 }
 
 export interface AbilityOut {
@@ -105,6 +106,30 @@ export function getPokemon(name: string): Promise<PokemonDetail> {
 export function searchItems(query: string): Promise<ItemOut[]> {
   const params = query ? `?search=${encodeURIComponent(query)}` : "";
   return getJson<ItemOut[]>(`/api/items${params}`);
+}
+
+export interface UsageEntry {
+  name: string;
+  percent: number;
+}
+
+export interface PokemonUsageOut {
+  format: string;
+  rank: number;
+  usage_percent: number | null;
+  moves: UsageEntry[];
+  items: UsageEntry[];
+  abilities: UsageEntry[];
+}
+
+// Returns null (not an error) when the Pokemon has no tracked competitive
+// usage data yet — most of the roster won't, since the Champions meta is
+// still small (only ~83 Pokemon tracked as of writing).
+export async function getPokemonUsage(name: string): Promise<PokemonUsageOut | null> {
+  const res = await fetch(`${API_BASE}/api/pokemon/${encodeURIComponent(name)}/usage`);
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Request for usage of ${name} failed: ${res.status}`);
+  return res.json() as Promise<PokemonUsageOut>;
 }
 
 export function calcDamage(
