@@ -21,7 +21,7 @@ const COLUMNS: { key: SortKey; label: string }[] = [
   { key: "bst", label: "BST" },
 ];
 
-export default function PokemonTable({ onPick }: { onPick: (p: PokemonSummary) => void }) {
+export default function PokemonTable({ onPick }: { onPick?: (p: PokemonSummary) => void }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<PokemonSummary[]>([]);
   const [loading, setLoading] = useState(false);
@@ -107,9 +107,11 @@ export default function PokemonTable({ onPick }: { onPick: (p: PokemonSummary) =
                 </td>
                 <td className="pokemon-table-abilities">{p.abilities.join(", ")}</td>
                 <td>
-                  <button className="pokemon-table-add" onClick={() => onPick(p)}>
-                    + Add
-                  </button>
+                  {onPick && (
+                    <button className="pokemon-table-add" onClick={() => onPick(p)}>
+                      + Add
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

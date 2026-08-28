@@ -19,6 +19,40 @@
   margin-bottom: 1rem;
 }
 
+.slot-editor {
+  max-width: 900px;
+}
+
+.slot-editor-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.slot-editor-header img {
+  width: 56px;
+  height: 56px;
+}
+
+.slot-editor-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.slot-editor-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .slot-editor-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
 .pokemon-search {
   margin-bottom: 2rem;
 }

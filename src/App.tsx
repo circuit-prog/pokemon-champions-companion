@@ -1,27 +1,49 @@
 import { useState } from 'react'
-import TeamBuilder from './components/TeamBuilder'
+import TeamsListPage from './components/TeamsListPage'
+import TeamEditorPage from './components/TeamEditorPage'
+import DexPage from './components/DexPage'
 import DamageCalculator from './components/DamageCalculator'
 import './App.css'
 
-type Tab = 'team' | 'calc'
+type Tab = 'teams' | 'dex' | 'calc'
 
 function App() {
-  const [tab, setTab] = useState<Tab>('team')
+  const [tab, setTab] = useState<Tab>('teams')
+  const [editingTeamId, setEditingTeamId] = useState<string | null>(null)
+
+  function goToTab(next: Tab) {
+    setEditingTeamId(null)
+    setTab(next)
+  }
+
+  let content
+  if (tab === 'teams' && editingTeamId) {
+    content = <TeamEditorPage teamId={editingTeamId} onBack={() => setEditingTeamId(null)} />
+  } else if (tab === 'teams') {
+    content = <TeamsListPage onOpenTeam={setEditingTeamId} />
+  } else if (tab === 'dex') {
+    content = <DexPage />
+  } else {
+    content = <DamageCalculator />
+  }
 
   return (
     <div className="app-shell">
       <header className="app-header">
         <h1>Pokemon Champions Companion</h1>
         <nav className="app-nav">
-          <button className={tab === 'team' ? 'active' : ''} onClick={() => setTab('team')}>
-            Team Builder
+          <button className={tab === 'teams' ? 'active' : ''} onClick={() => goToTab('teams')}>
+            Teams
           </button>
-          <button className={tab === 'calc' ? 'active' : ''} onClick={() => setTab('calc')}>
+          <button className={tab === 'dex' ? 'active' : ''} onClick={() => goToTab('dex')}>
+            Pokedex
+          </button>
+          <button className={tab === 'calc' ? 'active' : ''} onClick={() => goToTab('calc')}>
             Damage Calculator
           </button>
         </nav>
       </header>
-      {tab === 'team' ? <TeamBuilder /> : <DamageCalculator />}
+      {content}
     </div>
   )
 }

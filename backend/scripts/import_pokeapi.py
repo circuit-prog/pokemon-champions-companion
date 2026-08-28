@@ -80,7 +80,9 @@ def import_pokemon(db, limit):
 
         # Link moves this Pokemon can learn (create Move rows on the fly).
         pokemon.moves = []
-        for mv in data["moves"][:40]:  # cap per-Pokemon move list to keep import time reasonable
+        # No cap: a 40-move cap previously cut off real competitive moves (e.g. Kingambit's
+        # Iron Head, ranked #4 by usage, fell outside the first 40 PokeAPI returned).
+        for mv in data["moves"]:
             mv_name = mv["move"]["name"]
             move = db.query(Move).filter(Move.name == mv_name).first()
             if not move:

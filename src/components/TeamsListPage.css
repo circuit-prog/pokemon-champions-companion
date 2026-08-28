@@ -1,0 +1,126 @@
+.teams-list-page {
+  display: flex;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.teams-sidebar {
+  width: 160px;
+  flex-shrink: 0;
+  padding: 1.5rem 0.5rem;
+  border-right: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.folder-btn {
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  border: none;
+  background: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.folder-btn:hover {
+  background: #f0f4fa;
+}
+
+.folder-btn.active {
+  background: #e4edfc;
+  color: #2a5cb8;
+  font-weight: 600;
+}
+
+.teams-main {
+  flex: 1;
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.new-team-btn {
+  padding: 0.5rem 1.1rem;
+  border-radius: 8px;
+  border: none;
+  background: #4a90e2;
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+}
+
+.new-team-btn:hover {
+  background: #3a7bc8;
+}
+
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.team-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+}
+
+.team-card-main {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0.9rem;
+}
+
+.team-card-sprites {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem;
+  min-height: 40px;
+  align-items: center;
+}
+
+.team-card-sprites img {
+  width: 36px;
+  height: 36px;
+}
+
+.team-card-empty {
+  color: #aaa;
+  font-size: 0.8rem;
+}
+
+.team-card-name {
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+.team-card-actions {
+  display: flex;
+  border-top: 1px solid #eee;
+}
+
+.team-card-actions button {
+  flex: 1;
+  padding: 0.4rem;
+  border: none;
+  background: #fafafa;
+  cursor: pointer;
+  font-size: 0.78rem;
+  color: #555;
+}
+
+.team-card-actions button:hover {
+  background: #eef4ff;
+}
+
+.team-card-actions button.danger:hover {
+  background: #ffe3e3;
+  color: #c53030;
+}
