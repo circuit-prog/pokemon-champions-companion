@@ -105,25 +105,31 @@
   border-radius: 8px;
   padding: 0.6rem 0.75rem;
   margin-bottom: 0.75rem;
-  font-size: 0.78rem;
+  font-size: 0.8rem;
+  max-height: 320px;
+  overflow-y: auto;
 }
 
 .usage-panel-empty {
   background: #f7f7f7;
   border-color: #e5e5e5;
   color: #999;
+  max-height: none;
+  overflow-y: visible;
 }
 
 .usage-header {
   font-weight: 600;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.5rem;
   color: #2a5cb8;
 }
 
-.usage-columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 0.5rem;
+.usage-section {
+  margin-bottom: 0.5rem;
+}
+
+.usage-section:last-child {
+  margin-bottom: 0;
 }
 
 .usage-col-label {
@@ -131,18 +137,27 @@
   color: #888;
   font-size: 0.68rem;
   text-transform: uppercase;
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.2rem;
 }
 
 .usage-entry {
   display: flex;
   justify-content: space-between;
-  gap: 0.3rem;
+  align-items: baseline;
+  gap: 0.5rem;
   color: #444;
+  padding: 0.1rem 0;
 }
 
-.usage-entry span {
+.usage-entry-name {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.usage-entry-pct {
   color: #888;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .team-slot-header h3 {

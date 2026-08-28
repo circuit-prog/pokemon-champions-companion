@@ -157,43 +157,34 @@ function StatRow({
   );
 }
 
+function UsageSection({ label, entries }: { label: string; entries: PokemonUsageOut["moves"] }) {
+  if (entries.length === 0) return null;
+  return (
+    <div className="usage-section">
+      <span className="usage-col-label">{label}</span>
+      {entries.map((m) => (
+        <div key={m.name} className="usage-entry">
+          <span className="usage-entry-name">{m.name}</span>
+          <span className="usage-entry-pct">{m.percent}%</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function UsagePanel({ usage }: { usage: PokemonUsageOut | null }) {
   if (!usage) {
     return <div className="usage-panel usage-panel-empty">No tracked competitive usage data yet.</div>;
   }
-  const top = (entries: PokemonUsageOut["moves"]) => entries.slice(0, 3);
   return (
     <div className="usage-panel">
       <div className="usage-header">
         Meta usage: #{usage.rank}
         {usage.usage_percent != null ? ` (${usage.usage_percent}% of teams)` : ""}
       </div>
-      <div className="usage-columns">
-        <div>
-          <span className="usage-col-label">Top moves</span>
-          {top(usage.moves).map((m) => (
-            <div key={m.name} className="usage-entry">
-              {m.name} <span>{m.percent}%</span>
-            </div>
-          ))}
-        </div>
-        <div>
-          <span className="usage-col-label">Top items</span>
-          {top(usage.items).map((m) => (
-            <div key={m.name} className="usage-entry">
-              {m.name} <span>{m.percent}%</span>
-            </div>
-          ))}
-        </div>
-        <div>
-          <span className="usage-col-label">Top abilities</span>
-          {top(usage.abilities).map((m) => (
-            <div key={m.name} className="usage-entry">
-              {m.name} <span>{m.percent}%</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <UsageSection label="Moves" entries={usage.moves} />
+      <UsageSection label="Items" entries={usage.items} />
+      <UsageSection label="Abilities" entries={usage.abilities} />
     </div>
   );
 }
