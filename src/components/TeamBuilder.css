@@ -249,20 +249,44 @@
 }
 
 .item-search-results button {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
+  display: block;
   width: 100%;
   text-align: left;
   padding: 0.35rem 0.6rem;
   border: none;
+  border-bottom: 1px solid #f0f0f0;
   background: none;
   cursor: pointer;
   font-size: 0.85rem;
 }
 
+.item-search-results button:last-child {
+  border-bottom: none;
+}
+
 .item-search-results button:hover {
   background: #eef4ff;
+}
+
+.item-result-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.item-result-row img {
+  width: 20px;
+  height: 20px;
+}
+
+.item-result-name {
+  font-weight: 600;
+}
+
+.item-result-desc {
+  font-size: 0.72rem;
+  color: #888;
+  margin-top: 0.15rem;
 }
 
 .item-search-results img {

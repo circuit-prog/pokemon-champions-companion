@@ -34,7 +34,9 @@ class ItemOut(BaseModel):
 
 
 class PokemonSummary(BaseModel):
-    """Lightweight shape for list views (search, team builder picker)."""
+    """Shape for list views (search table, team builder picker) - includes
+    base stats and ability names so the search table can sort/display them
+    without a second request per Pokemon."""
     model_config = ConfigDict(from_attributes=True)
     id: int
     name: str
@@ -42,6 +44,13 @@ class PokemonSummary(BaseModel):
     type1: str
     type2: Optional[str]
     sprite_url: Optional[str]
+    hp: int
+    attack: int
+    defense: int
+    special_attack: int
+    special_defense: int
+    speed: int
+    abilities: List[str] = []
 
 
 class PokemonDetail(PokemonSummary):

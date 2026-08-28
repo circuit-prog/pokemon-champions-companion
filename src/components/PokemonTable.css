@@ -1,0 +1,93 @@
+.pokemon-table-wrap {
+  margin-bottom: 2rem;
+}
+
+.pokemon-table-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.6rem 0.9rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 0.5rem;
+}
+
+.pokemon-table-scroll {
+  overflow-x: auto;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+}
+
+.pokemon-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.pokemon-table th,
+.pokemon-table td {
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+}
+
+.pokemon-table thead th {
+  background: #f7f9fc;
+  border-bottom: 1px solid #e5e5e5;
+  color: #555;
+  position: sticky;
+  top: 0;
+}
+
+.pokemon-table th.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.pokemon-table th.sortable:hover {
+  color: #2a5cb8;
+}
+
+.pokemon-table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.pokemon-table tbody tr:hover {
+  background: #f9fbff;
+}
+
+.pokemon-table-sprite {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+}
+
+.pokemon-table-name {
+  font-weight: 600;
+}
+
+.pokemon-table-bst {
+  font-weight: 600;
+  color: #333;
+}
+
+.pokemon-table-abilities {
+  white-space: normal;
+  color: #666;
+  min-width: 160px;
+}
+
+.pokemon-table-add {
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  border: 1px solid #4a90e2;
+  background: white;
+  color: #4a90e2;
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+
+.pokemon-table-add:hover {
+  background: #4a90e2;
+  color: white;
+}

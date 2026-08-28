@@ -1,0 +1,128 @@
+.move-picker {
+  margin-bottom: 0.75rem;
+}
+
+.move-picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.8rem;
+  color: #555;
+  margin-bottom: 0.3rem;
+}
+
+.move-picker-count {
+  color: #888;
+  font-size: 0.75rem;
+}
+
+.move-picker-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.82rem;
+  margin-bottom: 0.4rem;
+}
+
+.move-picker-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.move-picker-empty {
+  padding: 0.75rem;
+  color: #999;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.move-row {
+  border-bottom: 1px solid #eee;
+  padding: 0.45rem 0.6rem;
+}
+
+.move-row:last-child {
+  border-bottom: none;
+}
+
+.move-row-main {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.type-badge {
+  color: white;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+.category-badge {
+  font-size: 0.6rem;
+  font-weight: 700;
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 0.05rem 0.3rem;
+  flex-shrink: 0;
+}
+
+.move-row-name {
+  font-weight: 600;
+  font-size: 0.85rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.move-row-usage {
+  color: #2a9d4a;
+  font-size: 0.8rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.move-toggle-btn {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+  color: #555;
+}
+
+.move-toggle-btn.selected {
+  background: #ffe3e3;
+  border-color: #f5b5b5;
+  color: #c53030;
+}
+
+.move-toggle-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.move-row-meta {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.68rem;
+  color: #999;
+  margin-top: 0.25rem;
+}
+
+.move-row-desc {
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 0.2rem;
+}

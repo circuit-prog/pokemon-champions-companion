@@ -10,6 +10,13 @@ export interface PokemonSummary {
   type1: string;
   type2: string | null;
   sprite_url: string | null;
+  hp: number;
+  attack: number;
+  defense: number;
+  special_attack: number;
+  special_defense: number;
+  speed: number;
+  abilities: string[];
 }
 
 export interface MoveOut {
@@ -39,7 +46,7 @@ export interface ItemOut {
   effect: string | null;
 }
 
-export interface PokemonDetail extends PokemonSummary {
+export interface PokemonDetail extends Omit<PokemonSummary, "abilities"> {
   hp: number;
   attack: number;
   defense: number;

@@ -12,6 +12,16 @@ from app.schemas import PokemonSummary, PokemonDetail, PokemonUsageOut
 router = APIRouter(prefix="/api/pokemon", tags=["pokemon"])
 
 
+def _to_summary(p: Pokemon) -> PokemonSummary:
+    return PokemonSummary(
+        id=p.id, name=p.name, display_name=p.display_name,
+        type1=p.type1, type2=p.type2, sprite_url=p.sprite_url,
+        hp=p.hp, attack=p.attack, defense=p.defense,
+        special_attack=p.special_attack, special_defense=p.special_defense, speed=p.speed,
+        abilities=[a.display_name for a in p.abilities],
+    )
+
+
 @router.get("", response_model=list[PokemonSummary])
 def list_pokemon(
     search: Optional[str] = Query(None, description="Filter by name, case-insensitive substring match"),
@@ -22,7 +32,7 @@ def list_pokemon(
     if search:
         like = f"%{search.lower()}%"
         query = query.filter(or_(Pokemon.name.ilike(like), Pokemon.display_name.ilike(like)))
-    return query.order_by(Pokemon.id).limit(limit).all()
+    return [_to_summary(p) for p in query.order_by(Pokemon.id).limit(limit).all()]
 
 
 @router.get("/{name}", response_model=PokemonDetail)
