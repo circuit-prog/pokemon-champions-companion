@@ -1,0 +1,53 @@
+.team-tools-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.team-tools-page .subtitle {
+  color: #666;
+}
+
+.team-tools-select {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.85rem;
+  color: #555;
+  max-width: 320px;
+  margin-bottom: 1rem;
+}
+
+.team-tools-select select {
+  padding: 0.45rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.team-tools-tabs {
+  display: flex;
+  gap: 0.4rem;
+  border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 1.25rem;
+}
+
+.team-tools-tabs button {
+  padding: 0.4rem 0.9rem;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: none;
+  cursor: pointer;
+  font-size: 0.88rem;
+  color: #666;
+}
+
+.team-tools-tabs button:hover {
+  background: #f7f9fc;
+}
+
+.team-tools-tabs button.active {
+  border-bottom-color: #4a90e2;
+  color: #2a5cb8;
+  font-weight: 600;
+}

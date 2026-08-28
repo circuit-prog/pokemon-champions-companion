@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { searchItems, getPokemonUsage } from "../api";
 import type { ItemOut, PokemonUsageOut } from "../api";
-import { NATURE_NAMES, MAX_EV_PER_STAT, type StatKey } from "../natures";
+import { NATURE_NAMES, MAX_EV_PER_STAT, EV_TOTAL_BUDGET, natureDescription, type StatKey } from "../natures";
 import { statAtLevel } from "../statCalc";
 import type { TeamSlotData } from "../teamStorage";
 import MovePicker from "./MovePicker";
@@ -68,12 +68,14 @@ function StatRow({
   base,
   ev,
   nature,
+  maxAllowed,
   onChangeEv,
 }: {
   statKey: StatKey;
   base: number;
   ev: number;
   nature: string;
+  maxAllowed: number;
   onChangeEv: (value: number) => void;
 }) {
   const final = statAtLevel(base, ev, 50, statKey, nature);
@@ -83,10 +85,10 @@ function StatRow({
       <input
         type="number"
         min={0}
-        max={MAX_EV_PER_STAT}
+        max={maxAllowed}
         value={ev}
         onChange={(e) => {
-          const clamped = Math.max(0, Math.min(MAX_EV_PER_STAT, Number(e.target.value) || 0));
+          const clamped = Math.max(0, Math.min(maxAllowed, Number(e.target.value) || 0));
           onChangeEv(clamped);
         }}
       />
@@ -136,7 +138,6 @@ export default function SlotEditor({
 }) {
   const { pokemon } = slot;
   const evTotal = STAT_KEYS.reduce((sum, k) => sum + slot.evs[k], 0);
-  const evMaxTotal = MAX_EV_PER_STAT * STAT_KEYS.length;
 
   // Best-effort usage fetch: most Pokemon won't have tracked usage data yet.
   useEffect(() => {
@@ -187,9 +188,13 @@ export default function SlotEditor({
 
           <label className="field">
             Nature
-            <select value={slot.nature} onChange={(e) => onChange({ nature: e.target.value })}>
+            <select
+              value={slot.nature}
+              title={natureDescription(slot.nature)}
+              onChange={(e) => onChange({ nature: e.target.value })}
+            >
               {NATURE_NAMES.map((n) => (
-                <option key={n} value={n}>
+                <option key={n} value={n} title={natureDescription(n)}>
                   {n[0].toUpperCase() + n.slice(1)}
                 </option>
               ))}
@@ -202,25 +207,30 @@ export default function SlotEditor({
               <span>EV (0-{MAX_EV_PER_STAT})</span>
               <span>Stat</span>
             </div>
-            {STAT_KEYS.map((k) => (
-              <StatRow
-                key={k}
-                statKey={k}
-                base={
-                  k === "hp" ? pokemon.hp
-                  : k === "atk" ? pokemon.attack
-                  : k === "def" ? pokemon.defense
-                  : k === "spa" ? pokemon.special_attack
-                  : k === "spd" ? pokemon.special_defense
-                  : pokemon.speed
-                }
-                ev={slot.evs[k]}
-                nature={slot.nature}
-                onChangeEv={(v) => onChange({ evs: { ...slot.evs, [k]: v } })}
-              />
-            ))}
+            {STAT_KEYS.map((k) => {
+              const restBudgetUsed = evTotal - slot.evs[k];
+              const maxAllowed = Math.min(MAX_EV_PER_STAT, EV_TOTAL_BUDGET - restBudgetUsed);
+              return (
+                <StatRow
+                  key={k}
+                  statKey={k}
+                  base={
+                    k === "hp" ? pokemon.hp
+                    : k === "atk" ? pokemon.attack
+                    : k === "def" ? pokemon.defense
+                    : k === "spa" ? pokemon.special_attack
+                    : k === "spd" ? pokemon.special_defense
+                    : pokemon.speed
+                  }
+                  ev={slot.evs[k]}
+                  nature={slot.nature}
+                  maxAllowed={maxAllowed}
+                  onChangeEv={(v) => onChange({ evs: { ...slot.evs, [k]: v } })}
+                />
+              );
+            })}
             <div className="ev-total">
-              EV total: {evTotal}/{evMaxTotal}
+              EV total: {evTotal}/{EV_TOTAL_BUDGET}
             </div>
           </div>
         </div>

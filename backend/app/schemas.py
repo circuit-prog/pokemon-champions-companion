@@ -119,3 +119,15 @@ class PokemonUsageOut(BaseModel):
     moves: List[UsageEntry]
     items: List[UsageEntry]
     abilities: List[UsageEntry]
+
+
+class MetaRankingEntry(BaseModel):
+    """One row of the meta usage leaderboard - lighter than PokemonUsageOut
+    (no per-move/item/ability breakdown) for listing many Pokemon at once."""
+    rank: int
+    name: str
+    display_name: str
+    sprite_url: Optional[str]
+    type1: str
+    type2: Optional[str]
+    usage_percent: Optional[float]

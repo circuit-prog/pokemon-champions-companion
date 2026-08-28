@@ -16,6 +16,18 @@ export const NATURES: Record<string, [StatKey | null, StatKey | null]> = {
 
 export const NATURE_NAMES = Object.keys(NATURES);
 
-// Pokemon Champions uses its own EV system: each stat gets its own 0-31 point
-// allocation added directly (not the classic 0-252-per-stat/508-total system).
-export const MAX_EV_PER_STAT = 31;
+const STAT_FULL_NAMES: Record<StatKey, string> = {
+  hp: "HP", atk: "Attack", def: "Defense", spa: "Special Attack", spd: "Special Defense", spe: "Speed",
+};
+
+export function natureDescription(name: string): string {
+  const [boosted, lowered] = NATURES[name.toLowerCase()] ?? [null, null];
+  if (!boosted || !lowered) return "No effect on stats.";
+  return `+10% ${STAT_FULL_NAMES[boosted]}, -10% ${STAT_FULL_NAMES[lowered]}.`;
+}
+
+// Pokemon Champions EV system: IVs are fixed at 31 for every stat on every
+// Pokemon (no IV breeding/hyper training). EVs are a 66-point budget shared
+// across all 6 stats, with a 32-point cap on any single stat.
+export const MAX_EV_PER_STAT = 32;
+export const EV_TOTAL_BUDGET = 66;

@@ -66,6 +66,21 @@
   font-weight: 600;
 }
 
+.pokemon-table-name-btn {
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  color: #2a5cb8;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.pokemon-table-name-btn:hover {
+  text-decoration: underline;
+}
+
 .pokemon-table-bst {
   font-weight: 600;
   color: #333;

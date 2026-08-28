@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { searchPokemon, getPokemon, calcDamage } from "../api";
 import type { PokemonSummary, PokemonDetail, DamageCalcResult } from "../api";
-import { NATURE_NAMES as NATURES, MAX_EV_PER_STAT } from "../natures";
+import { NATURE_NAMES as NATURES, MAX_EV_PER_STAT, natureDescription } from "../natures";
 import "./DamageCalculator.css";
 
 interface Side {
@@ -128,9 +128,13 @@ export default function DamageCalculator() {
             <>
               <label>
                 Nature
-                <select value={attacker.nature} onChange={(e) => setAttacker((s) => ({ ...s, nature: e.target.value }))}>
+                <select
+                  value={attacker.nature}
+                  title={natureDescription(attacker.nature)}
+                  onChange={(e) => setAttacker((s) => ({ ...s, nature: e.target.value }))}
+                >
                   {NATURES.map((n) => (
-                    <option key={n} value={n}>{n}</option>
+                    <option key={n} value={n} title={natureDescription(n)}>{n}</option>
                   ))}
                 </select>
               </label>
@@ -161,9 +165,13 @@ export default function DamageCalculator() {
             <>
               <label>
                 Nature
-                <select value={defender.nature} onChange={(e) => setDefender((s) => ({ ...s, nature: e.target.value }))}>
+                <select
+                  value={defender.nature}
+                  title={natureDescription(defender.nature)}
+                  onChange={(e) => setDefender((s) => ({ ...s, nature: e.target.value }))}
+                >
                   {NATURES.map((n) => (
-                    <option key={n} value={n}>{n}</option>
+                    <option key={n} value={n} title={natureDescription(n)}>{n}</option>
                   ))}
                 </select>
               </label>

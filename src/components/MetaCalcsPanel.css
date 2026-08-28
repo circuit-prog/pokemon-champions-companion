@@ -1,0 +1,89 @@
+.metacalcs-panel {
+  text-align: left;
+}
+
+.mon-vs-target-list {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.mon-vs-target-row {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+}
+
+.mon-vs-target-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.mon-vs-target-header img {
+  width: 28px;
+  height: 28px;
+}
+
+.vs-label {
+  color: #999;
+  font-weight: 400;
+  margin: 0 0.2rem;
+}
+
+.mon-vs-target-empty {
+  color: #999;
+  font-size: 0.8rem;
+}
+
+.move-result-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.3rem 0;
+  font-size: 0.85rem;
+}
+
+.verdict-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.verdict-good {
+  background: #e3f8e9;
+  color: #2a9d4a;
+}
+
+.verdict-warn {
+  background: #fff6d9;
+  color: #a5820a;
+}
+
+.verdict-bad {
+  background: #ffe3e3;
+  color: #c53030;
+}
+
+.verdict-unknown {
+  background: #eee;
+  color: #999;
+}
+
+.move-result-name {
+  font-weight: 600;
+  min-width: 130px;
+}
+
+.move-result-detail {
+  color: #666;
+}

@@ -1,0 +1,114 @@
+.meta-rankings-view {
+  text-align: left;
+}
+
+.meta-rankings-note {
+  color: #777;
+  font-size: 0.85rem;
+  background: #f7f9fc;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+}
+
+.meta-rankings-view h3 {
+  margin: 1.5rem 0 0.75rem;
+}
+
+.top-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 0.6rem;
+}
+
+.top-grid-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.7rem 0.5rem 0.5rem;
+  background: white;
+  cursor: pointer;
+}
+
+.top-grid-cell:hover {
+  border-color: #a8c8ff;
+  background: #f9fbff;
+}
+
+.top-grid-rank {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #2a5cb8;
+  background: #e4edfc;
+  border-radius: 999px;
+  padding: 0.05rem 0.35rem;
+}
+
+.top-grid-cell img {
+  width: 44px;
+  height: 44px;
+}
+
+.top-grid-name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.ranking-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.ranking-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 0.9rem;
+  border: none;
+  border-bottom: 1px solid #f0f0f0;
+  background: none;
+  cursor: pointer;
+}
+
+.ranking-row:last-child {
+  border-bottom: none;
+}
+
+.ranking-row:hover {
+  background: #f9fbff;
+}
+
+.ranking-rank {
+  width: 36px;
+  color: #888;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.ranking-row img {
+  width: 26px;
+  height: 26px;
+}
+
+.ranking-name {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.ranking-usage {
+  color: #2a9d4a;
+  font-weight: 600;
+  font-size: 0.8rem;
+}

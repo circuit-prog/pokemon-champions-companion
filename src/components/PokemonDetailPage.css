@@ -1,0 +1,183 @@
+.pokemon-detail-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.pokemon-detail-page .back-btn {
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.pokemon-detail-page .back-btn:hover {
+  background: #eef4ff;
+}
+
+.pokemon-detail-page .error-banner {
+  background: #ffe3e3;
+  color: #a80000;
+  border: 1px solid #ffb3b3;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  margin-top: 1rem;
+}
+
+.pokemon-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.pokemon-detail-header img {
+  width: 72px;
+  height: 72px;
+}
+
+.pokemon-detail-header h2 {
+  margin: 0 0 0.3rem;
+}
+
+.pokemon-detail-types {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.pokemon-detail-usage-badge {
+  margin-left: auto;
+  text-align: right;
+  background: #f4f8ff;
+  border: 1px solid #cfe0ff;
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+}
+
+.usage-badge-label {
+  display: block;
+  font-size: 0.65rem;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.usage-badge-value {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2a5cb8;
+}
+
+.usage-badge-sub {
+  display: block;
+  font-size: 0.72rem;
+  color: #888;
+}
+
+.pokemon-detail-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.pokemon-detail-page h3 {
+  font-size: 0.95rem;
+  margin: 1.25rem 0 0.6rem;
+}
+
+.pokemon-detail-page h3:first-child {
+  margin-top: 0;
+}
+
+.stat-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.stat-chart-row {
+  display: grid;
+  grid-template-columns: 36px 1fr 40px;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.stat-chart-label {
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.stat-chart-track {
+  background: #f0f0f0;
+  border-radius: 5px;
+  height: 14px;
+  overflow: hidden;
+}
+
+.stat-chart-fill {
+  height: 100%;
+  border-radius: 5px;
+}
+
+.stat-chart-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.detail-ability-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.detail-ability-row {
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+}
+
+.detail-ability-row strong {
+  font-size: 0.85rem;
+}
+
+.detail-ability-row p {
+  margin: 0.25rem 0 0;
+  font-size: 0.78rem;
+  color: #777;
+}
+
+.best-moves-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.best-move-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.best-move-row:last-child {
+  border-bottom: none;
+}
+
+.best-move-name {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.best-move-pct {
+  color: #2a9d4a;
+  font-weight: 700;
+  font-size: 0.85rem;
+}

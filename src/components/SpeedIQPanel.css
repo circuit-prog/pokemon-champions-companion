@@ -1,0 +1,84 @@
+.speediq-panel {
+  text-align: left;
+}
+
+.speediq-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+  margin-bottom: 1.5rem;
+}
+
+.speediq-panel h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.6rem;
+}
+
+.speed-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.speed-row,
+.speed-comparison-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.speed-row:last-child,
+.speed-comparison-row:last-child {
+  border-bottom: none;
+}
+
+.speed-row img,
+.speed-comparison-row img {
+  width: 28px;
+  height: 28px;
+}
+
+.speed-row-name {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.speed-row-value {
+  font-variant-numeric: tabular-nums;
+  color: #333;
+  font-weight: 600;
+}
+
+.speed-comparison {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 500px;
+}
+
+.speed-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+.speed-badge.fast {
+  background: #e3f8e9;
+  color: #2a9d4a;
+}
+
+.speed-badge.slow {
+  background: #ffe3e3;
+  color: #c53030;
+}
+
+.speed-badge.tie {
+  background: #fff6d9;
+  color: #a5820a;
+}

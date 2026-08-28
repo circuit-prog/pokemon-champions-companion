@@ -3,9 +3,10 @@ import TeamsListPage from './components/TeamsListPage'
 import TeamEditorPage from './components/TeamEditorPage'
 import DexPage from './components/DexPage'
 import DamageCalculator from './components/DamageCalculator'
+import TeamToolsPage from './components/TeamToolsPage'
 import './App.css'
 
-type Tab = 'teams' | 'dex' | 'calc'
+type Tab = 'teams' | 'dex' | 'calc' | 'tools'
 
 function App() {
   const [tab, setTab] = useState<Tab>('teams')
@@ -23,6 +24,8 @@ function App() {
     content = <TeamsListPage onOpenTeam={setEditingTeamId} />
   } else if (tab === 'dex') {
     content = <DexPage />
+  } else if (tab === 'tools') {
+    content = <TeamToolsPage />
   } else {
     content = <DamageCalculator />
   }
@@ -37,6 +40,9 @@ function App() {
           </button>
           <button className={tab === 'dex' ? 'active' : ''} onClick={() => goToTab('dex')}>
             Pokedex
+          </button>
+          <button className={tab === 'tools' ? 'active' : ''} onClick={() => goToTab('tools')}>
+            Team Tools
           </button>
           <button className={tab === 'calc' ? 'active' : ''} onClick={() => goToTab('calc')}>
             Damage Calculator

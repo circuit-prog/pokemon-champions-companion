@@ -21,7 +21,13 @@ const COLUMNS: { key: SortKey; label: string }[] = [
   { key: "bst", label: "BST" },
 ];
 
-export default function PokemonTable({ onPick }: { onPick?: (p: PokemonSummary) => void }) {
+export default function PokemonTable({
+  onPick,
+  onSelectDetail,
+}: {
+  onPick?: (p: PokemonSummary) => void;
+  onSelectDetail?: (name: string) => void;
+}) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<PokemonSummary[]>([]);
   const [loading, setLoading] = useState(false);
@@ -87,7 +93,15 @@ export default function PokemonTable({ onPick }: { onPick?: (p: PokemonSummary) 
             {sorted.map((p) => (
               <tr key={p.id}>
                 <td>{p.sprite_url && <img className="pokemon-table-sprite" src={p.sprite_url} alt="" />}</td>
-                <td className="pokemon-table-name">{p.display_name}</td>
+                <td className="pokemon-table-name">
+                  {onSelectDetail ? (
+                    <button className="pokemon-table-name-btn" onClick={() => onSelectDetail(p.name)}>
+                      {p.display_name}
+                    </button>
+                  ) : (
+                    p.display_name
+                  )}
+                </td>
                 <td>{p.hp}</td>
                 <td>{p.attack}</td>
                 <td>{p.defense}</td>

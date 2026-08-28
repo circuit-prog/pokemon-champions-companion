@@ -1,0 +1,125 @@
+.target-picker {
+  position: relative;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.9rem;
+  min-width: 260px;
+}
+
+.target-picker .field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.8rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.target-picker input,
+.target-picker select {
+  padding: 0.4rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.target-search-results {
+  position: absolute;
+  z-index: 10;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 220px;
+}
+
+.target-search-results button {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.3rem 0.6rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.82rem;
+}
+
+.target-search-results button:hover {
+  background: #eef4ff;
+}
+
+.target-search-results img {
+  width: 22px;
+  height: 22px;
+}
+
+.target-details {
+  margin-top: 0.6rem;
+  border-top: 1px solid #eee;
+  padding-top: 0.6rem;
+}
+
+.target-details-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.target-details-header img {
+  width: 32px;
+  height: 32px;
+}
+
+.target-evs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+}
+
+.target-ev-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 0.72rem;
+  color: #888;
+}
+
+.target-ev-field input {
+  padding: 0.3rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.target-item-search {
+  position: relative;
+}
+
+.target-item-results {
+  position: absolute;
+  z-index: 10;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-height: 160px;
+  overflow-y: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.target-item-results button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.3rem 0.6rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.target-item-results button:hover {
+  background: #eef4ff;
+}

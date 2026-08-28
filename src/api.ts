@@ -139,6 +139,20 @@ export async function getPokemonUsage(name: string): Promise<PokemonUsageOut | n
   return res.json() as Promise<PokemonUsageOut>;
 }
 
+export interface MetaRankingEntry {
+  rank: number;
+  name: string;
+  display_name: string;
+  sprite_url: string | null;
+  type1: string;
+  type2: string | null;
+  usage_percent: number | null;
+}
+
+export function getMetaRankings(): Promise<MetaRankingEntry[]> {
+  return getJson<MetaRankingEntry[]>("/api/meta/rankings");
+}
+
 export function calcDamage(
   attacker: CombatantIn,
   defender: CombatantIn,
