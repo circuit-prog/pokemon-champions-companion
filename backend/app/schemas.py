@@ -74,14 +74,21 @@ class CombatantIn(BaseModel):
     item: Optional[str] = None
     level: int = 50
     stages: dict = {}  # e.g. {"atk": 1} for a +1 Attack boost
+    status: str = "healthy"  # healthy/burn/paralysis/poison/badly-poisoned/sleep/freeze
+    current_hp_percent: float = 100.0
+    type_override: Optional[List[str]] = None  # manually change this Pokemon's types
 
 
 class DamageCalcField(BaseModel):
     crit: bool = False
     weather: str = "none"  # none/sun/rain/sand/snow
+    terrain: str = "none"  # none/electric/grassy/misty/psychic
     reflect: bool = False
     lightscreen: bool = False
-    burn: bool = False
+    helping_hand: bool = False
+    friend_guard: bool = False
+    doubles: bool = False
+    spread_move: bool = False  # in doubles, does this move hit multiple targets?
 
 
 class DamageCalcRequest(BaseModel):
@@ -100,7 +107,10 @@ class DamageCalcResult(BaseModel):
     pct_low: Optional[float] = None
     pct_high: Optional[float] = None
     defender_hp: Optional[int] = None
+    defender_current_hp: Optional[int] = None
+    rolls: Optional[List[int]] = None  # the 16 possible damage values
     ko_text: Optional[str] = None
+    ko_chance_percent: Optional[float] = None
     type_effectiveness: Optional[float] = None
     stab: Optional[float] = None
 

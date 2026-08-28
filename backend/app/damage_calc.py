@@ -103,9 +103,11 @@ class Combatant:
 
     def __init__(self, base_stats: dict, types: list, evs: dict, nature: str,
                  ability: Optional[str] = None, item: Optional[str] = None,
-                 level: int = 50, stages: Optional[dict] = None, iv: int = 31):
+                 level: int = 50, stages: Optional[dict] = None, iv: int = 31,
+                 status: str = "healthy", current_hp_percent: float = 100.0,
+                 type_override: Optional[list] = None):
         self.base_stats = base_stats  # {"hp","atk","def","spa","spd","spe"}
-        self.types = [t for t in types if t]
+        self.types = [t for t in (type_override or types) if t]
         self.evs = evs
         self.nature = nature
         self.ability = (ability or "").lower().replace(" ", "-")
@@ -113,14 +115,27 @@ class Combatant:
         self.level = level
         self.stages = stages or {}
         self.iv = iv
+        self.status = (status or "healthy").lower()
+        self.current_hp_percent = current_hp_percent
 
     def stat(self, key: str) -> int:
         return stat_at_level(self.base_stats[key], self.evs.get(key, 0), self.iv, self.level, key, self.nature)
 
+    def current_hp(self) -> int:
+        return max(1, math.floor(self.stat("hp") * self.current_hp_percent / 100))
+
+
+def is_grounded(types: list, ability: str) -> bool:
+    """Terrain only affects grounded Pokemon. Approximation: Flying types and
+    Levitate float; held items like Air Balloon aren't modelled."""
+    return "flying" not in types and ability != "levitate"
+
 
 def compute_damage(attacker: Combatant, defender: Combatant, move: dict, field: Optional[dict] = None) -> dict:
     """move: {"type", "category" ("physical"/"special"), "power"}.
-    field: optional dict of {"crit", "weather", "terrain", "reflect", "lightscreen", "burn"}.
+    field: optional dict of {"crit", "weather", "terrain", "reflect", "lightscreen",
+    "doubles", "helping_hand", "friend_guard"}. Attacker/defender status
+    (burn/paralysis/poison) lives on the Combatant, not the field.
     """
     field = field or {}
 
@@ -149,7 +164,8 @@ def compute_damage(attacker: Combatant, defender: Combatant, move: dict, field: 
         atk_stat = math.floor(atk_stat * atk_item_mod["atk_mult"])
     if atk_item_mod.get("spa_mult") and move["category"] == "special":
         atk_stat = math.floor(atk_stat * atk_item_mod["spa_mult"])
-    if field.get("burn") and move["category"] == "physical":
+    # Burn halves physical Attack (Guts ignores it, but that ability isn't modelled).
+    if attacker.status == "burn" and move["category"] == "physical":
         atk_stat = math.floor(atk_stat * 0.5)
 
     def_stat = defender.stat(def_stat_key)
@@ -178,6 +194,26 @@ def compute_damage(attacker: Combatant, defender: Combatant, move: dict, field: 
     if atk_ability_mod.get("low_power_mult") and power <= atk_ability_mod.get("low_power_threshold", 0):
         power *= atk_ability_mod["low_power_mult"]
 
+    # Terrain boosts its matching type for grounded attackers, and Misty Terrain
+    # halves Dragon moves against grounded defenders.
+    terrain = field.get("terrain", "none")
+    terrain_mult = 1.0
+    if terrain != "none":
+        atk_grounded = is_grounded(attacker.types, attacker.ability)
+        def_grounded = is_grounded(defender.types, defender.ability)
+        if atk_grounded and (
+            (terrain == "electric" and move["type"] == "electric")
+            or (terrain == "grassy" and move["type"] == "grass")
+            or (terrain == "psychic" and move["type"] == "psychic")
+        ):
+            terrain_mult = 1.3
+        if terrain == "misty" and move["type"] == "dragon" and def_grounded:
+            terrain_mult = 0.5
+    power *= terrain_mult
+
+    if field.get("helping_hand"):
+        power *= 1.5
+
     level = attacker.level
     base_damage = math.floor(math.floor(math.floor((2 * level) / 5 + 2) * power * atk_stat / def_stat) / 50) + 2
 
@@ -204,28 +240,76 @@ def compute_damage(attacker: Combatant, defender: Combatant, move: dict, field: 
     if def_ability_mod.get("fire_ice_reduce_mult") and move["type"] in ("fire", "ice"):
         se_mult *= def_ability_mod["fire_ice_reduce_mult"]
 
-    modifiers = type_eff * stab * crit * weather_mult * se_mult
-    dmg_low = math.floor(base_damage * modifiers * 0.85)
-    dmg_high = math.floor(base_damage * modifiers * 1.0)
+    # Doubles: spread moves hit multiple targets for 0.75x each. We don't know
+    # per-move target counts, so this is applied as a user-toggled field option.
+    spread_mult = 0.75 if field.get("doubles") and field.get("spread_move") else 1.0
+    friend_guard_mult = 0.75 if field.get("friend_guard") else 1.0
 
-    def_hp = defender.stat("hp")
-    pct_low = (dmg_low / def_hp) * 100
-    pct_high = (dmg_high / def_hp) * 100
+    modifiers = type_eff * stab * crit * weather_mult * se_mult * spread_mult * friend_guard_mult
 
-    if pct_low >= 100:
-        ko_text = "Guaranteed OHKO"
-    elif pct_high >= 100:
-        ko_text = "Possible OHKO"
-    else:
-        ko_text = f"~{math.ceil(100 / pct_high)}HKO (worst-case roll)"
+    # The real game rolls one of 16 damage values (85%-100% of base damage).
+    rolls = [math.floor(base_damage * modifiers * (0.85 + i * 0.01)) for i in range(16)]
+    rolls = [max(1, r) for r in rolls]
+    dmg_low, dmg_high = rolls[0], rolls[-1]
+
+    def_max_hp = defender.stat("hp")
+    def_hp = defender.current_hp()
+    pct_low = (dmg_low / def_max_hp) * 100
+    pct_high = (dmg_high / def_max_hp) * 100
+
+    # Sitrus Berry heals 25% max HP once when the holder drops below half.
+    recovery = math.floor(def_max_hp * 0.25) if defender.item == "sitrus-berry" else 0
+
+    ko_chance_pct, ko_text = _ko_analysis(rolls, def_hp, recovery)
 
     return {
         "dmg_low": dmg_low,
         "dmg_high": dmg_high,
         "pct_low": round(pct_low, 1),
         "pct_high": round(pct_high, 1),
-        "defender_hp": def_hp,
+        "defender_hp": def_max_hp,
+        "defender_current_hp": def_hp,
+        "rolls": rolls,
         "ko_text": ko_text,
+        "ko_chance_percent": ko_chance_pct,
         "type_effectiveness": type_eff,
         "stab": stab,
     }
+
+
+def _ko_analysis(rolls: list, hp: int, recovery: int = 0):
+    """Return (chance_to_ko_in_n_hits_percent, human text).
+
+    Counts how many of the 16 equally-likely rolls KO in N hits, so we can
+    report e.g. "2.7% chance to 2HKO" rather than just a min/max range.
+    `recovery` models a one-time item heal (Sitrus Berry) applied between hits.
+    """
+    n_rolls = len(rolls)
+
+    for hits in range(1, 5):
+        ko_count = 0
+        any_heal = False  # only mention the berry if it actually triggered
+        for r in rolls:
+            remaining = hp
+            healed = False
+            for _ in range(hits):
+                remaining -= r
+                if remaining <= 0:
+                    break
+                if recovery and not healed and remaining <= hp / 2:
+                    remaining = min(hp, remaining + recovery)
+                    healed = True
+                    any_heal = True
+            if remaining <= 0:
+                ko_count += 1
+
+        if ko_count == 0:
+            continue
+
+        suffix = " after Sitrus Berry recovery" if any_heal else ""
+        if ko_count == n_rolls:
+            return 100.0, f"Guaranteed {hits}HKO{suffix}"
+        pct = round(ko_count / n_rolls * 100, 1)
+        return pct, f"{pct}% chance to {hits}HKO{suffix}"
+
+    return 0.0, "5HKO or slower"

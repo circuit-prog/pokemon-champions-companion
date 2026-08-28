@@ -6,6 +6,30 @@ import type { TargetSpec } from "./TargetPicker";
 import { TYPE_COLORS } from "../typeColors";
 import "./DamageCalculator.css";
 
+interface FieldState {
+  crit: boolean;
+  weather: string;
+  terrain: string;
+  reflect: boolean;
+  lightscreen: boolean;
+  helping_hand: boolean;
+  friend_guard: boolean;
+  doubles: boolean;
+  spread_move: boolean;
+}
+
+const DEFAULT_FIELD: FieldState = {
+  crit: false,
+  weather: "none",
+  terrain: "none",
+  reflect: false,
+  lightscreen: false,
+  helping_hand: false,
+  friend_guard: false,
+  doubles: false,
+  spread_move: false,
+};
+
 interface MoveResult {
   move: MoveOut;
   result: DamageCalcResult;
@@ -18,19 +42,41 @@ function barColor(pctHigh: number | null | undefined): string {
   return "#c0392b";
 }
 
+function toCombatant(t: TargetSpec) {
+  return {
+    pokemon_name: t.pokemon.name,
+    evs: t.evs,
+    nature: t.nature,
+    ability: t.ability,
+    item: t.item,
+    level: t.level,
+    stages: t.stages,
+    status: t.status,
+    current_hp_percent: t.currentHpPercent,
+  };
+}
+
 function summaryLine(attacker: TargetSpec, defender: TargetSpec, move: MoveOut, r: DamageCalcResult): string {
-  const evParts: string[] = [];
-  if (attacker.evs.atk) evParts.push(`${attacker.evs.atk} Atk`);
-  if (attacker.evs.spa) evParts.push(`${attacker.evs.spa} SpA`);
-  const atkLabel = [attacker.item, ...evParts, attacker.pokemon.display_name].filter(Boolean).join(" ");
-  const defEvParts: string[] = [];
-  if (defender.evs.hp) defEvParts.push(`${defender.evs.hp} HP`);
-  if (defender.evs.def) defEvParts.push(`${defender.evs.def} Def`);
-  if (defender.evs.spd) defEvParts.push(`${defender.evs.spd} SpD`);
-  const defLabel = [...defEvParts, defender.pokemon.display_name].filter(Boolean).join(" / ");
   if (r.error) return r.error;
   if (r.immune) return r.reason ?? "No effect.";
-  return `${atkLabel} ${move.display_name} vs. ${defLabel}: ${r.dmg_low}-${r.dmg_high} (${r.pct_low}% - ${r.pct_high}%) -- ${r.ko_text}`;
+
+  const atkParts: string[] = [];
+  const boost = attacker.stages.atk ?? attacker.stages.spa ?? 0;
+  if (boost) atkParts.push(boost > 0 ? `+${boost}` : `${boost}`);
+  if (attacker.evs.atk) atkParts.push(`${attacker.evs.atk} Atk`);
+  if (attacker.evs.spa) atkParts.push(`${attacker.evs.spa} SpA`);
+  if (attacker.item) atkParts.push(attacker.item.replace(/-/g, " "));
+  atkParts.push(attacker.pokemon.display_name);
+
+  const defParts: string[] = [];
+  if (defender.evs.hp) defParts.push(`${defender.evs.hp} HP`);
+  if (defender.evs.def) defParts.push(`${defender.evs.def} Def`);
+  if (defender.evs.spd) defParts.push(`${defender.evs.spd} SpD`);
+  const defLabel = defParts.length
+    ? `${defParts.join(" / ")} ${defender.pokemon.display_name}`
+    : defender.pokemon.display_name;
+
+  return `${atkParts.join(" ")} ${move.display_name} vs. ${defLabel}: ${r.dmg_low}-${r.dmg_high} (${r.pct_low} - ${r.pct_high}%) -- ${r.ko_text}`;
 }
 
 function MoveResultsColumn({
@@ -42,7 +88,7 @@ function MoveResultsColumn({
 }: {
   attacker: TargetSpec;
   defender: TargetSpec;
-  field: { weather: string; crit: boolean };
+  field: FieldState;
   selectedMove: string | null;
   onSelectMove: (moveName: string, result: DamageCalcResult) => void;
 }) {
@@ -55,12 +101,7 @@ function MoveResultsColumn({
     Promise.all(
       damagingMoves.map(async (move) => {
         try {
-          const result = await calcDamage(
-            { pokemon_name: attacker.pokemon.name, evs: attacker.evs, nature: attacker.nature, ability: attacker.ability, item: attacker.item, level: 50 },
-            { pokemon_name: defender.pokemon.name, evs: defender.evs, nature: defender.nature, ability: defender.ability, item: defender.item, level: 50 },
-            move.name,
-            field
-          );
+          const result = await calcDamage(toCombatant(attacker), toCombatant(defender), move.name, field);
           return { move, result };
         } catch {
           return null;
@@ -76,11 +117,7 @@ function MoveResultsColumn({
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    attacker.pokemon.name, attacker.evs, attacker.nature, attacker.ability, attacker.item,
-    defender.pokemon.name, defender.evs, defender.nature, defender.ability, defender.item,
-    field.weather, field.crit,
-  ]);
+  }, [JSON.stringify(toCombatant(attacker)), JSON.stringify(toCombatant(defender)), JSON.stringify(field)]);
 
   return (
     <div className="move-results-column">
@@ -110,23 +147,27 @@ function MoveResultsColumn({
   );
 }
 
-export default function DamageCalculator() {
-  const [p1, setP1] = useState<TargetSpec | null>(null);
-  const [p2, setP2] = useState<TargetSpec | null>(null);
-  const [weather, setWeather] = useState("none");
-  const [crit, setCrit] = useState(false);
-  const [selected, setSelected] = useState<{ attacker: "p1" | "p2"; move: string; result: DamageCalcResult } | null>(null);
-
-  const field = { weather, crit };
+function FieldControls({ field, onChange }: { field: FieldState; onChange: (f: FieldState) => void }) {
+  const toggle = (key: keyof FieldState) => onChange({ ...field, [key]: !field[key] });
 
   return (
-    <div className="damage-calculator">
-      <h2>Damage Calculator</h2>
+    <div className="calc-field-controls">
+      <div className="field-row">
+        <div className="field-group">
+          <span className="field-group-label">Format</span>
+          <div className="segmented">
+            <button className={!field.doubles ? "active" : ""} onClick={() => onChange({ ...field, doubles: false })}>
+              Singles
+            </button>
+            <button className={field.doubles ? "active" : ""} onClick={() => onChange({ ...field, doubles: true })}>
+              Doubles
+            </button>
+          </div>
+        </div>
 
-      <div className="calc-field-controls">
-        <label>
+        <label className="field-inline">
           Weather
-          <select value={weather} onChange={(e) => setWeather(e.target.value)}>
+          <select value={field.weather} onChange={(e) => onChange({ ...field, weather: e.target.value })}>
             <option value="none">None</option>
             <option value="sun">Sun</option>
             <option value="rain">Rain</option>
@@ -134,15 +175,89 @@ export default function DamageCalculator() {
             <option value="snow">Snow</option>
           </select>
         </label>
-        <label className="calc-crit-toggle">
-          <input type="checkbox" checked={crit} onChange={(e) => setCrit(e.target.checked)} />
-          Critical hit
+
+        <label className="field-inline">
+          Terrain
+          <select value={field.terrain} onChange={(e) => onChange({ ...field, terrain: e.target.value })}>
+            <option value="none">None</option>
+            <option value="electric">Electric</option>
+            <option value="grassy">Grassy</option>
+            <option value="misty">Misty</option>
+            <option value="psychic">Psychic</option>
+          </select>
         </label>
       </div>
 
+      <div className="field-row">
+        <span className="field-group-label">Defender protected by</span>
+        <button className={field.reflect ? "toggle-chip active" : "toggle-chip"} onClick={() => toggle("reflect")}>
+          Reflect
+        </button>
+        <button
+          className={field.lightscreen ? "toggle-chip active" : "toggle-chip"}
+          onClick={() => toggle("lightscreen")}
+        >
+          Light Screen
+        </button>
+        <button
+          className={field.friend_guard ? "toggle-chip active" : "toggle-chip"}
+          onClick={() => toggle("friend_guard")}
+        >
+          Friend Guard
+        </button>
+      </div>
+
+      <div className="field-row">
+        <span className="field-group-label">Attacker boosted by</span>
+        <button
+          className={field.helping_hand ? "toggle-chip active" : "toggle-chip"}
+          onClick={() => toggle("helping_hand")}
+        >
+          Helping Hand
+        </button>
+        <button className={field.crit ? "toggle-chip active" : "toggle-chip"} onClick={() => toggle("crit")}>
+          Critical Hit
+        </button>
+        {field.doubles && (
+          <button
+            className={field.spread_move ? "toggle-chip active" : "toggle-chip"}
+            onClick={() => toggle("spread_move")}
+            title="Spread moves hit multiple targets for 0.75x damage each"
+          >
+            Spread Move
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default function DamageCalculator() {
+  const [p1, setP1] = useState<TargetSpec | null>(null);
+  const [p2, setP2] = useState<TargetSpec | null>(null);
+  const [field, setField] = useState<FieldState>(DEFAULT_FIELD);
+  const [selected, setSelected] = useState<{ attacker: "p1" | "p2"; move: string; result: DamageCalcResult } | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  function copySummary(text: string) {
+    navigator.clipboard?.writeText(text).then(
+      () => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      },
+      () => {}
+    );
+  }
+
+  return (
+    <div className="damage-calculator">
+      <h2>Damage Calculator</h2>
+
+      <FieldControls field={field} onChange={setField} />
+
       <div className="calc-builders">
-        <TargetPicker label="Pokemon 1" target={p1} onChange={setP1} />
-        <TargetPicker label="Pokemon 2" target={p2} onChange={setP2} />
+        <TargetPicker label="Pokemon 1" target={p1} onChange={setP1} advanced />
+        <TargetPicker label="Pokemon 2" target={p2} onChange={setP2} advanced />
       </div>
 
       {p1 && p2 && (
@@ -171,6 +286,7 @@ export default function DamageCalculator() {
             const defender = selected.attacker === "p1" ? p2 : p1;
             const move = attacker.pokemon.moves.find((m) => m.name === selected.move);
             if (!move) return null;
+            const line = summaryLine(attacker, defender, move, selected.result);
             return (
               <>
                 <div className="calc-detail-header">
@@ -191,12 +307,21 @@ export default function DamageCalculator() {
                 ) : (
                   <>
                     <p className="calc-detail-damage">
-                      {selected.result.dmg_low}-{selected.result.dmg_high} ({selected.result.pct_low}% - {selected.result.pct_high}%)
+                      {selected.result.dmg_low}-{selected.result.dmg_high} ({selected.result.pct_low}% -{" "}
+                      {selected.result.pct_high}%)
                     </p>
                     <p className="ko-text">{selected.result.ko_text}</p>
+                    {selected.result.rolls && (
+                      <p className="calc-rolls">({selected.result.rolls.join(", ")})</p>
+                    )}
                   </>
                 )}
-                <p className="calc-summary-line">{summaryLine(attacker, defender, move, selected.result)}</p>
+                <div className="calc-summary-row">
+                  <p className="calc-summary-line">{line}</p>
+                  <button className="calc-copy-btn" onClick={() => copySummary(line)}>
+                    {copied ? "Copied" : "Copy"}
+                  </button>
+                </div>
               </>
             );
           })()}

@@ -7,16 +7,36 @@
 
 .calc-field-controls {
   display: flex;
-  align-items: center;
-  gap: 1.5rem;
+  flex-direction: column;
+  gap: 0.7rem;
   margin-bottom: 1.25rem;
   background: #f7f9fc;
   border: 1px solid #e5e5e5;
   border-radius: 8px;
-  padding: 0.6rem 0.9rem;
+  padding: 0.8rem 1rem;
 }
 
-.calc-field-controls label {
+.field-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.field-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.field-group-label {
+  font-size: 0.78rem;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.field-inline {
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -24,14 +44,52 @@
   color: #555;
 }
 
-.calc-field-controls select {
+.field-inline select {
   padding: 0.3rem 0.5rem;
   border-radius: 6px;
   border: 1px solid #ccc;
 }
 
-.calc-crit-toggle {
+.segmented {
+  display: inline-flex;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.segmented button {
+  padding: 0.3rem 0.8rem;
+  border: none;
+  background: white;
   cursor: pointer;
+  font-size: 0.82rem;
+  color: #555;
+}
+
+.segmented button.active {
+  background: #4a90e2;
+  color: white;
+}
+
+.toggle-chip {
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.toggle-chip:hover {
+  border-color: #a8c8ff;
+}
+
+.toggle-chip.active {
+  background: #e4edfc;
+  border-color: #4a90e2;
+  color: #2a5cb8;
+  font-weight: 600;
 }
 
 .calc-builders {
@@ -149,6 +207,44 @@
   font-family: monospace;
   font-size: 0.78rem;
   color: #555;
+}
+
+.calc-rolls {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: #888;
+  margin: 0.4rem 0 0;
+}
+
+.calc-summary-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid #dbe6fb;
+}
+
+.calc-summary-row .calc-summary-line {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.calc-copy-btn {
+  flex-shrink: 0;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #cfe0ff;
+  background: white;
+  color: #2a5cb8;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.calc-copy-btn:hover {
+  background: #e4edfc;
 }
 
 .subtitle {

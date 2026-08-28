@@ -65,6 +65,9 @@ export interface CombatantIn {
   item?: string;
   level: number;
   stages?: Record<string, number>;
+  status?: string;
+  current_hp_percent?: number;
+  type_override?: string[] | null;
 }
 
 export interface DamageCalcResult {
@@ -76,7 +79,11 @@ export interface DamageCalcResult {
   pct_low?: number | null;
   pct_high?: number | null;
   defender_hp?: number | null;
+  defender_current_hp?: number | null;
+  /** The 16 possible damage values the game rolls between. */
+  rolls?: number[] | null;
   ko_text?: string | null;
+  ko_chance_percent?: number | null;
   type_effectiveness?: number | null;
   stab?: number | null;
 }
@@ -161,7 +168,7 @@ export function calcDamage(
   attacker: CombatantIn,
   defender: CombatantIn,
   moveName: string,
-  field: Record<string, unknown> = {}
+  field: object = {}
 ): Promise<DamageCalcResult> {
   return postJson<DamageCalcResult>("/api/calc/damage", {
     attacker,

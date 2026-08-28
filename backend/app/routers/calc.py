@@ -25,6 +25,8 @@ def _to_combatant(pokemon: Pokemon, spec) -> Combatant:
     return Combatant(
         base_stats=base_stats, types=types, evs=spec.evs, nature=spec.nature,
         ability=spec.ability, item=spec.item, level=spec.level, stages=spec.stages,
+        status=spec.status, current_hp_percent=spec.current_hp_percent,
+        type_override=spec.type_override,
     )
 
 
