@@ -1,13 +1,24 @@
 import { useEffect, useState } from "react";
-import { searchPokemon, getPokemon } from "../api";
-import type { PokemonSummary, PokemonDetail } from "../api";
+import { searchPokemon, getPokemon, searchItems } from "../api";
+import type { PokemonSummary, PokemonDetail, ItemOut } from "../api";
+import { NATURE_NAMES, MAX_EV_PER_STAT, type StatKey } from "../natures";
+import { statAtLevel } from "../statCalc";
 import "./TeamBuilder.css";
 
 const TEAM_SIZE = 6;
+const STAT_KEYS: StatKey[] = ["hp", "atk", "def", "spa", "spd", "spe"];
+const STAT_LABELS: Record<StatKey, string> = { hp: "HP", atk: "Atk", def: "Def", spa: "SpA", spd: "SpD", spe: "Spe" };
+
+type EvSpread = Record<StatKey, number>;
+
+const EMPTY_EVS: EvSpread = { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 };
 
 interface TeamSlot {
   pokemon: PokemonDetail;
   ability: string;
+  item: string;
+  nature: string;
+  evs: EvSpread;
   moves: string[]; // up to 4 move names
 }
 
@@ -54,15 +65,83 @@ function PokemonSearch({ onPick }: { onPick: (p: PokemonSummary) => void }) {
   );
 }
 
-function StatBar({ label, value, max = 255 }: { label: string; value: number; max?: number }) {
-  const pct = Math.min(100, (value / max) * 100);
+function ItemSearch({ value, onPick }: { value: string; onPick: (itemName: string) => void }) {
+  const [query, setQuery] = useState(value);
+  const [results, setResults] = useState<ItemOut[]>([]);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const handle = setTimeout(() => {
+      if (!query) {
+        setResults([]);
+        return;
+      }
+      searchItems(query).then(setResults).catch(() => setResults([]));
+    }, 250);
+    return () => clearTimeout(handle);
+  }, [query]);
+
   return (
-    <div className="stat-bar">
-      <span className="stat-label">{label}</span>
-      <div className="stat-track">
-        <div className="stat-fill" style={{ width: `${pct}%` }} />
-      </div>
-      <span className="stat-value">{value}</span>
+    <div className="item-search">
+      <input
+        type="text"
+        placeholder="Search held item..."
+        value={query}
+        onChange={(e) => {
+          setQuery(e.target.value);
+          setOpen(true);
+        }}
+        onFocus={() => setOpen(true)}
+      />
+      {open && results.length > 0 && (
+        <div className="item-search-results">
+          {results.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => {
+                onPick(item.name);
+                setQuery(item.display_name);
+                setOpen(false);
+              }}
+            >
+              {item.sprite_url && <img src={item.sprite_url} alt="" />}
+              {item.display_name}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StatRow({
+  statKey,
+  base,
+  ev,
+  nature,
+  onChangeEv,
+}: {
+  statKey: StatKey;
+  base: number;
+  ev: number;
+  nature: string;
+  onChangeEv: (value: number) => void;
+}) {
+  const final = statAtLevel(base, ev, 50, statKey, nature);
+  return (
+    <div className="stat-row">
+      <span className="stat-label">{STAT_LABELS[statKey]}</span>
+      <input
+        type="number"
+        min={0}
+        max={MAX_EV_PER_STAT}
+        value={ev}
+        onChange={(e) => {
+          const clamped = Math.max(0, Math.min(MAX_EV_PER_STAT, Number(e.target.value) || 0));
+          onChangeEv(clamped);
+        }}
+      />
+      <span className="stat-final">{final}</span>
     </div>
   );
 }
@@ -71,14 +150,23 @@ function TeamSlotCard({
   slot,
   onRemove,
   onChangeAbility,
+  onChangeItem,
+  onChangeNature,
+  onChangeEv,
   onChangeMove,
 }: {
   slot: TeamSlot;
   onRemove: () => void;
   onChangeAbility: (ability: string) => void;
+  onChangeItem: (item: string) => void;
+  onChangeNature: (nature: string) => void;
+  onChangeEv: (statKey: StatKey, value: number) => void;
   onChangeMove: (index: number, moveName: string) => void;
 }) {
   const { pokemon } = slot;
+  const evTotal = STAT_KEYS.reduce((sum, k) => sum + slot.evs[k], 0);
+  const evMaxTotal = MAX_EV_PER_STAT * STAT_KEYS.length;
+
   return (
     <div className="team-slot-card">
       <div className="team-slot-header">
@@ -95,14 +183,10 @@ function TeamSlotCard({
         </button>
       </div>
 
-      <div className="stats">
-        <StatBar label="HP" value={pokemon.hp} />
-        <StatBar label="Atk" value={pokemon.attack} />
-        <StatBar label="Def" value={pokemon.defense} />
-        <StatBar label="SpA" value={pokemon.special_attack} />
-        <StatBar label="SpD" value={pokemon.special_defense} />
-        <StatBar label="Spe" value={pokemon.speed} />
-      </div>
+      <label className="field">
+        Item
+        <ItemSearch value={slot.item} onPick={onChangeItem} />
+      </label>
 
       <label className="field">
         Ability
@@ -115,6 +199,45 @@ function TeamSlotCard({
           ))}
         </select>
       </label>
+
+      <label className="field">
+        Nature
+        <select value={slot.nature} onChange={(e) => onChangeNature(e.target.value)}>
+          {NATURE_NAMES.map((n) => (
+            <option key={n} value={n}>
+              {n[0].toUpperCase() + n.slice(1)}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <div className="stats">
+        <div className="stats-header">
+          <span />
+          <span>EV (0-{MAX_EV_PER_STAT})</span>
+          <span>Stat</span>
+        </div>
+        {STAT_KEYS.map((k) => (
+          <StatRow
+            key={k}
+            statKey={k}
+            base={
+              k === "hp" ? pokemon.hp
+              : k === "atk" ? pokemon.attack
+              : k === "def" ? pokemon.defense
+              : k === "spa" ? pokemon.special_attack
+              : k === "spd" ? pokemon.special_defense
+              : pokemon.speed
+            }
+            ev={slot.evs[k]}
+            nature={slot.nature}
+            onChangeEv={(v) => onChangeEv(k, v)}
+          />
+        ))}
+        <div className="ev-total">
+          EV total: {evTotal}/{evMaxTotal}
+        </div>
+      </div>
 
       <div className="moves">
         {[0, 1, 2, 3].map((i) => (
@@ -151,7 +274,10 @@ export default function TeamBuilder() {
     setError(null);
     try {
       const detail = await getPokemon(p.name);
-      setTeam((prev) => [...prev, { pokemon: detail, ability: "", moves: [] }]);
+      setTeam((prev) => [
+        ...prev,
+        { pokemon: detail, ability: "", item: "", nature: "hardy", evs: { ...EMPTY_EVS }, moves: [] },
+      ]);
     } catch {
       setError(`Couldn't load details for ${p.display_name}. Is the backend running?`);
     }
@@ -161,8 +287,14 @@ export default function TeamBuilder() {
     setTeam((prev) => prev.filter((_, i) => i !== index));
   }
 
-  function updateAbility(index: number, ability: string) {
-    setTeam((prev) => prev.map((slot, i) => (i === index ? { ...slot, ability } : slot)));
+  function updateSlot(index: number, patch: Partial<TeamSlot>) {
+    setTeam((prev) => prev.map((slot, i) => (i === index ? { ...slot, ...patch } : slot)));
+  }
+
+  function updateEv(index: number, statKey: StatKey, value: number) {
+    setTeam((prev) =>
+      prev.map((slot, i) => (i === index ? { ...slot, evs: { ...slot.evs, [statKey]: value } } : slot))
+    );
   }
 
   function updateMove(index: number, moveIndex: number, moveName: string) {
@@ -193,7 +325,10 @@ export default function TeamBuilder() {
             key={slot.pokemon.id}
             slot={slot}
             onRemove={() => removeFromTeam(i)}
-            onChangeAbility={(a) => updateAbility(i, a)}
+            onChangeAbility={(a) => updateSlot(i, { ability: a })}
+            onChangeItem={(item) => updateSlot(i, { item })}
+            onChangeNature={(nature) => updateSlot(i, { nature })}
+            onChangeEv={(statKey, v) => updateEv(i, statKey, v)}
             onChangeMove={(mi, m) => updateMove(i, mi, m)}
           />
         ))}

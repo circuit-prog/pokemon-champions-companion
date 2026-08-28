@@ -27,7 +27,9 @@ POKEAPI_BASE = "https://pokeapi.co/api/v2"
 
 # How many Pokemon (by national dex order) to import on this run.
 # None = import the entire national dex (slow, ~1300 requests).
-LIMIT = 60
+# 600 is a practical proxy for "most of what sees competitive play" until we
+# have real Pokemon Champions usage data to filter by properly.
+LIMIT = 600
 
 REQUEST_DELAY_SECONDS = 0.05  # be polite to the free public API
 
@@ -114,7 +116,7 @@ def enrich_moves(db):
             print(f"  [{i}/{len(moves)}] moves enriched")
 
 
-def import_items(db, limit=200):
+def import_items(db, limit=400):
     list_url = f"{POKEAPI_BASE}/item?limit={limit}"
     entries = fetch(list_url)["results"]
     print(f"Importing {len(entries)} items...")

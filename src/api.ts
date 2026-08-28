@@ -30,6 +30,14 @@ export interface AbilityOut {
   effect: string | null;
 }
 
+export interface ItemOut {
+  id: number;
+  name: string;
+  display_name: string;
+  sprite_url: string | null;
+  effect: string | null;
+}
+
 export interface PokemonDetail extends PokemonSummary {
   hp: number;
   attack: number;
@@ -92,6 +100,11 @@ export function searchPokemon(query: string): Promise<PokemonSummary[]> {
 
 export function getPokemon(name: string): Promise<PokemonDetail> {
   return getJson<PokemonDetail>(`/api/pokemon/${encodeURIComponent(name)}`);
+}
+
+export function searchItems(query: string): Promise<ItemOut[]> {
+  const params = query ? `?search=${encodeURIComponent(query)}` : "";
+  return getJson<ItemOut[]>(`/api/items${params}`);
 }
 
 export function calcDamage(

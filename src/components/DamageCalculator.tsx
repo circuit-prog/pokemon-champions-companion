@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
 import { searchPokemon, getPokemon, calcDamage } from "../api";
 import type { PokemonSummary, PokemonDetail, DamageCalcResult } from "../api";
+import { NATURE_NAMES as NATURES, MAX_EV_PER_STAT } from "../natures";
 import "./DamageCalculator.css";
-
-const NATURES = [
-  "hardy", "lonely", "brave", "adamant", "naughty", "bold", "docile", "relaxed",
-  "impish", "lax", "timid", "hasty", "serious", "jolly", "naive", "modest",
-  "mild", "quiet", "bashful", "rash", "calm", "gentle", "sassy", "careful", "quirky",
-];
 
 interface Side {
   pokemon: PokemonDetail | null;
@@ -68,8 +63,8 @@ function PokemonPicker({
 }
 
 export default function DamageCalculator() {
-  const [attacker, setAttacker] = useState<Side>({ pokemon: null, atkOrSpaEv: 252, defOrSpdEv: 0, hpEv: 0, nature: "adamant" });
-  const [defender, setDefender] = useState<Side>({ pokemon: null, atkOrSpaEv: 0, defOrSpdEv: 252, hpEv: 252, nature: "bold" });
+  const [attacker, setAttacker] = useState<Side>({ pokemon: null, atkOrSpaEv: MAX_EV_PER_STAT, defOrSpdEv: 0, hpEv: 0, nature: "adamant" });
+  const [defender, setDefender] = useState<Side>({ pokemon: null, atkOrSpaEv: 0, defOrSpdEv: MAX_EV_PER_STAT, hpEv: MAX_EV_PER_STAT, nature: "bold" });
   const [moveName, setMoveName] = useState("");
   const [result, setResult] = useState<DamageCalcResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -140,11 +135,11 @@ export default function DamageCalculator() {
                 </select>
               </label>
               <label>
-                Offensive EV (0-252)
+                Offensive EV (0-{MAX_EV_PER_STAT})
                 <input
-                  type="number" min={0} max={252}
+                  type="number" min={0} max={MAX_EV_PER_STAT}
                   value={attacker.atkOrSpaEv}
-                  onChange={(e) => setAttacker((s) => ({ ...s, atkOrSpaEv: Number(e.target.value) }))}
+                  onChange={(e) => setAttacker((s) => ({ ...s, atkOrSpaEv: Math.max(0, Math.min(MAX_EV_PER_STAT, Number(e.target.value) || 0)) }))}
                 />
               </label>
               <label>
@@ -173,19 +168,19 @@ export default function DamageCalculator() {
                 </select>
               </label>
               <label>
-                Defensive EV (0-252)
+                Defensive EV (0-{MAX_EV_PER_STAT})
                 <input
-                  type="number" min={0} max={252}
+                  type="number" min={0} max={MAX_EV_PER_STAT}
                   value={defender.defOrSpdEv}
-                  onChange={(e) => setDefender((s) => ({ ...s, defOrSpdEv: Number(e.target.value) }))}
+                  onChange={(e) => setDefender((s) => ({ ...s, defOrSpdEv: Math.max(0, Math.min(MAX_EV_PER_STAT, Number(e.target.value) || 0)) }))}
                 />
               </label>
               <label>
-                HP EV (0-252)
+                HP EV (0-{MAX_EV_PER_STAT})
                 <input
-                  type="number" min={0} max={252}
+                  type="number" min={0} max={MAX_EV_PER_STAT}
                   value={defender.hpEv}
-                  onChange={(e) => setDefender((s) => ({ ...s, hpEv: Number(e.target.value) }))}
+                  onChange={(e) => setDefender((s) => ({ ...s, hpEv: Math.max(0, Math.min(MAX_EV_PER_STAT, Number(e.target.value) || 0)) }))}
                 />
               </label>
             </>
