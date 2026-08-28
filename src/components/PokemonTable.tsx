@@ -4,13 +4,16 @@ import type { PokemonSummary } from "../api";
 import { TYPE_COLORS } from "../typeColors";
 import "./PokemonTable.css";
 
-type SortKey = "name" | "hp" | "attack" | "defense" | "special_attack" | "special_defense" | "speed" | "bst";
+// "usage" preserves the order the backend returned (real meta usage rank
+// first, then everyone else) rather than re-sorting client-side.
+type SortKey = "usage" | "name" | "hp" | "attack" | "defense" | "special_attack" | "special_defense" | "speed" | "bst";
 
 function bst(p: PokemonSummary): number {
   return p.hp + p.attack + p.defense + p.special_attack + p.special_defense + p.speed;
 }
 
 const COLUMNS: { key: SortKey; label: string }[] = [
+  { key: "usage", label: "Usage" },
   { key: "name", label: "Name" },
   { key: "hp", label: "HP" },
   { key: "attack", label: "Atk" },
@@ -31,7 +34,7 @@ export default function PokemonTable({
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<PokemonSummary[]>([]);
   const [loading, setLoading] = useState(false);
-  const [sortKey, setSortKey] = useState<SortKey>("name");
+  const [sortKey, setSortKey] = useState<SortKey>("usage");
   const [sortDesc, setSortDesc] = useState(false);
 
   useEffect(() => {
@@ -51,17 +54,23 @@ export default function PokemonTable({
       setSortDesc((d) => !d);
     } else {
       setSortKey(key);
-      setSortDesc(key !== "name"); // stats default to descending (highest first), name to ascending
+      // Stats default to descending (highest first); name/usage to ascending.
+      setSortDesc(key !== "name" && key !== "usage");
     }
   }
 
-  const sorted = [...results].sort((a, b) => {
-    let cmp: number;
-    if (sortKey === "name") cmp = a.display_name.localeCompare(b.display_name);
-    else if (sortKey === "bst") cmp = bst(a) - bst(b);
-    else cmp = a[sortKey] - b[sortKey];
-    return sortDesc ? -cmp : cmp;
-  });
+  const sorted =
+    sortKey === "usage" && !sortDesc
+      ? results // backend already returns meta-usage order
+      : [...results].sort((a, b) => {
+          let cmp: number;
+          if (sortKey === "usage") cmp = 0; // reversed usage order handled below
+          else if (sortKey === "name") cmp = a.display_name.localeCompare(b.display_name);
+          else if (sortKey === "bst") cmp = bst(a) - bst(b);
+          else cmp = a[sortKey] - b[sortKey];
+          return sortDesc ? -cmp : cmp;
+        });
+  const displayed = sortKey === "usage" && sortDesc ? [...results].reverse() : sorted;
 
   return (
     <div className="pokemon-table-wrap">
@@ -77,8 +86,12 @@ export default function PokemonTable({
         <table className="pokemon-table">
           <thead>
             <tr>
-              <th />
-              {COLUMNS.map((c) => (
+              {/* Sprite column doubles as the "Usage" (meta rank order) sort header. */}
+              <th onClick={() => toggleSort("usage")} className="sortable">
+                Usage
+                {sortKey === "usage" ? (sortDesc ? " ▼" : " ▲") : ""}
+              </th>
+              {COLUMNS.filter((c) => c.key !== "usage").map((c) => (
                 <th key={c.key} onClick={() => toggleSort(c.key)} className="sortable">
                   {c.label}
                   {sortKey === c.key ? (sortDesc ? " ▼" : " ▲") : ""}
@@ -90,7 +103,7 @@ export default function PokemonTable({
             </tr>
           </thead>
           <tbody>
-            {sorted.map((p) => (
+            {displayed.map((p) => (
               <tr key={p.id}>
                 <td>{p.sprite_url && <img className="pokemon-table-sprite" src={p.sprite_url} alt="" />}</td>
                 <td className="pokemon-table-name">

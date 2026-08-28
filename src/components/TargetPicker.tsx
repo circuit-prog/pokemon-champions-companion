@@ -164,17 +164,14 @@ export default function TargetPicker({
 
           <label className="field">
             Nature
-            <select
-              value={target.nature}
-              title={natureDescription(target.nature)}
-              onChange={(e) => onChange({ ...target, nature: e.target.value })}
-            >
+            <select value={target.nature} onChange={(e) => onChange({ ...target, nature: e.target.value })}>
               {NATURE_NAMES.map((n) => (
-                <option key={n} value={n} title={natureDescription(n)}>
-                  {n[0].toUpperCase() + n.slice(1)}
+                <option key={n} value={n}>
+                  {n[0].toUpperCase() + n.slice(1)} — {natureDescription(n)}
                 </option>
               ))}
             </select>
+            <span className="nature-effect">{natureDescription(target.nature)}</span>
           </label>
 
           <div className="target-evs">

@@ -190,17 +190,14 @@ export default function SlotEditor({
 
           <label className="field">
             Nature
-            <select
-              value={slot.nature}
-              title={natureDescription(slot.nature)}
-              onChange={(e) => onChange({ nature: e.target.value })}
-            >
+            <select value={slot.nature} onChange={(e) => onChange({ nature: e.target.value })}>
               {NATURE_NAMES.map((n) => (
-                <option key={n} value={n} title={natureDescription(n)}>
-                  {n[0].toUpperCase() + n.slice(1)}
+                <option key={n} value={n}>
+                  {n[0].toUpperCase() + n.slice(1)} — {natureDescription(n)}
                 </option>
               ))}
             </select>
+            <span className="nature-effect">{natureDescription(slot.nature)}</span>
           </label>
 
           <div className="stats">

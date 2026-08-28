@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { AbilityOut } from "../api";
 import "./MovePicker.css";
 
@@ -10,11 +11,27 @@ export default function AbilityPicker({
   selected: string;
   onSelect: (abilityName: string) => void;
 }) {
+  const [query, setQuery] = useState("");
+  const q = query.trim().toLowerCase();
+  const filtered = q
+    ? abilities.filter(
+        (a) => a.display_name.toLowerCase().includes(q) || (a.effect ?? "").toLowerCase().includes(q)
+      )
+    : abilities;
+
   return (
     <div className="move-picker">
       <div className="move-picker-header">Ability</div>
+      <input
+        className="move-picker-search"
+        type="text"
+        placeholder="Search abilities by name or effect..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
       <div className="move-picker-list">
-        {abilities.map((a) => {
+        {filtered.length === 0 && <div className="move-picker-empty">No abilities match "{query}".</div>}
+        {filtered.map((a) => {
           const isSelected = a.name === selected;
           return (
             <div className="move-row" key={a.id}>
