@@ -9,10 +9,14 @@ import './App.css'
 type Tab = 'teams' | 'dex' | 'calc' | 'tools'
 
 function App() {
-  // A shared damage-calc link (?calc=...) should open straight into the calculator.
-  const [tab, setTab] = useState<Tab>(() =>
-    new URLSearchParams(window.location.search).has('calc') ? 'calc' : 'teams'
-  )
+  // Shared links open straight to the view they point at:
+  // ?calc= -> damage calculator, ?dex= / ?mon= -> Pokedex.
+  const [tab, setTab] = useState<Tab>(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.has('calc')) return 'calc'
+    if (params.has('dex') || params.has('mon')) return 'dex'
+    return 'teams'
+  })
   const [editingTeamId, setEditingTeamId] = useState<string | null>(null)
 
   function goToTab(next: Tab) {

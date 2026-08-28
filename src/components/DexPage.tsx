@@ -1,55 +1,98 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PokemonTable from "./PokemonTable";
 import MetaRankingsView from "./MetaRankingsView";
+import TeamCoresView from "./TeamCoresView";
+import TopTeamsView from "./TopTeamsView";
 import PokemonDetailPage from "./PokemonDetailPage";
+import "./DexPage.css";
 
-type SubTab = "all" | "meta";
+type SubTab = "all" | "meta" | "cores" | "teams";
+
+const TABS: { key: SubTab; label: string }[] = [
+  { key: "all", label: "All Pokemon" },
+  { key: "meta", label: "Meta Rankings" },
+  { key: "cores", label: "Team Cores" },
+  { key: "teams", label: "Top Teams" },
+];
+
+/** Keep ?dex= (tab) and ?mon= (detail page) in the URL so any dex view is
+ *  shareable, the same way the damage calculator's ?calc= links work. */
+function readUrlState(): { tab: SubTab; mon: string | null } {
+  const params = new URLSearchParams(window.location.search);
+  const tab = params.get("dex") as SubTab | null;
+  return {
+    tab: TABS.some((t) => t.key === tab) ? (tab as SubTab) : "all",
+    mon: params.get("mon"),
+  };
+}
+
+function writeUrlState(tab: SubTab, mon: string | null) {
+  const url = new URL(window.location.href);
+  url.searchParams.delete("calc"); // don't mix calculator state into dex links
+  if (mon) {
+    url.searchParams.set("mon", mon);
+  } else {
+    url.searchParams.delete("mon");
+  }
+  if (tab === "all") url.searchParams.delete("dex");
+  else url.searchParams.set("dex", tab);
+  window.history.replaceState(null, "", url.toString());
+}
 
 export default function DexPage() {
-  const [subTab, setSubTab] = useState<SubTab>("all");
-  const [detailName, setDetailName] = useState<string | null>(null);
+  const initial = readUrlState();
+  const [subTab, setSubTab] = useState<SubTab>(initial.tab);
+  const [detailName, setDetailName] = useState<string | null>(initial.mon);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    writeUrlState(subTab, detailName);
+  }, [subTab, detailName]);
+
+  function copyLink() {
+    navigator.clipboard?.writeText(window.location.href).then(
+      () => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      },
+      () => {}
+    );
+  }
 
   if (detailName) {
     return <PokemonDetailPage name={detailName} onBack={() => setDetailName(null)} />;
   }
 
   return (
-    <div style={{ maxWidth: 1200, margin: "0 auto", padding: "1.5rem", textAlign: "left" }}>
-      <h2>Pokedex</h2>
-      <p style={{ color: "#666", marginTop: "-0.5rem" }}>
-        Browse every Pokemon's stats, or see what's actually winning in Pokemon Champions right now.
-      </p>
+    <div className="dex-page">
+      <div className="dex-header">
+        <div>
+          <h2>Pokedex</h2>
+          <p className="subtitle">
+            Browse every Pokemon's stats, or see what's actually winning in Pokemon Champions right now.
+          </p>
+        </div>
+        <button className="dex-share-btn" onClick={copyLink}>
+          {copied ? "Link copied" : "Copy link to this view"}
+        </button>
+      </div>
 
-      <nav style={{ display: "flex", gap: "0.4rem", borderBottom: "1px solid #e5e5e5", marginBottom: "1.25rem" }}>
-        <button
-          onClick={() => setSubTab("all")}
-          style={{
-            padding: "0.4rem 0.9rem", border: "none",
-            borderBottom: subTab === "all" ? "3px solid #4a90e2" : "3px solid transparent",
-            background: "none", cursor: "pointer", fontSize: "0.88rem",
-            color: subTab === "all" ? "#2a5cb8" : "#666", fontWeight: subTab === "all" ? 600 : 400,
-          }}
-        >
-          All Pokemon
-        </button>
-        <button
-          onClick={() => setSubTab("meta")}
-          style={{
-            padding: "0.4rem 0.9rem", border: "none",
-            borderBottom: subTab === "meta" ? "3px solid #4a90e2" : "3px solid transparent",
-            background: "none", cursor: "pointer", fontSize: "0.88rem",
-            color: subTab === "meta" ? "#2a5cb8" : "#666", fontWeight: subTab === "meta" ? 600 : 400,
-          }}
-        >
-          Meta Rankings
-        </button>
+      <nav className="dex-tabs">
+        {TABS.map((t) => (
+          <button
+            key={t.key}
+            className={subTab === t.key ? "active" : ""}
+            onClick={() => setSubTab(t.key)}
+          >
+            {t.label}
+          </button>
+        ))}
       </nav>
 
-      {subTab === "all" ? (
-        <PokemonTable onSelectDetail={setDetailName} />
-      ) : (
-        <MetaRankingsView onSelectDetail={setDetailName} />
-      )}
+      {subTab === "all" && <PokemonTable onSelectDetail={setDetailName} />}
+      {subTab === "meta" && <MetaRankingsView onSelectDetail={setDetailName} />}
+      {subTab === "cores" && <TeamCoresView />}
+      {subTab === "teams" && <TopTeamsView />}
     </div>
   );
 }

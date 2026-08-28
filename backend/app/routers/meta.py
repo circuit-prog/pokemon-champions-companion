@@ -13,11 +13,26 @@ router = APIRouter(prefix="/api/meta", tags=["meta"])
 def _sprite_map(db: Session, display_names: set) -> dict:
     """Map Pikalytics display names (e.g. 'Charizard-Mega-Y') to sprite URLs.
     Their naming uses hyphens where PokeAPI slugs do too, so a lowercase
-    hyphenated lookup covers most cases; unmatched names just get no sprite."""
+    hyphenated lookup covers most cases."""
     slugs = {n: n.lower().replace(" ", "-") for n in display_names}
     found = db.query(Pokemon).filter(Pokemon.name.in_(list(slugs.values()))).all()
     by_slug = {p.name: p.sprite_url for p in found}
-    return {name: by_slug.get(slug) for name, slug in slugs.items()}
+
+    result = {name: by_slug.get(slug) for name, slug in slugs.items()}
+
+    # Species with battle/gender forms (Basculegion, Maushold, Pyroar, ...)
+    # aren't in PokeAPI under their plain name - fall back to the first variant.
+    for name, slug in slugs.items():
+        if result[name] is None:
+            variant = (
+                db.query(Pokemon)
+                .filter(Pokemon.name.like(f"{slug}-%"))
+                .order_by(Pokemon.id)
+                .first()
+            )
+            if variant:
+                result[name] = variant.sprite_url
+    return result
 
 
 @router.get("/rankings", response_model=list[MetaRankingEntry])

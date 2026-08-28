@@ -1,0 +1,177 @@
+.meta-browse {
+  text-align: left;
+}
+
+.meta-browse-note {
+  color: #777;
+  font-size: 0.85rem;
+  background: #f7f9fc;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.meta-filter-row {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.meta-filter-chip {
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  font-size: 0.82rem;
+  color: #555;
+}
+
+.meta-filter-chip:hover {
+  border-color: #a8c8ff;
+}
+
+.meta-filter-chip.active {
+  background: #4a90e2;
+  border-color: #4a90e2;
+  color: white;
+  font-weight: 600;
+}
+
+.meta-filter-input {
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+/* --- Cores --- */
+
+.core-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.core-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.core-row:last-child {
+  border-bottom: none;
+}
+
+.core-rank {
+  color: #888;
+  font-weight: 700;
+  width: 32px;
+  flex-shrink: 0;
+}
+
+.core-size-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #2a5cb8;
+  background: #e4edfc;
+  border-radius: 999px;
+  padding: 0.12rem 0.5rem;
+  flex-shrink: 0;
+}
+
+.core-sprites {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.core-mon,
+.top-team-mon {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+}
+
+.core-mon img,
+.top-team-mon img {
+  width: 28px;
+  height: 28px;
+}
+
+.core-stats {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.core-usage {
+  font-weight: 700;
+  color: #2a9d4a;
+}
+
+.core-teams {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+/* --- Top teams --- */
+
+.top-team-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 0.9rem;
+}
+
+.top-team-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  background: white;
+}
+
+.top-team-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.top-team-rank {
+  color: #888;
+  font-weight: 700;
+}
+
+.top-team-record {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #2a9d4a;
+  background: #e8f6ec;
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+}
+
+.top-team-tournament {
+  font-size: 0.78rem;
+  color: #888;
+  margin-top: 0.2rem;
+}
+
+.top-team-roster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.9rem;
+  margin-top: 0.6rem;
+}

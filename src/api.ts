@@ -164,6 +164,43 @@ export function getMetaRankings(): Promise<MetaRankingEntry[]> {
   return getJson<MetaRankingEntry[]>("/api/meta/rankings");
 }
 
+export interface TeamCoreOut {
+  size: number;
+  rank: number;
+  pokemon: string[];
+  sprites: (string | null)[];
+  teams: number | null;
+  usage_percent: number | null;
+}
+
+export function getTeamCores(size = 0): Promise<TeamCoreOut[]> {
+  return getJson<TeamCoreOut[]>(`/api/meta/cores${size ? `?size=${size}` : ""}`);
+}
+
+export interface TopTeamOut {
+  rank: number;
+  author: string | null;
+  record: string | null;
+  tournament: string | null;
+  pokemon: string[];
+  sprites: (string | null)[];
+}
+
+export function getTopTeams(contains = ""): Promise<TopTeamOut[]> {
+  const params = contains ? `?contains=${encodeURIComponent(contains)}` : "";
+  return getJson<TopTeamOut[]>(`/api/meta/top-teams${params}`);
+}
+
+export interface UsageTrendPoint {
+  scraped_at: string;
+  rank: number;
+  win_rate: number | null;
+}
+
+export function getUsageTrend(name: string): Promise<UsageTrendPoint[]> {
+  return getJson<UsageTrendPoint[]>(`/api/meta/trend/${encodeURIComponent(name)}`);
+}
+
 export function calcDamage(
   attacker: CombatantIn,
   defender: CombatantIn,

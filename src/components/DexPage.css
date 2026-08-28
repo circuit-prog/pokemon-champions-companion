@@ -1,0 +1,65 @@
+.dex-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.dex-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.dex-header h2 {
+  margin: 0;
+}
+
+.dex-header .subtitle {
+  color: #666;
+  margin: 0.25rem 0 0;
+}
+
+.dex-share-btn {
+  flex-shrink: 0;
+  padding: 0.35rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #cfe0ff;
+  background: white;
+  color: #2a5cb8;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.dex-share-btn:hover {
+  background: #e4edfc;
+}
+
+.dex-tabs {
+  display: flex;
+  gap: 0.4rem;
+  border-bottom: 1px solid #e5e5e5;
+  margin: 1.25rem 0;
+  flex-wrap: wrap;
+}
+
+.dex-tabs button {
+  padding: 0.4rem 0.9rem;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: none;
+  cursor: pointer;
+  font-size: 0.88rem;
+  color: #666;
+}
+
+.dex-tabs button:hover {
+  background: #f7f9fc;
+}
+
+.dex-tabs button.active {
+  border-bottom-color: #4a90e2;
+  color: #2a5cb8;
+  font-weight: 600;
+}
