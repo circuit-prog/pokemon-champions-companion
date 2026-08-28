@@ -4,6 +4,7 @@ import type { PokemonSummary } from "../api";
 import { getTeam, updateTeam } from "../teamStorage";
 import type { SavedTeam, TeamSlotData, EvSpread } from "../teamStorage";
 import PokemonTable from "./PokemonTable";
+import PartnerSuggestions from "./PartnerSuggestions";
 import SlotEditor from "./SlotEditor";
 import "./TeamEditorPage.css";
 
@@ -113,7 +114,10 @@ export default function TeamEditorPage({ teamId, onBack }: { teamId: string; onB
       </div>
 
       {activeIndex === "add" ? (
-        <PokemonTable onPick={addPokemon} />
+        <>
+          <PartnerSuggestions team={team} onPick={addPokemon} />
+          <PokemonTable onPick={addPokemon} />
+        </>
       ) : (
         team.slots[activeIndex] && (
           <>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getPokemon, getPokemonUsage } from "../api";
 import type { PokemonDetail, PokemonUsageOut } from "../api";
 import { TYPE_COLORS } from "../typeColors";
+import ChecksAndCounters from "./ChecksAndCounters";
 import "./PokemonDetailPage.css";
 
 const STAT_BARS: { key: keyof PokemonDetail; label: string; color: string }[] = [
@@ -152,6 +153,9 @@ export default function PokemonDetailPage({ name, onBack }: { name: string; onBa
           )}
         </div>
       </div>
+
+      <h3>Checks &amp; Counters</h3>
+      <ChecksAndCounters pokemon={pokemon} />
     </div>
   );
 }

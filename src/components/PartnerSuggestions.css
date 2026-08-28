@@ -1,0 +1,68 @@
+.partner-suggestions {
+  margin-bottom: 1rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid #cfe0ff;
+  background: #f4f8ff;
+  border-radius: 10px;
+}
+
+.partner-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #2a5cb8;
+  margin-bottom: 0.5rem;
+}
+
+.partner-hint {
+  font-weight: 400;
+  color: #7a8ba8;
+}
+
+.partner-empty {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.partner-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.partner-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid #cfe0ff;
+  background: white;
+  cursor: pointer;
+  font-size: 0.82rem;
+  color: #333;
+}
+
+.partner-chip:hover:not(:disabled) {
+  background: #e4edfc;
+  border-color: #4a90e2;
+}
+
+.partner-chip:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.partner-chip img {
+  width: 24px;
+  height: 24px;
+}
+
+.partner-count {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #2a9d4a;
+  background: #e8f6ec;
+  border-radius: 999px;
+  padding: 0.05rem 0.35rem;
+}

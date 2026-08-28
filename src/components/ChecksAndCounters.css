@@ -1,0 +1,61 @@
+.checks-counters {
+  text-align: left;
+}
+
+.checks-counters .subtitle {
+  font-size: 0.8rem;
+  color: #777;
+  margin-bottom: 0.7rem;
+}
+
+.threat-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.threat-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.8rem;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.82rem;
+}
+
+.threat-row:last-child {
+  border-bottom: none;
+}
+
+/* Highlights matchups where they out-damage us - the real threats. */
+.threat-row.danger {
+  background: #fff7f7;
+}
+
+.threat-row img {
+  width: 28px;
+  height: 28px;
+}
+
+.threat-name {
+  font-weight: 600;
+  min-width: 120px;
+}
+
+.threat-move {
+  color: #888;
+  flex: 1;
+}
+
+.threat-deals {
+  font-weight: 700;
+  color: #c0392b;
+  white-space: nowrap;
+}
+
+.threat-takes {
+  color: #2a9d4a;
+  white-space: nowrap;
+  min-width: 90px;
+  text-align: right;
+}
