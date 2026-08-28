@@ -19,8 +19,8 @@ export default function MetaRankingsView({ onSelectDetail }: { onSelectDetail: (
   return (
     <div className="meta-rankings-view">
       <p className="meta-rankings-note">
-        Real Pokemon Champions tournament usage data ({rankings.length} Pokemon tracked so far — the competitive
-        meta is still small since Champions is a new game).
+        Real Pokemon Champions Regulation M-B ranked battle data from Pikalytics ({rankings.length} Pokemon
+        tracked), including win rate.
       </p>
 
       <h3>Top {top20.length} Pokemon</h3>
@@ -49,7 +49,7 @@ export default function MetaRankingsView({ onSelectDetail }: { onSelectDetail: (
                 {r.type2}
               </span>
             )}
-            {r.usage_percent != null && <span className="ranking-usage">{r.usage_percent}% usage</span>}
+            {r.win_rate != null && <span className="ranking-usage">{r.win_rate}% win rate</span>}
           </button>
         ))}
       </div>

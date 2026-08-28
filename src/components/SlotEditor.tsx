@@ -97,15 +97,15 @@ function StatRow({
   );
 }
 
-function UsageSection({ label, entries }: { label: string; entries: PokemonUsageOut["moves"] }) {
-  if (entries.length === 0) return null;
+function UsageSection({ label, entries }: { label: string; entries: PokemonUsageOut["moves"] | undefined }) {
+  if (!entries || entries.length === 0) return null;
   return (
     <div className="usage-section">
       <span className="usage-col-label">{label}</span>
       {entries.map((m) => (
         <div key={m.name} className="usage-entry">
           <span className="usage-entry-name">{m.name}</span>
-          <span className="usage-entry-pct">{m.percent}%</span>
+          <span className="usage-entry-pct">{m.percent != null ? `${m.percent}%` : ""}</span>
         </div>
       ))}
     </div>
@@ -120,11 +120,13 @@ function UsagePanel({ usage }: { usage: PokemonUsageOut | null }) {
     <div className="usage-panel">
       <div className="usage-header">
         Meta usage: #{usage.rank}
-        {usage.usage_percent != null ? ` (${usage.usage_percent}% of teams)` : ""}
+        {usage.win_rate != null ? ` · ${usage.win_rate}% win rate` : ""}
+        {usage.record ? ` (${usage.record})` : ""}
       </div>
       <UsageSection label="Moves" entries={usage.moves} />
       <UsageSection label="Items" entries={usage.items} />
       <UsageSection label="Abilities" entries={usage.abilities} />
+      <UsageSection label="Common Teammates" entries={usage.teammates} />
     </div>
   );
 }

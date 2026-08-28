@@ -1,0 +1,5983 @@
+{
+  "format": "battledataregmbs3",
+  "pokemon": {
+    "garchomp": {
+      "rank": 1,
+      "win_rate": 48.05,
+      "record": "10833-11714-41",
+      "moves": [
+        {
+          "name": "Dragon Claw",
+          "percent": 89.4
+        },
+        {
+          "name": "Rock Slide",
+          "percent": 82.0
+        },
+        {
+          "name": "Earthquake",
+          "percent": 80.7
+        },
+        {
+          "name": "Protect",
+          "percent": 70.2
+        },
+        {
+          "name": "Stomping Tantrum",
+          "percent": 40.3
+        },
+        {
+          "name": "Poison Jab",
+          "percent": 18.3
+        },
+        {
+          "name": "Rock Tomb",
+          "percent": 8.0
+        },
+        {
+          "name": "Scale Shot",
+          "percent": 3.1
+        },
+        {
+          "name": "Swords Dance",
+          "percent": 2.5
+        },
+        {
+          "name": "Dragon Tail",
+          "percent": 2.0
+        }
+      ],
+      "items": [
+        {
+          "name": "Life Orb",
+          "percent": 51.5
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 13.6
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 12.7
+        },
+        {
+          "name": "Roseli Berry",
+          "percent": 10.8
+        },
+        {
+          "name": "Soft Sand",
+          "percent": 3.6
+        },
+        {
+          "name": "White Herb",
+          "percent": 1.3
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 1.1
+        },
+        {
+          "name": "Haban Berry",
+          "percent": 1.1
+        },
+        {
+          "name": "Expert Belt",
+          "percent": 0.9
+        },
+        {
+          "name": "Lum Berry",
+          "percent": 0.9
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Rough Skin",
+          "percent": 98.5
+        },
+        {
+          "name": "Sand Veil",
+          "percent": 1.5
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Charizard",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        },
+        {
+          "name": "Staraptor",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        }
+      ]
+    },
+    "sinistcha": {
+      "rank": 2,
+      "win_rate": 48.584,
+      "record": "8116-8590-29",
+      "moves": [
+        {
+          "name": "Rage Powder",
+          "percent": 99.2
+        },
+        {
+          "name": "Matcha Gotcha",
+          "percent": 98.8
+        },
+        {
+          "name": "Life Dew",
+          "percent": 58.7
+        },
+        {
+          "name": "Trick Room",
+          "percent": 58.6
+        },
+        {
+          "name": "Protect",
+          "percent": 54.5
+        },
+        {
+          "name": "Strength Sap",
+          "percent": 15.1
+        },
+        {
+          "name": "Shadow Ball",
+          "percent": 8.8
+        },
+        {
+          "name": "Imprison",
+          "percent": 2.2
+        },
+        {
+          "name": "Psych Up",
+          "percent": 1.1
+        },
+        {
+          "name": "Leaf Storm",
+          "percent": 0.8
+        }
+      ],
+      "items": [
+        {
+          "name": "Sitrus Berry",
+          "percent": 35.2
+        },
+        {
+          "name": "Kasib Berry",
+          "percent": 30.4
+        },
+        {
+          "name": "Colbur Berry",
+          "percent": 14.3
+        },
+        {
+          "name": "Leftovers",
+          "percent": 6.7
+        },
+        {
+          "name": "Coba Berry",
+          "percent": 5.1
+        },
+        {
+          "name": "Occa Berry",
+          "percent": 4.0
+        },
+        {
+          "name": "Big Root",
+          "percent": 1.4
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 0.9
+        },
+        {
+          "name": "Bright Powder",
+          "percent": 0.8
+        },
+        {
+          "name": "Mental Herb",
+          "percent": 0.4
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Hospitality",
+          "percent": 99.5
+        },
+        {
+          "name": "Heatproof",
+          "percent": 0.5
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Staraptor",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Grimmsnarl",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Pelipper",
+          "percent": null
+        },
+        {
+          "name": "Archaludon",
+          "percent": null
+        }
+      ]
+    },
+    "basculegion": {
+      "rank": 3,
+      "win_rate": 50.82,
+      "record": "9582-9272-45",
+      "moves": [
+        {
+          "name": "Last Respects",
+          "percent": 100.0
+        },
+        {
+          "name": "Aqua Jet",
+          "percent": 94.9
+        },
+        {
+          "name": "Wave Crash",
+          "percent": 82.3
+        },
+        {
+          "name": "Protect",
+          "percent": 53.8
+        },
+        {
+          "name": "Flip Turn",
+          "percent": 43.1
+        },
+        {
+          "name": "Liquidation",
+          "percent": 17.0
+        },
+        {
+          "name": "Psychic Fangs",
+          "percent": 4.7
+        },
+        {
+          "name": "Head Smash",
+          "percent": 0.6
+        },
+        {
+          "name": "Soak",
+          "percent": 0.6
+        },
+        {
+          "name": "Waterfall",
+          "percent": 0.6
+        }
+      ],
+      "items": [
+        {
+          "name": "Choice Scarf",
+          "percent": 44.7
+        },
+        {
+          "name": "Mystic Water",
+          "percent": 19.6
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 17.6
+        },
+        {
+          "name": "Life Orb",
+          "percent": 11.8
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 4.7
+        },
+        {
+          "name": "Colbur Berry",
+          "percent": 0.6
+        },
+        {
+          "name": "Kasib Berry",
+          "percent": 0.3
+        },
+        {
+          "name": "Spell Tag",
+          "percent": 0.3
+        },
+        {
+          "name": "Muscle Band",
+          "percent": 0.2
+        },
+        {
+          "name": "Iron Ball",
+          "percent": 0.1
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Adaptability",
+          "percent": 93.2
+        },
+        {
+          "name": "Swift Swim",
+          "percent": 6.8
+        },
+        {
+          "name": "Mold Breaker",
+          "percent": 0.0
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        },
+        {
+          "name": "Charizard",
+          "percent": null
+        },
+        {
+          "name": "Staraptor",
+          "percent": null
+        },
+        {
+          "name": "Floette-Eternal",
+          "percent": null
+        }
+      ]
+    },
+    "whimsicott": {
+      "rank": 4,
+      "win_rate": 48.598,
+      "record": "7736-8183-27",
+      "moves": [
+        {
+          "name": "Tailwind",
+          "percent": 98.5
+        },
+        {
+          "name": "Moonblast",
+          "percent": 92.0
+        },
+        {
+          "name": "Encore",
+          "percent": 74.1
+        },
+        {
+          "name": "Protect",
+          "percent": 56.5
+        },
+        {
+          "name": "Charm",
+          "percent": 28.0
+        },
+        {
+          "name": "Sunny Day",
+          "percent": 11.9
+        },
+        {
+          "name": "Fake Tears",
+          "percent": 8.6
+        },
+        {
+          "name": "Tickle",
+          "percent": 5.6
+        },
+        {
+          "name": "Energy Ball",
+          "percent": 4.6
+        },
+        {
+          "name": "Taunt",
+          "percent": 3.8
+        }
+      ],
+      "items": [
+        {
+          "name": "Focus Sash",
+          "percent": 75.5
+        },
+        {
+          "name": "Fairy Feather",
+          "percent": 11.4
+        },
+        {
+          "name": "Mental Herb",
+          "percent": 3.6
+        },
+        {
+          "name": "Coba Berry",
+          "percent": 2.7
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 1.9
+        },
+        {
+          "name": "Occa Berry",
+          "percent": 1.4
+        },
+        {
+          "name": "Kebia Berry",
+          "percent": 1.3
+        },
+        {
+          "name": "Babiri Berry",
+          "percent": 0.8
+        },
+        {
+          "name": "Light Clay",
+          "percent": 0.4
+        },
+        {
+          "name": "Heat Rock",
+          "percent": 0.3
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Prankster",
+          "percent": 99.4
+        },
+        {
+          "name": "Chlorophyll",
+          "percent": 0.5
+        },
+        {
+          "name": "Infiltrator",
+          "percent": 0.0
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Staraptor",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        },
+        {
+          "name": "Charizard",
+          "percent": null
+        },
+        {
+          "name": "Floette-Eternal",
+          "percent": null
+        }
+      ]
+    },
+    "kingambit": {
+      "rank": 5,
+      "win_rate": 51.397,
+      "record": "13129-12414-39",
+      "moves": [
+        {
+          "name": "Sucker Punch",
+          "percent": 99.5
+        },
+        {
+          "name": "Kowtow Cleave",
+          "percent": 97.9
+        },
+        {
+          "name": "Iron Head",
+          "percent": 73.5
+        },
+        {
+          "name": "Protect",
+          "percent": 68.6
+        },
+        {
+          "name": "Low Kick",
+          "percent": 43.7
+        },
+        {
+          "name": "Swords Dance",
+          "percent": 15.0
+        },
+        {
+          "name": "Brick Break",
+          "percent": 1.1
+        },
+        {
+          "name": "Quick Guard",
+          "percent": 0.2
+        },
+        {
+          "name": "Low Sweep",
+          "percent": 0.1
+        },
+        {
+          "name": "Assurance",
+          "percent": 0.1
+        }
+      ],
+      "items": [
+        {
+          "name": "Chople Berry",
+          "percent": 42.9
+        },
+        {
+          "name": "Black Glasses",
+          "percent": 31.8
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 12.8
+        },
+        {
+          "name": "Life Orb",
+          "percent": 5.7
+        },
+        {
+          "name": "Occa Berry",
+          "percent": 4.8
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 0.4
+        },
+        {
+          "name": "Lum Berry",
+          "percent": 0.3
+        },
+        {
+          "name": "Muscle Band",
+          "percent": 0.3
+        },
+        {
+          "name": "Leftovers",
+          "percent": 0.3
+        },
+        {
+          "name": "Shuca Berry",
+          "percent": 0.2
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Defiant",
+          "percent": 96.1
+        },
+        {
+          "name": "Supreme Overlord",
+          "percent": 3.9
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Charizard",
+          "percent": null
+        },
+        {
+          "name": "Sneasler",
+          "percent": null
+        },
+        {
+          "name": "Floette-Eternal",
+          "percent": null
+        }
+      ]
+    },
+    "staraptor": {
+      "rank": 6,
+      "win_rate": 49.369,
+      "record": "6437-6602-26",
+      "moves": [
+        {
+          "name": "Close Combat",
+          "percent": 98.2
+        },
+        {
+          "name": "Protect",
+          "percent": 90.2
+        },
+        {
+          "name": "Brave Bird",
+          "percent": 81.2
+        },
+        {
+          "name": "Roost",
+          "percent": 71.5
+        },
+        {
+          "name": "Dual Wingbeat",
+          "percent": 19.4
+        },
+        {
+          "name": "Tailwind",
+          "percent": 11.4
+        },
+        {
+          "name": "U-turn",
+          "percent": 6.2
+        },
+        {
+          "name": "Final Gambit",
+          "percent": 6.2
+        },
+        {
+          "name": "Blaze Kick",
+          "percent": 5.0
+        },
+        {
+          "name": "Quick Attack",
+          "percent": 4.1
+        }
+      ],
+      "items": [
+        {
+          "name": "Staraptite",
+          "percent": 94.5
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 5.4
+        },
+        {
+          "name": "Life Orb",
+          "percent": 0.1
+        },
+        {
+          "name": "Skarmorite",
+          "percent": 0.0
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 0.0
+        },
+        {
+          "name": "White Herb",
+          "percent": 0.0
+        },
+        {
+          "name": "Lopunnite",
+          "percent": 0.0
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Intimidate",
+          "percent": 97.1
+        },
+        {
+          "name": "Reckless",
+          "percent": 2.9
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Grimmsnarl",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        }
+      ]
+    },
+    "incineroar": {
+      "rank": 7,
+      "win_rate": 48.189,
+      "record": "9348-10052-38",
+      "moves": [
+        {
+          "name": "Fake Out",
+          "percent": 99.9
+        },
+        {
+          "name": "Parting Shot",
+          "percent": 96.8
+        },
+        {
+          "name": "Flare Blitz",
+          "percent": 92.6
+        },
+        {
+          "name": "Throat Chop",
+          "percent": 53.7
+        },
+        {
+          "name": "Darkest Lariat",
+          "percent": 29.4
+        },
+        {
+          "name": "Protect",
+          "percent": 9.5
+        },
+        {
+          "name": "Will-O-Wisp",
+          "percent": 3.5
+        },
+        {
+          "name": "Taunt",
+          "percent": 3.4
+        },
+        {
+          "name": "Helping Hand",
+          "percent": 3.2
+        },
+        {
+          "name": "Snarl",
+          "percent": 2.4
+        }
+      ],
+      "items": [
+        {
+          "name": "Sitrus Berry",
+          "percent": 59.8
+        },
+        {
+          "name": "Chople Berry",
+          "percent": 15.0
+        },
+        {
+          "name": "Passho Berry",
+          "percent": 12.0
+        },
+        {
+          "name": "Leftovers",
+          "percent": 4.0
+        },
+        {
+          "name": "Charcoal",
+          "percent": 3.7
+        },
+        {
+          "name": "Shuca Berry",
+          "percent": 2.6
+        },
+        {
+          "name": "White Herb",
+          "percent": 1.0
+        },
+        {
+          "name": "Life Orb",
+          "percent": 0.7
+        },
+        {
+          "name": "Lum Berry",
+          "percent": 0.5
+        },
+        {
+          "name": "Expert Belt",
+          "percent": 0.2
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Intimidate",
+          "percent": 99.8
+        },
+        {
+          "name": "Blaze",
+          "percent": 0.2
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Staraptor",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Sneasler",
+          "percent": null
+        }
+      ]
+    },
+    "charizard": {
+      "rank": 8,
+      "win_rate": 49.5,
+      "record": "9490-9682-40",
+      "moves": [
+        {
+          "name": "Protect",
+          "percent": 98.4
+        },
+        {
+          "name": "Heat Wave",
+          "percent": 95.4
+        },
+        {
+          "name": "Solar Beam",
+          "percent": 92.2
+        },
+        {
+          "name": "Weather Ball",
+          "percent": 83.9
+        },
+        {
+          "name": "Air Slash",
+          "percent": 6.0
+        },
+        {
+          "name": "Dragon Dance",
+          "percent": 4.2
+        },
+        {
+          "name": "Flare Blitz",
+          "percent": 3.4
+        },
+        {
+          "name": "Dragon Claw",
+          "percent": 3.2
+        },
+        {
+          "name": "Ancient Power",
+          "percent": 2.8
+        },
+        {
+          "name": "Overheat",
+          "percent": 2.2
+        }
+      ],
+      "items": [
+        {
+          "name": "Charizardite Y",
+          "percent": 95.4
+        },
+        {
+          "name": "Charizardite X",
+          "percent": 3.9
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 0.2
+        },
+        {
+          "name": "Life Orb",
+          "percent": 0.1
+        },
+        {
+          "name": "Charcoal",
+          "percent": 0.0
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 0.0
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Blaze",
+          "percent": 80.5
+        },
+        {
+          "name": "Solar Power",
+          "percent": 19.5
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        },
+        {
+          "name": "Sylveon",
+          "percent": null
+        },
+        {
+          "name": "Floette-Eternal",
+          "percent": null
+        }
+      ]
+    },
+    "raichu": {
+      "rank": 9,
+      "win_rate": 48.411,
+      "record": "3527-3759-14",
+      "moves": [
+        {
+          "name": "Fake Out",
+          "percent": 71.6
+        },
+        {
+          "name": "Protect",
+          "percent": 66.4
+        },
+        {
+          "name": "Zap Cannon",
+          "percent": 60.4
+        },
+        {
+          "name": "Focus Blast",
+          "percent": 56.3
+        },
+        {
+          "name": "Volt Switch",
+          "percent": 30.3
+        },
+        {
+          "name": "Charm",
+          "percent": 14.8
+        },
+        {
+          "name": "Encore",
+          "percent": 14.4
+        },
+        {
+          "name": "Grass Knot",
+          "percent": 12.1
+        },
+        {
+          "name": "Volt Tackle",
+          "percent": 10.6
+        },
+        {
+          "name": "Nuzzle",
+          "percent": 10.4
+        }
+      ],
+      "items": [
+        {
+          "name": "Raichunite Y",
+          "percent": 60.5
+        },
+        {
+          "name": "Raichunite X",
+          "percent": 18.2
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 14.7
+        },
+        {
+          "name": "Shuca Berry",
+          "percent": 3.8
+        },
+        {
+          "name": "Magnet",
+          "percent": 0.7
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 0.5
+        },
+        {
+          "name": "Light Clay",
+          "percent": 0.4
+        },
+        {
+          "name": "Focus Band",
+          "percent": 0.3
+        },
+        {
+          "name": "King's Rock",
+          "percent": 0.3
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 0.2
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Lightning Rod",
+          "percent": 98.3
+        },
+        {
+          "name": "Static",
+          "percent": 1.7
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Staraptor",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        }
+      ]
+    },
+    "pelipper": {
+      "rank": 10,
+      "win_rate": 48.555,
+      "record": "4662-4940-16",
+      "moves": [
+        {
+          "name": "Hurricane",
+          "percent": 98.9
+        },
+        {
+          "name": "Weather Ball",
+          "percent": 87.7
+        },
+        {
+          "name": "Tailwind",
+          "percent": 86.5
+        },
+        {
+          "name": "Wide Guard",
+          "percent": 51.2
+        },
+        {
+          "name": "Protect",
+          "percent": 42.5
+        },
+        {
+          "name": "Muddy Water",
+          "percent": 6.6
+        },
+        {
+          "name": "Rain Dance",
+          "percent": 6.1
+        },
+        {
+          "name": "Helping Hand",
+          "percent": 5.2
+        },
+        {
+          "name": "U-turn",
+          "percent": 4.2
+        },
+        {
+          "name": "Ice Beam",
+          "percent": 3.4
+        }
+      ],
+      "items": [
+        {
+          "name": "Focus Sash",
+          "percent": 45.3
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 31.4
+        },
+        {
+          "name": "Damp Rock",
+          "percent": 13.1
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 4.1
+        },
+        {
+          "name": "Life Orb",
+          "percent": 2.4
+        },
+        {
+          "name": "Mystic Water",
+          "percent": 0.6
+        },
+        {
+          "name": "Wacan Berry",
+          "percent": 0.6
+        },
+        {
+          "name": "Leftovers",
+          "percent": 0.5
+        },
+        {
+          "name": "Sharp Beak",
+          "percent": 0.5
+        },
+        {
+          "name": "Expert Belt",
+          "percent": 0.4
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Drizzle",
+          "percent": 100.0
+        },
+        {
+          "name": "Keen Eye",
+          "percent": 0.0
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Archaludon",
+          "percent": null
+        },
+        {
+          "name": "Swampert",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Sableye",
+          "percent": null
+        },
+        {
+          "name": "Grimmsnarl",
+          "percent": null
+        }
+      ]
+    },
+    "sneasler": {
+      "rank": 11,
+      "win_rate": 48.324,
+      "record": "6823-7297-19",
+      "moves": [
+        {
+          "name": "Close Combat",
+          "percent": 99.3
+        },
+        {
+          "name": "Fake Out",
+          "percent": 94.4
+        },
+        {
+          "name": "Dire Claw",
+          "percent": 93.6
+        },
+        {
+          "name": "Protect",
+          "percent": 59.3
+        },
+        {
+          "name": "Coaching",
+          "percent": 21.7
+        },
+        {
+          "name": "Rock Slide",
+          "percent": 7.8
+        },
+        {
+          "name": "Gunk Shot",
+          "percent": 3.6
+        },
+        {
+          "name": "Feint",
+          "percent": 3.5
+        },
+        {
+          "name": "Throat Chop",
+          "percent": 3.2
+        },
+        {
+          "name": "Rock Tomb",
+          "percent": 2.4
+        }
+      ],
+      "items": [
+        {
+          "name": "White Herb",
+          "percent": 71.1
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 26.0
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 0.6
+        },
+        {
+          "name": "Lum Berry",
+          "percent": 0.5
+        },
+        {
+          "name": "Life Orb",
+          "percent": 0.4
+        },
+        {
+          "name": "Black Belt",
+          "percent": 0.4
+        },
+        {
+          "name": "Expert Belt",
+          "percent": 0.2
+        },
+        {
+          "name": "Mental Herb",
+          "percent": 0.2
+        },
+        {
+          "name": "King's Rock",
+          "percent": 0.2
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 0.2
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Unburden",
+          "percent": 88.7
+        },
+        {
+          "name": "Poison Touch",
+          "percent": 11.2
+        },
+        {
+          "name": "Pressure",
+          "percent": 0.1
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        }
+      ]
+    },
+    "archaludon": {
+      "rank": 12,
+      "win_rate": 48.812,
+      "record": "5145-5396-27",
+      "moves": [
+        {
+          "name": "Electro Shot",
+          "percent": 96.7
+        },
+        {
+          "name": "Flash Cannon",
+          "percent": 95.2
+        },
+        {
+          "name": "Protect",
+          "percent": 94.3
+        },
+        {
+          "name": "Dragon Pulse",
+          "percent": 73.5
+        },
+        {
+          "name": "Draco Meteor",
+          "percent": 21.2
+        },
+        {
+          "name": "Aura Sphere",
+          "percent": 12.7
+        },
+        {
+          "name": "Snarl",
+          "percent": 2.4
+        },
+        {
+          "name": "Thunderbolt",
+          "percent": 2.3
+        },
+        {
+          "name": "Steel Beam",
+          "percent": 0.3
+        },
+        {
+          "name": "Substitute",
+          "percent": 0.3
+        }
+      ],
+      "items": [
+        {
+          "name": "Leftovers",
+          "percent": 88.6
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 2.4
+        },
+        {
+          "name": "White Herb",
+          "percent": 2.0
+        },
+        {
+          "name": "Chople Berry",
+          "percent": 1.8
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 1.7
+        },
+        {
+          "name": "Life Orb",
+          "percent": 1.4
+        },
+        {
+          "name": "Magnet",
+          "percent": 0.4
+        },
+        {
+          "name": "Wise Glasses",
+          "percent": 0.3
+        },
+        {
+          "name": "Scope Lens",
+          "percent": 0.3
+        },
+        {
+          "name": "Dragon Fang",
+          "percent": 0.3
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Stamina",
+          "percent": 93.4
+        },
+        {
+          "name": "Sturdy",
+          "percent": 5.3
+        },
+        {
+          "name": "Stalwart",
+          "percent": 1.3
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Pelipper",
+          "percent": null
+        },
+        {
+          "name": "Swampert",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Sableye",
+          "percent": null
+        },
+        {
+          "name": "Grimmsnarl",
+          "percent": null
+        }
+      ]
+    },
+    "grimmsnarl": {
+      "rank": 13,
+      "win_rate": 48.277,
+      "record": "3773-4043-21",
+      "moves": [
+        {
+          "name": "Light Screen",
+          "percent": 87.0
+        },
+        {
+          "name": "Parting Shot",
+          "percent": 82.8
+        },
+        {
+          "name": "Reflect",
+          "percent": 81.8
+        },
+        {
+          "name": "Spirit Break",
+          "percent": 61.9
+        },
+        {
+          "name": "Fake Out",
+          "percent": 27.1
+        },
+        {
+          "name": "Scary Face",
+          "percent": 22.0
+        },
+        {
+          "name": "Foul Play",
+          "percent": 12.9
+        },
+        {
+          "name": "Fake Tears",
+          "percent": 7.8
+        },
+        {
+          "name": "Sucker Punch",
+          "percent": 4.9
+        },
+        {
+          "name": "Taunt",
+          "percent": 2.8
+        }
+      ],
+      "items": [
+        {
+          "name": "Light Clay",
+          "percent": 83.0
+        },
+        {
+          "name": "Roseli Berry",
+          "percent": 9.3
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 3.0
+        },
+        {
+          "name": "Leftovers",
+          "percent": 2.0
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 0.7
+        },
+        {
+          "name": "Black Glasses",
+          "percent": 0.5
+        },
+        {
+          "name": "Mental Herb",
+          "percent": 0.4
+        },
+        {
+          "name": "Life Orb",
+          "percent": 0.3
+        },
+        {
+          "name": "Babiri Berry",
+          "percent": 0.2
+        },
+        {
+          "name": "Iron Ball",
+          "percent": 0.2
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Prankster",
+          "percent": 99.6
+        },
+        {
+          "name": "Frisk",
+          "percent": 0.3
+        },
+        {
+          "name": "Pickpocket",
+          "percent": 0.1
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Staraptor",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Pelipper",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Archaludon",
+          "percent": null
+        }
+      ]
+    },
+    "sylveon": {
+      "rank": 14,
+      "win_rate": 47.711,
+      "record": "5408-5928-25",
+      "moves": [
+        {
+          "name": "Hyper Voice",
+          "percent": 99.9
+        },
+        {
+          "name": "Quick Attack",
+          "percent": 81.6
+        },
+        {
+          "name": "Hyper Beam",
+          "percent": 71.2
+        },
+        {
+          "name": "Detect",
+          "percent": 61.1
+        },
+        {
+          "name": "Protect",
+          "percent": 35.0
+        },
+        {
+          "name": "Moonblast",
+          "percent": 13.1
+        },
+        {
+          "name": "Calm Mind",
+          "percent": 10.5
+        },
+        {
+          "name": "Yawn",
+          "percent": 8.9
+        },
+        {
+          "name": "Mystical Fire",
+          "percent": 3.7
+        },
+        {
+          "name": "Shadow Ball",
+          "percent": 3.6
+        }
+      ],
+      "items": [
+        {
+          "name": "Fairy Feather",
+          "percent": 89.6
+        },
+        {
+          "name": "Life Orb",
+          "percent": 5.1
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 1.5
+        },
+        {
+          "name": "Leftovers",
+          "percent": 1.5
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 1.2
+        },
+        {
+          "name": "Quick Claw",
+          "percent": 0.6
+        },
+        {
+          "name": "Babiri Berry",
+          "percent": 0.5
+        },
+        {
+          "name": "Metronome",
+          "percent": 0.1
+        },
+        {
+          "name": "Bright Powder",
+          "percent": 0.0
+        },
+        {
+          "name": "Wise Glasses",
+          "percent": 0.0
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Pixilate",
+          "percent": 99.9
+        },
+        {
+          "name": "Cute Charm",
+          "percent": 0.1
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Charizard",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Farigiraf",
+          "percent": null
+        },
+        {
+          "name": "Aerodactyl",
+          "percent": null
+        }
+      ]
+    },
+    "swampert": {
+      "rank": 15,
+      "win_rate": 48.841,
+      "record": "2901-3039-13",
+      "moves": [
+        {
+          "name": "Protect",
+          "percent": 94.2
+        },
+        {
+          "name": "Wave Crash",
+          "percent": 88.2
+        },
+        {
+          "name": "Earthquake",
+          "percent": 66.2
+        },
+        {
+          "name": "Ice Punch",
+          "percent": 57.0
+        },
+        {
+          "name": "High Horsepower",
+          "percent": 37.2
+        },
+        {
+          "name": "Rock Slide",
+          "percent": 12.2
+        },
+        {
+          "name": "Flip Turn",
+          "percent": 8.7
+        },
+        {
+          "name": "Liquidation",
+          "percent": 7.7
+        },
+        {
+          "name": "Knock Off",
+          "percent": 7.2
+        },
+        {
+          "name": "Bulk Up",
+          "percent": 4.9
+        }
+      ],
+      "items": [
+        {
+          "name": "Swampertite",
+          "percent": 98.5
+        },
+        {
+          "name": "Life Orb",
+          "percent": 0.7
+        },
+        {
+          "name": "Rindo Berry",
+          "percent": 0.3
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 0.2
+        },
+        {
+          "name": "Leftovers",
+          "percent": 0.2
+        },
+        {
+          "name": "Mystic Water",
+          "percent": 0.0
+        },
+        {
+          "name": "White Herb",
+          "percent": 0.0
+        },
+        {
+          "name": "Black Belt",
+          "percent": 0.0
+        },
+        {
+          "name": "Expert Belt",
+          "percent": 0.0
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Torrent",
+          "percent": 53.6
+        },
+        {
+          "name": "Damp",
+          "percent": 46.4
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Pelipper",
+          "percent": null
+        },
+        {
+          "name": "Archaludon",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Sableye",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Grimmsnarl",
+          "percent": null
+        }
+      ]
+    },
+    "metagross": {
+      "rank": 16,
+      "win_rate": 45.423,
+      "record": "1827-2196-8",
+      "moves": [
+        {
+          "name": "Protect",
+          "percent": 89.8
+        },
+        {
+          "name": "Psychic Fangs",
+          "percent": 86.7
+        },
+        {
+          "name": "Iron Head",
+          "percent": 58.7
+        },
+        {
+          "name": "Bullet Punch",
+          "percent": 38.5
+        },
+        {
+          "name": "Stomping Tantrum",
+          "percent": 31.8
+        },
+        {
+          "name": "Meteor Mash",
+          "percent": 28.8
+        },
+        {
+          "name": "Ice Punch",
+          "percent": 23.2
+        },
+        {
+          "name": "Rock Slide",
+          "percent": 9.0
+        },
+        {
+          "name": "Body Press",
+          "percent": 8.8
+        },
+        {
+          "name": "Thunder Punch",
+          "percent": 5.9
+        }
+      ],
+      "items": [
+        {
+          "name": "Metagrossite",
+          "percent": 94.5
+        },
+        {
+          "name": "Life Orb",
+          "percent": 2.3
+        },
+        {
+          "name": "Metal Coat",
+          "percent": 0.8
+        },
+        {
+          "name": "Leftovers",
+          "percent": 0.5
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 0.4
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 0.4
+        },
+        {
+          "name": "Expert Belt",
+          "percent": 0.4
+        },
+        {
+          "name": "Occa Berry",
+          "percent": 0.2
+        },
+        {
+          "name": "Shuca Berry",
+          "percent": 0.1
+        },
+        {
+          "name": "Shell Bell",
+          "percent": 0.1
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Clear Body",
+          "percent": 99.5
+        },
+        {
+          "name": "Light Metal",
+          "percent": 0.5
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Sneasler",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        }
+      ]
+    },
+    "farigiraf": {
+      "rank": 17,
+      "win_rate": 47.26,
+      "record": "6272-7001-30",
+      "moves": [
+        {
+          "name": "Trick Room",
+          "percent": 95.7
+        },
+        {
+          "name": "Psychic",
+          "percent": 60.7
+        },
+        {
+          "name": "Helping Hand",
+          "percent": 48.9
+        },
+        {
+          "name": "Protect",
+          "percent": 39.1
+        },
+        {
+          "name": "Thunderbolt",
+          "percent": 30.3
+        },
+        {
+          "name": "Hyper Voice",
+          "percent": 30.2
+        },
+        {
+          "name": "Twin Beam",
+          "percent": 24.7
+        },
+        {
+          "name": "Imprison",
+          "percent": 13.9
+        },
+        {
+          "name": "Roar",
+          "percent": 11.6
+        },
+        {
+          "name": "Foul Play",
+          "percent": 6.4
+        }
+      ],
+      "items": [
+        {
+          "name": "Sitrus Berry",
+          "percent": 62.0
+        },
+        {
+          "name": "Colbur Berry",
+          "percent": 24.9
+        },
+        {
+          "name": "Mental Herb",
+          "percent": 4.4
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 2.9
+        },
+        {
+          "name": "Leftovers",
+          "percent": 2.2
+        },
+        {
+          "name": "Life Orb",
+          "percent": 0.8
+        },
+        {
+          "name": "Lum Berry",
+          "percent": 0.5
+        },
+        {
+          "name": "Silk Scarf",
+          "percent": 0.5
+        },
+        {
+          "name": "Twisted Spoon",
+          "percent": 0.4
+        },
+        {
+          "name": "Bright Powder",
+          "percent": 0.3
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Armor Tail",
+          "percent": 99.9
+        },
+        {
+          "name": "Cud Chew",
+          "percent": 0.0
+        },
+        {
+          "name": "Sap Sipper",
+          "percent": 0.0
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Sylveon",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        },
+        {
+          "name": "Torkoal",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Mawile",
+          "percent": null
+        }
+      ]
+    },
+    "floette-eternal": {
+      "rank": 18,
+      "win_rate": 54.845,
+      "record": "4868-4007-11",
+      "moves": [
+        {
+          "name": "Protect",
+          "percent": 99.8
+        },
+        {
+          "name": "Dazzling Gleam",
+          "percent": 97.1
+        },
+        {
+          "name": "Moonblast",
+          "percent": 79.0
+        },
+        {
+          "name": "Light of Ruin",
+          "percent": 58.0
+        },
+        {
+          "name": "Calm Mind",
+          "percent": 42.7
+        },
+        {
+          "name": "Draining Kiss",
+          "percent": 19.3
+        },
+        {
+          "name": "Psychic",
+          "percent": 2.6
+        },
+        {
+          "name": "Grass Knot",
+          "percent": 0.3
+        },
+        {
+          "name": "Giga Drain",
+          "percent": 0.3
+        },
+        {
+          "name": "Energy Ball",
+          "percent": 0.2
+        }
+      ],
+      "items": [
+        {
+          "name": "Floettite",
+          "percent": 99.4
+        },
+        {
+          "name": "Life Orb",
+          "percent": 0.4
+        },
+        {
+          "name": "Fairy Feather",
+          "percent": 0.1
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 0.1
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Flower Veil",
+          "percent": 98.9
+        },
+        {
+          "name": "Symbiosis",
+          "percent": 1.1
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        },
+        {
+          "name": "Charizard",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        }
+      ]
+    },
+    "gholdengo": {
+      "rank": 19,
+      "win_rate": 48.365,
+      "record": "3543-3783-15",
+      "moves": [
+        {
+          "name": "Make It Rain",
+          "percent": 99.0
+        },
+        {
+          "name": "Shadow Ball",
+          "percent": 99.0
+        },
+        {
+          "name": "Protect",
+          "percent": 70.9
+        },
+        {
+          "name": "Nasty Plot",
+          "percent": 58.5
+        },
+        {
+          "name": "Power Gem",
+          "percent": 27.1
+        },
+        {
+          "name": "Trick",
+          "percent": 17.3
+        },
+        {
+          "name": "Thunderbolt",
+          "percent": 11.4
+        },
+        {
+          "name": "Dazzling Gleam",
+          "percent": 5.8
+        },
+        {
+          "name": "Flash Cannon",
+          "percent": 3.5
+        },
+        {
+          "name": "Thunder",
+          "percent": 1.7
+        }
+      ],
+      "items": [
+        {
+          "name": "Life Orb",
+          "percent": 37.9
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 27.1
+        },
+        {
+          "name": "Metal Coat",
+          "percent": 11.3
+        },
+        {
+          "name": "Leftovers",
+          "percent": 7.3
+        },
+        {
+          "name": "White Herb",
+          "percent": 6.5
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 2.8
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 2.6
+        },
+        {
+          "name": "Shuca Berry",
+          "percent": 1.4
+        },
+        {
+          "name": "Wise Glasses",
+          "percent": 0.8
+        },
+        {
+          "name": "Kasib Berry",
+          "percent": 0.5
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Good as Gold",
+          "percent": 100.0
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Staraptor",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Raichu",
+          "percent": null
+        },
+        {
+          "name": "Grimmsnarl",
+          "percent": null
+        }
+      ]
+    },
+    "aerodactyl": {
+      "rank": 20,
+      "win_rate": 46.63,
+      "record": "3473-3976-13",
+      "moves": [
+        {
+          "name": "Rock Slide",
+          "percent": 99.9
+        },
+        {
+          "name": "Tailwind",
+          "percent": 92.7
+        },
+        {
+          "name": "Dual Wingbeat",
+          "percent": 86.9
+        },
+        {
+          "name": "Protect",
+          "percent": 56.8
+        },
+        {
+          "name": "Wide Guard",
+          "percent": 33.6
+        },
+        {
+          "name": "Ice Fang",
+          "percent": 26.0
+        },
+        {
+          "name": "Taunt",
+          "percent": 1.0
+        },
+        {
+          "name": "Sunny Day",
+          "percent": 0.8
+        },
+        {
+          "name": "Earthquake",
+          "percent": 0.7
+        },
+        {
+          "name": "Rain Dance",
+          "percent": 0.5
+        }
+      ],
+      "items": [
+        {
+          "name": "Aerodactylite",
+          "percent": 61.2
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 34.7
+        },
+        {
+          "name": "Passho Berry",
+          "percent": 1.3
+        },
+        {
+          "name": "Life Orb",
+          "percent": 0.6
+        },
+        {
+          "name": "Wide Lens",
+          "percent": 0.5
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 0.3
+        },
+        {
+          "name": "Lum Berry",
+          "percent": 0.3
+        },
+        {
+          "name": "Quick Claw",
+          "percent": 0.2
+        },
+        {
+          "name": "Mental Herb",
+          "percent": 0.2
+        },
+        {
+          "name": "Never-Melt Ice",
+          "percent": 0.2
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Unnerve",
+          "percent": 95.7
+        },
+        {
+          "name": "Pressure",
+          "percent": 2.2
+        },
+        {
+          "name": "Rock Head",
+          "percent": 2.1
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        },
+        {
+          "name": "Sylveon",
+          "percent": null
+        },
+        {
+          "name": "Charizard",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Farigiraf",
+          "percent": null
+        }
+      ]
+    },
+    "maushold": {
+      "rank": 21,
+      "win_rate": 47.279,
+      "record": "1646-1836-10",
+      "moves": [
+        {
+          "name": "Follow Me",
+          "percent": 95.4
+        },
+        {
+          "name": "Protect",
+          "percent": 89.4
+        },
+        {
+          "name": "Super Fang",
+          "percent": 40.2
+        },
+        {
+          "name": "Population Bomb",
+          "percent": 31.5
+        },
+        {
+          "name": "Beat Up",
+          "percent": 31.0
+        },
+        {
+          "name": "Encore",
+          "percent": 24.2
+        },
+        {
+          "name": "Taunt",
+          "percent": 21.8
+        },
+        {
+          "name": "Feint",
+          "percent": 20.8
+        },
+        {
+          "name": "Helping Hand",
+          "percent": 11.5
+        },
+        {
+          "name": "Charm",
+          "percent": 10.5
+        }
+      ],
+      "items": [
+        {
+          "name": "Chople Berry",
+          "percent": 38.7
+        },
+        {
+          "name": "Wide Lens",
+          "percent": 29.4
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 24.2
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 6.0
+        },
+        {
+          "name": "Mental Herb",
+          "percent": 0.6
+        },
+        {
+          "name": "Leftovers",
+          "percent": 0.4
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 0.3
+        },
+        {
+          "name": "Bright Powder",
+          "percent": 0.1
+        },
+        {
+          "name": "Silk Scarf",
+          "percent": 0.1
+        },
+        {
+          "name": "Zoom Lens",
+          "percent": 0.1
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Friend Guard",
+          "percent": 73.2
+        },
+        {
+          "name": "Technician",
+          "percent": 26.3
+        },
+        {
+          "name": "Cheek Pouch",
+          "percent": 0.5
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Annihilape",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Staraptor",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        }
+      ]
+    },
+    "annihilape": {
+      "rank": 22,
+      "win_rate": 49.752,
+      "record": "1403-1417-4",
+      "moves": [
+        {
+          "name": "Rage Fist",
+          "percent": 93.2
+        },
+        {
+          "name": "Protect",
+          "percent": 78.5
+        },
+        {
+          "name": "Drain Punch",
+          "percent": 77.7
+        },
+        {
+          "name": "Bulk Up",
+          "percent": 69.6
+        },
+        {
+          "name": "Close Combat",
+          "percent": 23.9
+        },
+        {
+          "name": "Coaching",
+          "percent": 13.0
+        },
+        {
+          "name": "Taunt",
+          "percent": 7.9
+        },
+        {
+          "name": "Rock Slide",
+          "percent": 7.0
+        },
+        {
+          "name": "U-turn",
+          "percent": 5.9
+        },
+        {
+          "name": "Shadow Claw",
+          "percent": 4.4
+        }
+      ],
+      "items": [
+        {
+          "name": "Leftovers",
+          "percent": 50.7
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 17.5
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 11.4
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 6.0
+        },
+        {
+          "name": "Roseli Berry",
+          "percent": 3.2
+        },
+        {
+          "name": "Kasib Berry",
+          "percent": 2.6
+        },
+        {
+          "name": "Lum Berry",
+          "percent": 2.4
+        },
+        {
+          "name": "Life Orb",
+          "percent": 2.3
+        },
+        {
+          "name": "Muscle Band",
+          "percent": 1.4
+        },
+        {
+          "name": "Spell Tag",
+          "percent": 0.8
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Defiant",
+          "percent": 99.3
+        },
+        {
+          "name": "Inner Focus",
+          "percent": 0.5
+        },
+        {
+          "name": "Vital Spirit",
+          "percent": 0.2
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Maushold",
+          "percent": null
+        },
+        {
+          "name": "Metagross",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Grimmsnarl",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        }
+      ]
+    },
+    "sableye": {
+      "rank": 23,
+      "win_rate": 42.491,
+      "record": "1093-1480-4",
+      "moves": [
+        {
+          "name": "Rain Dance",
+          "percent": 78.8
+        },
+        {
+          "name": "Light Screen",
+          "percent": 67.0
+        },
+        {
+          "name": "Encore",
+          "percent": 56.2
+        },
+        {
+          "name": "Reflect",
+          "percent": 52.4
+        },
+        {
+          "name": "Will-O-Wisp",
+          "percent": 38.9
+        },
+        {
+          "name": "Disable",
+          "percent": 30.4
+        },
+        {
+          "name": "Fake Out",
+          "percent": 20.5
+        },
+        {
+          "name": "Foul Play",
+          "percent": 17.8
+        },
+        {
+          "name": "Quash",
+          "percent": 15.1
+        },
+        {
+          "name": "Taunt",
+          "percent": 4.8
+        }
+      ],
+      "items": [
+        {
+          "name": "Roseli Berry",
+          "percent": 48.0
+        },
+        {
+          "name": "Light Clay",
+          "percent": 41.5
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 2.7
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 2.6
+        },
+        {
+          "name": "Leftovers",
+          "percent": 1.6
+        },
+        {
+          "name": "Damp Rock",
+          "percent": 1.0
+        },
+        {
+          "name": "Wide Lens",
+          "percent": 0.8
+        },
+        {
+          "name": "Mental Herb",
+          "percent": 0.8
+        },
+        {
+          "name": "Bright Powder",
+          "percent": 0.6
+        },
+        {
+          "name": "Sablenite",
+          "percent": 0.2
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Prankster",
+          "percent": 100.0
+        },
+        {
+          "name": "Stall",
+          "percent": 0.0
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Archaludon",
+          "percent": null
+        },
+        {
+          "name": "Pelipper",
+          "percent": null
+        },
+        {
+          "name": "Swampert",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Sneasler",
+          "percent": null
+        }
+      ]
+    },
+    "mawile": {
+      "rank": 24,
+      "win_rate": 45.389,
+      "record": "1310-1577-8",
+      "moves": [
+        {
+          "name": "Play Rough",
+          "percent": 97.2
+        },
+        {
+          "name": "Sucker Punch",
+          "percent": 92.9
+        },
+        {
+          "name": "Protect",
+          "percent": 89.0
+        },
+        {
+          "name": "Iron Head",
+          "percent": 80.8
+        },
+        {
+          "name": "Swords Dance",
+          "percent": 17.0
+        },
+        {
+          "name": "Rock Slide",
+          "percent": 12.4
+        },
+        {
+          "name": "Knock Off",
+          "percent": 3.7
+        },
+        {
+          "name": "Thunder Punch",
+          "percent": 2.2
+        },
+        {
+          "name": "Brick Break",
+          "percent": 1.9
+        },
+        {
+          "name": "Stone Edge",
+          "percent": 1.0
+        }
+      ],
+      "items": [
+        {
+          "name": "Mawilite",
+          "percent": 100.0
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Intimidate",
+          "percent": 71.7
+        },
+        {
+          "name": "Hyper Cutter",
+          "percent": 27.9
+        },
+        {
+          "name": "Sheer Force",
+          "percent": 0.4
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Farigiraf",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Torkoal",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        }
+      ]
+    },
+    "ninetales-alola": {
+      "rank": 25,
+      "win_rate": 48.087,
+      "record": "2033-2195-6",
+      "moves": [
+        {
+          "name": "Blizzard",
+          "percent": 95.2
+        },
+        {
+          "name": "Protect",
+          "percent": 67.4
+        },
+        {
+          "name": "Freeze-Dry",
+          "percent": 63.3
+        },
+        {
+          "name": "Aurora Veil",
+          "percent": 63.1
+        },
+        {
+          "name": "Moonblast",
+          "percent": 43.7
+        },
+        {
+          "name": "Encore",
+          "percent": 26.3
+        },
+        {
+          "name": "Icy Wind",
+          "percent": 20.6
+        },
+        {
+          "name": "Dazzling Gleam",
+          "percent": 5.9
+        },
+        {
+          "name": "Disable",
+          "percent": 4.4
+        },
+        {
+          "name": "Icicle Spear",
+          "percent": 2.0
+        }
+      ],
+      "items": [
+        {
+          "name": "Light Clay",
+          "percent": 36.6
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 19.8
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 18.4
+        },
+        {
+          "name": "Never-Melt Ice",
+          "percent": 16.4
+        },
+        {
+          "name": "Life Orb",
+          "percent": 5.3
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 1.3
+        },
+        {
+          "name": "Icy Rock",
+          "percent": 1.1
+        },
+        {
+          "name": "Kebia Berry",
+          "percent": 0.4
+        },
+        {
+          "name": "Babiri Berry",
+          "percent": 0.3
+        },
+        {
+          "name": "Leftovers",
+          "percent": 0.2
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Snow Warning",
+          "percent": 99.9
+        },
+        {
+          "name": "Snow Cloak",
+          "percent": 0.1
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Raichu",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        }
+      ]
+    },
+    "torkoal": {
+      "rank": 26,
+      "win_rate": 44.602,
+      "record": "1493-1855-5",
+      "moves": [
+        {
+          "name": "Eruption",
+          "percent": 97.2
+        },
+        {
+          "name": "Protect",
+          "percent": 86.2
+        },
+        {
+          "name": "Weather Ball",
+          "percent": 62.8
+        },
+        {
+          "name": "Heat Wave",
+          "percent": 52.7
+        },
+        {
+          "name": "Earth Power",
+          "percent": 34.0
+        },
+        {
+          "name": "Solar Beam",
+          "percent": 32.9
+        },
+        {
+          "name": "Helping Hand",
+          "percent": 8.7
+        },
+        {
+          "name": "Sunny Day",
+          "percent": 5.8
+        },
+        {
+          "name": "Flamethrower",
+          "percent": 4.2
+        },
+        {
+          "name": "Ancient Power",
+          "percent": 3.6
+        }
+      ],
+      "items": [
+        {
+          "name": "Charcoal",
+          "percent": 88.8
+        },
+        {
+          "name": "Life Orb",
+          "percent": 4.6
+        },
+        {
+          "name": "Heat Rock",
+          "percent": 2.6
+        },
+        {
+          "name": "Leftovers",
+          "percent": 2.2
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 0.7
+        },
+        {
+          "name": "Wise Glasses",
+          "percent": 0.7
+        },
+        {
+          "name": "Quick Claw",
+          "percent": 0.3
+        },
+        {
+          "name": "Expert Belt",
+          "percent": 0.1
+        },
+        {
+          "name": "Metronome",
+          "percent": 0.0
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Drought",
+          "percent": 99.8
+        },
+        {
+          "name": "White Smoke",
+          "percent": 0.1
+        },
+        {
+          "name": "Shell Armor",
+          "percent": 0.0
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Farigiraf",
+          "percent": null
+        },
+        {
+          "name": "Sylveon",
+          "percent": null
+        },
+        {
+          "name": "Mawile",
+          "percent": null
+        },
+        {
+          "name": "Kangaskhan",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Blastoise",
+          "percent": null
+        }
+      ]
+    },
+    "froslass": {
+      "rank": 27,
+      "win_rate": 50.834,
+      "record": "2100-2031-5",
+      "moves": [
+        {
+          "name": "Blizzard",
+          "percent": 98.9
+        },
+        {
+          "name": "Protect",
+          "percent": 96.3
+        },
+        {
+          "name": "Shadow Ball",
+          "percent": 86.0
+        },
+        {
+          "name": "Aurora Veil",
+          "percent": 80.2
+        },
+        {
+          "name": "Rain Dance",
+          "percent": 10.6
+        },
+        {
+          "name": "Nasty Plot",
+          "percent": 4.1
+        },
+        {
+          "name": "Taunt",
+          "percent": 3.7
+        },
+        {
+          "name": "Weather Ball",
+          "percent": 3.7
+        },
+        {
+          "name": "Thunderbolt",
+          "percent": 2.8
+        },
+        {
+          "name": "Substitute",
+          "percent": 2.6
+        }
+      ],
+      "items": [
+        {
+          "name": "Froslassite",
+          "percent": 99.6
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 0.2
+        },
+        {
+          "name": "Never-Melt Ice",
+          "percent": 0.1
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 0.1
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Cursed Body",
+          "percent": 79.0
+        },
+        {
+          "name": "Snow Cloak",
+          "percent": 21.0
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Kingambit",
+          "percent": null
+        },
+        {
+          "name": "Sneasler",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        }
+      ]
+    },
+    "talonflame": {
+      "rank": 28,
+      "win_rate": 48.36,
+      "record": "1440-1538-9",
+      "moves": [
+        {
+          "name": "Tailwind",
+          "percent": 97.8
+        },
+        {
+          "name": "Protect",
+          "percent": 63.3
+        },
+        {
+          "name": "Flare Blitz",
+          "percent": 61.0
+        },
+        {
+          "name": "Brave Bird",
+          "percent": 46.4
+        },
+        {
+          "name": "Acrobatics",
+          "percent": 27.6
+        },
+        {
+          "name": "Quick Guard",
+          "percent": 25.5
+        },
+        {
+          "name": "Dual Wingbeat",
+          "percent": 23.9
+        },
+        {
+          "name": "Will-O-Wisp",
+          "percent": 15.2
+        },
+        {
+          "name": "Taunt",
+          "percent": 12.7
+        },
+        {
+          "name": "Rain Dance",
+          "percent": 7.4
+        }
+      ],
+      "items": [
+        {
+          "name": "Sharp Beak",
+          "percent": 30.9
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 17.5
+        },
+        {
+          "name": "Life Orb",
+          "percent": 13.1
+        },
+        {
+          "name": "Charti Berry",
+          "percent": 2.8
+        },
+        {
+          "name": "Mental Herb",
+          "percent": 2.4
+        },
+        {
+          "name": "Expert Belt",
+          "percent": 2.4
+        },
+        {
+          "name": "Leftovers",
+          "percent": 1.8
+        },
+        {
+          "name": "Charcoal",
+          "percent": 1.0
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 0.3
+        },
+        {
+          "name": "White Herb",
+          "percent": 0.2
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Gale Wings",
+          "percent": 99.9
+        },
+        {
+          "name": "Flame Body",
+          "percent": 0.1
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Raichu",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        },
+        {
+          "name": "Sneasler",
+          "percent": null
+        }
+      ]
+    },
+    "rotom-wash": {
+      "rank": 29,
+      "win_rate": 43.768,
+      "record": "1036-1332-7",
+      "moves": [
+        {
+          "name": "Hydro Pump",
+          "percent": 96.4
+        },
+        {
+          "name": "Will-O-Wisp",
+          "percent": 77.9
+        },
+        {
+          "name": "Thunderbolt",
+          "percent": 71.5
+        },
+        {
+          "name": "Protect",
+          "percent": 54.2
+        },
+        {
+          "name": "Volt Switch",
+          "percent": 41.2
+        },
+        {
+          "name": "Electroweb",
+          "percent": 22.8
+        },
+        {
+          "name": "Light Screen",
+          "percent": 11.0
+        },
+        {
+          "name": "Discharge",
+          "percent": 8.9
+        },
+        {
+          "name": "Eerie Impulse",
+          "percent": 5.4
+        },
+        {
+          "name": "Trick",
+          "percent": 5.3
+        }
+      ],
+      "items": [
+        {
+          "name": "Sitrus Berry",
+          "percent": 39.1
+        },
+        {
+          "name": "Leftovers",
+          "percent": 29.7
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 21.6
+        },
+        {
+          "name": "Magnet",
+          "percent": 4.0
+        },
+        {
+          "name": "Life Orb",
+          "percent": 2.3
+        },
+        {
+          "name": "Wide Lens",
+          "percent": 1.2
+        },
+        {
+          "name": "Rindo Berry",
+          "percent": 0.7
+        },
+        {
+          "name": "Quick Claw",
+          "percent": 0.5
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 0.4
+        },
+        {
+          "name": "Mystic Water",
+          "percent": 0.2
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Levitate",
+          "percent": 100.0
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Sneasler",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Metagross",
+          "percent": null
+        }
+      ]
+    },
+    "glimmora": {
+      "rank": 30,
+      "win_rate": 51.133,
+      "record": "2253-2153-9",
+      "moves": [
+        {
+          "name": "Power Gem",
+          "percent": 99.7
+        },
+        {
+          "name": "Earth Power",
+          "percent": 94.3
+        },
+        {
+          "name": "Sludge Bomb",
+          "percent": 94.2
+        },
+        {
+          "name": "Spiky Shield",
+          "percent": 84.5
+        },
+        {
+          "name": "Energy Ball",
+          "percent": 15.3
+        },
+        {
+          "name": "Sludge Wave",
+          "percent": 4.4
+        },
+        {
+          "name": "Dazzling Gleam",
+          "percent": 1.4
+        },
+        {
+          "name": "Protect",
+          "percent": 1.3
+        },
+        {
+          "name": "Stealth Rock",
+          "percent": 1.3
+        },
+        {
+          "name": "Mortal Spin",
+          "percent": 1.3
+        }
+      ],
+      "items": [
+        {
+          "name": "Focus Sash",
+          "percent": 76.5
+        },
+        {
+          "name": "Glimmoranite",
+          "percent": 19.0
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 2.5
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 0.7
+        },
+        {
+          "name": "Life Orb",
+          "percent": 0.7
+        },
+        {
+          "name": "Quick Claw",
+          "percent": 0.2
+        },
+        {
+          "name": "Shuca Berry",
+          "percent": 0.2
+        },
+        {
+          "name": "Expert Belt",
+          "percent": 0.1
+        },
+        {
+          "name": "Babiri Berry",
+          "percent": 0.1
+        },
+        {
+          "name": "Poison Barb",
+          "percent": 0.1
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Toxic Debris",
+          "percent": 99.9
+        },
+        {
+          "name": "Corrosion",
+          "percent": 0.1
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Staraptor",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        },
+        {
+          "name": "Charizard",
+          "percent": null
+        }
+      ]
+    },
+    "delphox": {
+      "rank": 31,
+      "win_rate": 50.293,
+      "record": "3432-3392-9",
+      "moves": [
+        {
+          "name": "Protect",
+          "percent": 98.6
+        },
+        {
+          "name": "Heat Wave",
+          "percent": 98.6
+        },
+        {
+          "name": "Nasty Plot",
+          "percent": 74.0
+        },
+        {
+          "name": "Psychic",
+          "percent": 52.5
+        },
+        {
+          "name": "Psyshock",
+          "percent": 46.1
+        },
+        {
+          "name": "Encore",
+          "percent": 12.5
+        },
+        {
+          "name": "Substitute",
+          "percent": 6.2
+        },
+        {
+          "name": "Dazzling Gleam",
+          "percent": 3.1
+        },
+        {
+          "name": "Calm Mind",
+          "percent": 1.5
+        },
+        {
+          "name": "Flamethrower",
+          "percent": 1.1
+        }
+      ],
+      "items": [
+        {
+          "name": "Delphoxite",
+          "percent": 99.9
+        },
+        {
+          "name": "Pyroarite",
+          "percent": 0.1
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 0.1
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Blaze",
+          "percent": 93.2
+        },
+        {
+          "name": "Magician",
+          "percent": 6.8
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Staraptor",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Grimmsnarl",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        }
+      ]
+    },
+    "dragonite": {
+      "rank": 32,
+      "win_rate": 49.962,
+      "record": "1973-1976-5",
+      "moves": [
+        {
+          "name": "Protect",
+          "percent": 67.6
+        },
+        {
+          "name": "Dragon Pulse",
+          "percent": 46.6
+        },
+        {
+          "name": "Hurricane",
+          "percent": 45.5
+        },
+        {
+          "name": "Extreme Speed",
+          "percent": 39.1
+        },
+        {
+          "name": "Tailwind",
+          "percent": 36.5
+        },
+        {
+          "name": "Draco Meteor",
+          "percent": 27.3
+        },
+        {
+          "name": "Thunderbolt",
+          "percent": 20.7
+        },
+        {
+          "name": "Dragon Claw",
+          "percent": 17.9
+        },
+        {
+          "name": "Thunder",
+          "percent": 14.4
+        },
+        {
+          "name": "Heat Wave",
+          "percent": 13.8
+        }
+      ],
+      "items": [
+        {
+          "name": "Dragoninite",
+          "percent": 67.7
+        },
+        {
+          "name": "Dragon Fang",
+          "percent": 13.6
+        },
+        {
+          "name": "Life Orb",
+          "percent": 4.7
+        },
+        {
+          "name": "Leftovers",
+          "percent": 2.3
+        },
+        {
+          "name": "Expert Belt",
+          "percent": 1.9
+        },
+        {
+          "name": "Muscle Band",
+          "percent": 1.8
+        },
+        {
+          "name": "Sharp Beak",
+          "percent": 1.4
+        },
+        {
+          "name": "Yache Berry",
+          "percent": 1.4
+        },
+        {
+          "name": "Roseli Berry",
+          "percent": 1.2
+        },
+        {
+          "name": "Silk Scarf",
+          "percent": 1.0
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Multiscale",
+          "percent": 72.8
+        },
+        {
+          "name": "Inner Focus",
+          "percent": 27.2
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Pelipper",
+          "percent": null
+        },
+        {
+          "name": "Archaludon",
+          "percent": null
+        },
+        {
+          "name": "Sneasler",
+          "percent": null
+        },
+        {
+          "name": "Swampert",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        }
+      ]
+    },
+    "tyranitar": {
+      "rank": 33,
+      "win_rate": 48.652,
+      "record": "4014-4237-19",
+      "moves": [
+        {
+          "name": "Rock Slide",
+          "percent": 98.8
+        },
+        {
+          "name": "Knock Off",
+          "percent": 92.9
+        },
+        {
+          "name": "Protect",
+          "percent": 91.9
+        },
+        {
+          "name": "Low Kick",
+          "percent": 43.5
+        },
+        {
+          "name": "Dragon Dance",
+          "percent": 31.0
+        },
+        {
+          "name": "Ice Punch",
+          "percent": 17.0
+        },
+        {
+          "name": "High Horsepower",
+          "percent": 6.3
+        },
+        {
+          "name": "Crunch",
+          "percent": 6.0
+        },
+        {
+          "name": "Brick Break",
+          "percent": 2.5
+        },
+        {
+          "name": "Earthquake",
+          "percent": 1.8
+        }
+      ],
+      "items": [
+        {
+          "name": "Tyranitarite",
+          "percent": 69.9
+        },
+        {
+          "name": "Chople Berry",
+          "percent": 7.2
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 5.8
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 4.7
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 4.0
+        },
+        {
+          "name": "Life Orb",
+          "percent": 2.6
+        },
+        {
+          "name": "Quick Claw",
+          "percent": 1.4
+        },
+        {
+          "name": "Expert Belt",
+          "percent": 0.9
+        },
+        {
+          "name": "White Herb",
+          "percent": 0.6
+        },
+        {
+          "name": "Smooth Rock",
+          "percent": 0.6
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Sand Stream",
+          "percent": 99.7
+        },
+        {
+          "name": "Unnerve",
+          "percent": 0.3
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Excadrill",
+          "percent": null
+        },
+        {
+          "name": "Staraptor",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Metagross",
+          "percent": null
+        },
+        {
+          "name": "Sneasler",
+          "percent": null
+        }
+      ]
+    },
+    "blastoise": {
+      "rank": 34,
+      "win_rate": 47.819,
+      "record": "1836-2004-12",
+      "moves": [
+        {
+          "name": "Water Spout",
+          "percent": 93.4
+        },
+        {
+          "name": "Dark Pulse",
+          "percent": 83.4
+        },
+        {
+          "name": "Aura Sphere",
+          "percent": 60.0
+        },
+        {
+          "name": "Fake Out",
+          "percent": 57.6
+        },
+        {
+          "name": "Shell Smash",
+          "percent": 46.8
+        },
+        {
+          "name": "Protect",
+          "percent": 33.6
+        },
+        {
+          "name": "Ice Beam",
+          "percent": 9.4
+        },
+        {
+          "name": "Water Pulse",
+          "percent": 5.0
+        },
+        {
+          "name": "Dragon Pulse",
+          "percent": 3.4
+        },
+        {
+          "name": "Muddy Water",
+          "percent": 3.1
+        }
+      ],
+      "items": [
+        {
+          "name": "Blastoisinite",
+          "percent": 96.2
+        },
+        {
+          "name": "Mystic Water",
+          "percent": 2.4
+        },
+        {
+          "name": "Leftovers",
+          "percent": 1.0
+        },
+        {
+          "name": "White Herb",
+          "percent": 0.3
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 0.1
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Rain Dish",
+          "percent": 71.6
+        },
+        {
+          "name": "Torrent",
+          "percent": 28.4
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Farigiraf",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Torkoal",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Sylveon",
+          "percent": null
+        },
+        {
+          "name": "Vivillon",
+          "percent": null
+        }
+      ]
+    },
+    "milotic": {
+      "rank": 35,
+      "win_rate": 49.427,
+      "record": "3528-3610-14",
+      "moves": [
+        {
+          "name": "Scald",
+          "percent": 58.6
+        },
+        {
+          "name": "Protect",
+          "percent": 54.1
+        },
+        {
+          "name": "Recover",
+          "percent": 45.0
+        },
+        {
+          "name": "Muddy Water",
+          "percent": 42.0
+        },
+        {
+          "name": "Coil",
+          "percent": 39.4
+        },
+        {
+          "name": "Icy Wind",
+          "percent": 38.7
+        },
+        {
+          "name": "Hypnosis",
+          "percent": 38.2
+        },
+        {
+          "name": "Life Dew",
+          "percent": 33.5
+        },
+        {
+          "name": "Ice Beam",
+          "percent": 32.5
+        },
+        {
+          "name": "Psych Up",
+          "percent": 4.8
+        }
+      ],
+      "items": [
+        {
+          "name": "Leftovers",
+          "percent": 74.5
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 18.2
+        },
+        {
+          "name": "Mystic Water",
+          "percent": 2.0
+        },
+        {
+          "name": "Life Orb",
+          "percent": 1.5
+        },
+        {
+          "name": "Shell Bell",
+          "percent": 1.3
+        },
+        {
+          "name": "Wacan Berry",
+          "percent": 0.7
+        },
+        {
+          "name": "Mental Herb",
+          "percent": 0.7
+        },
+        {
+          "name": "Rindo Berry",
+          "percent": 0.5
+        },
+        {
+          "name": "Bright Powder",
+          "percent": 0.2
+        },
+        {
+          "name": "Wise Glasses",
+          "percent": 0.2
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Competitive",
+          "percent": 99.1
+        },
+        {
+          "name": "Cute Charm",
+          "percent": 0.7
+        },
+        {
+          "name": "Marvel Scale",
+          "percent": 0.3
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Sneasler",
+          "percent": null
+        },
+        {
+          "name": "Staraptor",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        }
+      ]
+    },
+    "venusaur": {
+      "rank": 36,
+      "win_rate": 49.886,
+      "record": "5039-5062-25",
+      "moves": [
+        {
+          "name": "Sludge Bomb",
+          "percent": 95.4
+        },
+        {
+          "name": "Protect",
+          "percent": 83.0
+        },
+        {
+          "name": "Earth Power",
+          "percent": 73.5
+        },
+        {
+          "name": "Giga Drain",
+          "percent": 57.3
+        },
+        {
+          "name": "Sleep Powder",
+          "percent": 46.3
+        },
+        {
+          "name": "Energy Ball",
+          "percent": 22.5
+        },
+        {
+          "name": "Leaf Storm",
+          "percent": 6.1
+        },
+        {
+          "name": "Leech Seed",
+          "percent": 3.9
+        },
+        {
+          "name": "Weather Ball",
+          "percent": 3.0
+        },
+        {
+          "name": "Solar Beam",
+          "percent": 2.7
+        }
+      ],
+      "items": [
+        {
+          "name": "Venusaurite",
+          "percent": 47.3
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 18.7
+        },
+        {
+          "name": "Life Orb",
+          "percent": 10.0
+        },
+        {
+          "name": "Wide Lens",
+          "percent": 9.6
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 3.7
+        },
+        {
+          "name": "Leftovers",
+          "percent": 2.4
+        },
+        {
+          "name": "Miracle Seed",
+          "percent": 2.4
+        },
+        {
+          "name": "Occa Berry",
+          "percent": 2.0
+        },
+        {
+          "name": "Lum Berry",
+          "percent": 1.7
+        },
+        {
+          "name": "Expert Belt",
+          "percent": 0.8
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Chlorophyll",
+          "percent": 98.6
+        },
+        {
+          "name": "Overgrow",
+          "percent": 1.4
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Charizard",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Archaludon",
+          "percent": null
+        }
+      ]
+    },
+    "hydreigon": {
+      "rank": 37,
+      "win_rate": 48.479,
+      "record": "1400-1488-4",
+      "moves": [
+        {
+          "name": "Dark Pulse",
+          "percent": 96.9
+        },
+        {
+          "name": "Draco Meteor",
+          "percent": 91.9
+        },
+        {
+          "name": "Snarl",
+          "percent": 61.1
+        },
+        {
+          "name": "Earth Power",
+          "percent": 56.4
+        },
+        {
+          "name": "Protect",
+          "percent": 23.5
+        },
+        {
+          "name": "Heat Wave",
+          "percent": 20.0
+        },
+        {
+          "name": "U-turn",
+          "percent": 12.3
+        },
+        {
+          "name": "Tailwind",
+          "percent": 9.1
+        },
+        {
+          "name": "Flamethrower",
+          "percent": 7.9
+        },
+        {
+          "name": "Dragon Pulse",
+          "percent": 7.3
+        }
+      ],
+      "items": [
+        {
+          "name": "Choice Scarf",
+          "percent": 73.3
+        },
+        {
+          "name": "Life Orb",
+          "percent": 18.2
+        },
+        {
+          "name": "Chople Berry",
+          "percent": 1.7
+        },
+        {
+          "name": "Haban Berry",
+          "percent": 1.7
+        },
+        {
+          "name": "Black Glasses",
+          "percent": 1.3
+        },
+        {
+          "name": "Scope Lens",
+          "percent": 1.2
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 1.1
+        },
+        {
+          "name": "Roseli Berry",
+          "percent": 0.6
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 0.3
+        },
+        {
+          "name": "White Herb",
+          "percent": 0.1
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Levitate",
+          "percent": 100.0
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Metagross",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Sneasler",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Pelipper",
+          "percent": null
+        }
+      ]
+    },
+    "politoed": {
+      "rank": 38,
+      "win_rate": 48.474,
+      "record": "1314-1397-9",
+      "moves": [
+        {
+          "name": "Weather Ball",
+          "percent": 89.9
+        },
+        {
+          "name": "Protect",
+          "percent": 86.8
+        },
+        {
+          "name": "Perish Song",
+          "percent": 51.9
+        },
+        {
+          "name": "Ice Beam",
+          "percent": 32.4
+        },
+        {
+          "name": "Muddy Water",
+          "percent": 31.9
+        },
+        {
+          "name": "Hypnosis",
+          "percent": 26.8
+        },
+        {
+          "name": "Encore",
+          "percent": 21.6
+        },
+        {
+          "name": "Icy Wind",
+          "percent": 18.7
+        },
+        {
+          "name": "Rain Dance",
+          "percent": 16.8
+        },
+        {
+          "name": "Helping Hand",
+          "percent": 11.0
+        }
+      ],
+      "items": [
+        {
+          "name": "Sitrus Berry",
+          "percent": 58.3
+        },
+        {
+          "name": "Damp Rock",
+          "percent": 10.0
+        },
+        {
+          "name": "Leftovers",
+          "percent": 9.4
+        },
+        {
+          "name": "Mystic Water",
+          "percent": 8.6
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 6.9
+        },
+        {
+          "name": "Life Orb",
+          "percent": 3.2
+        },
+        {
+          "name": "Wacan Berry",
+          "percent": 1.2
+        },
+        {
+          "name": "Quick Claw",
+          "percent": 1.0
+        },
+        {
+          "name": "Wide Lens",
+          "percent": 0.5
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 0.4
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Drizzle",
+          "percent": 99.9
+        },
+        {
+          "name": "Damp",
+          "percent": 0.1
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Archaludon",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Gengar",
+          "percent": null
+        },
+        {
+          "name": "Swampert",
+          "percent": null
+        },
+        {
+          "name": "Grimmsnarl",
+          "percent": null
+        }
+      ]
+    },
+    "tsareena": {
+      "rank": 39,
+      "win_rate": 46.568,
+      "record": "724-831-4",
+      "moves": [
+        {
+          "name": "Triple Axel",
+          "percent": 86.6
+        },
+        {
+          "name": "Trop Kick",
+          "percent": 62.0
+        },
+        {
+          "name": "Protect",
+          "percent": 52.5
+        },
+        {
+          "name": "Low Kick",
+          "percent": 48.2
+        },
+        {
+          "name": "Power Whip",
+          "percent": 35.4
+        },
+        {
+          "name": "Taunt",
+          "percent": 23.6
+        },
+        {
+          "name": "U-turn",
+          "percent": 22.0
+        },
+        {
+          "name": "High Jump Kick",
+          "percent": 17.1
+        },
+        {
+          "name": "Zen Headbutt",
+          "percent": 15.1
+        },
+        {
+          "name": "Helping Hand",
+          "percent": 11.1
+        }
+      ],
+      "items": [
+        {
+          "name": "Choice Scarf",
+          "percent": 27.6
+        },
+        {
+          "name": "Wide Lens",
+          "percent": 23.3
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 19.3
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 6.2
+        },
+        {
+          "name": "Miracle Seed",
+          "percent": 5.5
+        },
+        {
+          "name": "Life Orb",
+          "percent": 5.3
+        },
+        {
+          "name": "Leftovers",
+          "percent": 2.7
+        },
+        {
+          "name": "Expert Belt",
+          "percent": 2.4
+        },
+        {
+          "name": "Occa Berry",
+          "percent": 2.2
+        },
+        {
+          "name": "White Herb",
+          "percent": 1.0
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Queenly Majesty",
+          "percent": 99.9
+        },
+        {
+          "name": "Leaf Guard",
+          "percent": 0.1
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Raichu",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Talonflame",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        }
+      ]
+    },
+    "gengar": {
+      "rank": 40,
+      "win_rate": 47.91,
+      "record": "1886-2051-11",
+      "moves": [
+        {
+          "name": "Shadow Ball",
+          "percent": 94.4
+        },
+        {
+          "name": "Protect",
+          "percent": 87.1
+        },
+        {
+          "name": "Perish Song",
+          "percent": 66.0
+        },
+        {
+          "name": "Sludge Bomb",
+          "percent": 55.4
+        },
+        {
+          "name": "Disable",
+          "percent": 46.9
+        },
+        {
+          "name": "Icy Wind",
+          "percent": 12.0
+        },
+        {
+          "name": "Psychic",
+          "percent": 10.9
+        },
+        {
+          "name": "Trick Room",
+          "percent": 6.3
+        },
+        {
+          "name": "Sludge Wave",
+          "percent": 4.5
+        },
+        {
+          "name": "Destiny Bond",
+          "percent": 2.3
+        }
+      ],
+      "items": [
+        {
+          "name": "Gengarite",
+          "percent": 84.4
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 10.5
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 2.1
+        },
+        {
+          "name": "Life Orb",
+          "percent": 1.9
+        },
+        {
+          "name": "Quick Claw",
+          "percent": 0.8
+        },
+        {
+          "name": "Expert Belt",
+          "percent": 0.3
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Cursed Body",
+          "percent": 100.0
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Politoed",
+          "percent": null
+        },
+        {
+          "name": "Archaludon",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        },
+        {
+          "name": "Grimmsnarl",
+          "percent": null
+        }
+      ]
+    },
+    "kangaskhan": {
+      "rank": 41,
+      "win_rate": 45.973,
+      "record": "740-870-4",
+      "moves": [
+        {
+          "name": "Fake Out",
+          "percent": 99.8
+        },
+        {
+          "name": "Last Resort",
+          "percent": 49.6
+        },
+        {
+          "name": "Double-Edge",
+          "percent": 45.3
+        },
+        {
+          "name": "Ice Punch",
+          "percent": 32.4
+        },
+        {
+          "name": "Low Kick",
+          "percent": 24.0
+        },
+        {
+          "name": "Sucker Punch",
+          "percent": 15.3
+        },
+        {
+          "name": "Drain Punch",
+          "percent": 13.7
+        },
+        {
+          "name": "Hammer Arm",
+          "percent": 8.2
+        },
+        {
+          "name": "Protect",
+          "percent": 2.7
+        },
+        {
+          "name": "Facade",
+          "percent": 2.6
+        }
+      ],
+      "items": [
+        {
+          "name": "Kangaskhanite",
+          "percent": 52.0
+        },
+        {
+          "name": "Silk Scarf",
+          "percent": 37.6
+        },
+        {
+          "name": "Life Orb",
+          "percent": 2.8
+        },
+        {
+          "name": "Metronome",
+          "percent": 2.8
+        },
+        {
+          "name": "Iron Ball",
+          "percent": 1.4
+        },
+        {
+          "name": "Chople Berry",
+          "percent": 1.1
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 0.9
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 0.6
+        },
+        {
+          "name": "King's Rock",
+          "percent": 0.4
+        },
+        {
+          "name": "Leftovers",
+          "percent": 0.3
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Scrappy",
+          "percent": 98.9
+        },
+        {
+          "name": "Inner Focus",
+          "percent": 1.1
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Farigiraf",
+          "percent": null
+        },
+        {
+          "name": "Torkoal",
+          "percent": null
+        },
+        {
+          "name": "Blastoise",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Vivillon",
+          "percent": null
+        },
+        {
+          "name": "Sylveon",
+          "percent": null
+        }
+      ]
+    },
+    "pyroar": {
+      "rank": 42,
+      "win_rate": 43.265,
+      "record": "317-416-2",
+      "moves": [
+        {
+          "name": "Heat Wave",
+          "percent": 99.6
+        },
+        {
+          "name": "Protect",
+          "percent": 99.2
+        },
+        {
+          "name": "Overheat",
+          "percent": 72.9
+        },
+        {
+          "name": "Hyper Voice",
+          "percent": 30.9
+        },
+        {
+          "name": "Flamethrower",
+          "percent": 27.8
+        },
+        {
+          "name": "Solar Beam",
+          "percent": 25.8
+        },
+        {
+          "name": "Scorching Sands",
+          "percent": 12.3
+        },
+        {
+          "name": "Dark Pulse",
+          "percent": 6.0
+        },
+        {
+          "name": "Round",
+          "percent": 4.8
+        },
+        {
+          "name": "Snarl",
+          "percent": 3.9
+        }
+      ],
+      "items": [
+        {
+          "name": "Pyroarite",
+          "percent": 99.9
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Unnerve",
+          "percent": 88.5
+        },
+        {
+          "name": "Moxie",
+          "percent": 6.4
+        },
+        {
+          "name": "Rivalry",
+          "percent": 5.1
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Staraptor",
+          "percent": null
+        },
+        {
+          "name": "Farigiraf",
+          "percent": null
+        }
+      ]
+    },
+    "gardevoir": {
+      "rank": 43,
+      "win_rate": 48.837,
+      "record": "859-900-4",
+      "moves": [
+        {
+          "name": "Hyper Voice",
+          "percent": 89.6
+        },
+        {
+          "name": "Protect",
+          "percent": 88.8
+        },
+        {
+          "name": "Psychic",
+          "percent": 47.8
+        },
+        {
+          "name": "Psyshock",
+          "percent": 42.4
+        },
+        {
+          "name": "Trick Room",
+          "percent": 41.6
+        },
+        {
+          "name": "Vacuum Wave",
+          "percent": 17.3
+        },
+        {
+          "name": "Calm Mind",
+          "percent": 15.9
+        },
+        {
+          "name": "Moonblast",
+          "percent": 11.2
+        },
+        {
+          "name": "Aura Sphere",
+          "percent": 7.7
+        },
+        {
+          "name": "Dazzling Gleam",
+          "percent": 7.5
+        }
+      ],
+      "items": [
+        {
+          "name": "Gardevoirite",
+          "percent": 89.9
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 7.3
+        },
+        {
+          "name": "Shell Bell",
+          "percent": 0.9
+        },
+        {
+          "name": "Expert Belt",
+          "percent": 0.9
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 0.8
+        },
+        {
+          "name": "Leftovers",
+          "percent": 0.2
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Trace",
+          "percent": 72.5
+        },
+        {
+          "name": "Telepathy",
+          "percent": 25.8
+        },
+        {
+          "name": "Synchronize",
+          "percent": 1.7
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Maushold",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Talonflame",
+          "percent": null
+        },
+        {
+          "name": "Pelipper",
+          "percent": null
+        }
+      ]
+    },
+    "corviknight": {
+      "rank": 44,
+      "win_rate": 46.433,
+      "record": "819-945-2",
+      "moves": [
+        {
+          "name": "Brave Bird",
+          "percent": 85.4
+        },
+        {
+          "name": "Tailwind",
+          "percent": 61.0
+        },
+        {
+          "name": "Iron Head",
+          "percent": 56.9
+        },
+        {
+          "name": "Bulk Up",
+          "percent": 56.2
+        },
+        {
+          "name": "Roost",
+          "percent": 51.5
+        },
+        {
+          "name": "Body Press",
+          "percent": 44.9
+        },
+        {
+          "name": "Protect",
+          "percent": 20.8
+        },
+        {
+          "name": "Iron Defense",
+          "percent": 17.0
+        },
+        {
+          "name": "Fly",
+          "percent": 1.6
+        },
+        {
+          "name": "Agility",
+          "percent": 1.6
+        }
+      ],
+      "items": [
+        {
+          "name": "Leftovers",
+          "percent": 71.3
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 13.2
+        },
+        {
+          "name": "Occa Berry",
+          "percent": 11.3
+        },
+        {
+          "name": "Life Orb",
+          "percent": 1.0
+        },
+        {
+          "name": "Muscle Band",
+          "percent": 0.9
+        },
+        {
+          "name": "Roseli Berry",
+          "percent": 0.7
+        },
+        {
+          "name": "Bright Powder",
+          "percent": 0.6
+        },
+        {
+          "name": "Metal Coat",
+          "percent": 0.2
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 0.2
+        },
+        {
+          "name": "Lum Berry",
+          "percent": 0.1
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Mirror Armor",
+          "percent": 97.9
+        },
+        {
+          "name": "Unnerve",
+          "percent": 2.1
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Tyranitar",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Raichu",
+          "percent": null
+        },
+        {
+          "name": "Rotom-Wash",
+          "percent": null
+        }
+      ]
+    },
+    "scrafty": {
+      "rank": 45,
+      "win_rate": 44.125,
+      "record": "559-708-1",
+      "moves": [
+        {
+          "name": "Fake Out",
+          "percent": 91.1
+        },
+        {
+          "name": "Knock Off",
+          "percent": 87.3
+        },
+        {
+          "name": "Drain Punch",
+          "percent": 51.0
+        },
+        {
+          "name": "Close Combat",
+          "percent": 44.2
+        },
+        {
+          "name": "Detect",
+          "percent": 23.8
+        },
+        {
+          "name": "Protect",
+          "percent": 17.8
+        },
+        {
+          "name": "Poison Jab",
+          "percent": 12.7
+        },
+        {
+          "name": "Ice Punch",
+          "percent": 11.7
+        },
+        {
+          "name": "Throat Chop",
+          "percent": 8.6
+        },
+        {
+          "name": "Coaching",
+          "percent": 7.9
+        }
+      ],
+      "items": [
+        {
+          "name": "Scraftinite",
+          "percent": 85.5
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 6.4
+        },
+        {
+          "name": "Lum Berry",
+          "percent": 1.9
+        },
+        {
+          "name": "Leftovers",
+          "percent": 1.8
+        },
+        {
+          "name": "Expert Belt",
+          "percent": 1.3
+        },
+        {
+          "name": "Roseli Berry",
+          "percent": 1.2
+        },
+        {
+          "name": "Life Orb",
+          "percent": 1.0
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 0.7
+        },
+        {
+          "name": "White Herb",
+          "percent": 0.1
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Intimidate",
+          "percent": 98.8
+        },
+        {
+          "name": "Moxie",
+          "percent": 0.8
+        },
+        {
+          "name": "Shed Skin",
+          "percent": 0.4
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Farigiraf",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Sylveon",
+          "percent": null
+        },
+        {
+          "name": "Torkoal",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        }
+      ]
+    },
+    "vivillon": {
+      "rank": 46,
+      "win_rate": 49.531,
+      "record": "1211-1234-6",
+      "moves": [
+        {
+          "name": "Sleep Powder",
+          "percent": 92.3
+        },
+        {
+          "name": "Hurricane",
+          "percent": 81.2
+        },
+        {
+          "name": "Rage Powder",
+          "percent": 75.6
+        },
+        {
+          "name": "Tailwind",
+          "percent": 40.3
+        },
+        {
+          "name": "Rain Dance",
+          "percent": 34.7
+        },
+        {
+          "name": "Pollen Puff",
+          "percent": 31.3
+        },
+        {
+          "name": "Protect",
+          "percent": 23.7
+        },
+        {
+          "name": "Air Slash",
+          "percent": 4.8
+        },
+        {
+          "name": "Bug Buzz",
+          "percent": 3.6
+        },
+        {
+          "name": "Struggle Bug",
+          "percent": 2.9
+        }
+      ],
+      "items": [
+        {
+          "name": "Choice Scarf",
+          "percent": 54.8
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 41.1
+        },
+        {
+          "name": "Charti Berry",
+          "percent": 4.0
+        },
+        {
+          "name": "Leftovers",
+          "percent": 0.1
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Compound Eyes",
+          "percent": 84.5
+        },
+        {
+          "name": "Friend Guard",
+          "percent": 8.9
+        },
+        {
+          "name": "Shield Dust",
+          "percent": 6.5
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Blastoise",
+          "percent": null
+        },
+        {
+          "name": "Farigiraf",
+          "percent": null
+        },
+        {
+          "name": "Torkoal",
+          "percent": null
+        },
+        {
+          "name": "Kangaskhan",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        }
+      ]
+    },
+    "eelektross": {
+      "rank": 47,
+      "win_rate": 35.27,
+      "record": "170-312",
+      "moves": [
+        {
+          "name": "Protect",
+          "percent": 91.8
+        },
+        {
+          "name": "Thunderbolt",
+          "percent": 67.7
+        },
+        {
+          "name": "Flamethrower",
+          "percent": 47.4
+        },
+        {
+          "name": "Giga Drain",
+          "percent": 39.0
+        },
+        {
+          "name": "Dragon Pulse",
+          "percent": 25.0
+        },
+        {
+          "name": "Discharge",
+          "percent": 20.2
+        },
+        {
+          "name": "Supercell Slam",
+          "percent": 11.6
+        },
+        {
+          "name": "Coil",
+          "percent": 11.3
+        },
+        {
+          "name": "Drain Punch",
+          "percent": 10.4
+        },
+        {
+          "name": "Muddy Water",
+          "percent": 8.8
+        }
+      ],
+      "items": [
+        {
+          "name": "Eelektrossite",
+          "percent": 99.8
+        },
+        {
+          "name": "Magnet",
+          "percent": 0.2
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Levitate",
+          "percent": 100.0
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Whimsicott",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        }
+      ]
+    },
+    "scovillain": {
+      "rank": 48,
+      "win_rate": 52.732,
+      "record": "1289-1155-8",
+      "moves": [
+        {
+          "name": "Protect",
+          "percent": 98.9
+        },
+        {
+          "name": "Rage Powder",
+          "percent": 96.5
+        },
+        {
+          "name": "Overheat",
+          "percent": 77.7
+        },
+        {
+          "name": "Leech Seed",
+          "percent": 53.6
+        },
+        {
+          "name": "Giga Drain",
+          "percent": 36.0
+        },
+        {
+          "name": "Flamethrower",
+          "percent": 14.4
+        },
+        {
+          "name": "Leaf Storm",
+          "percent": 9.5
+        },
+        {
+          "name": "Temper Flare",
+          "percent": 3.4
+        },
+        {
+          "name": "Super Fang",
+          "percent": 3.0
+        },
+        {
+          "name": "Fire Blast",
+          "percent": 2.8
+        }
+      ],
+      "items": [
+        {
+          "name": "Scovillainite",
+          "percent": 99.3
+        },
+        {
+          "name": "Kebia Berry",
+          "percent": 0.3
+        },
+        {
+          "name": "Sceptilite",
+          "percent": 0.3
+        },
+        {
+          "name": "Focus Band",
+          "percent": 0.1
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Moody",
+          "percent": 88.2
+        },
+        {
+          "name": "Chlorophyll",
+          "percent": 9.6
+        },
+        {
+          "name": "Insomnia",
+          "percent": 2.2
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Sneasler",
+          "percent": null
+        },
+        {
+          "name": "Basculegion",
+          "percent": null
+        },
+        {
+          "name": "Archaludon",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        },
+        {
+          "name": "Froslass",
+          "percent": null
+        },
+        {
+          "name": "Lycanroc-Dusk",
+          "percent": null
+        }
+      ]
+    },
+    "primarina": {
+      "rank": 49,
+      "win_rate": 45.408,
+      "record": "528-635-2",
+      "moves": [
+        {
+          "name": "Hyper Voice",
+          "percent": 97.1
+        },
+        {
+          "name": "Protect",
+          "percent": 89.5
+        },
+        {
+          "name": "Moonblast",
+          "percent": 83.9
+        },
+        {
+          "name": "Calm Mind",
+          "percent": 37.1
+        },
+        {
+          "name": "Ice Beam",
+          "percent": 14.0
+        },
+        {
+          "name": "Dazzling Gleam",
+          "percent": 10.1
+        },
+        {
+          "name": "Hydro Cannon",
+          "percent": 9.2
+        },
+        {
+          "name": "Energy Ball",
+          "percent": 6.9
+        },
+        {
+          "name": "Draining Kiss",
+          "percent": 6.2
+        },
+        {
+          "name": "Aqua Jet",
+          "percent": 5.6
+        }
+      ],
+      "items": [
+        {
+          "name": "Leftovers",
+          "percent": 32.7
+        },
+        {
+          "name": "Life Orb",
+          "percent": 18.9
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 15.8
+        },
+        {
+          "name": "Mystic Water",
+          "percent": 14.8
+        },
+        {
+          "name": "Choice Scarf",
+          "percent": 6.6
+        },
+        {
+          "name": "Quick Claw",
+          "percent": 3.8
+        },
+        {
+          "name": "Never-Melt Ice",
+          "percent": 2.4
+        },
+        {
+          "name": "Expert Belt",
+          "percent": 2.2
+        },
+        {
+          "name": "Wise Glasses",
+          "percent": 1.7
+        },
+        {
+          "name": "Fairy Feather",
+          "percent": 0.4
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Liquid Voice",
+          "percent": 97.1
+        },
+        {
+          "name": "Torrent",
+          "percent": 2.9
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Metagross",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        },
+        {
+          "name": "Sneasler",
+          "percent": null
+        },
+        {
+          "name": "Raichu",
+          "percent": null
+        }
+      ]
+    },
+    "ceruledge": {
+      "rank": 50,
+      "win_rate": 46.426,
+      "record": "1135-1310-3",
+      "moves": [
+        {
+          "name": "Bitter Blade",
+          "percent": 100.0
+        },
+        {
+          "name": "Protect",
+          "percent": 92.0
+        },
+        {
+          "name": "Shadow Sneak",
+          "percent": 89.4
+        },
+        {
+          "name": "Bulk Up",
+          "percent": 62.0
+        },
+        {
+          "name": "Swords Dance",
+          "percent": 31.9
+        },
+        {
+          "name": "Poltergeist",
+          "percent": 20.0
+        },
+        {
+          "name": "Psych Up",
+          "percent": 1.6
+        },
+        {
+          "name": "Close Combat",
+          "percent": 1.3
+        },
+        {
+          "name": "Taunt",
+          "percent": 0.8
+        },
+        {
+          "name": "Ally Switch",
+          "percent": 0.3
+        }
+      ],
+      "items": [
+        {
+          "name": "Colbur Berry",
+          "percent": 32.4
+        },
+        {
+          "name": "Focus Sash",
+          "percent": 22.6
+        },
+        {
+          "name": "Leftovers",
+          "percent": 16.4
+        },
+        {
+          "name": "Charcoal",
+          "percent": 11.1
+        },
+        {
+          "name": "Sitrus Berry",
+          "percent": 7.2
+        },
+        {
+          "name": "Life Orb",
+          "percent": 3.8
+        },
+        {
+          "name": "Mental Herb",
+          "percent": 2.3
+        },
+        {
+          "name": "Shuca Berry",
+          "percent": 1.6
+        },
+        {
+          "name": "Big Root",
+          "percent": 1.5
+        },
+        {
+          "name": "Lum Berry",
+          "percent": 0.5
+        }
+      ],
+      "abilities": [
+        {
+          "name": "Flash Fire",
+          "percent": 89.5
+        },
+        {
+          "name": "Weak Armor",
+          "percent": 10.5
+        }
+      ],
+      "teammates": [
+        {
+          "name": "Sinistcha",
+          "percent": null
+        },
+        {
+          "name": "Raichu",
+          "percent": null
+        },
+        {
+          "name": "Staraptor",
+          "percent": null
+        },
+        {
+          "name": "Kingambit",
+          "percent": null
+        },
+        {
+          "name": "Incineroar",
+          "percent": null
+        },
+        {
+          "name": "Garchomp",
+          "percent": null
+        }
+      ]
+    }
+  }
+}

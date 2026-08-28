@@ -81,7 +81,8 @@ export default function PokemonDetailPage({ name, onBack }: { name: string; onBa
           <div className="pokemon-detail-usage-badge">
             <span className="usage-badge-label">Meta Rank</span>
             <span className="usage-badge-value">#{usage.rank}</span>
-            {usage.usage_percent != null && <span className="usage-badge-sub">{usage.usage_percent}% usage</span>}
+            {usage.win_rate != null && <span className="usage-badge-sub">{usage.win_rate}% win rate</span>}
+            {usage.record && <span className="usage-badge-sub">{usage.record}</span>}
           </div>
         )}
       </div>
@@ -134,6 +135,20 @@ export default function PokemonDetailPage({ name, onBack }: { name: string; onBa
                 </div>
               ))}
             </div>
+          )}
+
+          {usage && usage.teammates.length > 0 && (
+            <>
+              <h3>Common Teammates</h3>
+              <div className="best-moves-list">
+                {usage.teammates.map((t) => (
+                  <div className="best-move-row" key={t.name}>
+                    <span className="best-move-name">{t.name}</span>
+                    {t.percent != null && <span className="best-move-pct">{t.percent}%</span>}
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
       </div>

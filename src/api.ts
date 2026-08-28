@@ -117,16 +117,19 @@ export function searchItems(query: string): Promise<ItemOut[]> {
 
 export interface UsageEntry {
   name: string;
-  percent: number;
+  percent: number | null;
 }
 
 export interface PokemonUsageOut {
   format: string;
   rank: number;
   usage_percent: number | null;
+  win_rate: number | null;
+  record: string | null;
   moves: UsageEntry[];
   items: UsageEntry[];
   abilities: UsageEntry[];
+  teammates: UsageEntry[];
 }
 
 // Returns null (not an error) when the Pokemon has no tracked competitive
@@ -147,6 +150,7 @@ export interface MetaRankingEntry {
   type1: string;
   type2: string | null;
   usage_percent: number | null;
+  win_rate: number | null;
 }
 
 export function getMetaRankings(): Promise<MetaRankingEntry[]> {

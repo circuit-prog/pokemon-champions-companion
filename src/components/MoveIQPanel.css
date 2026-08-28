@@ -1,0 +1,71 @@
+.moveiq-panel {
+  text-align: left;
+}
+
+.coverage-gaps-banner {
+  background: #ffe3e3;
+  border: 1px solid #ffb3b3;
+  color: #a80000;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+}
+
+.coverage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.6rem;
+}
+
+.coverage-cell {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+}
+
+.coverage-cell.super {
+  border-color: #b8ecc9;
+  background: #f4fbf6;
+}
+
+.coverage-cell.resisted {
+  border-color: #ffd9d9;
+  background: #fff8f8;
+}
+
+.coverage-cell.none {
+  border-color: #333;
+  background: #f5f5f5;
+}
+
+.coverage-detail {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.82rem;
+}
+
+.coverage-mult {
+  font-weight: 700;
+  color: #2a9d4a;
+}
+
+.coverage-move {
+  font-weight: 600;
+}
+
+.coverage-mon {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #777;
+  font-size: 0.78rem;
+}
+
+.coverage-mon img {
+  width: 18px;
+  height: 18px;
+}

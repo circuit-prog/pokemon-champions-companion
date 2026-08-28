@@ -1,0 +1,86 @@
+.type-matchups-panel {
+  text-align: left;
+}
+
+.matchup-scroll {
+  overflow-x: auto;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+}
+
+.matchup-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.8rem;
+}
+
+.matchup-table th,
+.matchup-table td {
+  padding: 0.4rem 0.6rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.matchup-table thead th {
+  background: #f7f9fc;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.matchup-mon-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.72rem;
+}
+
+.matchup-mon-header img {
+  width: 28px;
+  height: 28px;
+}
+
+.matchup-type-label {
+  text-align: left;
+  text-transform: capitalize;
+  font-weight: 600;
+  color: #555;
+}
+
+.matchup-cell {
+  font-weight: 700;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.matchup-cell.neutral {
+  color: #bbb;
+}
+
+.matchup-cell.weak {
+  background: #ffe3e3;
+  color: #c53030;
+}
+
+.matchup-cell.quad-weak {
+  background: #ff9b9b;
+  color: #7a0000;
+}
+
+.matchup-cell.resist {
+  background: #e3f8e9;
+  color: #2a9d4a;
+}
+
+.matchup-cell.quad-resist {
+  background: #b8ecc9;
+  color: #196b34;
+}
+
+.matchup-cell.immune {
+  background: #333;
+  color: white;
+}
+
+.matchup-weak-count {
+  font-weight: 600;
+  color: #c53030;
+}

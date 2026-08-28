@@ -22,6 +22,7 @@ def get_meta_rankings(db: Session = Depends(get_db)):
             type1=r.pokemon.type1,
             type2=r.pokemon.type2,
             usage_percent=r.usage_percent,
+            win_rate=r.win_rate,
         )
         for r in rows
     ]

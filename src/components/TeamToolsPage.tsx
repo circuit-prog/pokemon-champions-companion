@@ -3,9 +3,22 @@ import { loadTeams } from "../teamStorage";
 import type { SavedTeam } from "../teamStorage";
 import SpeedIQPanel from "./SpeedIQPanel";
 import MetaCalcsPanel from "./MetaCalcsPanel";
+import TypeMatchupsPanel from "./TypeMatchupsPanel";
+import MoveIQPanel from "./MoveIQPanel";
+import BreakerPanel from "./BreakerPanel";
+import WallerPanel from "./WallerPanel";
 import "./TeamToolsPage.css";
 
-type SubTab = "speediq" | "metacalcs";
+type SubTab = "speediq" | "metacalcs" | "typematchups" | "moveiq" | "breaker" | "waller";
+
+const TABS: { key: SubTab; label: string }[] = [
+  { key: "speediq", label: "SpeedIQ" },
+  { key: "metacalcs", label: "Meta Calcs" },
+  { key: "typematchups", label: "Type Matchups" },
+  { key: "moveiq", label: "MoveIQ" },
+  { key: "breaker", label: "Breaker" },
+  { key: "waller", label: "Waller" },
+];
 
 export default function TeamToolsPage() {
   const [teams, setTeams] = useState<SavedTeam[]>([]);
@@ -19,6 +32,24 @@ export default function TeamToolsPage() {
   }, []);
 
   const team = teams.find((t) => t.id === teamId) ?? null;
+
+  function renderPanel() {
+    if (!team) return null;
+    switch (subTab) {
+      case "speediq":
+        return <SpeedIQPanel team={team} />;
+      case "metacalcs":
+        return <MetaCalcsPanel team={team} />;
+      case "typematchups":
+        return <TypeMatchupsPanel team={team} />;
+      case "moveiq":
+        return <MoveIQPanel team={team} />;
+      case "breaker":
+        return <BreakerPanel team={team} />;
+      case "waller":
+        return <WallerPanel team={team} />;
+    }
+  }
 
   return (
     <div className="team-tools-page">
@@ -44,15 +75,14 @@ export default function TeamToolsPage() {
           {team && team.slots.length > 0 && (
             <>
               <nav className="team-tools-tabs">
-                <button className={subTab === "speediq" ? "active" : ""} onClick={() => setSubTab("speediq")}>
-                  SpeedIQ
-                </button>
-                <button className={subTab === "metacalcs" ? "active" : ""} onClick={() => setSubTab("metacalcs")}>
-                  Meta Calcs
-                </button>
+                {TABS.map((t) => (
+                  <button key={t.key} className={subTab === t.key ? "active" : ""} onClick={() => setSubTab(t.key)}>
+                    {t.label}
+                  </button>
+                ))}
               </nav>
 
-              {subTab === "speediq" ? <SpeedIQPanel team={team} /> : <MetaCalcsPanel team={team} />}
+              {renderPanel()}
             </>
           )}
         </>

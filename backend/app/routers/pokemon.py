@@ -3,7 +3,7 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from sqlalchemy import or_
+from sqlalchemy import or_, case
 
 from app.database import get_db
 from app.models.pokemon import Pokemon, PokemonUsageStats
@@ -25,14 +25,25 @@ def _to_summary(p: Pokemon) -> PokemonSummary:
 @router.get("", response_model=list[PokemonSummary])
 def list_pokemon(
     search: Optional[str] = Query(None, description="Filter by name, case-insensitive substring match"),
-    limit: int = Query(50, le=500),
+    limit: int = Query(100, le=500),
     db: Session = Depends(get_db),
 ):
-    query = db.query(Pokemon)
+    # Order real tracked-usage Pokemon first (most-used first), then everyone
+    # else - so search/browse surfaces what's actually relevant in the
+    # current meta instead of raw national-dex order.
+    query = (
+        db.query(Pokemon)
+        .outerjoin(PokemonUsageStats, PokemonUsageStats.pokemon_id == Pokemon.id)
+    )
     if search:
         like = f"%{search.lower()}%"
         query = query.filter(or_(Pokemon.name.ilike(like), Pokemon.display_name.ilike(like)))
-    return [_to_summary(p) for p in query.order_by(Pokemon.id).limit(limit).all()]
+    query = query.order_by(
+        case((PokemonUsageStats.rank.is_(None), 1), else_=0),
+        PokemonUsageStats.rank.asc(),
+        Pokemon.display_name.asc(),
+    )
+    return [_to_summary(p) for p in query.limit(limit).all()]
 
 
 @router.get("/{name}", response_model=PokemonDetail)
@@ -59,7 +70,10 @@ def get_pokemon_usage(name: str, db: Session = Depends(get_db)):
         format=stats.format,
         rank=stats.rank,
         usage_percent=stats.usage_percent,
+        win_rate=stats.win_rate,
+        record=stats.record,
         moves=json.loads(stats.moves_json),
         items=json.loads(stats.items_json),
         abilities=json.loads(stats.abilities_json),
+        teammates=json.loads(stats.teammates_json),
     )

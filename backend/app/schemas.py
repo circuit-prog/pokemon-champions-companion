@@ -107,7 +107,7 @@ class DamageCalcResult(BaseModel):
 
 class UsageEntry(BaseModel):
     name: str
-    percent: float
+    percent: Optional[float] = None
 
 
 class PokemonUsageOut(BaseModel):
@@ -116,9 +116,12 @@ class PokemonUsageOut(BaseModel):
     format: str
     rank: int
     usage_percent: Optional[float]
+    win_rate: Optional[float] = None
+    record: Optional[str] = None
     moves: List[UsageEntry]
     items: List[UsageEntry]
     abilities: List[UsageEntry]
+    teammates: List[UsageEntry] = []
 
 
 class MetaRankingEntry(BaseModel):
@@ -131,3 +134,4 @@ class MetaRankingEntry(BaseModel):
     type1: str
     type2: Optional[str]
     usage_percent: Optional[float]
+    win_rate: Optional[float] = None
