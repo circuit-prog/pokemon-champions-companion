@@ -215,6 +215,56 @@ export function calcDamage(
   });
 }
 
+/** How one of your Pokemon fares against one meta Pokemon, in both directions. */
+export interface MatchupCell {
+  target_name: string;
+  target_display_name: string;
+  target_sprite: string | null;
+  target_rank: number;
+  best_move: string | null;
+  damage_dealt_pct: number | null;
+  incoming_move: string | null;
+  damage_taken_pct: number | null;
+}
+
+export interface TeamMatchupRow {
+  pokemon_name: string;
+  display_name: string;
+  sprite_url: string | null;
+  avg_damage_dealt: number | null;
+  avg_damage_taken: number | null;
+  ko_count: number;
+  survives_count: number;
+  cells: MatchupCell[];
+}
+
+export interface TeamMatchupMember {
+  pokemon_name: string;
+  evs?: Record<string, number>;
+  nature?: string;
+  ability?: string | null;
+  item?: string | null;
+  level?: number;
+  moves?: string[];
+}
+
+/** The whole Breaker/Waller matrix in one request.
+ *
+ * Done server-side because computing it in the browser needs
+ * (team size x pool size x moves) round-trips - roughly 600 for a full team
+ * against the top 25, which was slow and hammered the API. */
+export function calcTeamMatchups(
+  team: TeamMatchupMember[],
+  poolSize = 25,
+  field: object = {}
+): Promise<TeamMatchupRow[]> {
+  return postJson<TeamMatchupRow[]>("/api/calc/team-matchups", {
+    team,
+    pool_size: poolSize,
+    field,
+  });
+}
+
 export interface SurvivalResult {
   found: boolean;
   reason?: string | null;

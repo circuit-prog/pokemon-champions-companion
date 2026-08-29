@@ -46,3 +46,94 @@
   font-weight: 700;
   color: #2a5cb8;
 }
+
+/* The summary row doubles as the expand/collapse control for the
+   per-target breakdown, so it's a real <button> for keyboard access. */
+.breaker-row-button {
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.breaker-row-button:hover {
+  background: #f7f9ff;
+}
+
+.breaker-row-button.open {
+  background: #eef4ff;
+}
+
+.breaker-chevron {
+  color: #999;
+  width: 14px;
+}
+
+.matchup-breakdown {
+  background: #fafbfe;
+  border-bottom: 1px solid #e6e6e6;
+  padding: 0.3rem 0.5rem 0.5rem;
+}
+
+.matchup-cell {
+  display: grid;
+  grid-template-columns: 34px 26px minmax(90px, 1fr) 108px 108px;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.35rem;
+  font-size: 0.8rem;
+}
+
+.matchup-cell-header {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #999;
+  border-bottom: 1px solid #e6e6e6;
+  padding-bottom: 0.25rem;
+  margin-bottom: 0.2rem;
+}
+
+.matchup-cell-header .matchup-cell-num {
+  background: none;
+  text-align: center;
+}
+
+.matchup-cell-rank {
+  color: #aaa;
+  font-size: 0.72rem;
+}
+
+.matchup-cell img {
+  width: 26px;
+  height: 26px;
+}
+
+.matchup-cell-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.matchup-cell-num {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  padding: 0.15rem 0.3rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.matchup-cell-num em {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.65rem;
+  color: #6b6b6b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}

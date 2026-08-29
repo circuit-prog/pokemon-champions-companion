@@ -200,3 +200,16 @@
   border: 1px solid #ccc;
   font-size: 0.72rem;
 }
+
+/* Tells the user that the ability/item were auto-filled from real usage data
+   rather than left as blank defaults. */
+.applied-set-note {
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: #4a6a4a;
+  background: #eef7ee;
+  border: 1px solid #d6e9d6;
+  border-radius: 6px;
+  padding: 0.35rem 0.5rem;
+  margin-bottom: 0.5rem;
+}

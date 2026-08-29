@@ -134,8 +134,11 @@ def enrich_abilities(db):
             print(f"  [{i}/{len(abilities)}] abilities enriched")
 
 
-def import_items(db, limit=400):
-    list_url = f"{POKEAPI_BASE}/item?limit={limit}"
+def import_items(db, limit=None):
+    # No cap: a 400-item cap previously cut off real competitive held items
+    # (Assault Vest, Rocky Helmet, Safety Goggles, Covert Cloak, Booster
+    # Energy, Loaded Dice...) purely because of PokeAPI's ID ordering.
+    list_url = f"{POKEAPI_BASE}/item?limit={limit or 100000}"
     entries = fetch(list_url)["results"]
     print(f"Importing {len(entries)} items...")
     for i, entry in enumerate(entries, start=1):

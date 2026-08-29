@@ -161,6 +161,46 @@ class PokemonUsageOut(BaseModel):
     teammates: List[UsageEntry] = []
 
 
+class TeamMemberIn(BaseModel):
+    """One of your team's Pokemon, for the Breaker/Waller matchup matrix."""
+    pokemon_name: str
+    evs: dict = {}
+    nature: str = "hardy"
+    ability: Optional[str] = None
+    item: Optional[str] = None
+    level: int = 50
+    moves: List[str] = []  # move slugs currently selected on this Pokemon
+
+
+class TeamMatchupRequest(BaseModel):
+    team: List[TeamMemberIn]
+    pool_size: int = 25  # how many top-usage Pokemon to test against
+    field: DamageCalcField = DamageCalcField()
+
+
+class MatchupCell(BaseModel):
+    """How one of your Pokemon fares against one meta Pokemon, both ways."""
+    target_name: str
+    target_display_name: str
+    target_sprite: Optional[str]
+    target_rank: int
+    best_move: Optional[str] = None          # your best move against them
+    damage_dealt_pct: Optional[float] = None
+    incoming_move: Optional[str] = None      # their most-used move
+    damage_taken_pct: Optional[float] = None
+
+
+class TeamMatchupRow(BaseModel):
+    pokemon_name: str
+    display_name: str
+    sprite_url: Optional[str]
+    avg_damage_dealt: Optional[float]
+    avg_damage_taken: Optional[float]
+    ko_count: int = 0        # how many of the pool this Pokemon can OHKO
+    survives_count: int = 0  # how many of the pool it survives a hit from
+    cells: List[MatchupCell]
+
+
 class TeamCoreOut(BaseModel):
     """A Pokemon combination that frequently appears together on real teams."""
     size: int

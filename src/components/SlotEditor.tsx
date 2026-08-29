@@ -11,27 +11,83 @@ import "./TeamBuilder.css";
 const STAT_KEYS: StatKey[] = ["hp", "atk", "def", "spa", "spd", "spe"];
 const STAT_LABELS: Record<StatKey, string> = { hp: "HP", atk: "Atk", def: "Def", spa: "SpA", spd: "SpD", spe: "Spe" };
 
-function ItemSearch({ onPick }: { onPick: (itemName: string, effect: string | null) => void }) {
+/** Held-item picker.
+ *
+ * `selected` is the item slug currently saved on the slot. The component is
+ * driven by it rather than keeping its own private "what did I pick" state -
+ * previously it didn't take the slug at all, so an equipped item never showed
+ * up in the box and switching team slots left the previous slot's text behind,
+ * which made picking an item look like it had silently failed. */
+function ItemSearch({ selected, onPick }: { selected: string; onPick: (itemName: string) => void }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ItemOut[]>([]);
   const [open, setOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<ItemOut | null>(null);
+
+  // Resolve the saved slug to a real item so we can show its name + sprite.
+  useEffect(() => {
+    if (!selected) {
+      setSelectedItem(null);
+      return;
+    }
+    if (selectedItem?.name === selected) return;
+    let cancelled = false;
+    searchItems(selected.replace(/-/g, " "))
+      .then((items) => {
+        if (cancelled) return;
+        setSelectedItem(items.find((i) => i.name === selected) ?? null);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [selected, selectedItem]);
 
   useEffect(() => {
+    if (!query.trim()) {
+      setResults([]);
+      return;
+    }
     const handle = setTimeout(() => {
-      if (!query) {
-        setResults([]);
-        return;
-      }
-      searchItems(query).then(setResults).catch(() => setResults([]));
+      searchItems(query.trim()).then(setResults).catch(() => setResults([]));
     }, 250);
     return () => clearTimeout(handle);
   }, [query]);
 
+  function pick(item: ItemOut) {
+    setSelectedItem(item);
+    onPick(item.name);
+    setQuery("");
+    setResults([]);
+    setOpen(false);
+  }
+
   return (
-    <div className="item-search">
+    <div className="item-search" onBlur={(e) => {
+      // Close only when focus leaves the picker entirely, so clicking a result
+      // doesn't dismiss the list before the click registers.
+      if (!e.currentTarget.contains(e.relatedTarget as Node)) setOpen(false);
+    }}>
+      {selectedItem && (
+        <div className="item-selected">
+          {selectedItem.sprite_url && <img src={selectedItem.sprite_url} alt="" />}
+          <span>{selectedItem.display_name}</span>
+          <button
+            type="button"
+            className="item-clear"
+            title="Remove held item"
+            onClick={() => {
+              setSelectedItem(null);
+              onPick("");
+            }}
+          >
+            ×
+          </button>
+        </div>
+      )}
       <input
         type="text"
-        placeholder="Search held item..."
+        placeholder={selectedItem ? "Change item..." : "Search held item..."}
         value={query}
         onChange={(e) => {
           setQuery(e.target.value);
@@ -44,10 +100,11 @@ function ItemSearch({ onPick }: { onPick: (itemName: string, effect: string | nu
           {results.map((item) => (
             <button
               key={item.id}
-              onClick={() => {
-                onPick(item.name, item.effect);
-                setQuery(item.display_name);
-                setOpen(false);
+              type="button"
+              // mouse-down fires before the input's blur, so the pick always lands
+              onMouseDown={(e) => {
+                e.preventDefault();
+                pick(item);
               }}
             >
               <div className="item-result-row">
@@ -181,10 +238,13 @@ export default function SlotEditor({
 
       <div className="slot-editor-columns">
         <div className="slot-editor-col">
-          <label className="field">
-            Item
-            <ItemSearch onPick={(item) => onChange({ item })} />
-          </label>
+          {/* Deliberately a div, not a <label>: a label forwards clicks on its
+              contents to the wrapped <input>, which stole clicks aimed at the
+              search-result buttons. */}
+          <div className="field">
+            <span className="field-label">Item</span>
+            <ItemSearch selected={slot.item ?? ""} onPick={(item) => onChange({ item })} />
+          </div>
 
           <AbilityPicker abilities={pokemon.abilities} selected={slot.ability} onSelect={(a) => onChange({ ability: a })} />
 

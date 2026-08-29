@@ -1,9 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
+import json
+
 from app.database import get_db
-from app.models.pokemon import Pokemon, Move
-from app.schemas import DamageCalcRequest, DamageCalcResult, SurvivalRequest, SurvivalResult
+from app.models.pokemon import Pokemon, Move, PokemonUsageStats
+from app.schemas import (
+    DamageCalcRequest, DamageCalcResult, SurvivalRequest, SurvivalResult,
+    TeamMatchupRequest, TeamMatchupRow, MatchupCell,
+)
 from app.damage_calc import Combatant, compute_damage
 from app.natures_data import MAX_EV_PER_STAT, EV_TOTAL_BUDGET
 
@@ -128,3 +133,176 @@ def calc_survival(req: SurvivalRequest, db: Session = Depends(get_db)):
         worst_case_percent=best["percent"],
         resulting_hp=best["hp"],
     )
+
+
+def _build_combatant(pokemon: Pokemon, evs=None, nature="hardy", ability="", item="", level=50) -> Combatant:
+    base_stats = {
+        "hp": pokemon.hp, "atk": pokemon.attack, "def": pokemon.defense,
+        "spa": pokemon.special_attack, "spd": pokemon.special_defense, "spe": pokemon.speed,
+    }
+    return Combatant(
+        base_stats=base_stats, types=[pokemon.type1, pokemon.type2],
+        evs=evs or {}, nature=nature, ability=ability, item=item, level=level,
+    )
+
+
+class _MetaTarget:
+    """A top-usage Pokemon set up with its real most-used ability and move."""
+
+    def __init__(self, pokemon, rank, top_move, top_ability, top_item):
+        self.pokemon = pokemon
+        self.rank = rank
+        self.top_move = top_move        # Move row, or None
+        self.top_ability = top_ability  # ability slug, or ""
+        self.top_item = top_item        # item slug, or ""
+
+
+def _resolve_top_set(db: Session, row: PokemonUsageStats):
+    """Resolve a usage row's most-used ability/item/damaging move against our
+    own data. Returns (top_move, ability_slug, item_slug)."""
+    pokemon = row.pokemon
+
+    # Walk the move usage list in order and take the first actual damaging
+    # move - the #1 entry is often a status move (Protect, Tailwind), which
+    # tells us nothing about how hard this Pokemon hits.
+    top_move = None
+    for entry in json.loads(row.moves_json or "[]"):
+        candidate = next(
+            (m for m in pokemon.moves if m.display_name.lower() == entry["name"].lower()),
+            None,
+        )
+        if candidate and candidate.category != "status" and candidate.power:
+            top_move = candidate
+            break
+
+    ability_slug = ""
+    abilities = json.loads(row.abilities_json or "[]")
+    if abilities:
+        match = next(
+            (a for a in pokemon.abilities if a.display_name.lower() == abilities[0]["name"].lower()),
+            None,
+        )
+        if match:
+            ability_slug = match.name
+
+    item_slug = ""
+    items = json.loads(row.items_json or "[]")
+    if items:
+        from app.models.pokemon import Item
+        match = db.query(Item).filter(Item.display_name.ilike(items[0]["name"])).first()
+        if match:
+            item_slug = match.name
+
+    return top_move, ability_slug, item_slug
+
+
+def _load_meta_pool(db: Session, pool_size: int):
+    """The top N Pokemon by real usage, each with their most-used set."""
+    rows = (
+        db.query(PokemonUsageStats)
+        .order_by(PokemonUsageStats.rank)
+        .limit(pool_size)
+        .all()
+    )
+
+    targets = []
+    for row in rows:
+        if not row.pokemon:
+            continue
+        top_move, ability, item = _resolve_top_set(db, row)
+        targets.append(_MetaTarget(row.pokemon, row.rank, top_move, ability, item))
+    return targets
+
+
+@router.post("/team-matchups", response_model=list[TeamMatchupRow])
+def calc_team_matchups(req: TeamMatchupRequest, db: Session = Depends(get_db)):
+    """Full Breaker/Waller matrix: every team member against every top-usage
+    Pokemon, in both directions.
+
+    Computed server-side in one request because doing it in the browser would
+    need hundreds of round-trips (team size x pool size x moves).
+    """
+    pool = _load_meta_pool(db, req.pool_size)
+    field = req.field.model_dump()
+    rows = []
+
+    for member in req.team:
+        pokemon = _load_pokemon(db, member.pokemon_name)
+        attacker = _build_combatant(
+            pokemon, evs=member.evs, nature=member.nature,
+            ability=member.ability or "", item=member.item or "", level=member.level,
+        )
+
+        selected_moves = [
+            m for m in pokemon.moves
+            if m.name in member.moves and m.category != "status" and m.power
+        ]
+
+        cells, dealt_values, taken_values = [], [], []
+        ko_count = survives_count = 0
+
+        for target in pool:
+            target_combatant = _build_combatant(
+                target.pokemon, ability=target.top_ability, item=target.top_item,
+            )
+
+            # Offense: our best selected move against this target.
+            best_move_name, best_pct = None, None
+            for move in selected_moves:
+                result = compute_damage(
+                    attacker, target_combatant,
+                    move={"type": move.type, "category": move.category, "power": move.power},
+                    field=field,
+                )
+                if result.get("error") or result.get("immune"):
+                    continue
+                pct = result.get("pct_high") or 0
+                if best_pct is None or pct > best_pct:
+                    best_pct, best_move_name = pct, move.display_name
+            if best_pct is not None:
+                dealt_values.append(best_pct)
+                if best_pct >= 100:
+                    ko_count += 1
+
+            # Defense: their most-used damaging move against us.
+            taken_pct, incoming_name = None, None
+            if target.top_move:
+                incoming = compute_damage(
+                    target_combatant, attacker,
+                    move={
+                        "type": target.top_move.type,
+                        "category": target.top_move.category,
+                        "power": target.top_move.power,
+                    },
+                    field=field,
+                )
+                if not incoming.get("error") and not incoming.get("immune"):
+                    taken_pct = incoming.get("pct_high")
+                    incoming_name = target.top_move.display_name
+                    taken_values.append(taken_pct or 0)
+                    if (taken_pct or 0) < 100:
+                        survives_count += 1
+
+            cells.append(MatchupCell(
+                target_name=target.pokemon.name,
+                target_display_name=target.pokemon.display_name,
+                target_sprite=target.pokemon.sprite_url,
+                target_rank=target.rank,
+                best_move=best_move_name,
+                damage_dealt_pct=round(best_pct, 1) if best_pct is not None else None,
+                incoming_move=incoming_name,
+                damage_taken_pct=round(taken_pct, 1) if taken_pct is not None else None,
+            ))
+
+        rows.append(TeamMatchupRow(
+            pokemon_name=pokemon.name,
+            display_name=pokemon.display_name,
+            sprite_url=pokemon.sprite_url,
+            avg_damage_dealt=round(sum(dealt_values) / len(dealt_values), 1) if dealt_values else None,
+            avg_damage_taken=round(sum(taken_values) / len(taken_values), 1) if taken_values else None,
+            ko_count=ko_count,
+            survives_count=survives_count,
+            cells=cells,
+        ))
+
+    return rows

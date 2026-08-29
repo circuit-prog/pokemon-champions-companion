@@ -119,6 +119,9 @@ export default function TargetPicker({
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<PokemonSummary[]>([]);
   const [searchOpen, setSearchOpen] = useState(false);
+  // What we auto-filled from real usage data, so the user can see that this is
+  // the meta's most-used set rather than a blank default they need to fill in.
+  const [appliedSet, setAppliedSet] = useState<{ ability: string; item: string } | null>(null);
 
   useEffect(() => {
     if (!searchOpen) return;
@@ -133,6 +136,8 @@ export default function TargetPicker({
     const detail = await getPokemon(p.name);
     let ability = "";
     let item = "";
+    let appliedAbility = "";
+    let appliedItem = "";
 
     // Auto-fill the most-used real ability/item for this Pokemon, if we have
     // tracked usage data for it. EV spreads aren't in the scraped data, so
@@ -142,18 +147,25 @@ export default function TargetPicker({
       const topAbilityName = usage?.abilities[0]?.name.toLowerCase();
       if (topAbilityName) {
         const match = detail.abilities.find((a) => a.display_name.toLowerCase() === topAbilityName);
-        if (match) ability = match.name;
+        if (match) {
+          ability = match.name;
+          appliedAbility = match.display_name;
+        }
       }
       const topItemName = usage?.items[0]?.name;
       if (topItemName) {
         const itemMatches = await searchItems(topItemName);
         const match = itemMatches.find((i) => i.display_name.toLowerCase() === topItemName.toLowerCase());
-        if (match) item = match.name;
+        if (match) {
+          item = match.name;
+          appliedItem = match.display_name;
+        }
       }
     } catch {
       // no usage data for this Pokemon - leave ability/item blank for manual entry
     }
 
+    setAppliedSet(appliedAbility || appliedItem ? { ability: appliedAbility, item: appliedItem } : null);
     onChange(defaultTargetSpec(detail, ability, item));
     setQuery(p.display_name);
     setResults([]);
@@ -191,6 +203,14 @@ export default function TargetPicker({
             {target.pokemon.sprite_url && <img src={target.pokemon.sprite_url} alt="" />}
             <strong>{target.pokemon.display_name}</strong>
           </div>
+
+          {appliedSet && (
+            <div className="applied-set-note">
+              Using this Pokemon's most-used set:{" "}
+              {[appliedSet.ability, appliedSet.item].filter(Boolean).join(" + ")}. EVs stay at 0 - real EV spreads
+              aren't published in the usage data. Change anything below to override.
+            </div>
+          )}
 
           <label className="field">
             Ability
