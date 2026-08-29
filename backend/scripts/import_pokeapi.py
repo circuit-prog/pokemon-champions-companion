@@ -147,7 +147,12 @@ def import_items(db, limit=None):
         item = db.query(Item).filter(Item.name == name).first() or Item(id=data["id"], name=name)
         item.display_name = name.replace("-", " ").title()
         item.sprite_url = (data.get("sprites") or {}).get("default")
-        effect_entries = data.get("effect_entries") or []
+        # Filter to English: PokeAPI returns effect text in several languages
+        # and the first entry is often French, which was leaking into the UI.
+        effect_entries = [
+            e for e in (data.get("effect_entries") or [])
+            if e.get("language", {}).get("name") == "en"
+        ]
         item.effect = effect_entries[0]["short_effect"] if effect_entries else None
         if not item.id:
             db.add(item)
