@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { searchItems, getPokemonUsage } from "../api";
 import type { ItemOut, PokemonUsageOut } from "../api";
+import { resolveTopSet } from "../setBuilder";
 import { NATURE_NAMES, MAX_EV_PER_STAT, EV_TOTAL_BUDGET, natureDescription, type StatKey } from "../natures";
 import { statAtLevel } from "../statCalc";
 import type { TeamSlotData } from "../teamStorage";
@@ -154,35 +155,168 @@ function StatRow({
   );
 }
 
-function UsageSection({ label, entries }: { label: string; entries: PokemonUsageOut["moves"] | undefined }) {
+/** One usage list (moves, items, abilities...).
+ *
+ * Every entry is a button: clicking "Assault Vest 62%" equips Assault Vest.
+ * Reading a statistic and then having to go and apply it by hand was the
+ * single biggest source of friction in the builder. `onApply` is omitted for
+ * lists we can't act on here (common teammates belong to the team, not the
+ * slot), and those render as plain rows. */
+function UsageSection({
+  label,
+  entries,
+  onApply,
+  isActive,
+  hint,
+}: {
+  label: string;
+  entries: PokemonUsageOut["moves"] | undefined;
+  onApply?: (entryName: string) => void;
+  isActive?: (entryName: string) => boolean;
+  hint?: string;
+}) {
   if (!entries || entries.length === 0) return null;
   return (
     <div className="usage-section">
       <span className="usage-col-label">{label}</span>
-      {entries.map((m) => (
-        <div key={m.name} className="usage-entry">
-          <span className="usage-entry-name">{m.name}</span>
-          <span className="usage-entry-pct">{m.percent != null ? `${m.percent}%` : ""}</span>
-        </div>
-      ))}
+      {entries.map((m) => {
+        const active = isActive?.(m.name) ?? false;
+        const pct = m.percent != null ? `${m.percent}%` : "";
+        if (!onApply) {
+          return (
+            <div key={m.name} className="usage-entry">
+              <span className="usage-entry-name">{m.name}</span>
+              <span className="usage-entry-pct">{pct}</span>
+            </div>
+          );
+        }
+        return (
+          <button
+            key={m.name}
+            type="button"
+            className={active ? "usage-entry usage-entry-clickable active" : "usage-entry usage-entry-clickable"}
+            title={active ? `${m.name} is already on this set` : hint}
+            onClick={() => onApply(m.name)}
+          >
+            <span className="usage-entry-name">{m.name}</span>
+            <span className="usage-entry-pct">{pct}</span>
+            <span className="usage-entry-mark">{active ? "✓" : "+"}</span>
+          </button>
+        );
+      })}
     </div>
   );
 }
 
-function UsagePanel({ usage }: { usage: PokemonUsageOut | null }) {
+function UsagePanel({
+  usage,
+  slot,
+  onChange,
+}: {
+  usage: PokemonUsageOut | null;
+  slot: TeamSlotData;
+  onChange: (patch: Partial<TeamSlotData>) => void;
+}) {
+  const [applying, setApplying] = useState(false);
+  const [note, setNote] = useState<string | null>(null);
+
   if (!usage) {
     return <div className="usage-panel usage-panel-empty">No tracked competitive usage data yet.</div>;
   }
+
+  const { pokemon } = slot;
+
+  function moveSlug(displayName: string): string | null {
+    return pokemon.moves.find((m) => m.display_name.toLowerCase() === displayName.toLowerCase())?.name ?? null;
+  }
+
+  function abilitySlug(displayName: string): string | null {
+    return pokemon.abilities.find((a) => a.display_name.toLowerCase() === displayName.toLowerCase())?.name ?? null;
+  }
+
+  function toggleMove(displayName: string) {
+    const slug = moveSlug(displayName);
+    if (!slug) return setNote(`${displayName} isn't in our move data for ${pokemon.display_name}.`);
+    setNote(null);
+    if (slot.moves.includes(slug)) {
+      onChange({ moves: slot.moves.filter((m) => m !== slug) });
+    } else if (slot.moves.length >= 4) {
+      setNote("You already have four moves - remove one first.");
+    } else {
+      onChange({ moves: [...slot.moves, slug] });
+    }
+  }
+
+  function applyAbility(displayName: string) {
+    const slug = abilitySlug(displayName);
+    if (!slug) return setNote(`${pokemon.display_name} can't have ${displayName} in our data.`);
+    setNote(null);
+    onChange({ ability: slug });
+  }
+
+  async function applyItem(displayName: string) {
+    setNote(null);
+    const matches = await searchItems(displayName).catch(() => []);
+    const exact = matches.find((i) => i.display_name.toLowerCase() === displayName.toLowerCase());
+    if (!exact) return setNote(`We don't have an item called ${displayName}.`);
+    onChange({ item: exact.name });
+  }
+
+  /** Fill item, ability and the top four moves in one go. */
+  async function applyWholeSet() {
+    setApplying(true);
+    setNote(null);
+    try {
+      const top = await resolveTopSet(pokemon, usage);
+      onChange({ item: top.item, ability: top.ability, moves: top.moves });
+      setNote("Applied the most-used item, ability and moves. Nature and EVs aren't published in the usage data, so those are left for you.");
+    } finally {
+      setApplying(false);
+    }
+  }
+
   return (
     <div className="usage-panel">
       <div className="usage-header">
-        Meta usage: #{usage.rank}
-        {usage.win_rate != null ? ` · ${usage.win_rate}% win rate` : ""}
-        {usage.record ? ` (${usage.record})` : ""}
+        <span>
+          Meta usage: #{usage.rank}
+          {usage.win_rate != null ? ` · ${usage.win_rate.toFixed(1)}% win rate` : ""}
+          {usage.record ? ` (${usage.record})` : ""}
+        </span>
+        <button type="button" className="apply-set-btn" onClick={applyWholeSet} disabled={applying}>
+          {applying ? "Applying..." : "Use most-used set"}
+        </button>
       </div>
-      <UsageSection label="Moves" entries={usage.moves} />
-      <UsageSection label="Items" entries={usage.items} />
-      <UsageSection label="Abilities" entries={usage.abilities} />
+
+      <p className="usage-hint">Click any entry below to put it on this Pokemon.</p>
+      {note && <div className="usage-note">{note}</div>}
+
+      <UsageSection
+        label="Moves"
+        entries={usage.moves}
+        onApply={toggleMove}
+        isActive={(n) => {
+          const slug = moveSlug(n);
+          return slug !== null && slot.moves.includes(slug);
+        }}
+        hint="Click to add or remove this move"
+      />
+      <UsageSection
+        label="Items"
+        entries={usage.items}
+        onApply={applyItem}
+        isActive={(n) => n.toLowerCase().replace(/[^a-z0-9]+/g, "-") === slot.item}
+        hint="Click to equip this item"
+      />
+      <UsageSection
+        label="Abilities"
+        entries={usage.abilities}
+        onApply={applyAbility}
+        isActive={(n) => abilitySlug(n) === slot.ability}
+        hint="Click to set this ability"
+      />
+      {/* Teammates aren't applied here - they belong to the team, and the
+          "add Pokemon" view already offers them as partner suggestions. */}
       <UsageSection label="Common Teammates" entries={usage.teammates} />
     </div>
   );
@@ -234,7 +368,7 @@ export default function SlotEditor({
         </div>
       </div>
 
-      <UsagePanel usage={slot.usage} />
+      <UsagePanel usage={slot.usage} slot={slot} onChange={onChange} />
 
       <div className="slot-editor-columns">
         <div className="slot-editor-col">

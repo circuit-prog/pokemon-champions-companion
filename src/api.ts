@@ -169,6 +169,9 @@ export interface TeamCoreOut {
   rank: number;
   pokemon: string[];
   sprites: (string | null)[];
+  /** Our dex slug per name; null where the name doesn't resolve to a Pokemon
+   *  we hold, so importing can skip it and say so. */
+  slugs: (string | null)[];
   teams: number | null;
   usage_percent: number | null;
 }
@@ -184,6 +187,7 @@ export interface TopTeamOut {
   tournament: string | null;
   pokemon: string[];
   sprites: (string | null)[];
+  slugs: (string | null)[];
 }
 
 export function getTopTeams(contains = ""): Promise<TopTeamOut[]> {

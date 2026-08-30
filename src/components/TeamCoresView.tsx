@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getTeamCores } from "../api";
 import type { TeamCoreOut } from "../api";
+import AddToTeam from "./AddToTeam";
 import "./MetaBrowseViews.css";
 
 const SIZES = [
@@ -57,6 +58,12 @@ export default function TeamCoresView() {
             <div className="core-stats">
               {c.usage_percent != null && <span className="core-usage">{c.usage_percent}%</span>}
               {c.teams != null && <span className="core-teams">{c.teams.toLocaleString()} teams</span>}
+              <AddToTeam
+                roster={c.slugs}
+                rosterName={`${c.pokemon.join(" + ")} core`}
+                label="Start a team from this core"
+                compact
+              />
             </div>
           </div>
         ))}

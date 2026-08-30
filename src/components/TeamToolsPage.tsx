@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { loadTeams } from "../teamStorage";
+import { loadTeams, updateTeam } from "../teamStorage";
 import type { SavedTeam } from "../teamStorage";
 import SpeedIQPanel from "./SpeedIQPanel";
 import MetaCalcsPanel from "./MetaCalcsPanel";
@@ -33,6 +33,13 @@ export default function TeamToolsPage() {
 
   const team = teams.find((t) => t.id === teamId) ?? null;
 
+  /** Persist a change a tool made to the team (Move IQ adding a move, say)
+   *  and keep the tools rendering the updated version. */
+  function applyTeamChange(next: SavedTeam) {
+    updateTeam(next);
+    setTeams((prev) => prev.map((t) => (t.id === next.id ? next : t)));
+  }
+
   function renderPanel() {
     if (!team) return null;
     switch (subTab) {
@@ -43,7 +50,7 @@ export default function TeamToolsPage() {
       case "typematchups":
         return <TypeMatchupsPanel team={team} />;
       case "moveiq":
-        return <MoveIQPanel team={team} />;
+        return <MoveIQPanel team={team} onTeamChange={applyTeamChange} />;
       case "breaker":
         return <BreakerPanel team={team} />;
       case "waller":

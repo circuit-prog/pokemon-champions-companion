@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getPokemon, getPokemonUsage } from "../api";
 import type { PokemonDetail, PokemonUsageOut } from "../api";
 import { TYPE_COLORS } from "../typeColors";
+import AddToTeam from "./AddToTeam";
 import ChecksAndCounters from "./ChecksAndCounters";
 import "./PokemonDetailPage.css";
 
@@ -76,6 +77,12 @@ export default function PokemonDetailPage({ name, onBack }: { name: string; onBa
                 {pokemon.type2}
               </span>
             )}
+          </div>
+          <div className="pokemon-detail-add">
+            <AddToTeam
+              pokemonName={pokemon.name}
+              label={usage ? "+ Add to team with its best set" : "+ Add to team"}
+            />
           </div>
         </div>
         {usage && (

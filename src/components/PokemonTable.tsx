@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { searchPokemon } from "../api";
 import type { PokemonSummary } from "../api";
 import { TYPE_COLORS } from "../typeColors";
+import AddToTeam from "./AddToTeam";
 import "./PokemonTable.css";
 
 // "usage" preserves the order the backend returned (real meta usage rank
@@ -134,10 +135,14 @@ export default function PokemonTable({
                 </td>
                 <td className="pokemon-table-abilities">{p.abilities.join(", ")}</td>
                 <td>
-                  {onPick && (
+                  {onPick ? (
+                    // Inside the team editor: add straight to the team being edited.
                     <button className="pokemon-table-add" onClick={() => onPick(p)}>
                       + Add
                     </button>
+                  ) : (
+                    // Browsing the Pokedex: let the user choose which team.
+                    <AddToTeam pokemonName={p.name} label="+ Add" compact />
                   )}
                 </td>
               </tr>

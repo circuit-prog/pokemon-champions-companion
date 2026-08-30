@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { calcDamage } from "../api";
 import type { PokemonDetail } from "../api";
 import { loadMetaPool } from "../metaPool";
+import AddToTeam from "./AddToTeam";
 import "./ChecksAndCounters.css";
 
 const POOL_SIZE = 12;
 
 interface Threat {
   name: string;
+  slug: string; // dex slug, so a threat can be added straight to a team
   sprite: string | null;
   moveName: string;
   theirDamagePct: number; // what they do to this Pokemon
@@ -62,6 +64,7 @@ export default function ChecksAndCounters({ pokemon }: { pokemon: PokemonDetail 
 
               return {
                 name: threat.pokemon.display_name,
+                slug: threat.pokemon.name,
                 sprite: threat.pokemon.sprite_url,
                 moveName:
                   threat.pokemon.moves.find((m) => m.name === threat.topMoveName)?.display_name ??
@@ -108,6 +111,7 @@ export default function ChecksAndCounters({ pokemon }: { pokemon: PokemonDetail 
               <span className="threat-takes">
                 {t.ourDamagePct != null ? `takes ${t.ourDamagePct.toFixed(1)}%` : "takes —"}
               </span>
+              <AddToTeam pokemonName={t.slug} label="+ Add" compact />
             </div>
           );
         })}

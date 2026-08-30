@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { SavedTeam } from "../teamStorage";
 import { ALL_TYPES, typeEffectiveness } from "../typeChart";
 import { TYPE_COLORS } from "../typeColors";
@@ -30,12 +31,14 @@ function computeCoverage(team: SavedTeam): CoverageEntry[] {
 interface Suggestion {
   defType: string;
   moveName: string;
+  moveSlug: string;
   moveType: string;
   mult: number;
   power: number;
   usagePercent: number | null; // how often real players run this move, if known
   stab: boolean;
   monName: string;
+  monSlug: string;
   monSprite: string | null;
 }
 
@@ -69,12 +72,14 @@ function computeSuggestions(team: SavedTeam, gapTypes: string[]): Suggestion[] {
         candidates.push({
           defType,
           moveName: move.display_name,
+          moveSlug: move.name,
           moveType: move.type,
           mult,
           power: move.power,
           usagePercent: usageByName.get(move.display_name.toLowerCase()) ?? null,
           stab: monTypes.includes(move.type),
           monName: slot.pokemon.display_name,
+          monSlug: slot.pokemon.name,
           monSprite: slot.pokemon.sprite_url,
         });
       }
@@ -110,7 +115,37 @@ function cellClass(mult: number): string {
   return "coverage-cell resisted";
 }
 
-export default function MoveIQPanel({ team }: { team: SavedTeam }) {
+export default function MoveIQPanel({
+  team,
+  onTeamChange,
+}: {
+  team: SavedTeam;
+  onTeamChange?: (next: SavedTeam) => void;
+}) {
+  const [note, setNote] = useState<string | null>(null);
+
+  /** Put a suggested move onto the Pokemon that can learn it, in place. */
+  function addSuggestedMove(option: Suggestion) {
+    if (!onTeamChange) return;
+    const slot = team.slots.find((s) => s.pokemon.name === option.monSlug);
+    if (!slot) return;
+    if (slot.moves.includes(option.moveSlug)) {
+      setNote(`${option.monName} already has ${option.moveName}.`);
+      return;
+    }
+    if (slot.moves.length >= 4) {
+      setNote(`${option.monName} already has four moves — remove one in the team editor first.`);
+      return;
+    }
+    setNote(`Added ${option.moveName} to ${option.monName}.`);
+    onTeamChange({
+      ...team,
+      slots: team.slots.map((s) =>
+        s.pokemon.name === option.monSlug ? { ...s, moves: [...s.moves, option.moveSlug] } : s
+      ),
+    });
+  }
+
   const coverage = computeCoverage(team);
   const gaps = coverage.filter((c) => c.bestMult <= 1);
   const suggestions = computeSuggestions(team, gaps.map((g) => g.defType));
@@ -136,8 +171,9 @@ export default function MoveIQPanel({ team }: { team: SavedTeam }) {
           <h4>Recommended moves to close these gaps</h4>
           <p className="subtitle">
             Moves your Pokemon can already learn that would hit the uncovered types super-effectively, ranked by
-            how often real players actually run them.
+            how often real players actually run them. Click "+ Add" to put one straight onto that Pokemon.
           </p>
+          {note && <div className="suggestion-note">{note}</div>}
           {byGapType.map((gap) => (
             <div className="suggestion-group" key={gap.defType}>
               <span
@@ -149,6 +185,16 @@ export default function MoveIQPanel({ team }: { team: SavedTeam }) {
               <div className="suggestion-options">
                 {gap.options.map((option) => (
                   <div className="suggestion" key={`${option.monName}-${option.moveName}`}>
+                    {onTeamChange && (
+                      <button
+                        type="button"
+                        className="suggestion-add"
+                        title={`Add ${option.moveName} to ${option.monName}`}
+                        onClick={() => addSuggestedMove(option)}
+                      >
+                        + Add
+                      </button>
+                    )}
                     {option.monSprite && <img src={option.monSprite} alt="" />}
                     <span className="suggestion-move">{option.moveName}</span>
                     <span

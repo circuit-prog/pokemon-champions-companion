@@ -153,9 +153,52 @@
 }
 
 .usage-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
   color: #2a5cb8;
+}
+
+/* One-click "fill this Pokemon in with what real players run". */
+.apply-set-btn {
+  border: 1px solid #2a5cb8;
+  background: #2a5cb8;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.apply-set-btn:hover:not(:disabled) {
+  background: #24509f;
+}
+
+.apply-set-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.usage-hint {
+  margin: 0 0 0.5rem;
+  font-size: 0.72rem;
+  color: #888;
+}
+
+.usage-note {
+  background: #eef7ee;
+  border: 1px solid #d6e9d6;
+  color: #33633c;
+  font-size: 0.74rem;
+  line-height: 1.35;
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
 }
 
 .usage-section {
@@ -192,6 +235,40 @@
   color: #888;
   flex-shrink: 0;
   white-space: nowrap;
+}
+
+/* Usage entries double as controls: clicking one applies it to the set. */
+.usage-entry-clickable {
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  padding: 0.15rem 0.35rem;
+}
+
+.usage-entry-clickable:hover {
+  background: #eef4ff;
+  border-color: #cfdcf7;
+}
+
+.usage-entry-clickable.active {
+  background: #e8f3ec;
+  border-color: #c7e2d1;
+}
+
+.usage-entry-mark {
+  flex-shrink: 0;
+  width: 1rem;
+  text-align: center;
+  color: #2a5cb8;
+  font-weight: 700;
+}
+
+.usage-entry-clickable.active .usage-entry-mark {
+  color: #2e7d4f;
 }
 
 .team-slot-header h3 {

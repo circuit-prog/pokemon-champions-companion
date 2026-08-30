@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-import { getPokemon } from "../api";
 import type { PokemonSummary } from "../api";
 import { getTeam, updateTeam } from "../teamStorage";
-import type { SavedTeam, TeamSlotData, EvSpread } from "../teamStorage";
+import type { SavedTeam, TeamSlotData } from "../teamStorage";
+import { buildSlot } from "../setBuilder";
 import PokemonTable from "./PokemonTable";
 import PartnerSuggestions from "./PartnerSuggestions";
 import SlotEditor from "./SlotEditor";
 import "./TeamEditorPage.css";
 
 const TEAM_SIZE = 6;
-const EMPTY_EVS: EvSpread = { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 };
 
 export default function TeamEditorPage({ teamId, onBack }: { teamId: string; onBack: () => void }) {
   const [team, setTeam] = useState<SavedTeam | null>(null);
@@ -39,16 +38,10 @@ export default function TeamEditorPage({ teamId, onBack }: { teamId: string; onB
     }
     setError(null);
     try {
-      const detail = await getPokemon(p.name);
-      const newSlot: TeamSlotData = {
-        pokemon: detail,
-        ability: "",
-        item: "",
-        nature: "hardy",
-        evs: { ...EMPTY_EVS },
-        moves: [],
-        usage: null,
-      };
+      // buildSlot pre-fills the most-used item, ability and moves where we
+      // have real usage data, so adding a meta Pokemon gives you a working
+      // set immediately instead of six empty fields.
+      const newSlot = await buildSlot(p.name);
       const next = { ...team, slots: [...team.slots, newSlot] };
       persist(next);
       setActiveIndex(next.slots.length - 1);

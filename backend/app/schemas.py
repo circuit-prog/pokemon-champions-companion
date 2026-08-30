@@ -207,6 +207,9 @@ class TeamCoreOut(BaseModel):
     rank: int
     pokemon: List[str]
     sprites: List[Optional[str]]
+    # Our own dex slug for each name, so the frontend can build a real team
+    # from a core. None where a name doesn't resolve to a Pokemon we have.
+    slugs: List[Optional[str]] = []
     teams: Optional[int]
     usage_percent: Optional[float]
 
@@ -219,6 +222,7 @@ class TopTeamOut(BaseModel):
     tournament: Optional[str]
     pokemon: List[str]
     sprites: List[Optional[str]]
+    slugs: List[Optional[str]] = []
 
 
 class UsageTrendPoint(BaseModel):

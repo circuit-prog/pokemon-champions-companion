@@ -133,3 +133,28 @@
   font-size: 0.62rem;
   padding: 0.05rem 0.3rem;
 }
+
+.suggestion-add {
+  border: 1px solid #b9cdf2;
+  background: #eef4ff;
+  color: #2a5cb8;
+  font-weight: 600;
+  font-size: 0.7rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.suggestion-add:hover {
+  background: #dfeaff;
+}
+
+.suggestion-note {
+  background: #eef7ee;
+  border: 1px solid #d6e9d6;
+  color: #33633c;
+  font-size: 0.78rem;
+  padding: 0.35rem 0.55rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}

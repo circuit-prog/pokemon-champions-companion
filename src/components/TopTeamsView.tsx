@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getTopTeams } from "../api";
 import type { TopTeamOut } from "../api";
+import AddToTeam from "./AddToTeam";
 import "./MetaBrowseViews.css";
 
 export default function TopTeamsView() {
@@ -52,6 +53,14 @@ export default function TopTeamsView() {
                   <span>{name}</span>
                 </span>
               ))}
+            </div>
+            <div className="top-team-actions">
+              <AddToTeam
+                roster={t.slugs}
+                rosterName={`${t.author ?? "Tournament"} team`}
+                label="Import this team"
+                compact
+              />
             </div>
           </div>
         ))}
