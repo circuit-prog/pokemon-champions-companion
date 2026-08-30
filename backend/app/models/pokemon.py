@@ -84,11 +84,16 @@ class Ability(Base):
 
 
 class PokemonUsageStats(Base):
-    """Real Pokemon Champions competitive usage data, scraped from Pikalytics'
-    published AI data API (/ai/pokedex/battledataregmbs3) for Regulation M-B -
-    the regulation actually current at time of writing, including Mega Pokemon.
-    Only exists for Pokemon actually seen in tracked tournaments (~50 as of
-    writing) - most Pokemon in the `pokemon` table won't have a row here.
+    """Real Pokemon Champions competitive usage data for Regulation M-B.
+
+    Sourced from Smogon's published stats for gen9championsvgc2026regmb
+    (~310 Pokemon, with real usage percentages and EV spreads). We previously
+    used Pikalytics' AI API here, which publishes only the top 50 for this
+    format, no usage percentages, and no spreads at all; Pikalytics is still
+    the source for team cores and top tournament teams, which Smogon lacks.
+
+    Only Pokemon actually seen in ranked play have a row - most of the
+    `pokemon` table won't.
     """
     __tablename__ = "pokemon_usage_stats"
 
@@ -106,6 +111,11 @@ class PokemonUsageStats(Base):
     items_json = Column(String, nullable=False, default="[]")
     abilities_json = Column(String, nullable=False, default="[]")
     teammates_json = Column(String, nullable=False, default="[]")
+
+    # Real EV spreads: [{"nature": "adamant", "evs": {...}, "percent": 14.64}].
+    # The single most-requested thing we couldn't previously get - Pikalytics
+    # publishes no spreads. Champions uses a 66-point budget, 32 per stat.
+    spreads_json = Column(String, nullable=False, default="[]")
 
     pokemon = relationship("Pokemon", backref="usage_stats", uselist=False)
 

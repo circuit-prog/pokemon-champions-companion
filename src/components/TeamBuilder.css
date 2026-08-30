@@ -466,3 +466,13 @@
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
 }
+
+.spread-nature {
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
+.spread-evs {
+  color: #666;
+  font-size: 0.72rem;
+}

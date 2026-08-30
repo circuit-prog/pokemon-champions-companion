@@ -152,6 +152,14 @@ class UsageEntry(BaseModel):
     sprite_url: Optional[str] = None
 
 
+class SpreadEntry(BaseModel):
+    """A real EV spread players actually run, from Smogon's stats.
+    Champions gives 66 EV points total, max 32 in any one stat."""
+    nature: str
+    evs: dict  # {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0}
+    percent: Optional[float] = None
+
+
 class PokemonUsageOut(BaseModel):
     """Real Pokemon Champions tournament usage data for one Pokemon.
     Only exists for the subset of Pokemon actually seen in tracked play."""
@@ -164,6 +172,7 @@ class PokemonUsageOut(BaseModel):
     items: List[UsageEntry]
     abilities: List[UsageEntry]
     teammates: List[UsageEntry] = []
+    spreads: List[SpreadEntry] = []
 
 
 class TeamMemberIn(BaseModel):

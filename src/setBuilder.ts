@@ -5,14 +5,13 @@
 // ("assault-vest", "sucker-punch"), so everything here is really about
 // resolving one to the other against our own database.
 //
-// What we can fill in and what we can't:
-//   - item, ability, moves  -> real tracked usage data, so these are genuine
-//   - nature, EVs           -> NOT published by the usage source at all, so we
-//                              deliberately leave them alone rather than
-//                              inventing numbers and passing them off as real
+// Everything here comes from real tracked usage data - item, ability, moves,
+// and (since we switched to Smogon's published stats) the nature and EV
+// spread players actually run. Nothing is invented.
 import { getPokemon, getPokemonUsage, searchItems } from "./api";
 import type { PokemonDetail, PokemonUsageOut } from "./api";
 import type { TeamSlotData, EvSpread } from "./teamStorage";
+import { MAX_EV_PER_STAT, EV_TOTAL_BUDGET } from "./natures";
 
 export const EMPTY_EVS: EvSpread = { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 };
 
@@ -21,6 +20,24 @@ export interface TopSet {
   item: string;
   ability: string;
   moves: string[];
+  nature: string;
+  evs: EvSpread | null;
+}
+
+/** Clamp a spread to Champions' legal budget.
+ *
+ *  The source data already obeys it, but a spread that somehow didn't would
+ *  silently produce an illegal set, so we never trust it blindly. */
+export function clampSpread(evs: Record<string, number>): EvSpread {
+  const out: EvSpread = { ...EMPTY_EVS };
+  let remaining = EV_TOTAL_BUDGET;
+  for (const key of Object.keys(out) as (keyof EvSpread)[]) {
+    const value = Math.max(0, Math.min(MAX_EV_PER_STAT, evs[key] ?? 0));
+    const allowed = Math.min(value, remaining);
+    out[key] = allowed;
+    remaining -= allowed;
+  }
+  return out;
 }
 
 const MAX_MOVES = 4;
@@ -44,7 +61,7 @@ export async function resolveTopSet(
   detail: PokemonDetail,
   usage: PokemonUsageOut | null
 ): Promise<TopSet> {
-  if (!usage) return { item: "", ability: "", moves: [] };
+  if (!usage) return { item: "", ability: "", moves: [], nature: "hardy", evs: null };
 
   const moves: string[] = [];
   for (const entry of usage.moves ?? []) {
@@ -63,7 +80,12 @@ export async function resolveTopSet(
   const topItem = usage.items?.[0]?.name;
   const item = topItem ? await resolveItemSlug(topItem) : "";
 
-  return { item, ability, moves };
+  // The most-used spread carries both the nature and the EVs.
+  const topSpread = usage.spreads?.[0];
+  const nature = topSpread?.nature || "hardy";
+  const evs = topSpread ? clampSpread(topSpread.evs) : null;
+
+  return { item, ability, moves, nature, evs };
 }
 
 /** Build a complete team slot for a Pokemon, with its most-used set already
@@ -94,8 +116,8 @@ export async function buildSlot(pokemonName: string): Promise<TeamSlotData> {
     pokemon: detail,
     ability: top.ability,
     item: top.item,
-    nature: "hardy",
-    evs: { ...EMPTY_EVS },
+    nature: top.nature,
+    evs: top.evs ?? { ...EMPTY_EVS },
     moves: top.moves,
     usage,
   };

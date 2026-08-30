@@ -112,3 +112,10 @@
   font-weight: 600;
   font-size: 0.8rem;
 }
+
+.ranking-winrate {
+  color: #888;
+  font-size: 0.78rem;
+  white-space: nowrap;
+  margin-left: 0.6rem;
+}

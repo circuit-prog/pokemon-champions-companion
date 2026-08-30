@@ -8,7 +8,7 @@ from sqlalchemy import or_, case
 from app.database import get_db
 from app.models.pokemon import Pokemon, PokemonUsageStats
 from app.name_resolver import resolve_names
-from app.schemas import PokemonSummary, PokemonDetail, PokemonUsageOut, UsageEntry
+from app.schemas import PokemonSummary, PokemonDetail, PokemonUsageOut, UsageEntry, SpreadEntry
 
 router = APIRouter(prefix="/api/pokemon", tags=["pokemon"])
 
@@ -92,4 +92,5 @@ def get_pokemon_usage(name: str, db: Session = Depends(get_db)):
         items=json.loads(stats.items_json),
         abilities=json.loads(stats.abilities_json),
         teammates=teammate_entries,
+        spreads=[SpreadEntry(**s) for s in json.loads(stats.spreads_json or "[]")],
     )

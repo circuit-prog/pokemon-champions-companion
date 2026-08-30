@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { searchItems, getPokemonUsage } from "../api";
 import type { ItemOut, PokemonUsageOut } from "../api";
-import { resolveTopSet } from "../setBuilder";
+import { resolveTopSet, clampSpread } from "../setBuilder";
 import { NATURE_NAMES, MAX_EV_PER_STAT, EV_TOTAL_BUDGET, natureDescription, type StatKey } from "../natures";
 import { statAtLevel } from "../statCalc";
 import type { TeamSlotData } from "../teamStorage";
@@ -277,8 +277,18 @@ function UsagePanel({
     setNote(null);
     try {
       const top = await resolveTopSet(pokemon, usage);
-      onChange({ item: top.item, ability: top.ability, moves: top.moves });
-      setNote("Applied the most-used item, ability and moves. Nature and EVs aren't published in the usage data, so those are left for you.");
+      onChange({
+        item: top.item,
+        ability: top.ability,
+        moves: top.moves,
+        nature: top.nature,
+        ...(top.evs ? { evs: top.evs } : {}),
+      });
+      setNote(
+        top.evs
+          ? "Applied the most-used item, ability, moves, nature and EV spread."
+          : "Applied the most-used item, ability and moves. No EV spread is published for this Pokemon."
+      );
     } finally {
       setApplying(false);
     }
@@ -289,8 +299,8 @@ function UsagePanel({
       <div className="usage-header">
         <span>
           Meta usage: #{usage.rank}
+          {usage.usage_percent != null ? ` · ${usage.usage_percent}% usage` : ""}
           {usage.win_rate != null ? ` · ${usage.win_rate.toFixed(1)}% win rate` : ""}
-          {usage.record ? ` (${usage.record})` : ""}
         </span>
         <button type="button" className="apply-set-btn" onClick={applyWholeSet} disabled={applying}>
           {applying ? "Applying..." : "Use most-used set"}
@@ -299,6 +309,44 @@ function UsagePanel({
 
       <p className="usage-hint">Click any entry below to put it on this Pokemon.</p>
       {note && <div className="usage-note">{note}</div>}
+
+      {/* Guarded with ?? [] throughout: a team saved before spreads existed
+          renders once with its cached usage before the re-fetch lands, and
+          reading .length off the missing field would crash the whole page. */}
+      {(usage.spreads ?? []).length > 0 && (
+        <div className="usage-section">
+          <span className="usage-col-label">EV Spreads</span>
+          {(usage.spreads ?? []).map((spread, i) => {
+            const evs = clampSpread(spread.evs);
+            const active =
+              slot.nature === spread.nature &&
+              STAT_KEYS.every((k) => slot.evs[k] === evs[k]);
+            return (
+              <button
+                key={`${spread.nature}-${i}`}
+                type="button"
+                className={active ? "usage-entry usage-entry-clickable active" : "usage-entry usage-entry-clickable"}
+                title={active ? "This spread is already applied" : "Click to apply this nature and EV spread"}
+                onClick={() => {
+                  setNote(null);
+                  onChange({ nature: spread.nature, evs });
+                }}
+              >
+                <span className="usage-entry-name">
+                  <span className="spread-nature">{spread.nature}</span>{" "}
+                  <span className="spread-evs">
+                    {STAT_KEYS.map((k) => `${STAT_LABELS[k]} ${evs[k]}`)
+                      .filter((_, idx) => evs[STAT_KEYS[idx]] > 0)
+                      .join(" · ") || "no EVs"}
+                  </span>
+                </span>
+                <span className="usage-entry-pct">{spread.percent != null ? `${spread.percent}%` : ""}</span>
+                <span className="usage-entry-mark">{active ? "✓" : "+"}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       <UsageSection
         label="Moves"
@@ -332,7 +380,7 @@ function UsagePanel({
         onApply={
           onAddTeammate
             ? (name) => {
-                const entry = usage.teammates.find((t) => t.name === name);
+                const entry = (usage.teammates ?? []).find((t) => t.name === name);
                 if (!entry?.slug) {
                   setNote(`${name} isn't in our dex, so it can't be added.`);
                   return;
@@ -343,7 +391,7 @@ function UsagePanel({
             : undefined
         }
         isActive={(name) => {
-          const entry = usage.teammates.find((t) => t.name === name);
+          const entry = (usage.teammates ?? []).find((t) => t.name === name);
           return Boolean(entry?.slug && onTeamHas?.(entry.slug));
         }}
         hint="Click to add this Pokemon to your team"
@@ -370,13 +418,15 @@ export default function SlotEditor({
   // Best-effort usage fetch: most Pokemon won't have tracked usage data yet.
   //
   // Teams are saved to localStorage with their usage data embedded, so a team
-  // built before we started returning teammate slugs still holds the old
-  // shape - and without a slug a teammate can't be added to the team. Treat
-  // that as stale and re-fetch, rather than leaving old teams broken.
+  // built before a field existed still holds the old shape: teammates without
+  // a slug can't be added, and usage without `spreads` shows no EV spreads at
+  // all. Treat either as stale and re-fetch, rather than leaving already-saved
+  // teams stuck on out-of-date data.
   const usageIsStale =
     slot.usage !== null &&
-    slot.usage.teammates.length > 0 &&
-    slot.usage.teammates.every((t) => t.slug === undefined);
+    (slot.usage.spreads === undefined ||
+      ((slot.usage.teammates ?? []).length > 0 &&
+        (slot.usage.teammates ?? []).every((t) => t.slug === undefined)));
 
   useEffect(() => {
     if (slot.usage !== null && !usageIsStale) return;

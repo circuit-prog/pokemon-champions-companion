@@ -19,8 +19,9 @@ export default function MetaRankingsView({ onSelectDetail }: { onSelectDetail: (
   return (
     <div className="meta-rankings-view">
       <p className="meta-rankings-note">
-        Real Pokemon Champions Regulation M-B ranked battle data from Pikalytics ({rankings.length} Pokemon
-        tracked), including win rate.
+        Real Pokemon Champions Regulation M-B ranked battle data from Smogon's published stats
+        ({rankings.length} Pokemon tracked), with usage percentages and real EV spreads. Win rates,
+        where shown, come from Pikalytics.
       </p>
 
       <h3>Top {top20.length} Pokemon</h3>
@@ -49,7 +50,12 @@ export default function MetaRankingsView({ onSelectDetail }: { onSelectDetail: (
                 {r.type2}
               </span>
             )}
-            {r.win_rate != null && <span className="ranking-usage">{r.win_rate}% win rate</span>}
+            {/* Usage is the headline number - it's what "top 25 meta" means -
+                so it leads, with win rate after it where we have one. */}
+            {r.usage_percent != null && <span className="ranking-usage">{r.usage_percent}% usage</span>}
+            {r.win_rate != null && (
+              <span className="ranking-winrate">{r.win_rate.toFixed(1)}% win rate</span>
+            )}
           </button>
         ))}
       </div>

@@ -17,10 +17,26 @@ from sqlalchemy.orm import Session
 from app.models.pokemon import Pokemon
 
 
+def _to_slug(display_name: str) -> str:
+    """Best-effort conversion of a display name to our dex slug.
+
+    Beyond lowercasing and hyphenating, this handles the two conventions our
+    sources use that PokeAPI doesn't:
+      - punctuation is dropped ("Mr. Rime" -> "mr-rime")
+      - single-letter gender segments are spelled out
+        ("Basculegion-F" -> "basculegion-female", "Meowstic-M-Mega" ->
+         "meowstic-male-mega")
+    """
+    slug = display_name.lower().replace(".", "").replace("'", "").replace(":", "")
+    slug = "-".join(part for part in slug.replace(" ", "-").split("-") if part)
+    parts = ["female" if p == "f" else "male" if p == "m" else p for p in slug.split("-")]
+    return "-".join(parts)
+
+
 def resolve_names(db: Session, display_names: Set[str]) -> Dict[str, Tuple[Optional[str], Optional[str]]]:
     """Map display names to (slug, sprite_url), with (None, None) where a name
     doesn't match anything we hold."""
-    slugs = {n: n.lower().replace(" ", "-") for n in display_names}
+    slugs = {n: _to_slug(n) for n in display_names}
     found = db.query(Pokemon).filter(Pokemon.name.in_(list(slugs.values()))).all()
     by_slug = {p.name: p.sprite_url for p in found}
 

@@ -131,6 +131,14 @@ export interface UsageEntry {
   sprite_url?: string | null;
 }
 
+/** A real EV spread players actually run. Champions gives 66 EV points
+ *  total with a maximum of 32 in any one stat. */
+export interface SpreadEntry {
+  nature: string;
+  evs: Record<string, number>;
+  percent: number | null;
+}
+
 export interface PokemonUsageOut {
   format: string;
   rank: number;
@@ -141,6 +149,7 @@ export interface PokemonUsageOut {
   items: UsageEntry[];
   abilities: UsageEntry[];
   teammates: UsageEntry[];
+  spreads: SpreadEntry[];
 }
 
 // Returns null (not an error) when the Pokemon has no tracked competitive
