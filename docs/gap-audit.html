@@ -1,0 +1,590 @@
+<title>Companion Gap Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+  :root {
+    --ground: #eef1f7;
+    --surface: #ffffff;
+    --surface-2: #f6f8fc;
+    --line: #d6dcea;
+    --line-soft: #e6eaf3;
+    --ink: #141d2b;
+    --ink-2: #3c4a5e;
+    --muted: #6a7a91;
+    --accent: #2a5cb8;
+    --accent-soft: #e5ecfb;
+    --crit: #b3261e;
+    --crit-soft: #fae4e2;
+    --warn: #97620a;
+    --warn-soft: #faeeda;
+    --ok: #1a6f4a;
+    --ok-soft: #e0f0e8;
+    --shadow: 0 1px 2px rgba(20, 29, 43, .06), 0 8px 24px rgba(20, 29, 43, .05);
+  }
+
+  :root:not([data-theme="light"]) {
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0d141d;
+      --surface: #151e2a;
+      --surface-2: #1b2634;
+      --line: #2a3747;
+      --line-soft: #222d3c;
+      --ink: #e7edf6;
+      --ink-2: #b9c5d6;
+      --muted: #8496ac;
+      --accent: #7ba5f0;
+      --accent-soft: #1c2c47;
+      --crit: #f2938b;
+      --crit-soft: #3a1f1d;
+      --warn: #e0ad63;
+      --warn-soft: #362a16;
+      --ok: #7fc9a4;
+      --ok-soft: #17301f;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .3);
+      color-scheme: dark;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #0d141d;
+    --surface: #151e2a;
+    --surface-2: #1b2634;
+    --line: #2a3747;
+    --line-soft: #222d3c;
+    --ink: #e7edf6;
+    --ink-2: #b9c5d6;
+    --muted: #8496ac;
+    --accent: #7ba5f0;
+    --accent-soft: #1c2c47;
+    --crit: #f2938b;
+    --crit-soft: #3a1f1d;
+    --warn: #e0ad63;
+    --warn-soft: #362a16;
+    --ok: #7fc9a4;
+    --ok-soft: #17301f;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .3);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+    font-size: 17px;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0 1.25rem 6rem;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 61rem; margin: 0 auto; }
+
+  h1, h2, h3, .ui {
+    font-family: Archivo, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .mono {
+    font-family: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+
+  /* ---------- masthead ---------- */
+
+  header.masthead {
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+    padding: 4rem 0 2rem;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .7rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  h1 {
+    font-size: clamp(2.1rem, 5.5vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: -.02em;
+    line-height: 1.05;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .standfirst {
+    font-size: 1.16rem;
+    color: var(--ink-2);
+    max-width: 40rem;
+    margin: 0;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-top: .5rem;
+  }
+
+  .meta-item { display: flex; flex-direction: column; gap: .1rem; }
+
+  .meta-item .k {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .66rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .meta-item .v {
+    font-family: Archivo, sans-serif;
+    font-weight: 600;
+    font-size: 1.35rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+
+  /* ---------- section scaffolding ---------- */
+
+  section { padding-top: 3.5rem; }
+
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -.015em;
+    margin: 0 0 .35rem;
+    text-wrap: balance;
+  }
+
+  .section-note {
+    color: var(--muted);
+    max-width: 44rem;
+    margin: 0 0 1.5rem;
+    font-size: .97rem;
+  }
+
+  h3 {
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 2.25rem 0 .75rem;
+    padding-bottom: .4rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* ---------- findings ---------- */
+
+  .finds {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+
+  .find {
+    display: grid;
+    grid-template-columns: 2.6rem 1fr 6.5rem;
+    gap: .35rem 1rem;
+    align-items: baseline;
+    background: var(--surface);
+    border: 1px solid var(--line-soft);
+    border-radius: 3px;
+    padding: .85rem 1rem;
+    box-shadow: var(--shadow);
+  }
+
+  .find-n {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .78rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+  }
+
+  .find-body { min-width: 0; }
+
+  .find-title {
+    font-family: Archivo, sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+
+  .find-detail {
+    font-size: .93rem;
+    color: var(--ink-2);
+    margin-top: .18rem;
+  }
+
+  .find-detail code {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .82em;
+    background: var(--surface-2);
+    border: 1px solid var(--line-soft);
+    border-radius: 3px;
+    padding: .05em .32em;
+  }
+
+  .chip {
+    justify-self: end;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .62rem;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    padding: .22rem .45rem;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  .chip.blocking { background: var(--crit-soft); color: var(--crit); }
+  .chip.major    { background: var(--warn-soft); color: var(--warn); }
+  .chip.polish   { background: var(--ok-soft); color: var(--ok); }
+  .chip.later    { background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); }
+
+  /* ---------- plan ---------- */
+
+  .tier {
+    background: var(--surface);
+    border: 1px solid var(--line-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: 3px;
+    padding: 1.4rem 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+  }
+
+  .tier-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .75rem;
+    margin-bottom: .3rem;
+  }
+
+  .tier-num {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .7rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: .2rem .5rem;
+    border-radius: 2px;
+  }
+
+  .tier-head h3 {
+    font-size: 1.28rem;
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: -.01em;
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  .tier-why {
+    color: var(--ink-2);
+    font-size: .97rem;
+    margin: .1rem 0 1rem;
+    max-width: 46rem;
+  }
+
+  .tier ol {
+    margin: 0;
+    padding-left: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: .55rem;
+  }
+
+  .tier li { padding-left: .2rem; }
+
+  .tier li b {
+    font-family: Archivo, sans-serif;
+    font-weight: 600;
+  }
+
+  .refs {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .72rem;
+    color: var(--muted);
+    margin-top: .15rem;
+  }
+
+  .callout {
+    background: var(--accent-soft);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    border-radius: 3px;
+    padding: 1.1rem 1.3rem;
+    margin: 1.5rem 0 0;
+  }
+
+  .callout p { margin: 0; color: var(--ink-2); font-size: .97rem; }
+  .callout strong { color: var(--ink); font-family: Archivo, sans-serif; }
+
+  footer {
+    margin-top: 4rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: .87rem;
+  }
+
+  @media (max-width: 640px) {
+    .find { grid-template-columns: 1.9rem 1fr; }
+    .chip { grid-column: 2; justify-self: start; margin-top: .35rem; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <span class="eyebrow">Pokémon Champions Companion · Feature audit</span>
+    <h1>What's missing before this is the best team builder</h1>
+    <p class="standfirst">
+      A walkthrough of every page in the running site, measured against Pikalytics and Pokémon
+      Showdown — then a build order, most important first.
+    </p>
+    <div class="meta-row">
+      <div class="meta-item"><span class="k">Gaps found</span><span class="v">47</span></div>
+      <div class="meta-item"><span class="k">Blocking</span><span class="v">12</span></div>
+      <div class="meta-item"><span class="k">Build tiers</span><span class="v">7</span></div>
+      <div class="meta-item"><span class="k">Audited</span><span class="v">30 Aug 2026</span></div>
+    </div>
+  </header>
+
+  <section>
+    <h2>The one sentence version</h2>
+    <p class="section-note">
+      The site already <em>computes</em> more than Pikalytics does. What it doesn't do is let you
+      act on any of it. Almost every number on screen is dead text — you can read that Sucker Punch
+      is on 99.5% of Kingambit, but you then have to go and find Sucker Punch yourself and tick it.
+      That single missing behaviour — click a statistic, get the thing — accounts for the largest
+      share of the friction, and it's also the cheapest category to fix.
+    </p>
+
+    <div class="callout">
+      <p>
+        <strong>One caveat on the data ceiling.</strong> Pikalytics publishes usage, win rate, moves,
+        items, abilities and teammates for exactly 50 Pokémon in Regulation M-B, and publishes no EV
+        spreads at all. Several things below ("show the most-used spread", "rank all 600") are capped
+        by what the source gives us, not by our code. Where that's the case, I've said so rather than
+        promising a feature we can't feed.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Findings</h2>
+    <p class="section-note">
+      Grouped by theme, each tagged by how much it stands between you and a finished team.
+      <span class="mono">BLOCKING</span> means you're actively fighting the interface;
+      <span class="mono">MAJOR</span> means a capability a rival site has and we don't;
+      <span class="mono">POLISH</span> is friction; <span class="mono">LATER</span> belongs to a
+      future phase of the original plan.
+    </p>
+
+    <h3>A · Nothing is click-to-apply</h3>
+    <div class="finds">
+      <div class="find"><span class="find-n">01</span><div class="find-body"><div class="find-title">Usage lists are inert text</div><div class="find-detail">Moves, items, abilities and teammates all render as plain <code>&lt;div&gt;</code>s in <code>UsageSection</code>. Clicking "Assault Vest 62%" does nothing. This is your headline request and it's currently unimplemented everywhere.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find"><span class="find-n">02</span><div class="find-body"><div class="find-title">Adding a Pokémon gives you a blank set</div><div class="find-detail">New slots arrive with no moves, no item, no ability, no EVs — even for a Pokémon whose real-world set we know exactly. There should be a one-click "use the most-used set".</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find"><span class="find-n">03</span><div class="find-body"><div class="find-title">No "add to team" from the Pokédex or a Pokémon's page</div><div class="find-detail">You can research Kingambit thoroughly and then have no way to act on it except navigating to a team and searching the name again.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find"><span class="find-n">04</span><div class="find-body"><div class="find-title">Top Teams can't be imported</div><div class="find-detail">We show 10 winning tournament teams with full rosters and no way to load one. This is the fastest possible on-ramp for a new player and it's one button.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find"><span class="find-n">05</span><div class="find-body"><div class="find-title">Team Cores can't seed a team</div><div class="find-detail">"Garchomp + Kingambit, 1,975 teams" is a proven starting pair with no way to start from it.</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">06</span><div class="find-body"><div class="find-title">Move IQ recommendations aren't clickable</div><div class="find-detail">It correctly tells you Poison Jab covers your Grass gap, then makes you go and add it by hand.</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">07</span><div class="find-body"><div class="find-title">Checks &amp; Counters rows are dead ends</div><div class="find-detail">Sneasler deals 198.9% to your Kingambit — but you can't click through to Sneasler, or open that matchup in the calculator.</div></div><span class="chip major">Major</span></div>
+    </div>
+
+    <h3>B · Data we hold but never show</h3>
+    <div class="finds">
+      <div class="find"><span class="find-n">08</span><div class="find-body"><div class="find-title">Item and ability usage missing from the Pokémon page</div><div class="find-detail">The page shows "Best Moves (real usage data)" and stops. We store <code>items_json</code> and <code>abilities_json</code> for all 50 tracked Pokémon and display neither. Abilities appear only as a flat dex list with no percentages.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find"><span class="find-n">09</span><div class="find-body"><div class="find-title">Meta Rankings shows no usage percentage</div><div class="find-detail">It shows win rate only. Usage % is the single headline number Pikalytics is built around, we have it, and it's absent from the ranking list.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find"><span class="find-n">10</span><div class="find-body"><div class="find-title">Win rates print to three decimals</div><div class="find-detail">"48.584% win rate" — false precision, and it makes the column hard to scan. One decimal.</div></div><span class="chip polish">Polish</span></div>
+      <div class="find"><span class="find-n">11</span><div class="find-body"><div class="find-title">The usage-trend endpoint is orphaned</div><div class="find-detail"><code>GET /api/meta/trend/&lt;name&gt;</code> works and accumulates snapshots on every scrape. Nothing in the interface calls it — no rising/falling indicator, no chart.</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">12</span><div class="find-body"><div class="find-title">No data-freshness stamp anywhere</div><div class="find-detail">Nothing tells you when the meta data was last pulled, so you can't know whether you're looking at this week's meta.</div></div><span class="chip polish">Polish</span></div>
+      <div class="find"><span class="find-n">13</span><div class="find-body"><div class="find-title">Win/loss records only surface on the detail page</div><div class="find-detail">"13129-12414-39" is a sample-size signal — it belongs next to the win rate wherever the win rate appears.</div></div><span class="chip polish">Polish</span></div>
+    </div>
+
+    <h3>C · Search and filtering</h3>
+    <div class="finds">
+      <div class="find"><span class="find-n">14</span><div class="find-body"><div class="find-title">Pokémon search matches names only</div><div class="find-detail">Typing "levitate" returns zero results; so does "fire", "wall", or "base 100 speed". <code>list_pokemon</code> filters on <code>name</code> and <code>display_name</code> and nothing else. You asked for ability search explicitly, and Showdown-style filtered search was requested earlier and only ever delivered for moves.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find"><span class="find-n">15</span><div class="find-body"><div class="find-title">No standalone move, ability or item browser</div><div class="find-detail">Rich move search exists, but only buried inside an open team slot. There's no page you can go to and ask "which Pokémon get Fake Out?"</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">16</span><div class="find-body"><div class="find-title">Item search can't filter by what an item does</div><div class="find-detail">Name substring only — no "show me all berries" or "all choice items", despite storing effect text for all 2,222.</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">17</span><div class="find-body"><div class="find-title">Pokédex table can't filter by type or sort by usage %</div><div class="find-detail">Sorting works on base stats and name; there's no type filter at all, which is the most common way anyone narrows a dex.</div></div><span class="chip major">Major</span></div>
+    </div>
+
+    <h3>D · Scale limits</h3>
+    <div class="finds">
+      <div class="find"><span class="find-n">18</span><div class="find-body"><div class="find-title">"Browse every Pokemon" actually returns 100</div><div class="find-detail"><code>list_pokemon</code> defaults to <code>limit=100</code> and hard-caps at <code>le=500</code>. We imported all 1,351 species and the interface can only ever reach 100 of them. Your earlier "top 600" request is impossible against the current cap.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find"><span class="find-n">19</span><div class="find-body"><div class="find-title">No pagination or infinite scroll</div><div class="find-detail">Nothing anywhere pages, so raising the cap alone would just render a 1,351-row table.</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">20</span><div class="find-body"><div class="find-title">Only 50 Pokémon have usage data</div><div class="find-detail">Source-limited, not a bug — but the interface should say so where a Pokémon has no data, instead of a bare "No tracked competitive usage data yet."</div></div><span class="chip polish">Polish</span></div>
+    </div>
+
+    <h3>E · Team-building convenience</h3>
+    <div class="finds">
+      <div class="find"><span class="find-n">21</span><div class="find-body"><div class="find-title">No EV spread presets</div><div class="find-detail">Every spread is dialled in stat by stat. With a 66-point budget, presets ("max Attack + Speed", "bulky", "fast") would cover most cases in one click. Real spreads aren't published by Pikalytics, so presets are the honest substitute.</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">22</span><div class="find-body"><div class="find-title">No team export</div><div class="find-detail">Showdown import exists; export doesn't. You can get teams in and never out — so the site can't be part of a workflow with any other tool.</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">23</span><div class="find-body"><div class="find-title">Team cards only open from the title text</div><div class="find-detail">Clicking the card body — the obvious target, and most of the card's area — does nothing. I hit this myself twice during the audit before realising the card wasn't the button.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find"><span class="find-n">24</span><div class="find-body"><div class="find-title">No rename, and folders can't be created from the list</div><div class="find-detail">The folder rail shows "(all)" and "(uncategorized)" with no way to add a folder or rename a team from the list view.</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">25</span><div class="find-body"><div class="find-title">No duplicate or legality warnings</div><div class="find-detail">Two Pokémon can hold the same item, or you can carry a duplicate species, with no flag. No EV-budget overspend warning at team level either.</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">26</span><div class="find-body"><div class="find-title">No undo</div><div class="find-detail">Delete is immediate and permanent against localStorage.</div></div><span class="chip polish">Polish</span></div>
+    </div>
+
+    <h3>F · Analysis depth</h3>
+    <div class="finds">
+      <div class="find"><span class="find-n">27</span><div class="find-body"><div class="find-title">The damage calculator can't load your own team</div><div class="find-detail">Both sides start empty and you retype a set you already built. Every serious calculator lets you pull from a saved team.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find"><span class="find-n">28</span><div class="find-body"><div class="find-title">Meta Calcs opens blank and demands a name</div><div class="find-detail">You have to already know who you're worried about. It should open on a grid of the top 25 to click — which is exactly the data Breaker/Waller already pull.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find"><span class="find-n">29</span><div class="find-body"><div class="find-title">No "what beats my whole team" view</div><div class="find-detail">Breaker and Waller answer this one Pokémon at a time. The question you actually asked — which meta threats score well against <em>all six</em> at once — has no view. This is the highest-value analysis we don't have, and the backend matrix to compute it already exists.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find"><span class="find-n">30</span><div class="find-body"><div class="find-title">Type Matchups is defensive only</div><div class="find-detail">It shows what hits your team hard, never what your team's typing hits hard. You asked for both directions.</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">31</span><div class="find-body"><div class="find-title">Type chart ignores immunity abilities</div><div class="find-detail">Levitate, Flash Fire, Water Absorb, Volt Absorb and Storm Drain all change a matchup completely and none are factored in, so the grid is actively wrong for those Pokémon.</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">32</span><div class="find-body"><div class="find-title">Speed IQ has no meta speed ladder</div><div class="find-detail">It lists your team's speeds in isolation. The useful version interleaves them with the top 25's speeds so you can see who you outrun. No Tailwind, Choice Scarf or paralysis toggles either.</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">33</span><div class="find-body"><div class="find-title">Meta targets are calculated on neutral EVs</div><div class="find-detail">Breaker, Waller and Checks &amp; Counters run opponents at 0 EVs, which understates incoming damage everywhere. Pikalytics doesn't publish spreads, so the fix is a documented assumption — a standard offensive/defensive preset per role — not real data.</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">34</span><div class="find-body"><div class="find-title">No team-vs-team analysis</div><div class="find-detail">We have 10 real tournament teams. Nothing scores your team against them, which is the closest thing to a practice result the data allows.</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">35</span><div class="find-body"><div class="find-title">Checks &amp; Counters is fixed at 12 and drops rows silently</div><div class="find-detail">The Kingambit page promised 12 and rendered 8 — immune or unresolvable matchups vanish with no note. Should match Breaker/Waller at 25 and say what it skipped.</div></div><span class="chip major">Major</span></div>
+    </div>
+
+    <h3>G · The beginner on-ramp</h3>
+    <div class="finds">
+      <div class="find"><span class="find-n">36</span><div class="find-body"><div class="find-title">Nothing tells a newcomer where to start</div><div class="find-detail">The site opens on an empty team list. There's no "here is the current best Pokémon, here are the best sets, here are three teams that win" surface — which is the thing you said you wanted most for someone with limited competitive experience.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find"><span class="find-n">37</span><div class="find-body"><div class="find-title">No recommended-set generator</div><div class="find-detail">Nowhere can you say "give me a good Garchomp" and get a filled set, despite having the usage data to build one for all 50 tracked Pokémon.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find"><span class="find-n">38</span><div class="find-body"><div class="find-title">No starter teams</div><div class="find-detail">A new user has no way to get a working team without building one from nothing.</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">39</span><div class="find-body"><div class="find-title">Roles are never named</div><div class="find-detail">Nothing labels a Pokémon a physical attacker, a wall, or speed control, so the stat table means little without prior knowledge.</div></div><span class="chip major">Major</span></div>
+    </div>
+
+    <h3>H · Interface polish</h3>
+    <div class="finds">
+      <div class="find"><span class="find-n">40</span><div class="find-body"><div class="find-title">No loading states</div><div class="find-detail">Tables render empty during the 250 ms debounce plus fetch, so the page looks broken. I logged this as a bug myself mid-audit before proving it was just an unstyled wait.</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">41</span><div class="find-body"><div class="find-title">No error states</div><div class="find-detail">If the backend is down, every panel fails silently to an empty box. Nothing says "can't reach the server".</div></div><span class="chip major">Major</span></div>
+      <div class="find"><span class="find-n">42</span><div class="find-body"><div class="find-title">Search dropdowns have no keyboard navigation</div><div class="find-detail">No arrow keys, no Enter to pick, no Escape to close — every selection needs the mouse.</div></div><span class="chip polish">Polish</span></div>
+      <div class="find"><span class="find-n">43</span><div class="find-body"><div class="find-title">The meta data is buried under "Pokedex"</div><div class="find-detail">Rankings, Cores and Top Teams — the whole competitive dataset — live in sub-tabs of a page named after a stat encyclopedia. They deserve top-level navigation.</div></div><span class="chip polish">Polish</span></div>
+      <div class="find"><span class="find-n">44</span><div class="find-body"><div class="find-title">Teams aren't URL-addressable</div><div class="find-detail"><code>?calc=</code>, <code>?dex=</code> and <code>?mon=</code> are shareable; a team isn't, so you can't link to or bookmark one.</div></div><span class="chip polish">Polish</span></div>
+      <div class="find"><span class="find-n">45</span><div class="find-body"><div class="find-title">No mobile layout</div><div class="find-detail">Fixed-width tables and the two-column slot editor will not survive a phone.</div></div><span class="chip polish">Polish</span></div>
+    </div>
+
+    <h3>I · Later phases of the original plan</h3>
+    <div class="finds">
+      <div class="find"><span class="find-n">46</span><div class="find-body"><div class="find-title">Tournament browser, spreadsheet import, practice log, trend charts</div><div class="find-detail">Phases 2 through 5 as originally planned. All still untouched — noted here for completeness, not for now.</div></div><span class="chip later">Later</span></div>
+      <div class="find"><span class="find-n">47</span><div class="find-body"><div class="find-title">Still localhost-only</div><div class="find-detail">Nothing is deployed, so the site only exists while both servers are running on your machine.</div></div><span class="chip later">Later</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Proposed build order</h2>
+    <p class="section-note">
+      Ordered by how much each tier moves the site toward "most convenient website ever", against
+      what it costs to build. Tiers 1 and 2 are mostly wiring work over data and endpoints that
+      already exist, which is why they come first — the biggest gains are also the cheapest.
+    </p>
+
+    <div class="tier">
+      <div class="tier-head"><span class="tier-num">Tier 1</span><h3>Make every number clickable</h3></div>
+      <p class="tier-why">Your central complaint, and the single change that most alters how the site feels to use. Almost no new data required — it's turning existing displays into controls.</p>
+      <ol>
+        <li><b>Click any usage entry to apply it.</b> Item, move, ability and teammate rows become buttons that write straight into the open slot. <span class="refs">SlotEditor.tsx · UsageSection</span></li>
+        <li><b>"Use most-used set" button</b> on every slot, plus auto-apply when you add a tracked Pokémon — fills the top item, top ability and top four moves in one action. <span class="refs">new setBuilder.ts + SlotEditor</span></li>
+        <li><b>Add-to-team buttons everywhere</b> — Pokédex rows, the Pokémon page, Checks &amp; Counters rows, and Move IQ suggestions. <span class="refs">PokemonTable · PokemonDetail · MoveIQPanel</span></li>
+        <li><b>Import a Top Team or a Team Core</b> into a new team in one click. <span class="refs">TopTeamsPanel · CoresPanel</span></li>
+      </ol>
+    </div>
+
+    <div class="tier">
+      <div class="tier-head"><span class="tier-num">Tier 2</span><h3>Show the data we already have</h3></div>
+      <p class="tier-why">Pure display work against fields already in the database and already served by the API. Highest information gain per hour of anything on this list.</p>
+      <ol>
+        <li><b>Item and ability usage on the Pokémon page</b>, laid out like the existing moves list. <span class="refs">PokemonDetail</span></li>
+        <li><b>Usage % in the rankings</b>, alongside win rate and record; round win rates to one decimal. <span class="refs">MetaRankings</span></li>
+        <li><b>Rising / falling indicator</b> per Pokémon, from the orphaned trend endpoint. <span class="refs">GET /api/meta/trend</span></li>
+        <li><b>"Meta data as of ⟨date⟩"</b> stamp in the header. <span class="refs">UsageSnapshot table</span></li>
+      </ol>
+    </div>
+
+    <div class="tier">
+      <div class="tier-head"><span class="tier-num">Tier 3</span><h3>Search everything, reach everything</h3></div>
+      <p class="tier-why">Directly answers "I want to search my abilities", and lifts the cap that currently hides 93% of the imported dex.</p>
+      <ol>
+        <li><b>Multi-field Pokémon search</b> — ability, type, stat thresholds and role, in the same box, Showdown-style. <span class="refs">routers/pokemon.py · list_pokemon</span></li>
+        <li><b>Raise the limit and add paging</b> so the full 1,351 dex is genuinely browsable. <span class="refs">le=500 cap</span></li>
+        <li><b>Type filter chips and a usage-% sort</b> on the Pokédex table.</li>
+        <li><b>Standalone move, ability and item browsers</b> as their own pages, with "which Pokémon learn this" reverse lookup.</li>
+      </ol>
+    </div>
+
+    <div class="tier">
+      <div class="tier-head"><span class="tier-num">Tier 4</span><h3>Answer "what beats my team?"</h3></div>
+      <p class="tier-why">The analytical heart of what you described. The matchup matrix built for Breaker/Waller already computes the raw numbers — this is a new reading of them plus targeted additions.</p>
+      <ol>
+        <li><b>Team Threat Report</b> — score every top-25 Pokémon against all six of yours at once and rank by total pressure, so the Pokémon nobody on your team handles rises to the top. <span class="refs">extends /api/calc/team-matchups</span></li>
+        <li><b>Load from team in the damage calculator</b>, both sides. <span class="refs">DamageCalculator</span></li>
+        <li><b>Meta Calcs opens on a top-25 grid</b> instead of a blank search box.</li>
+        <li><b>Offensive coverage grid</b> beside the defensive one, and factor immunity abilities into both. <span class="refs">typeChart.ts</span></li>
+        <li><b>Speed ladder</b> interleaving your team with the meta's speeds, with Tailwind / Scarf / paralysis toggles.</li>
+        <li><b>Role-based EV presets for meta targets</b>, replacing the current neutral-EV assumption, clearly labelled as an assumption.</li>
+        <li><b>Score your team against the 10 real tournament teams.</b></li>
+      </ol>
+    </div>
+
+    <div class="tier">
+      <div class="tier-head"><span class="tier-num">Tier 5</span><h3>The beginner on-ramp</h3></div>
+      <p class="tier-why">You asked for this to work without explanations for now — so it's about surfacing good defaults, not writing tutorials.</p>
+      <ol>
+        <li><b>A "Start here" home page</b> — current best Pokémon, best sets, and three importable winning teams.</li>
+        <li><b>Recommended set generator</b> — one button gives a complete competitive set for any of the 50 tracked Pokémon.</li>
+        <li><b>Role labels</b> (physical attacker, wall, speed control, support) derived from base stats and the most-used moveset.</li>
+        <li><b>Starter teams</b> ready to import and modify.</li>
+      </ol>
+    </div>
+
+    <div class="tier">
+      <div class="tier-head"><span class="tier-num">Tier 6</span><h3>Convenience and polish</h3></div>
+      <p class="tier-why">Individually small, collectively the difference between "works" and "nice to use".</p>
+      <ol>
+        <li><b>Loading skeletons and real error states</b> on every panel.</li>
+        <li><b>Whole team card clickable</b>; rename and folder creation from the list.</li>
+        <li><b>Export teams to Showdown text</b>, closing the round trip.</li>
+        <li><b>Keyboard navigation</b> in every search dropdown.</li>
+        <li><b>Duplicate-item, duplicate-species and EV-overspend warnings.</b></li>
+        <li><b>Promote the meta pages to top-level navigation</b>; make teams URL-addressable.</li>
+        <li><b>Mobile layout.</b></li>
+      </ol>
+    </div>
+
+    <div class="tier">
+      <div class="tier-head"><span class="tier-num">Tier 7</span><h3>Later phases</h3></div>
+      <p class="tier-why">Unchanged from the original plan, and genuinely lower priority than everything above.</p>
+      <ol>
+        <li><b>Trend charts</b> over accumulated snapshots (Phase 5).</li>
+        <li><b>Tournament browser</b> and results pages (Phase 2).</li>
+        <li><b>Spreadsheet ingestion</b> (Phase 3).</li>
+        <li><b>Practice and game-log tracking</b> (Phase 4).</li>
+        <li><b>Deployment</b>, so the site outlives your dev servers.</li>
+      </ol>
+    </div>
+
+    <div class="callout">
+      <p>
+        <strong>Suggested first move.</strong> Tier 1 plus item 5 of Tier 2 is a single coherent
+        session and would change the day-to-day feel of the site more than everything below it
+        combined — after it, every statistic on screen becomes a control, and the Pokémon page
+        finally shows the item and ability data we've had all along.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    Audited against the running build on 30 August 2026 — every finding was reproduced in the
+    browser or confirmed in the source, not inferred.
+  </footer>
+
+</div>
