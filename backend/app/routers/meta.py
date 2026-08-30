@@ -5,43 +5,10 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.pokemon import Pokemon, PokemonUsageStats, TeamCore, TopTeam, UsageSnapshot
+from app.name_resolver import resolve_names
 from app.schemas import MetaRankingEntry, TeamCoreOut, TopTeamOut, UsageTrendPoint
 
 router = APIRouter(prefix="/api/meta", tags=["meta"])
-
-
-def _resolve_map(db: Session, display_names: set) -> dict:
-    """Map Pikalytics display names (e.g. 'Charizard-Mega-Y') to the actual
-    Pokemon in our dex, as {display_name: (slug, sprite_url)}.
-
-    Their naming uses hyphens where PokeAPI slugs do too, so a lowercase
-    hyphenated lookup covers most cases. We return the slug as well as the
-    sprite because the frontend needs it to actually build a team out of a
-    core or a tournament roster - a display name alone isn't enough to look
-    the Pokemon back up.
-    """
-    slugs = {n: n.lower().replace(" ", "-") for n in display_names}
-    found = db.query(Pokemon).filter(Pokemon.name.in_(list(slugs.values()))).all()
-    by_slug = {p.name: p.sprite_url for p in found}
-
-    result = {
-        name: (slug, by_slug[slug]) if slug in by_slug else (None, None)
-        for name, slug in slugs.items()
-    }
-
-    # Species with battle/gender forms (Basculegion, Maushold, Pyroar, ...)
-    # aren't in PokeAPI under their plain name - fall back to the first variant.
-    for name, slug in slugs.items():
-        if result[name][0] is None:
-            variant = (
-                db.query(Pokemon)
-                .filter(Pokemon.name.like(f"{slug}-%"))
-                .order_by(Pokemon.id)
-                .first()
-            )
-            if variant:
-                result[name] = (variant.name, variant.sprite_url)
-    return result
 
 
 @router.get("/rankings", response_model=list[MetaRankingEntry])
@@ -76,7 +43,7 @@ def get_team_cores(
     rows = query.order_by(TeamCore.size, TeamCore.rank).all()
 
     all_names = {n for r in rows for n in json.loads(r.pokemon_json)}
-    resolved = _resolve_map(db, all_names)
+    resolved = resolve_names(db, all_names)
 
     return [
         TeamCoreOut(
@@ -102,7 +69,7 @@ def get_top_teams(
         rows = [r for r in rows if any(needle in n.lower() for n in json.loads(r.pokemon_json))]
 
     all_names = {n for r in rows for n in json.loads(r.pokemon_json)}
-    resolved = _resolve_map(db, all_names)
+    resolved = resolve_names(db, all_names)
 
     return [
         TopTeamOut(

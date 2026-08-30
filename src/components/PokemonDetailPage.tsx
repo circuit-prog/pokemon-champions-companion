@@ -151,8 +151,12 @@ export default function PokemonDetailPage({ name, onBack }: { name: string; onBa
               <div className="best-moves-list">
                 {usage.teammates.map((t) => (
                   <div className="best-move-row" key={t.name}>
+                    {t.sprite_url && <img className="teammate-sprite" src={t.sprite_url} alt="" />}
                     <span className="best-move-name">{t.name}</span>
                     {t.percent != null && <span className="best-move-pct">{t.percent}%</span>}
+                    {/* Teammates we can't match to our dex get no button rather
+                        than a button that would fail. */}
+                    {t.slug && <AddToTeam pokemonName={t.slug} label="+ Add" compact />}
                   </div>
                 ))}
               </div>

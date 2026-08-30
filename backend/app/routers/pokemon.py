@@ -7,7 +7,8 @@ from sqlalchemy import or_, case
 
 from app.database import get_db
 from app.models.pokemon import Pokemon, PokemonUsageStats
-from app.schemas import PokemonSummary, PokemonDetail, PokemonUsageOut
+from app.name_resolver import resolve_names
+from app.schemas import PokemonSummary, PokemonDetail, PokemonUsageOut, UsageEntry
 
 router = APIRouter(prefix="/api/pokemon", tags=["pokemon"])
 
@@ -66,6 +67,21 @@ def get_pokemon_usage(name: str, db: Session = Depends(get_db)):
     if not stats:
         raise HTTPException(status_code=404, detail=f"No usage data for '{name}' (not seen in tracked tournaments)")
 
+    # Teammates carry their dex slug and sprite so the frontend can add one
+    # straight to a team - their display names ("Floette-Eternal") don't map
+    # to our slugs by simple lowercasing in every case.
+    teammates = json.loads(stats.teammates_json)
+    resolved = resolve_names(db, {t["name"] for t in teammates})
+    teammate_entries = [
+        UsageEntry(
+            name=t["name"],
+            percent=t.get("percent"),
+            slug=resolved.get(t["name"], (None, None))[0],
+            sprite_url=resolved.get(t["name"], (None, None))[1],
+        )
+        for t in teammates
+    ]
+
     return PokemonUsageOut(
         format=stats.format,
         rank=stats.rank,
@@ -75,5 +91,5 @@ def get_pokemon_usage(name: str, db: Session = Depends(get_db)):
         moves=json.loads(stats.moves_json),
         items=json.loads(stats.items_json),
         abilities=json.loads(stats.abilities_json),
-        teammates=json.loads(stats.teammates_json),
+        teammates=teammate_entries,
     )

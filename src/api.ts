@@ -125,6 +125,10 @@ export function searchItems(query: string): Promise<ItemOut[]> {
 export interface UsageEntry {
   name: string;
   percent: number | null;
+  /** Dex slug, populated for teammates so they can be added to a team.
+   *  Null for moves/items/abilities, and for names we can't match. */
+  slug?: string | null;
+  sprite_url?: string | null;
 }
 
 export interface PokemonUsageOut {

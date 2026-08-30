@@ -50,6 +50,29 @@ export default function TeamEditorPage({ teamId, onBack }: { teamId: string; onB
     }
   }
 
+  /** Add a commonly-paired teammate straight from a Pokemon's usage panel,
+   *  with its own most-used set already applied. */
+  async function addTeammate(slug: string, displayName: string) {
+    if (!team) return;
+    if (team.slots.length >= TEAM_SIZE) {
+      setError(`Your team is full (max ${TEAM_SIZE} Pokemon).`);
+      return;
+    }
+    if (team.slots.some((s) => s.pokemon.name === slug)) {
+      setError(`${displayName} is already on this team.`);
+      return;
+    }
+    setError(null);
+    try {
+      const newSlot = await buildSlot(slug);
+      const next = { ...team, slots: [...team.slots, newSlot] };
+      persist(next);
+      setActiveIndex(next.slots.length - 1);
+    } catch {
+      setError(`Couldn't add ${displayName}. Is the backend running?`);
+    }
+  }
+
   function removeSlot(index: number) {
     if (!team) return;
     const next = { ...team, slots: team.slots.filter((_, i) => i !== index) };
@@ -117,7 +140,12 @@ export default function TeamEditorPage({ teamId, onBack }: { teamId: string; onB
             <button className="remove-slot-btn" onClick={() => removeSlot(activeIndex)}>
               Remove {team.slots[activeIndex].pokemon.display_name} from team
             </button>
-            <SlotEditor slot={team.slots[activeIndex]} onChange={(patch) => updateSlot(activeIndex, patch)} />
+            <SlotEditor
+              slot={team.slots[activeIndex]}
+              onChange={(patch) => updateSlot(activeIndex, patch)}
+              onAddTeammate={addTeammate}
+              onTeamHas={(slug) => team.slots.some((s) => s.pokemon.name === slug)}
+            />
           </>
         )
       )}

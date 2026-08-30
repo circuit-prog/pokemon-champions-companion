@@ -145,6 +145,11 @@ class SurvivalResult(BaseModel):
 class UsageEntry(BaseModel):
     name: str
     percent: Optional[float] = None
+    # Our dex slug, populated for teammates so the frontend can add them to a
+    # team. None for moves/items/abilities, which aren't Pokemon, and for
+    # names we can't match to anything in our dex.
+    slug: Optional[str] = None
+    sprite_url: Optional[str] = None
 
 
 class PokemonUsageOut(BaseModel):

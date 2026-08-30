@@ -155,25 +155,28 @@ function StatRow({
   );
 }
 
-/** One usage list (moves, items, abilities...).
+/** One usage list (moves, items, abilities, teammates).
  *
- * Every entry is a button: clicking "Assault Vest 62%" equips Assault Vest.
- * Reading a statistic and then having to go and apply it by hand was the
- * single biggest source of friction in the builder. `onApply` is omitted for
- * lists we can't act on here (common teammates belong to the team, not the
- * slot), and those render as plain rows. */
+ * Every entry is a button: clicking "Assault Vest 62%" equips Assault Vest,
+ * clicking a common teammate adds that Pokemon to the team. Reading a
+ * statistic and then having to go and apply it by hand was the single biggest
+ * source of friction in the builder. Entries fall back to plain rows only
+ * when there's genuinely nothing to apply. */
 function UsageSection({
   label,
   entries,
   onApply,
   isActive,
   hint,
+  activeHint = "already on this set",
 }: {
   label: string;
   entries: PokemonUsageOut["moves"] | undefined;
   onApply?: (entryName: string) => void;
   isActive?: (entryName: string) => boolean;
   hint?: string;
+  /** Tooltip suffix when an entry is already applied. */
+  activeHint?: string;
 }) {
   if (!entries || entries.length === 0) return null;
   return (
@@ -195,7 +198,7 @@ function UsageSection({
             key={m.name}
             type="button"
             className={active ? "usage-entry usage-entry-clickable active" : "usage-entry usage-entry-clickable"}
-            title={active ? `${m.name} is already on this set` : hint}
+            title={active ? `${m.name} is ${activeHint}` : hint}
             onClick={() => onApply(m.name)}
           >
             <span className="usage-entry-name">{m.name}</span>
@@ -212,10 +215,16 @@ function UsagePanel({
   usage,
   slot,
   onChange,
+  onAddTeammate,
+  onTeamHas,
 }: {
   usage: PokemonUsageOut | null;
   slot: TeamSlotData;
   onChange: (patch: Partial<TeamSlotData>) => void;
+  /** Add a suggested teammate to the team this slot belongs to. */
+  onAddTeammate?: (slug: string, displayName: string) => void;
+  /** Whether the team already contains a given Pokemon slug. */
+  onTeamHas?: (slug: string) => boolean;
 }) {
   const [applying, setApplying] = useState(false);
   const [note, setNote] = useState<string | null>(null);
@@ -315,9 +324,31 @@ function UsagePanel({
         isActive={(n) => abilitySlug(n) === slot.ability}
         hint="Click to set this ability"
       />
-      {/* Teammates aren't applied here - they belong to the team, and the
-          "add Pokemon" view already offers them as partner suggestions. */}
-      <UsageSection label="Common Teammates" entries={usage.teammates} />
+      {/* Teammates add a whole Pokemon to the team rather than changing this
+          slot, so they're handled by the team, not the slot editor. */}
+      <UsageSection
+        label="Common Teammates"
+        entries={usage.teammates}
+        onApply={
+          onAddTeammate
+            ? (name) => {
+                const entry = usage.teammates.find((t) => t.name === name);
+                if (!entry?.slug) {
+                  setNote(`${name} isn't in our dex, so it can't be added.`);
+                  return;
+                }
+                setNote(null);
+                onAddTeammate(entry.slug, name);
+              }
+            : undefined
+        }
+        isActive={(name) => {
+          const entry = usage.teammates.find((t) => t.name === name);
+          return Boolean(entry?.slug && onTeamHas?.(entry.slug));
+        }}
+        hint="Click to add this Pokemon to your team"
+        activeHint="already on your team"
+      />
     </div>
   );
 }
@@ -325,16 +356,30 @@ function UsagePanel({
 export default function SlotEditor({
   slot,
   onChange,
+  onAddTeammate,
+  onTeamHas,
 }: {
   slot: TeamSlotData;
   onChange: (patch: Partial<TeamSlotData>) => void;
+  onAddTeammate?: (slug: string, displayName: string) => void;
+  onTeamHas?: (slug: string) => boolean;
 }) {
   const { pokemon } = slot;
   const evTotal = STAT_KEYS.reduce((sum, k) => sum + slot.evs[k], 0);
 
   // Best-effort usage fetch: most Pokemon won't have tracked usage data yet.
+  //
+  // Teams are saved to localStorage with their usage data embedded, so a team
+  // built before we started returning teammate slugs still holds the old
+  // shape - and without a slug a teammate can't be added to the team. Treat
+  // that as stale and re-fetch, rather than leaving old teams broken.
+  const usageIsStale =
+    slot.usage !== null &&
+    slot.usage.teammates.length > 0 &&
+    slot.usage.teammates.every((t) => t.slug === undefined);
+
   useEffect(() => {
-    if (slot.usage !== null) return;
+    if (slot.usage !== null && !usageIsStale) return;
     let cancelled = false;
     getPokemonUsage(pokemon.name)
       .then((usage) => {
@@ -345,7 +390,7 @@ export default function SlotEditor({
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pokemon.name]);
+  }, [pokemon.name, usageIsStale]);
 
   function toggleMove(moveName: string) {
     if (slot.moves.includes(moveName)) {
@@ -368,7 +413,13 @@ export default function SlotEditor({
         </div>
       </div>
 
-      <UsagePanel usage={slot.usage} slot={slot} onChange={onChange} />
+      <UsagePanel
+        usage={slot.usage}
+        slot={slot}
+        onChange={onChange}
+        onAddTeammate={onAddTeammate}
+        onTeamHas={onTeamHas}
+      />
 
       <div className="slot-editor-columns">
         <div className="slot-editor-col">
