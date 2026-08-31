@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { searchPokemon } from "../api";
+import { browsePokemon } from "../api";
 import type { PokemonSummary } from "../api";
 import { TYPE_COLORS } from "../typeColors";
 import AddToTeam from "./AddToTeam";
@@ -12,6 +12,11 @@ type SortKey = "usage" | "name" | "hp" | "attack" | "defense" | "special_attack"
 function bst(p: PokemonSummary): number {
   return p.hp + p.attack + p.defense + p.special_attack + p.special_defense + p.speed;
 }
+
+// How many rows to fetch at a time. The dex is 1351 Pokemon, so we page
+// rather than sending the lot, but sorting and searching now happen on the
+// server so every one of them is reachable.
+const PAGE_SIZE = 100;
 
 const COLUMNS: { key: SortKey; label: string }[] = [
   { key: "usage", label: "Usage" },
@@ -34,44 +39,75 @@ export default function PokemonTable({
 }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<PokemonSummary[]>([]);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [sortKey, setSortKey] = useState<SortKey>("usage");
   const [sortDesc, setSortDesc] = useState(false);
 
+  // Sorting and searching are server-side, so changing either re-queries from
+  // the start. Sorting in the browser used to reorder only the rows already
+  // fetched, which meant a Pokemon outside the first page could never be found
+  // by sorting on a stat no matter what you did.
   useEffect(() => {
+    let cancelled = false;
     const handle = setTimeout(() => {
       setLoading(true);
-      // With no search text, show a large browsable page instead of the tiny default limit.
-      searchPokemon(query)
-        .then(setResults)
-        .catch(() => setResults([]))
-        .finally(() => setLoading(false));
+      setError(null);
+      browsePokemon({
+        search: query,
+        sort: sortKey,
+        order: sortDesc ? "desc" : "asc",
+        limit: PAGE_SIZE,
+        offset: 0,
+      })
+        .then((page) => {
+          if (cancelled) return;
+          setResults(page.items);
+          setTotal(page.total);
+        })
+        .catch(() => {
+          if (cancelled) return;
+          setResults([]);
+          setTotal(0);
+          setError("Couldn't reach the Pokedex. Is the backend running?");
+        })
+        .finally(() => {
+          if (!cancelled) setLoading(false);
+        });
     }, 250);
-    return () => clearTimeout(handle);
-  }, [query]);
+    return () => {
+      cancelled = true;
+      clearTimeout(handle);
+    };
+  }, [query, sortKey, sortDesc]);
+
+  function loadMore() {
+    setLoadingMore(true);
+    browsePokemon({
+      search: query,
+      sort: sortKey,
+      order: sortDesc ? "desc" : "asc",
+      limit: PAGE_SIZE,
+      offset: results.length,
+    })
+      .then((page) => setResults((prev) => [...prev, ...page.items]))
+      .catch(() => setError("Couldn't load more results."))
+      .finally(() => setLoadingMore(false));
+  }
 
   function toggleSort(key: SortKey) {
     if (key === sortKey) {
       setSortDesc((d) => !d);
     } else {
       setSortKey(key);
-      // Stats default to descending (highest first); name/usage to ascending.
+      // Stats read best highest-first; name and usage rank ascending.
       setSortDesc(key !== "name" && key !== "usage");
     }
   }
 
-  const sorted =
-    sortKey === "usage" && !sortDesc
-      ? results // backend already returns meta-usage order
-      : [...results].sort((a, b) => {
-          let cmp: number;
-          if (sortKey === "usage") cmp = 0; // reversed usage order handled below
-          else if (sortKey === "name") cmp = a.display_name.localeCompare(b.display_name);
-          else if (sortKey === "bst") cmp = bst(a) - bst(b);
-          else cmp = a[sortKey] - b[sortKey];
-          return sortDesc ? -cmp : cmp;
-        });
-  const displayed = sortKey === "usage" && sortDesc ? [...results].reverse() : sorted;
+  const displayed = results;
 
   return (
     <div className="pokemon-table-wrap">
@@ -82,7 +118,14 @@ export default function PokemonTable({
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
-      {loading && <div className="search-status">Searching...</div>}
+      {error && <div className="error-banner">{error}</div>}
+      <div className="search-status">
+        {loading
+          ? "Searching..."
+          : total > 0
+            ? `Showing ${displayed.length} of ${total} Pokemon`
+            : "No Pokemon match that search."}
+      </div>
       <div className="pokemon-table-scroll">
         <table className="pokemon-table">
           <thead>
@@ -150,6 +193,11 @@ export default function PokemonTable({
           </tbody>
         </table>
       </div>
+      {displayed.length < total && (
+        <button className="load-more-btn" onClick={loadMore} disabled={loadingMore}>
+          {loadingMore ? "Loading..." : `Load more (${total - displayed.length} remaining)`}
+        </button>
+      )}
     </div>
   );
 }

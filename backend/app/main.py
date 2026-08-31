@@ -14,6 +14,9 @@ app.add_middleware(
     allow_origins=["http://localhost:5173"],
     allow_methods=["*"],
     allow_headers=["*"],
+    # Without this the browser can't read X-Total-Count cross-origin, so the
+    # Pokedex wouldn't know how many results it's paging through.
+    expose_headers=["X-Total-Count"],
 )
 
 app.include_router(pokemon.router)

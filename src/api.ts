@@ -113,6 +113,42 @@ export function searchPokemon(query: string): Promise<PokemonSummary[]> {
   return getJson<PokemonSummary[]>(`/api/pokemon${params}`);
 }
 
+export interface PokemonPage {
+  items: PokemonSummary[];
+  /** How many Pokemon match in total, regardless of this page's size. */
+  total: number;
+}
+
+export interface BrowseOptions {
+  search?: string;
+  /** usage | name | hp | attack | defense | special_attack | special_defense | speed | bst */
+  sort?: string;
+  order?: "asc" | "desc";
+  limit?: number;
+  offset?: number;
+}
+
+/** Browse the dex with server-side sorting and paging.
+ *
+ * Sorting has to happen on the server: sorting a page in the browser only
+ * reorders the rows it already has, so anything outside the first page - most
+ * Mega forms, anything not in the current meta - could never be found by
+ * sorting on a stat, however far you scrolled. */
+export async function browsePokemon(options: BrowseOptions = {}): Promise<PokemonPage> {
+  const params = new URLSearchParams();
+  if (options.search) params.set("search", options.search);
+  if (options.sort) params.set("sort", options.sort);
+  if (options.order) params.set("order", options.order);
+  params.set("limit", String(options.limit ?? 100));
+  params.set("offset", String(options.offset ?? 0));
+
+  const res = await fetch(`${API_BASE}/api/pokemon?${params.toString()}`);
+  if (!res.ok) throw new Error(`Pokemon browse failed: ${res.status}`);
+  const items = (await res.json()) as PokemonSummary[];
+  const total = Number(res.headers.get("X-Total-Count") ?? items.length);
+  return { items, total };
+}
+
 export function getPokemon(name: string): Promise<PokemonDetail> {
   return getJson<PokemonDetail>(`/api/pokemon/${encodeURIComponent(name)}`);
 }
