@@ -8,6 +8,7 @@ from app.models.pokemon import Pokemon, Move, PokemonUsageStats
 from app.schemas import (
     DamageCalcRequest, DamageCalcResult, SurvivalRequest, SurvivalResult,
     TeamMatchupRequest, TeamMatchupRow, MatchupCell,
+    VersusRequest, VersusPair, VersusSide, VersusMoveResult,
 )
 from app.damage_calc import Combatant, compute_damage
 from app.natures_data import MAX_EV_PER_STAT, EV_TOTAL_BUDGET
@@ -306,3 +307,174 @@ def calc_team_matchups(req: TeamMatchupRequest, db: Session = Depends(get_db)):
         ))
 
     return rows
+
+
+# --- Meta Calcs -----------------------------------------------------------
+#
+# All four Meta Calcs modes (Team -> 1, 1 -> Team, 1 -> Meta, Meta -> 1) ask
+# the same question: how do these attackers fare against these defenders. One
+# endpoint serves all of them; the caller decides what goes on each side and
+# pages the meta pool itself.
+
+NATURE_BOOSTS = {
+    "adamant": ("atk", "spa"), "modest": ("spa", "atk"), "jolly": ("spe", "spa"),
+    "timid": ("spe", "atk"), "brave": ("atk", "spe"), "quiet": ("spa", "spe"),
+    "bold": ("def", "atk"), "impish": ("def", "spa"), "calm": ("spd", "atk"),
+    "careful": ("spd", "spa"), "relaxed": ("def", "spe"), "sassy": ("spd", "spe"),
+    "hasty": ("spe", "def"), "naive": ("spe", "spd"), "lonely": ("atk", "def"),
+    "naughty": ("atk", "spd"), "mild": ("spa", "def"), "rash": ("spa", "spd"),
+    "gentle": ("spd", "def"), "lax": ("def", "spd"),
+}
+
+_STAT_LABELS = {"hp": "HP", "atk": "Atk", "def": "Def", "spa": "SpA", "spd": "SpD", "spe": "Spe"}
+
+
+def _ev_label(evs: dict, stat: str, nature: str) -> str:
+    """"32 Atk", or "32+ Atk" when the nature boosts it - the way every damage
+    calculator writes a spread."""
+    value = (evs or {}).get(stat, 0)
+    boosted, hindered = NATURE_BOOSTS.get((nature or "").lower(), (None, None))
+    mark = "+" if stat == boosted else ("-" if stat == hindered else "")
+    return f"{value}{mark} {_STAT_LABELS[stat]}"
+
+
+def _item_label(db: Session, slug) -> str:
+    if not slug:
+        return ""
+    from app.models.pokemon import Item
+    item = db.query(Item).filter(Item.name == slug).first()
+    return f"{item.display_name} " if item else ""
+
+
+def _verdict_for(pct_high, ko_text, immune: bool) -> str:
+    """Green when the attack genuinely threatens, red when it does nothing,
+    amber in between - roughly how a player reads a calc at a glance."""
+    if immune or not pct_high:
+        return "bad"
+    if pct_high >= 100 or (ko_text and "OHKO" in ko_text):
+        return "good"
+    if pct_high >= 50:
+        return "warning"
+    return "bad"
+
+
+@router.post("/versus", response_model=list[VersusPair])
+def calc_versus(req: VersusRequest, db: Session = Depends(get_db)):
+    field = req.field.model_dump()
+    pairs = []
+
+    for atk_spec in req.attackers:
+        atk_pokemon = _load_pokemon(db, atk_spec.pokemon_name)
+        attacker = _build_combatant(
+            atk_pokemon, evs=atk_spec.evs, nature=atk_spec.nature,
+            ability=atk_spec.ability or "", item=atk_spec.item or "", level=atk_spec.level,
+        )
+        atk_item_label = _item_label(db, atk_spec.item)
+        moves = [m for m in atk_pokemon.moves if m.name in atk_spec.moves]
+
+        for def_spec in req.defenders:
+            def_pokemon = _load_pokemon(db, def_spec.pokemon_name)
+            defender = _build_combatant(
+                def_pokemon, evs=def_spec.evs, nature=def_spec.nature,
+                ability=def_spec.ability or "", item=def_spec.item or "", level=def_spec.level,
+            )
+
+            atk_speed, def_speed = attacker.stat("spe"), defender.stat("spe")
+            results = []
+
+            for move in moves:
+                if move.category == "status" or not move.power:
+                    continue
+                result = compute_damage(
+                    attacker, defender,
+                    move={"type": move.type, "category": move.category, "power": move.power},
+                    field=field,
+                )
+                if result.get("error"):
+                    continue
+
+                immune = bool(result.get("immune"))
+                offence_stat = "atk" if move.category == "physical" else "spa"
+                defence_stat = "def" if move.category == "physical" else "spd"
+                attacker_label = (
+                    f"{_ev_label(atk_spec.evs, offence_stat, atk_spec.nature)} "
+                    f"{atk_item_label}{atk_pokemon.display_name} {move.display_name}"
+                )
+
+                if immune:
+                    description = f"{attacker_label} vs. {def_pokemon.display_name}: immune"
+                else:
+                    description = (
+                        f"{attacker_label} vs. "
+                        f"{_ev_label(def_spec.evs, 'hp', def_spec.nature)} / "
+                        f"{_ev_label(def_spec.evs, defence_stat, def_spec.nature)} "
+                        f"{def_pokemon.display_name}: "
+                        f"{result['dmg_low']}-{result['dmg_high']} "
+                        f"({result['pct_low']} - {result['pct_high']}%)"
+                    )
+
+                results.append(VersusMoveResult(
+                    move_name=move.name,
+                    move_display_name=move.display_name,
+                    description=description,
+                    ko_text=result.get("ko_text"),
+                    pct_low=result.get("pct_low"),
+                    pct_high=result.get("pct_high"),
+                    verdict=_verdict_for(result.get("pct_high"), result.get("ko_text"), immune),
+                    immune=immune,
+                ))
+
+            pairs.append(VersusPair(
+                attacker=VersusSide(
+                    pokemon_name=atk_pokemon.name, display_name=atk_pokemon.display_name,
+                    sprite_url=atk_pokemon.sprite_url, speed=atk_speed,
+                    moves_first=atk_speed > def_speed,
+                ),
+                defender=VersusSide(
+                    pokemon_name=def_pokemon.name, display_name=def_pokemon.display_name,
+                    sprite_url=def_pokemon.sprite_url, speed=def_speed,
+                    moves_first=def_speed > atk_speed,
+                ),
+                results=results,
+            ))
+
+    return pairs
+
+
+@router.get("/meta-pool")
+def get_meta_pool(offset: int = 0, limit: int = 20, db: Session = Depends(get_db)):
+    """The ranked meta as ready-to-use calc targets, paged.
+
+    Each entry carries its most-used set, so calcs run against what people
+    actually bring rather than a blank Pokemon with no item or EVs.
+    """
+    total = db.query(PokemonUsageStats).count()
+    rows = (
+        db.query(PokemonUsageStats)
+        .order_by(PokemonUsageStats.rank)
+        .offset(offset)
+        .limit(limit)
+        .all()
+    )
+
+    entries = []
+    for row in rows:
+        if not row.pokemon:
+            continue
+        _, ability, item = _resolve_top_set(db, row)
+        spreads = json.loads(row.spreads_json or "[]")
+        top_spread = spreads[0] if spreads else {}
+        top_move_names = {m["name"].lower() for m in json.loads(row.moves_json or "[]")[:4]}
+        entries.append({
+            "pokemon_name": row.pokemon.name,
+            "display_name": row.pokemon.display_name,
+            "sprite_url": row.pokemon.sprite_url,
+            "rank": row.rank,
+            "ability": ability,
+            "item": item,
+            "nature": top_spread.get("nature", "hardy"),
+            "evs": top_spread.get("evs", {}),
+            "moves": [m.name for m in row.pokemon.moves if m.display_name.lower() in top_move_names],
+        })
+
+    return {"total": total, "items": entries}

@@ -347,3 +347,62 @@ export function calcSurvival(
     survive_at_hp_percent: surviveAtHpPercent,
   });
 }
+
+
+// --- Meta Calcs ------------------------------------------------------------
+
+export interface VersusSide {
+  pokemon_name: string;
+  display_name: string;
+  sprite_url: string | null;
+  speed: number;
+  moves_first: boolean;
+}
+
+export interface VersusMoveResult {
+  move_name: string;
+  move_display_name: string;
+  /** Full Showdown-style line, e.g. "32+ Atk Life Orb Garchomp Earthquake
+   *  vs. 32 HP / 0 Def Falinks: 112-132 (71.8 - 84.6%)". */
+  description: string;
+  ko_text: string | null;
+  pct_low: number | null;
+  pct_high: number | null;
+  verdict: "good" | "warning" | "bad";
+  immune: boolean;
+}
+
+export interface VersusPair {
+  attacker: VersusSide;
+  defender: VersusSide;
+  results: VersusMoveResult[];
+}
+
+/** Every Meta Calcs mode is the same question - these attackers against these
+ *  defenders - so one call serves all four. */
+export function calcVersus(
+  attackers: TeamMatchupMember[],
+  defenders: TeamMatchupMember[],
+  field: object = {}
+): Promise<VersusPair[]> {
+  return postJson<VersusPair[]>("/api/calc/versus", { attackers, defenders, field });
+}
+
+export interface MetaPoolEntryOut {
+  pokemon_name: string;
+  display_name: string;
+  sprite_url: string | null;
+  rank: number;
+  ability: string;
+  item: string;
+  nature: string;
+  evs: Record<string, number>;
+  moves: string[];
+}
+
+/** The ranked meta as calc-ready targets, each with its most-used set. */
+export function getMetaPool(offset = 0, limit = 20): Promise<{ total: number; items: MetaPoolEntryOut[] }> {
+  return getJson<{ total: number; items: MetaPoolEntryOut[] }>(
+    `/api/calc/meta-pool?offset=${offset}&limit=${limit}`
+  );
+}

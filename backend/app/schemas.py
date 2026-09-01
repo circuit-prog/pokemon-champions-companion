@@ -215,6 +215,43 @@ class TeamMatchupRow(BaseModel):
     cells: List[MatchupCell]
 
 
+class VersusSide(BaseModel):
+    """One Pokemon in a matchup, as the UI needs to draw it."""
+    pokemon_name: str
+    display_name: str
+    sprite_url: Optional[str]
+    speed: int
+    moves_first: bool
+
+
+class VersusMoveResult(BaseModel):
+    """One attacking move's outcome, ready to render as a Showdown-style line."""
+    move_name: str
+    move_display_name: str
+    description: str        # "32 Atk Life Orb Garchomp Dragon Claw vs. 2 HP / 0 Def Falinks: 90-107 (52.3 - 62.2%)"
+    ko_text: Optional[str]  # "guaranteed 2HKO", "possible 7HKO", ...
+    pct_low: Optional[float]
+    pct_high: Optional[float]
+    # good / warning / bad - drives the tick, warning triangle or cross, so the
+    # verdict reads at a glance without parsing the sentence.
+    verdict: str
+    immune: bool = False
+
+
+class VersusPair(BaseModel):
+    attacker: VersusSide
+    defender: VersusSide
+    results: List[VersusMoveResult]
+
+
+class VersusRequest(BaseModel):
+    """Every Meta Calcs mode is the same question - these attackers against
+    these defenders - so one endpoint serves all four."""
+    attackers: List[TeamMemberIn]
+    defenders: List[TeamMemberIn]
+    field: DamageCalcField = DamageCalcField()
+
+
 class TeamCoreOut(BaseModel):
     """A Pokemon combination that frequently appears together on real teams."""
     size: int

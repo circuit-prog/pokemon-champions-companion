@@ -106,3 +106,27 @@
   background: #4a90e2;
   color: white;
 }
+
+
+/* Shared paging control - used by the Pokedex table and Meta Calcs. */
+.load-more-btn {
+  display: block;
+  margin: 0.75rem auto 0;
+  border: 1px solid #b9cdf2;
+  background: #2a5cb8;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.45rem 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.load-more-btn:hover:not(:disabled) {
+  background: #24509f;
+}
+
+.load-more-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
