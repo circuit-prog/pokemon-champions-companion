@@ -13,6 +13,8 @@ original did).
 import math
 from typing import Optional
 
+from app import abilities
+
 # attacking type -> {defending type: multiplier}. Any pair not listed is neutral (1x).
 TYPE_CHART = {
     "normal":   {"rock": 0.5, "ghost": 0, "steel": 0.5},
@@ -57,6 +59,47 @@ ITEM_DAMAGE_MODS = {
     "wise-glasses": {"special_power_mult": 1.1},
 }
 
+# Held items that boost one type by 1.2x. These matter more than they look:
+# Black Glasses is the most-used item on the format's most-used Pokemon, and
+# leaving them out understated those calcs by a fifth.
+#
+# The boost applies to the move's RESOLVED type, so a Fairy Feather does boost
+# a Pixilate-converted Hyper Voice.
+TYPE_BOOST_ITEMS = {
+    "silk-scarf": "normal",
+    "charcoal": "fire",
+    "mystic-water": "water",
+    "magnet": "electric",
+    "miracle-seed": "grass",
+    "never-melt-ice": "ice",
+    "black-belt": "fighting",
+    "poison-barb": "poison",
+    "soft-sand": "ground",
+    "sharp-beak": "flying",
+    "twisted-spoon": "psychic",
+    "silver-powder": "bug",
+    "hard-stone": "rock",
+    "spell-tag": "ghost",
+    "dragon-fang": "dragon",
+    "black-glasses": "dark",
+    "metal-coat": "steel",
+    "fairy-feather": "fairy",
+    # Plates behave identically for damage purposes.
+    "flame-plate": "fire", "splash-plate": "water", "zap-plate": "electric",
+    "meadow-plate": "grass", "icicle-plate": "ice", "fist-plate": "fighting",
+    "toxic-plate": "poison", "earth-plate": "ground", "sky-plate": "flying",
+    "mind-plate": "psychic", "insect-plate": "bug", "stone-plate": "rock",
+    "spooky-plate": "ghost", "draco-plate": "dragon", "dread-plate": "dark",
+    "iron-plate": "steel", "pixie-plate": "fairy",
+}
+
+TYPE_BOOST_ITEM_MULT = 1.2
+
+# Items that raise a defensive stat.
+DEFENSIVE_ITEM_MODS = {
+    "assault-vest": {"spd_mult": 1.5},
+}
+
 ABILITY_DAMAGE_MODS = {
     "huge-power": {"atk_stat_mult": 2},
     "pure-power": {"atk_stat_mult": 2},
@@ -71,6 +114,37 @@ ABILITY_DAMAGE_MODS = {
     "flash-fire": {"immune_to_type": "fire"},
     "sap-sipper": {"immune_to_type": "grass"},
 }
+
+
+# --- the games' fixed-point modifier arithmetic ---------------------------
+#
+# Damage modifiers are 4096ths, chained together before being applied, and
+# rounded with a rule that breaks ties downward rather than up. Doing this in
+# plain floating point drifts by roughly a percent, which is the difference
+# between agreeing and disagreeing with Showdown on a borderline OHKO.
+
+MOD_SCALE = 4096
+
+
+def poke_round(value: float) -> int:
+    """The games round .5 down, unlike Python's round() and math.floor+0.5."""
+    floor = math.floor(value)
+    return floor if value - floor <= 0.5 else floor + 1
+
+
+def chain(*multipliers) -> int:
+    """Combine multipliers in 4096ths, the way the games chain them."""
+    result = MOD_SCALE
+    for m in multipliers:
+        if m == 1 or m is None:
+            continue
+        mod = round(m * MOD_SCALE)
+        result = (result * mod + 2048) >> 12
+    return result
+
+
+def apply_modifier(value: float, modifier: int) -> int:
+    return poke_round(value * modifier / MOD_SCALE)
 
 
 def type_effectiveness(attacking_type: str, defending_types: list) -> float:
@@ -157,31 +231,49 @@ def compute_damage(attacker: Combatant, defender: Combatant, move: dict, field: 
     atk_stat_key = "atk" if move["category"] == "physical" else "spa"
     def_stat_key = "def" if move["category"] == "physical" else "spd"
 
-    atk_ability_mod = ABILITY_DAMAGE_MODS.get(attacker.ability, {})
-    def_ability_mod = ABILITY_DAMAGE_MODS.get(defender.ability, {})
     atk_item_mod = ITEM_DAMAGE_MODS.get(attacker.item, {})
 
-    if def_ability_mod.get("immune_to_type") == move["type"]:
-        return {"immune": True, "reason": f"Defender's ability makes it immune to {move['type']}-type moves."}
+    # Resolve what type the move actually is before anything else. Pixilate
+    # and friends turn a Normal move into another type, which changes type
+    # effectiveness and can grant STAB - so every later step has to use this
+    # resolved type, not the move's printed one.
+    move_type, ate_power_mult = abilities.effective_move_type(move["type"], attacker.ability)
 
-    type_eff = type_effectiveness(move["type"], defender.types)
+    type_eff = type_effectiveness(move_type, defender.types)
+
+    immunity = abilities.defender_immunity(defender.ability, move_type, type_eff)
+    if immunity:
+        return {"immune": True, "reason": immunity}
     if type_eff == 0:
-        return {"immune": True, "reason": f"{move['type']}-type moves have no effect on the defender (type immunity)."}
+        return {"immune": True, "reason": f"{move_type}-type moves have no effect on the defender (type immunity)."}
+
+    weather = field.get("weather", "none")
 
     atk_stat = attacker.stat(atk_stat_key)
     atk_stat = math.floor(atk_stat * stage_multiplier(attacker.stages.get(atk_stat_key, 0)))
-    if atk_ability_mod.get("atk_stat_mult") and atk_stat_key == "atk":
-        atk_stat = math.floor(atk_stat * atk_ability_mod["atk_stat_mult"])
+    ability_stat_mult = abilities.attack_stat_multiplier(attacker, move["category"])
+    ability_stat_mult *= abilities.special_attack_multiplier(attacker, move["category"], weather)
+    if ability_stat_mult != 1.0:
+        atk_stat = math.floor(atk_stat * ability_stat_mult)
     if atk_item_mod.get("atk_mult") and move["category"] == "physical":
         atk_stat = math.floor(atk_stat * atk_item_mod["atk_mult"])
     if atk_item_mod.get("spa_mult") and move["category"] == "special":
         atk_stat = math.floor(atk_stat * atk_item_mod["spa_mult"])
-    # Burn halves physical Attack (Guts ignores it, but that ability isn't modelled).
-    if attacker.status == "burn" and move["category"] == "physical":
+    # Burn halves physical Attack, unless the attacker has Guts.
+    if (
+        attacker.status == "burn"
+        and move["category"] == "physical"
+        and not abilities.ignores_burn(attacker.ability)
+    ):
         atk_stat = math.floor(atk_stat * 0.5)
 
     def_stat = defender.stat(def_stat_key)
     def_stat = math.floor(def_stat * stage_multiplier(defender.stages.get(def_stat_key, 0)))
+    def_item_mod = DEFENSIVE_ITEM_MODS.get(defender.item, {})
+    if def_stat_key == "spd" and def_item_mod.get("spd_mult"):
+        def_stat = math.floor(def_stat * def_item_mod["spd_mult"])
+    if def_stat_key == "def" and def_item_mod.get("def_mult"):
+        def_stat = math.floor(def_stat * def_item_mod["def_mult"])
 
     crit_on = bool(field.get("crit"))
     if not crit_on:
@@ -190,21 +282,23 @@ def compute_damage(attacker: Combatant, defender: Combatant, move: dict, field: 
         if move["category"] == "special" and field.get("lightscreen"):
             def_stat = math.floor(def_stat * 1.5)
 
-    weather = field.get("weather", "none")
     if weather == "sand" and def_stat_key == "spd" and "rock" in defender.types:
         def_stat = math.floor(def_stat * 1.5)
     if weather == "snow" and def_stat_key == "def" and "ice" in defender.types:
         def_stat = math.floor(def_stat * 1.5)
 
-    power = float(move["power"])
-    if atk_item_mod.get("power_mult"):
-        power *= atk_item_mod["power_mult"]
+    # Power modifiers are chained in 4096ths and rounded once at the end, the
+    # way the games do it - multiplying floats and rounding at the end drifts
+    # by about a percent, which is enough to disagree with every other
+    # calculator on a borderline OHKO.
+    power_mods = [ate_power_mult]
+    if TYPE_BOOST_ITEMS.get(attacker.item) == move_type:
+        power_mods.append(TYPE_BOOST_ITEM_MULT)
     if move["category"] == "physical" and atk_item_mod.get("physical_power_mult"):
-        power *= atk_item_mod["physical_power_mult"]
+        power_mods.append(atk_item_mod["physical_power_mult"])
     if move["category"] == "special" and atk_item_mod.get("special_power_mult"):
-        power *= atk_item_mod["special_power_mult"]
-    if atk_ability_mod.get("low_power_mult") and power <= atk_ability_mod.get("low_power_threshold", 0):
-        power *= atk_ability_mod["low_power_mult"]
+        power_mods.append(atk_item_mod["special_power_mult"])
+    power_mods.append(abilities.power_multiplier(attacker, move_type, float(move["power"]), weather))
 
     # Terrain boosts its matching type for grounded attackers, and Misty Terrain
     # halves Dragon moves against grounded defenders.
@@ -214,54 +308,71 @@ def compute_damage(attacker: Combatant, defender: Combatant, move: dict, field: 
         atk_grounded = is_grounded(attacker.types, attacker.ability)
         def_grounded = is_grounded(defender.types, defender.ability)
         if atk_grounded and (
-            (terrain == "electric" and move["type"] == "electric")
-            or (terrain == "grassy" and move["type"] == "grass")
-            or (terrain == "psychic" and move["type"] == "psychic")
+            (terrain == "electric" and move_type == "electric")
+            or (terrain == "grassy" and move_type == "grass")
+            or (terrain == "psychic" and move_type == "psychic")
         ):
             terrain_mult = 1.3
-        if terrain == "misty" and move["type"] == "dragon" and def_grounded:
+        if terrain == "misty" and move_type == "dragon" and def_grounded:
             terrain_mult = 0.5
-    power *= terrain_mult
+    power_mods.append(terrain_mult)
 
     if field.get("helping_hand"):
-        power *= 1.5
+        power_mods.append(1.5)
+
+    power = max(1, apply_modifier(float(move["power"]), chain(*power_mods)))
 
     level = attacker.level
     base_damage = math.floor(math.floor(math.floor((2 * level) / 5 + 2) * power * atk_stat / def_stat) / 50) + 2
 
-    stab = (atk_ability_mod.get("stab_mult", 1.5) if move["type"] in attacker.types else 1)
-    crit = 1.5 if crit_on else 1
+    stab = abilities.stab_multiplier(attacker.ability) if move_type in attacker.types else 1
 
     weather_mult = 1
     if weather == "sun":
-        if move["type"] == "fire":
+        if move_type == "fire":
             weather_mult = 1.5
-        if move["type"] == "water":
+        if move_type == "water":
             weather_mult = 0.5
     if weather == "rain":
-        if move["type"] == "water":
+        if move_type == "water":
             weather_mult = 1.5
-        if move["type"] == "fire":
+        if move_type == "fire":
             weather_mult = 0.5
 
     se_mult = 1.0
     if type_eff > 1 and atk_item_mod.get("se_only_mult"):
         se_mult *= atk_item_mod["se_only_mult"]
-    if type_eff > 1 and def_ability_mod.get("se_reduce_mult"):
-        se_mult *= def_ability_mod["se_reduce_mult"]
-    if def_ability_mod.get("fire_ice_reduce_mult") and move["type"] in ("fire", "ice"):
-        se_mult *= def_ability_mod["fire_ice_reduce_mult"]
+    ability_mult = abilities.final_damage_multiplier(
+        attacker, defender, move_type, move["category"], type_eff
+    )
 
     # Doubles: spread moves hit multiple targets for 0.75x each. We don't know
     # per-move target counts, so this is applied as a user-toggled field option.
     spread_mult = 0.75 if field.get("doubles") and field.get("spread_move") else 1.0
     friend_guard_mult = 0.75 if field.get("friend_guard") else 1.0
 
-    modifiers = type_eff * stab * crit * weather_mult * se_mult * spread_mult * friend_guard_mult
+    # Applied in the games' order, with their rounding at each step. "Final"
+    # modifiers (Life Orb, Expert Belt, Multiscale, Filter, Friend Guard...)
+    # are chained together and applied last, not folded into power.
+    final_mod = chain(
+        se_mult,
+        ability_mult,
+        friend_guard_mult,
+        atk_item_mod.get("power_mult", 1),  # Life Orb is a final modifier
+    )
 
-    # The real game rolls one of 16 damage values (85%-100% of base damage).
-    rolls = [math.floor(base_damage * modifiers * (0.85 + i * 0.01)) for i in range(16)]
-    rolls = [max(1, r) for r in rolls]
+    rolls = []
+    for i in range(16):
+        damage = base_damage
+        damage = apply_modifier(damage, chain(spread_mult))
+        damage = apply_modifier(damage, chain(weather_mult))
+        if crit_on:
+            damage = math.floor(damage * 1.5)
+        damage = math.floor(damage * (85 + i) / 100)
+        damage = apply_modifier(damage, chain(stab))
+        damage = math.floor(damage * type_eff)
+        damage = apply_modifier(damage, final_mod)
+        rolls.append(max(1, damage))
     dmg_low, dmg_high = rolls[0], rolls[-1]
 
     def_max_hp = defender.stat("hp")
