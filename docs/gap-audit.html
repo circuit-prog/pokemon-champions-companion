@@ -422,14 +422,15 @@
   </header>
 
   <div class="progress-strip">
-    <div class="progress-item"><span class="n">16</span><span class="lbl">Fixed</span></div>
+    <div class="progress-item"><span class="n">18</span><span class="lbl">Fixed</span></div>
     <div class="progress-item"><span class="n">1</span><span class="lbl">Partly done</span></div>
-    <div class="progress-item"><span class="n">30</span><span class="lbl">Still open</span></div>
+    <div class="progress-item"><span class="n">28</span><span class="lbl">Still open</span></div>
     <div class="progress-item" style="flex:1;min-width:17rem">
       <span class="lbl">Last updated</span>
       <span style="color:var(--ink-2);font-size:.92rem">
-        1 September 2026 - Tier 1 complete, plus the Smogon data switch,
-        server-side Pokedex sorting, and the Meta Calcs rebuild.
+        1 September 2026 - Tier 1 complete, plus the Smogon data switch, the EV
+        formula fix, server-side Pokedex sorting, and rebuilt Meta Calcs,
+        Type Matchups and Speed IQ.
       </span>
     </div>
   </div>
@@ -516,9 +517,9 @@
       <div class="find"><span class="find-n">27</span><div class="find-body"><div class="find-title">The damage calculator can't load your own team</div><div class="find-detail">Both sides start empty and you retype a set you already built. Every serious calculator lets you pull from a saved team.</div></div><span class="chip blocking">Blocking</span></div>
       <div class="find done"><span class="find-n">28</span><div class="find-body"><div class="find-title">Meta Calcs opens blank and demands a name</div><div class="find-detail">You have to already know who you're worried about. It should open on a grid of the top 25 to click — which is exactly the data Breaker/Waller already pull.</div><span class="fixed-note">Fixed - Meta Calcs opens on the ranked meta with four modes</span></div><span class="chip blocking">Blocking</span></div>
       <div class="find"><span class="find-n">29</span><div class="find-body"><div class="find-title">No "what beats my whole team" view</div><div class="find-detail">Breaker and Waller answer this one Pokémon at a time. The question you actually asked — which meta threats score well against <em>all six</em> at once — has no view. This is the highest-value analysis we don't have, and the backend matrix to compute it already exists.</div></div><span class="chip blocking">Blocking</span></div>
-      <div class="find"><span class="find-n">30</span><div class="find-body"><div class="find-title">Type Matchups is defensive only</div><div class="find-detail">It shows what hits your team hard, never what your team's typing hits hard. You asked for both directions.</div></div><span class="chip major">Major</span></div>
-      <div class="find"><span class="find-n">31</span><div class="find-body"><div class="find-title">Type chart ignores immunity abilities</div><div class="find-detail">Levitate, Flash Fire, Water Absorb, Volt Absorb and Storm Drain all change a matchup completely and none are factored in, so the grid is actively wrong for those Pokémon.</div></div><span class="chip major">Major</span></div>
-      <div class="find done"><span class="find-n">32</span><div class="find-body"><div class="find-title">Speed IQ has no meta speed ladder</div><div class="find-detail">It lists your team's speeds in isolation. The useful version interleaves them with the top 25's speeds so you can see who you outrun. No Tailwind, Choice Scarf or paralysis toggles either.</div><span class="fixed-note">Fixed - speeds and a moves-first badge on every Meta Calcs matchup</span></div><span class="chip major">Major</span></div>
+      <div class="find done"><span class="find-n">30</span><div class="find-body"><div class="find-title">Type Matchups is defensive only</div><div class="find-detail">It shows what hits your team hard, never what your team's typing hits hard. You asked for both directions.</div><span class="fixed-note">Fixed - the grid now covers offence and defence together</span></div><span class="chip major">Major</span></div>
+      <div class="find done"><span class="find-n">31</span><div class="find-body"><div class="find-title">Type chart ignores immunity abilities</div><div class="find-detail">Levitate, Flash Fire, Water Absorb, Volt Absorb and Storm Drain all change a matchup completely and none are factored in, so the grid is actively wrong for those Pokémon.</div><span class="fixed-note">Fixed - immunity and resist abilities are honoured</span></div><span class="chip major">Major</span></div>
+      <div class="find done"><span class="find-n">32</span><div class="find-body"><div class="find-title">Speed IQ has no meta speed ladder</div><div class="find-detail">It lists your team's speeds in isolation. The useful version interleaves them with the top 25's speeds so you can see who you outrun. No Tailwind, Choice Scarf or paralysis toggles either.</div><span class="fixed-note">Fixed - speed ladder vs the meta with Tailwind / Trick Room / Scarf toggles</span></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">33</span><div class="find-body"><div class="find-title">Meta targets are calculated on neutral EVs</div><div class="find-detail">Breaker, Waller and Checks &amp; Counters run opponents at 0 EVs, which understates incoming damage everywhere. Pikalytics doesn't publish spreads, so the fix is a documented assumption — a standard offensive/defensive preset per role — not real data.</div></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">34</span><div class="find-body"><div class="find-title">No team-vs-team analysis</div><div class="find-detail">We have 10 real tournament teams. Nothing scores your team against them, which is the closest thing to a practice result the data allows.</div></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">35</span><div class="find-body"><div class="find-title">Checks &amp; Counters is fixed at 12 and drops rows silently</div><div class="find-detail">The Kingambit page promised 12 and rendered 8 — immune or unresolvable matchups vanish with no note. Should match Breaker/Waller at 25 and say what it skipped.</div></div><span class="chip major">Major</span></div>
