@@ -80,7 +80,19 @@ def type_effectiveness(attacking_type: str, defending_types: list) -> float:
     return mult
 
 
+# Champions rescaled the classic EV system rather than replacing it: a stat
+# caps at 32 points instead of 252, and a team gets 66 instead of 508. One
+# Champions point is therefore worth 8 classic EVs, and since the classic
+# formula divides EVs by 4, that comes out as multiplying by 2 here.
+#
+# Verified against Pikalytics' own numbers for a Jolly 2/32/0/0/0/32 Garchomp:
+# with this multiplier all six stats match exactly (185/182/115/90/105/169),
+# and without it only the zero-EV stats do.
+EV_TO_STAT_POINTS = 2
+
+
 def stat_at_level(base: int, ev: int, iv: int, level: int, stat_key: str, nature: Optional[str]) -> int:
+    ev = ev * EV_TO_STAT_POINTS
     if stat_key == "hp":
         return math.floor(((2 * base + iv + ev) * level) / 100) + level + 10
     raw = math.floor(((2 * base + iv + ev) * level) / 100) + 5
