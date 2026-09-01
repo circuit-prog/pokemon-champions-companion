@@ -252,6 +252,62 @@
   .chip.polish   { background: var(--ok-soft); color: var(--ok); }
   .chip.later    { background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); }
 
+  /* Progress marker: a finding that has since been fixed keeps its severity
+     chip (so the original assessment stays honest) and gains a done state. */
+  .find.done { border-color: color-mix(in srgb, var(--ok) 35%, var(--line-soft)); }
+
+  .find.done .find-title { color: var(--muted); }
+
+  .find.done .find-title::before {
+    content: "\2713";
+    display: inline-block;
+    margin-right: .45rem;
+    color: var(--ok);
+    font-weight: 700;
+  }
+
+  .fixed-note {
+    display: block;
+    margin-top: .3rem;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .68rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ok);
+  }
+
+  .progress-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--line-soft);
+    border-left: 3px solid var(--ok);
+    border-radius: 3px;
+    padding: 1rem 1.25rem;
+    margin-top: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+
+  .progress-strip .n {
+    font-family: Archivo, sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--ok);
+  }
+
+  .progress-strip .lbl {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .66rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .progress-item { display: flex; flex-direction: column; gap: .1rem; }
+
   /* ---------- plan ---------- */
 
   .tier {
@@ -365,6 +421,19 @@
     </div>
   </header>
 
+  <div class="progress-strip">
+    <div class="progress-item"><span class="n">16</span><span class="lbl">Fixed</span></div>
+    <div class="progress-item"><span class="n">1</span><span class="lbl">Partly done</span></div>
+    <div class="progress-item"><span class="n">30</span><span class="lbl">Still open</span></div>
+    <div class="progress-item" style="flex:1;min-width:17rem">
+      <span class="lbl">Last updated</span>
+      <span style="color:var(--ink-2);font-size:.92rem">
+        1 September 2026 - Tier 1 complete, plus the Smogon data switch,
+        server-side Pokedex sorting, and the Meta Calcs rebuild.
+      </span>
+    </div>
+  </div>
+
   <section>
     <h2>The one sentence version</h2>
     <p class="section-note">
@@ -398,28 +467,28 @@
 
     <h3>A · Nothing is click-to-apply</h3>
     <div class="finds">
-      <div class="find"><span class="find-n">01</span><div class="find-body"><div class="find-title">Usage lists are inert text</div><div class="find-detail">Moves, items, abilities and teammates all render as plain <code>&lt;div&gt;</code>s in <code>UsageSection</code>. Clicking "Assault Vest 62%" does nothing. This is your headline request and it's currently unimplemented everywhere.</div></div><span class="chip blocking">Blocking</span></div>
-      <div class="find"><span class="find-n">02</span><div class="find-body"><div class="find-title">Adding a Pokémon gives you a blank set</div><div class="find-detail">New slots arrive with no moves, no item, no ability, no EVs — even for a Pokémon whose real-world set we know exactly. There should be a one-click "use the most-used set".</div></div><span class="chip blocking">Blocking</span></div>
-      <div class="find"><span class="find-n">03</span><div class="find-body"><div class="find-title">No "add to team" from the Pokédex or a Pokémon's page</div><div class="find-detail">You can research Kingambit thoroughly and then have no way to act on it except navigating to a team and searching the name again.</div></div><span class="chip blocking">Blocking</span></div>
-      <div class="find"><span class="find-n">04</span><div class="find-body"><div class="find-title">Top Teams can't be imported</div><div class="find-detail">We show 10 winning tournament teams with full rosters and no way to load one. This is the fastest possible on-ramp for a new player and it's one button.</div></div><span class="chip blocking">Blocking</span></div>
-      <div class="find"><span class="find-n">05</span><div class="find-body"><div class="find-title">Team Cores can't seed a team</div><div class="find-detail">"Garchomp + Kingambit, 1,975 teams" is a proven starting pair with no way to start from it.</div></div><span class="chip major">Major</span></div>
-      <div class="find"><span class="find-n">06</span><div class="find-body"><div class="find-title">Move IQ recommendations aren't clickable</div><div class="find-detail">It correctly tells you Poison Jab covers your Grass gap, then makes you go and add it by hand.</div></div><span class="chip major">Major</span></div>
-      <div class="find"><span class="find-n">07</span><div class="find-body"><div class="find-title">Checks &amp; Counters rows are dead ends</div><div class="find-detail">Sneasler deals 198.9% to your Kingambit — but you can't click through to Sneasler, or open that matchup in the calculator.</div></div><span class="chip major">Major</span></div>
+      <div class="find done"><span class="find-n">01</span><div class="find-body"><div class="find-title">Usage lists are inert text</div><div class="find-detail">Moves, items, abilities and teammates all render as plain <code>&lt;div&gt;</code>s in <code>UsageSection</code>. Clicking "Assault Vest 62%" does nothing. This is your headline request and it's currently unimplemented everywhere.</div><span class="fixed-note">Fixed - every usage entry is a button that applies it</span></div><span class="chip blocking">Blocking</span></div>
+      <div class="find done"><span class="find-n">02</span><div class="find-body"><div class="find-title">Adding a Pokémon gives you a blank set</div><div class="find-detail">New slots arrive with no moves, no item, no ability, no EVs — even for a Pokémon whose real-world set we know exactly. There should be a one-click "use the most-used set".</div><span class="fixed-note">Fixed - adding a Pokemon pre-fills its most-used set</span></div><span class="chip blocking">Blocking</span></div>
+      <div class="find done"><span class="find-n">03</span><div class="find-body"><div class="find-title">No "add to team" from the Pokédex or a Pokémon's page</div><div class="find-detail">You can research Kingambit thoroughly and then have no way to act on it except navigating to a team and searching the name again.</div><span class="fixed-note">Fixed - Add to team on the Pokedex, detail page and counters</span></div><span class="chip blocking">Blocking</span></div>
+      <div class="find done"><span class="find-n">04</span><div class="find-body"><div class="find-title">Top Teams can't be imported</div><div class="find-detail">We show 10 winning tournament teams with full rosters and no way to load one. This is the fastest possible on-ramp for a new player and it's one button.</div><span class="fixed-note">Fixed - Import this team creates a full team with sets</span></div><span class="chip blocking">Blocking</span></div>
+      <div class="find done"><span class="find-n">05</span><div class="find-body"><div class="find-title">Team Cores can't seed a team</div><div class="find-detail">"Garchomp + Kingambit, 1,975 teams" is a proven starting pair with no way to start from it.</div><span class="fixed-note">Fixed - Start a team from this core</span></div><span class="chip major">Major</span></div>
+      <div class="find done"><span class="find-n">06</span><div class="find-body"><div class="find-title">Move IQ recommendations aren't clickable</div><div class="find-detail">It correctly tells you Poison Jab covers your Grass gap, then makes you go and add it by hand.</div><span class="fixed-note">Fixed - Move IQ suggestions have + Add</span></div><span class="chip major">Major</span></div>
+      <div class="find done"><span class="find-n">07</span><div class="find-body"><div class="find-title">Checks &amp; Counters rows are dead ends</div><div class="find-detail">Sneasler deals 198.9% to your Kingambit — but you can't click through to Sneasler, or open that matchup in the calculator.</div><span class="fixed-note">Fixed - each threat has + Add</span></div><span class="chip major">Major</span></div>
     </div>
 
     <h3>B · Data we hold but never show</h3>
     <div class="finds">
-      <div class="find"><span class="find-n">08</span><div class="find-body"><div class="find-title">Item and ability usage missing from the Pokémon page</div><div class="find-detail">The page shows "Best Moves (real usage data)" and stops. We store <code>items_json</code> and <code>abilities_json</code> for all 50 tracked Pokémon and display neither. Abilities appear only as a flat dex list with no percentages.</div></div><span class="chip blocking">Blocking</span></div>
-      <div class="find"><span class="find-n">09</span><div class="find-body"><div class="find-title">Meta Rankings shows no usage percentage</div><div class="find-detail">It shows win rate only. Usage % is the single headline number Pikalytics is built around, we have it, and it's absent from the ranking list.</div></div><span class="chip blocking">Blocking</span></div>
-      <div class="find"><span class="find-n">10</span><div class="find-body"><div class="find-title">Win rates print to three decimals</div><div class="find-detail">"48.584% win rate" — false precision, and it makes the column hard to scan. One decimal.</div></div><span class="chip polish">Polish</span></div>
+      <div class="find done"><span class="find-n">08</span><div class="find-body"><div class="find-title">Item and ability usage missing from the Pokémon page</div><div class="find-detail">The page shows "Best Moves (real usage data)" and stops. We store <code>items_json</code> and <code>abilities_json</code> for all 50 tracked Pokémon and display neither. Abilities appear only as a flat dex list with no percentages.</div><span class="fixed-note">Fixed - item and ability usage now shown, and clickable</span></div><span class="chip blocking">Blocking</span></div>
+      <div class="find done"><span class="find-n">09</span><div class="find-body"><div class="find-title">Meta Rankings shows no usage percentage</div><div class="find-detail">It shows win rate only. Usage % is the single headline number Pikalytics is built around, we have it, and it's absent from the ranking list.</div><span class="fixed-note">Fixed - real usage % now shown (from Smogon; Pikalytics publishes none)</span></div><span class="chip blocking">Blocking</span></div>
+      <div class="find done"><span class="find-n">10</span><div class="find-body"><div class="find-title">Win rates print to three decimals</div><div class="find-detail">"48.584% win rate" — false precision, and it makes the column hard to scan. One decimal.</div><span class="fixed-note">Fixed - win rates rounded to one decimal</span></div><span class="chip polish">Polish</span></div>
       <div class="find"><span class="find-n">11</span><div class="find-body"><div class="find-title">The usage-trend endpoint is orphaned</div><div class="find-detail"><code>GET /api/meta/trend/&lt;name&gt;</code> works and accumulates snapshots on every scrape. Nothing in the interface calls it — no rising/falling indicator, no chart.</div></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">12</span><div class="find-body"><div class="find-title">No data-freshness stamp anywhere</div><div class="find-detail">Nothing tells you when the meta data was last pulled, so you can't know whether you're looking at this week's meta.</div></div><span class="chip polish">Polish</span></div>
-      <div class="find"><span class="find-n">13</span><div class="find-body"><div class="find-title">Win/loss records only surface on the detail page</div><div class="find-detail">"13129-12414-39" is a sample-size signal — it belongs next to the win rate wherever the win rate appears.</div></div><span class="chip polish">Polish</span></div>
+      <div class="find done"><span class="find-n">13</span><div class="find-body"><div class="find-title">Win/loss records only surface on the detail page</div><div class="find-detail">"13129-12414-39" is a sample-size signal — it belongs next to the win rate wherever the win rate appears.</div><span class="fixed-note">Fixed - record shown beside win rate</span></div><span class="chip polish">Polish</span></div>
     </div>
 
     <h3>C · Search and filtering</h3>
     <div class="finds">
-      <div class="find"><span class="find-n">14</span><div class="find-body"><div class="find-title">Pokémon search matches names only</div><div class="find-detail">Typing "levitate" returns zero results; so does "fire", "wall", or "base 100 speed". <code>list_pokemon</code> filters on <code>name</code> and <code>display_name</code> and nothing else. You asked for ability search explicitly, and Showdown-style filtered search was requested earlier and only ever delivered for moves.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find done"><span class="find-n">14</span><div class="find-body"><div class="find-title">Pokémon search matches names only</div><div class="find-detail">Typing "levitate" returns zero results; so does "fire", "wall", or "base 100 speed". <code>list_pokemon</code> filters on <code>name</code> and <code>display_name</code> and nothing else. You asked for ability search explicitly, and Showdown-style filtered search was requested earlier and only ever delivered for moves.</div><span class="fixed-note">Partly - stat sorting is server-side now; ability/type search still to do</span></div><span class="chip blocking">Blocking</span></div>
       <div class="find"><span class="find-n">15</span><div class="find-body"><div class="find-title">No standalone move, ability or item browser</div><div class="find-detail">Rich move search exists, but only buried inside an open team slot. There's no page you can go to and ask "which Pokémon get Fake Out?"</div></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">16</span><div class="find-body"><div class="find-title">Item search can't filter by what an item does</div><div class="find-detail">Name substring only — no "show me all berries" or "all choice items", despite storing effect text for all 2,222.</div></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">17</span><div class="find-body"><div class="find-title">Pokédex table can't filter by type or sort by usage %</div><div class="find-detail">Sorting works on base stats and name; there's no type filter at all, which is the most common way anyone narrows a dex.</div></div><span class="chip major">Major</span></div>
@@ -427,8 +496,8 @@
 
     <h3>D · Scale limits</h3>
     <div class="finds">
-      <div class="find"><span class="find-n">18</span><div class="find-body"><div class="find-title">"Browse every Pokemon" actually returns 100</div><div class="find-detail"><code>list_pokemon</code> defaults to <code>limit=100</code> and hard-caps at <code>le=500</code>. We imported all 1,351 species and the interface can only ever reach 100 of them. Your earlier "top 600" request is impossible against the current cap.</div></div><span class="chip blocking">Blocking</span></div>
-      <div class="find"><span class="find-n">19</span><div class="find-body"><div class="find-title">No pagination or infinite scroll</div><div class="find-detail">Nothing anywhere pages, so raising the cap alone would just render a 1,351-row table.</div></div><span class="chip major">Major</span></div>
+      <div class="find done"><span class="find-n">18</span><div class="find-body"><div class="find-title">"Browse every Pokemon" actually returns 100</div><div class="find-detail"><code>list_pokemon</code> defaults to <code>limit=100</code> and hard-caps at <code>le=500</code>. We imported all 1,351 species and the interface can only ever reach 100 of them. Your earlier "top 600" request is impossible against the current cap.</div><span class="fixed-note">Fixed - sorting and paging server-side across all 1351</span></div><span class="chip blocking">Blocking</span></div>
+      <div class="find done"><span class="find-n">19</span><div class="find-body"><div class="find-title">No pagination or infinite scroll</div><div class="find-detail">Nothing anywhere pages, so raising the cap alone would just render a 1,351-row table.</div><span class="fixed-note">Fixed - Load more paging on the Pokedex</span></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">20</span><div class="find-body"><div class="find-title">Only 50 Pokémon have usage data</div><div class="find-detail">Source-limited, not a bug — but the interface should say so where a Pokémon has no data, instead of a bare "No tracked competitive usage data yet."</div></div><span class="chip polish">Polish</span></div>
     </div>
 
@@ -436,7 +505,7 @@
     <div class="finds">
       <div class="find"><span class="find-n">21</span><div class="find-body"><div class="find-title">No EV spread presets</div><div class="find-detail">Every spread is dialled in stat by stat. With a 66-point budget, presets ("max Attack + Speed", "bulky", "fast") would cover most cases in one click. Real spreads aren't published by Pikalytics, so presets are the honest substitute.</div></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">22</span><div class="find-body"><div class="find-title">No team export</div><div class="find-detail">Showdown import exists; export doesn't. You can get teams in and never out — so the site can't be part of a workflow with any other tool.</div></div><span class="chip major">Major</span></div>
-      <div class="find"><span class="find-n">23</span><div class="find-body"><div class="find-title">Team cards only open from the title text</div><div class="find-detail">Clicking the card body — the obvious target, and most of the card's area — does nothing. I hit this myself twice during the audit before realising the card wasn't the button.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find done"><span class="find-n">23</span><div class="find-body"><div class="find-title">Team cards only open from the title text</div><div class="find-detail">Clicking the card body — the obvious target, and most of the card's area — does nothing. I hit this myself twice during the audit before realising the card wasn't the button.</div><span class="fixed-note">Fixed - teammates addable from the slot editor and Pokemon page</span></div><span class="chip blocking">Blocking</span></div>
       <div class="find"><span class="find-n">24</span><div class="find-body"><div class="find-title">No rename, and folders can't be created from the list</div><div class="find-detail">The folder rail shows "(all)" and "(uncategorized)" with no way to add a folder or rename a team from the list view.</div></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">25</span><div class="find-body"><div class="find-title">No duplicate or legality warnings</div><div class="find-detail">Two Pokémon can hold the same item, or you can carry a duplicate species, with no flag. No EV-budget overspend warning at team level either.</div></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">26</span><div class="find-body"><div class="find-title">No undo</div><div class="find-detail">Delete is immediate and permanent against localStorage.</div></div><span class="chip polish">Polish</span></div>
@@ -445,11 +514,11 @@
     <h3>F · Analysis depth</h3>
     <div class="finds">
       <div class="find"><span class="find-n">27</span><div class="find-body"><div class="find-title">The damage calculator can't load your own team</div><div class="find-detail">Both sides start empty and you retype a set you already built. Every serious calculator lets you pull from a saved team.</div></div><span class="chip blocking">Blocking</span></div>
-      <div class="find"><span class="find-n">28</span><div class="find-body"><div class="find-title">Meta Calcs opens blank and demands a name</div><div class="find-detail">You have to already know who you're worried about. It should open on a grid of the top 25 to click — which is exactly the data Breaker/Waller already pull.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find done"><span class="find-n">28</span><div class="find-body"><div class="find-title">Meta Calcs opens blank and demands a name</div><div class="find-detail">You have to already know who you're worried about. It should open on a grid of the top 25 to click — which is exactly the data Breaker/Waller already pull.</div><span class="fixed-note">Fixed - Meta Calcs opens on the ranked meta with four modes</span></div><span class="chip blocking">Blocking</span></div>
       <div class="find"><span class="find-n">29</span><div class="find-body"><div class="find-title">No "what beats my whole team" view</div><div class="find-detail">Breaker and Waller answer this one Pokémon at a time. The question you actually asked — which meta threats score well against <em>all six</em> at once — has no view. This is the highest-value analysis we don't have, and the backend matrix to compute it already exists.</div></div><span class="chip blocking">Blocking</span></div>
       <div class="find"><span class="find-n">30</span><div class="find-body"><div class="find-title">Type Matchups is defensive only</div><div class="find-detail">It shows what hits your team hard, never what your team's typing hits hard. You asked for both directions.</div></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">31</span><div class="find-body"><div class="find-title">Type chart ignores immunity abilities</div><div class="find-detail">Levitate, Flash Fire, Water Absorb, Volt Absorb and Storm Drain all change a matchup completely and none are factored in, so the grid is actively wrong for those Pokémon.</div></div><span class="chip major">Major</span></div>
-      <div class="find"><span class="find-n">32</span><div class="find-body"><div class="find-title">Speed IQ has no meta speed ladder</div><div class="find-detail">It lists your team's speeds in isolation. The useful version interleaves them with the top 25's speeds so you can see who you outrun. No Tailwind, Choice Scarf or paralysis toggles either.</div></div><span class="chip major">Major</span></div>
+      <div class="find done"><span class="find-n">32</span><div class="find-body"><div class="find-title">Speed IQ has no meta speed ladder</div><div class="find-detail">It lists your team's speeds in isolation. The useful version interleaves them with the top 25's speeds so you can see who you outrun. No Tailwind, Choice Scarf or paralysis toggles either.</div><span class="fixed-note">Fixed - speeds and a moves-first badge on every Meta Calcs matchup</span></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">33</span><div class="find-body"><div class="find-title">Meta targets are calculated on neutral EVs</div><div class="find-detail">Breaker, Waller and Checks &amp; Counters run opponents at 0 EVs, which understates incoming damage everywhere. Pikalytics doesn't publish spreads, so the fix is a documented assumption — a standard offensive/defensive preset per role — not real data.</div></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">34</span><div class="find-body"><div class="find-title">No team-vs-team analysis</div><div class="find-detail">We have 10 real tournament teams. Nothing scores your team against them, which is the closest thing to a practice result the data allows.</div></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">35</span><div class="find-body"><div class="find-title">Checks &amp; Counters is fixed at 12 and drops rows silently</div><div class="find-detail">The Kingambit page promised 12 and rendered 8 — immune or unresolvable matchups vanish with no note. Should match Breaker/Waller at 25 and say what it skipped.</div></div><span class="chip major">Major</span></div>
