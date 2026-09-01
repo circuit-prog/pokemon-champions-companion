@@ -188,7 +188,7 @@ class TeamMemberIn(BaseModel):
 
 class TeamMatchupRequest(BaseModel):
     team: List[TeamMemberIn]
-    pool_size: int = 25  # how many top-usage Pokemon to test against
+    pool_size: int = 50  # how many top-usage Pokemon to test against
     field: DamageCalcField = DamageCalcField()
 
 

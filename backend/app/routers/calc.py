@@ -441,6 +441,11 @@ def calc_versus(req: VersusRequest, db: Session = Depends(get_db)):
     return pairs
 
 
+# How many spreads to hand back per Pokemon. Beyond the first few the usage
+# percentages get tiny and they're all near-duplicates of each other.
+MAX_SPREADS_RETURNED = 6
+
+
 @router.get("/meta-pool")
 def get_meta_pool(offset: int = 0, limit: int = 20, db: Session = Depends(get_db)):
     """The ranked meta as ready-to-use calc targets, paged.
@@ -477,6 +482,13 @@ def get_meta_pool(offset: int = 0, limit: int = 20, db: Session = Depends(get_db
             "item": item,
             "nature": top_spread.get("nature", "hardy"),
             "evs": top_spread.get("evs", {}),
+            # The most-used spread is often only a narrow plurality - Charizard
+            # -Mega-Y's top spread is a bulky one on 7.0% while the standard
+            # fast set sits on 5.6% - so a single spread misrepresents what you
+            # will actually face. Callers that care about the range (Speed IQ
+            # asking "can I outrun it") get the full list and pick for
+            # themselves rather than inheriting one arbitrary answer.
+            "spreads": spreads[:MAX_SPREADS_RETURNED],
             "moves": [m.name for m in row.pokemon.moves if m.display_name.lower() in top_move_names],
         })
 

@@ -4,7 +4,11 @@ import type { TeamMatchupRow } from "../api";
 import type { SavedTeam } from "../teamStorage";
 import "./BreakerPanel.css";
 
-export const POOL_SIZE = 25;
+// How much of the ranked meta to test against. Bigger is genuinely more
+// useful here - a threat sitting at rank 40 still beats you - and the whole
+// matrix is computed in one backend request, so the cost is one round trip
+// rather than one per Pokemon.
+export const POOL_SIZE = 50;
 
 /** Shared engine for the Breaker and Waller panels.
  *

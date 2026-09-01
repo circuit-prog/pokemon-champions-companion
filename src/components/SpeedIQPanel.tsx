@@ -16,6 +16,7 @@ interface Field {
   oppTailwind: boolean;
   trickRoom: boolean;
   maxSpeed: boolean;
+  oppMaxSpeed: boolean;
   paralysis: boolean;
   scarf: boolean;
 }
@@ -24,7 +25,12 @@ const TOGGLES: { key: keyof Field; label: string; hint: string }[] = [
   { key: "tailwind", label: "Tailwind", hint: "Doubles your team's Speed" },
   { key: "oppTailwind", label: "Opp. Tailwind", hint: "Doubles the meta's Speed" },
   { key: "trickRoom", label: "Trick Room", hint: "Slower Pokemon move first" },
-  { key: "maxSpeed", label: "Max Speed", hint: "Assume your team invests fully in Speed" },
+  { key: "maxSpeed", label: "Your max Speed", hint: "Assume your team invests fully in Speed" },
+  {
+    key: "oppMaxSpeed",
+    label: "Their max Speed",
+    hint: "Worst case: assume every meta Pokemon runs 32 Speed EVs and a boosting nature",
+  },
   { key: "scarf", label: "Choice Scarf", hint: "1.5x your team's Speed" },
   { key: "paralysis", label: "Paralysed", hint: "Halves your team's Speed" },
 ];
@@ -34,9 +40,13 @@ const EMPTY_FIELD: Field = {
   oppTailwind: false,
   trickRoom: false,
   maxSpeed: false,
+  oppMaxSpeed: false,
   scarf: false,
   paralysis: false,
 };
+
+// A Speed-boosting nature, for the "assume they're fully invested" case.
+const MAX_SPEED_NATURE = "jolly";
 
 function applyField(base: number, field: Field, ours: boolean): number {
   let speed = base;
@@ -57,16 +67,31 @@ interface Entry {
   speed: number;
   mine: boolean;
   rank?: number;
+  /** Slowest common spread's speed, when it differs - a Pokemon that can be
+   *  either fast or bulky isn't one number. */
+  slowSpeed?: number;
 }
+
+// How much of the ranked meta to ladder against. Speed ties are decided by
+// exact numbers, so seeing deep into the list is genuinely useful.
+const POOL_SIZE = 150;
+
+// Spreads below this usage are noise, and letting them set the "fastest"
+// figure would make every Pokemon look like a Choice Scarf sweeper.
+const MIN_SPREAD_USAGE = 3;
 
 export default function SpeedIQPanel({ team }: { team: SavedTeam }) {
   const [field, setField] = useState<Field>(EMPTY_FIELD);
   const [pool, setPool] = useState<MetaPoolEntryOut[]>([]);
+  const [poolTotal, setPoolTotal] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    getMetaPool(0, 40)
-      .then((page) => setPool(page.items))
+    getMetaPool(0, POOL_SIZE)
+      .then((page) => {
+        setPool(page.items);
+        setPoolTotal(page.total);
+      })
       .catch(() => setError("Couldn't load the meta. Is the backend running?"));
   }, []);
 
@@ -85,20 +110,39 @@ export default function SpeedIQPanel({ team }: { team: SavedTeam }) {
     };
   });
 
-  // Meta Pokemon run their real most-used spread and nature, so these are the
-  // speeds you will actually be racing rather than neutral guesses.
-  const theirs: Entry[] = pool.map((entry) => ({
-    key: `meta-${entry.pokemon_name}`,
-    name: entry.display_name,
-    sprite: entry.sprite_url,
-    speed: applyField(
-      statAtLevel(entry.base_speed, entry.evs.spe ?? 0, 50, "spe", entry.nature),
-      field,
-      false
-    ),
-    mine: false,
-    rank: entry.rank,
-  }));
+  // For "can I outrun this", the useful assumption is the fastest spread
+  // people actually run, not the single most-used one: Charizard-Mega-Y's
+  // top spread is a bulky 125 Speed, but 5.6% of them are 152 and those are
+  // the ones that beat you. We show that figure and note the slower variant.
+  const theirs: Entry[] = pool.map((entry) => {
+    const candidates = (entry.spreads ?? []).filter(
+      (sp) => (sp.percent ?? 0) >= MIN_SPREAD_USAGE
+    );
+    const usable = candidates.length > 0
+      ? candidates
+      : [{ nature: entry.nature, evs: entry.evs, percent: null }];
+
+    // "Their max Speed" ignores what people actually run and asks the
+    // worst-case question instead: could this Pokemon outrun me if it were
+    // built for it? That's the safe assumption when you can't scout.
+    const speeds = field.oppMaxSpeed
+      ? [statAtLevel(entry.base_speed, MAX_EV_PER_STAT, 50, "spe", MAX_SPEED_NATURE)]
+      : usable.map((sp) =>
+          statAtLevel(entry.base_speed, sp.evs.spe ?? 0, 50, "spe", sp.nature)
+        );
+    const fastest = Math.max(...speeds);
+    const slowest = Math.min(...speeds);
+
+    return {
+      key: `meta-${entry.pokemon_name}`,
+      name: entry.display_name,
+      sprite: entry.sprite_url,
+      speed: applyField(fastest, field, false),
+      slowSpeed: slowest !== fastest ? applyField(slowest, field, false) : undefined,
+      mine: false,
+      rank: entry.rank,
+    };
+  });
 
   const ladder = [...mine, ...theirs].sort((a, b) =>
     field.trickRoom ? a.speed - b.speed : b.speed - a.speed
@@ -110,7 +154,20 @@ export default function SpeedIQPanel({ team }: { team: SavedTeam }) {
   return (
     <div className="speediq-panel">
       <p className="subtitle">
-        Where your team sits in the speed order, under whatever conditions you expect to be in.
+        Where your team sits in the speed order against the top {pool.length} of {poolTotal} ranked
+        Pokemon.{" "}
+        {field.oppMaxSpeed ? (
+          <>
+            Every meta Pokemon is shown at <strong>maximum Speed</strong> (32 EVs, boosting nature) —
+            the worst case, whether or not anyone actually builds it that way.
+          </>
+        ) : (
+          <>
+            Each shows the <strong>fastest spread people actually run</strong> (at least{" "}
+            {MIN_SPREAD_USAGE}% usage), because that's the one that outruns you; where a slower
+            common spread exists it's shown alongside.
+          </>
+        )}
         {field.trickRoom && " Trick Room is on, so slowest moves first."}
       </p>
 
@@ -142,6 +199,9 @@ export default function SpeedIQPanel({ team }: { team: SavedTeam }) {
             <span className="speed-rung-name">
               {e.name}
               {e.rank ? <span className="speed-rung-rank"> #{e.rank}</span> : null}
+              {e.slowSpeed !== undefined && (
+                <span className="speed-rung-alt"> · slower spread {e.slowSpeed}</span>
+              )}
             </span>
             {e.mine && <span className="speed-rung-tag">Yours</span>}
           </div>

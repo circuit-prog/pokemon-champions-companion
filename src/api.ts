@@ -398,6 +398,10 @@ export interface MetaPoolEntryOut {
   item: string;
   nature: string;
   evs: Record<string, number>;
+  /** The most-used spreads, not just the top one. Usage is often fragmented -
+   *  Charizard-Mega-Y's bulky spread leads on 7.0% while the standard fast set
+   *  sits on 5.6% - so one spread misrepresents what you actually face. */
+  spreads: SpreadEntry[];
   moves: string[];
 }
 
