@@ -393,6 +393,7 @@ export interface MetaPoolEntryOut {
   display_name: string;
   sprite_url: string | null;
   rank: number;
+  base_speed: number;
   ability: string;
   item: string;
   nature: string;

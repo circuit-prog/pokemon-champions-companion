@@ -470,6 +470,9 @@ def get_meta_pool(offset: int = 0, limit: int = 20, db: Session = Depends(get_db
             "display_name": row.pokemon.display_name,
             "sprite_url": row.pokemon.sprite_url,
             "rank": row.rank,
+            # Base speed so the frontend can build a speed ladder without a
+            # second request per Pokemon.
+            "base_speed": row.pokemon.speed,
             "ability": ability,
             "item": item,
             "nature": top_spread.get("nature", "hardy"),
