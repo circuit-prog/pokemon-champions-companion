@@ -7,9 +7,10 @@ import TypeMatchupsPanel from "./TypeMatchupsPanel";
 import MoveIQPanel from "./MoveIQPanel";
 import BreakerPanel from "./BreakerPanel";
 import WallerPanel from "./WallerPanel";
+import TeamVsTeamPanel from "./TeamVsTeamPanel";
 import "./TeamToolsPage.css";
 
-type SubTab = "speediq" | "metacalcs" | "typematchups" | "moveiq" | "breaker" | "waller";
+type SubTab = "speediq" | "metacalcs" | "typematchups" | "moveiq" | "breaker" | "waller" | "teamvsteam";
 
 const TABS: { key: SubTab; label: string }[] = [
   { key: "speediq", label: "SpeedIQ" },
@@ -18,6 +19,7 @@ const TABS: { key: SubTab; label: string }[] = [
   { key: "moveiq", label: "MoveIQ" },
   { key: "breaker", label: "Breaker" },
   { key: "waller", label: "Waller" },
+  { key: "teamvsteam", label: "Team vs Team" },
 ];
 
 export default function TeamToolsPage() {
@@ -55,6 +57,8 @@ export default function TeamToolsPage() {
         return <BreakerPanel team={team} />;
       case "waller":
         return <WallerPanel team={team} />;
+      case "teamvsteam":
+        return <TeamVsTeamPanel team={team} />;
     }
   }
 

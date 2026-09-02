@@ -1,0 +1,135 @@
+.team-vs-team-panel {
+  text-align: left;
+}
+
+.tvt-picker {
+  margin-bottom: 0.5rem;
+}
+
+.tvt-section {
+  border: 1px solid #e3e8f2;
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  margin-top: 0.9rem;
+  background: #fff;
+}
+
+.tvt-section h4 {
+  margin: 0 0 0.25rem;
+  font-size: 0.95rem;
+}
+
+.tvt-note {
+  color: #7d8ba0;
+  font-size: 0.8rem;
+  margin: 0 0 0.6rem;
+}
+
+.tvt-lineup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tvt-lineup.possible {
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed #e3e8f2;
+}
+
+.tvt-mon-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: #f7f9fc;
+  border: 1px solid #e3e8f2;
+  font-size: 0.85rem;
+}
+
+.tvt-mon-chip.likely {
+  background: #eef4ff;
+  border-color: #b9cdf2;
+  font-weight: 600;
+}
+
+.tvt-mon-chip img {
+  width: 24px;
+  height: 24px;
+}
+
+.tvt-chip-rank {
+  color: #9aa7ba;
+  font-size: 0.72rem;
+}
+
+.tvt-speed-ladder {
+  border: 1px solid #e3e8f2;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tvt-threat-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.tvt-threat-header img {
+  width: 36px;
+  height: 36px;
+}
+
+.tvt-threat-avg {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: #c0392b;
+  font-weight: 600;
+}
+
+.tvt-threat-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.tvt-threat-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 1fr 1fr;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.4rem;
+  border-radius: 6px;
+  background: #fafbfe;
+  font-size: 0.82rem;
+}
+
+.tvt-threat-row img {
+  width: 24px;
+  height: 24px;
+}
+
+.tvt-threat-name {
+  font-weight: 600;
+}
+
+.tvt-threat-num {
+  display: flex;
+  flex-direction: column;
+}
+
+.tvt-threat-num.bad {
+  color: #c0392b;
+}
+
+.tvt-threat-num.good {
+  color: #1f7a4d;
+}
+
+.tvt-threat-num em {
+  font-style: normal;
+  font-size: 0.7rem;
+  color: #9aa7ba;
+}

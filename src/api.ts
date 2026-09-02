@@ -399,14 +399,19 @@ export interface TeamMatchupMember {
  *
  * Done server-side because computing it in the browser needs
  * (team size x pool size x moves) round-trips - roughly 600 for a full team
- * against the top 25, which was slow and hammered the API. */
+ * against the top 25, which was slow and hammered the API.
+ *
+ * Pass `opponentTeamRank` to test against one real tournament team's roster
+ * instead of the ranked meta pool - poolSize is ignored when it's set. */
 export function calcTeamMatchups(
   team: TeamMatchupMember[],
   poolSize = 25,
-  field: object = {}
+  field: object = {},
+  opponentTeamRank?: number
 ): Promise<TeamMatchupRow[]> {
   return postJson<TeamMatchupRow[]>("/api/calc/team-matchups", {
     team,
+    opponent_team_rank: opponentTeamRank,
     pool_size: poolSize,
     field,
   });

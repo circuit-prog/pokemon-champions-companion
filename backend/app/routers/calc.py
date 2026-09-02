@@ -233,15 +233,68 @@ def _load_meta_pool(db: Session, pool_size: int):
     return targets
 
 
+def _load_roster_targets(db: Session, top_team_rank: int):
+    """One real tournament team's six Pokemon as _MetaTarget objects, so the
+    Team vs Team tool can run the exact same Breaker/Waller-style matchup
+    matrix against a specific opponent roster instead of the ranked pool.
+
+    Each member is built from its own individually-tracked usage - the same
+    approximation top-team-roster and the meta pool already use, since
+    Pikalytics' Top Teams data is rosters only, with no per-team spreads. A
+    member with no tracked usage of its own gets rank 0 and a blank set
+    (real Pokemon, no move/ability/item to build from) rather than a guess.
+    """
+    from app.models.pokemon import TopTeam
+    from app.name_resolver import resolve_names
+
+    team = db.query(TopTeam).filter(TopTeam.rank == top_team_rank).first()
+    if not team:
+        raise HTTPException(status_code=404, detail=f"No top team with rank {top_team_rank}")
+
+    names = json.loads(team.pokemon_json)
+    resolved = resolve_names(db, set(names))
+
+    targets = []
+    for name in names:
+        slug = resolved.get(name, (None, None))[0]
+        if not slug:
+            continue
+        pokemon = db.query(Pokemon).filter(Pokemon.name == slug).first()
+        if not pokemon:
+            continue
+        usage_row = (
+            db.query(PokemonUsageStats)
+            .filter(PokemonUsageStats.pokemon_id == pokemon.id)
+            .first()
+        )
+        if usage_row:
+            top_move, ability, item = _resolve_top_set(db, usage_row)
+            spreads = json.loads(usage_row.spreads_json or "[]")
+            top_spread = spreads[0] if spreads else {}
+            targets.append(_MetaTarget(
+                pokemon, usage_row.rank, top_move, ability, item,
+                nature=top_spread.get("nature", "hardy"),
+                evs=top_spread.get("evs", {}),
+            ))
+        else:
+            targets.append(_MetaTarget(pokemon, 0, None, "", ""))
+    return targets
+
+
 @router.post("/team-matchups", response_model=list[TeamMatchupRow])
 def calc_team_matchups(req: TeamMatchupRequest, db: Session = Depends(get_db)):
     """Full Breaker/Waller matrix: every team member against every top-usage
-    Pokemon, in both directions.
+    Pokemon (or, with opponent_team_rank set, against one real tournament
+    team's roster instead), in both directions.
 
     Computed server-side in one request because doing it in the browser would
     need hundreds of round-trips (team size x pool size x moves).
     """
-    pool = _load_meta_pool(db, req.pool_size)
+    pool = (
+        _load_roster_targets(db, req.opponent_team_rank)
+        if req.opponent_team_rank is not None
+        else _load_meta_pool(db, req.pool_size)
+    )
     field = req.field.model_dump()
     rows = []
 

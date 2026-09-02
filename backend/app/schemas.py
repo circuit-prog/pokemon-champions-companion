@@ -199,6 +199,9 @@ class TeamMemberIn(BaseModel):
 class TeamMatchupRequest(BaseModel):
     team: List[TeamMemberIn]
     pool_size: int = 50  # how many top-usage Pokemon to test against
+    # When set, test against one real tournament team's roster instead of the
+    # ranked meta pool - pool_size is ignored. Powers the Team vs Team tool.
+    opponent_team_rank: Optional[int] = None
     field: DamageCalcField = DamageCalcField()
 
 
