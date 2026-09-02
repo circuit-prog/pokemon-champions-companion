@@ -6,14 +6,33 @@ scale the attacking stat, some scale power, and some scale the final damage.
 Getting the order wrong gives plausible-looking numbers that are quietly
 incorrect, which is worse than not modelling the ability at all.
 
-Not modelled, and deliberately so: anything needing a move flag we don't
-store (contact, sound, punch, bite, pulse, recoil), which rules out Tough
-Claws, Iron Fist, Strong Jaw, Mega Launcher, Punk Rock, Reckless, Fluffy and
-Sheer Force; and anything needing turn order (Analytic) or switch tracking
-(Intrepid Sword). See UNSUPPORTED_ABILITIES - the calculator reports these
-rather than silently ignoring them.
+Sound moves are handled by listing them here, because the set is small and
+stable and three abilities depend on it (Liquid Voice, Punk Rock, Soundproof).
+
+Still not modelled: abilities needing flags we have no list for - contact,
+punch, bite, pulse, recoil - which rules out Tough Claws, Iron Fist, Strong
+Jaw, Mega Launcher, Reckless, Fluffy and Sheer Force; and anything needing
+turn order (Analytic). See UNSUPPORTED_ABILITIES - the calculator reports
+these rather than silently ignoring them.
 """
 from typing import Optional
+
+# Sound-based moves. PokeAPI doesn't expose the flag, but the list is short
+# and rarely changes, so hard-coding it is more useful than pretending the
+# abilities that depend on it don't exist. Damaging moves only - the status
+# ones never reach a damage calculation.
+SOUND_MOVES = {
+    "hyper-voice", "boomburst", "bug-buzz", "snarl", "round", "echoed-voice",
+    "disarming-voice", "alluring-voice", "sparkling-aria", "overdrive",
+    "psychic-noise", "relic-song", "clanging-scales", "clangorous-soul",
+    "clangorous-soulblaze", "eerie-spell", "chatter", "snore", "torch-song",
+    "hyper-drill",
+}
+
+
+def is_sound_move(move_name: str) -> bool:
+    return (move_name or "").lower() in SOUND_MOVES
+
 
 # --- type-changing ("-ate") abilities -------------------------------------
 #
@@ -79,17 +98,23 @@ IMMUNITY_ABILITIES = {
 
 # Abilities we know about but cannot model with the data we store.
 UNSUPPORTED_ABILITIES = {
-    "tough-claws", "iron-fist", "strong-jaw", "mega-launcher", "punk-rock",
+    "tough-claws", "iron-fist", "strong-jaw", "mega-launcher",
     "reckless", "fluffy", "sheer-force", "analytic", "stakeout", "unseen-fist",
 }
 
 
-def effective_move_type(move_type: str, attacker_ability: str) -> tuple:
+def effective_move_type(move_type: str, attacker_ability: str, move_name: str = "") -> tuple:
     """The type a move actually has once the attacker's ability is applied.
 
     Returns (type, power_multiplier).
     """
     ability = (attacker_ability or "").lower()
+
+    # Liquid Voice makes every sound move Water - which is what gives
+    # Primarina STAB on Hyper Voice. No power boost, unlike the -ate family.
+    if ability == "liquid-voice" and is_sound_move(move_name):
+        return "water", 1.0
+
     if ability == NORMALIZE:
         return "normal", ATE_POWER_MULT
     new_type = ATE_ABILITIES.get(ability)
@@ -98,9 +123,13 @@ def effective_move_type(move_type: str, attacker_ability: str) -> tuple:
     return move_type, 1.0
 
 
-def defender_immunity(defender_ability: str, move_type: str, type_eff: float) -> Optional[str]:
+def defender_immunity(
+    defender_ability: str, move_type: str, type_eff: float, move_name: str = ""
+) -> Optional[str]:
     """A reason string if the defender's ability blocks the move entirely."""
     ability = (defender_ability or "").lower()
+    if ability == "soundproof" and is_sound_move(move_name):
+        return "Soundproof blocks sound-based moves."
     if ability == "wonder-guard" and type_eff <= 1:
         return "Wonder Guard blocks everything that isn't super effective."
     if IMMUNITY_ABILITIES.get(ability) == move_type:
@@ -128,10 +157,15 @@ def ignores_burn(attacker_ability: str) -> bool:
     return (attacker_ability or "").lower() == "guts"
 
 
-def power_multiplier(attacker, move_type: str, move_power: float, weather: str) -> float:
+def power_multiplier(
+    attacker, move_type: str, move_power: float, weather: str, move_name: str = ""
+) -> float:
     """Ability multipliers that apply to the move's power."""
     ability = (attacker.ability or "").lower()
     mult = 1.0
+
+    if ability == "punk-rock" and is_sound_move(move_name):
+        mult *= 1.3
 
     boost = TYPE_BOOST_ABILITIES.get(ability)
     if boost and boost[0] == move_type:
@@ -164,11 +198,17 @@ def stab_multiplier(attacker_ability: str) -> float:
     return 2.0 if (attacker_ability or "").lower() == "adaptability" else 1.5
 
 
-def final_damage_multiplier(attacker, defender, move_type: str, move_category: str, type_eff: float) -> float:
+def final_damage_multiplier(
+    attacker, defender, move_type: str, move_category: str, type_eff: float, move_name: str = ""
+) -> float:
     """Everything applied to the damage after the base calculation."""
     atk_ability = (attacker.ability or "").lower()
     def_ability = (defender.ability or "").lower()
     mult = 1.0
+
+    # Punk Rock cuts incoming sound moves in half as well as boosting its own.
+    if def_ability == "punk-rock" and is_sound_move(move_name):
+        mult *= 0.5
 
     # Attacker side
     if atk_ability == "tinted-lens" and type_eff < 1:

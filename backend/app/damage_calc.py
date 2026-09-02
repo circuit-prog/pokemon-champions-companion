@@ -237,11 +237,14 @@ def compute_damage(attacker: Combatant, defender: Combatant, move: dict, field: 
     # and friends turn a Normal move into another type, which changes type
     # effectiveness and can grant STAB - so every later step has to use this
     # resolved type, not the move's printed one.
-    move_type, ate_power_mult = abilities.effective_move_type(move["type"], attacker.ability)
+    move_name = move.get("name", "")
+    move_type, ate_power_mult = abilities.effective_move_type(
+        move["type"], attacker.ability, move_name
+    )
 
     type_eff = type_effectiveness(move_type, defender.types)
 
-    immunity = abilities.defender_immunity(defender.ability, move_type, type_eff)
+    immunity = abilities.defender_immunity(defender.ability, move_type, type_eff, move_name)
     if immunity:
         return {"immune": True, "reason": immunity}
     if type_eff == 0:
@@ -298,7 +301,9 @@ def compute_damage(attacker: Combatant, defender: Combatant, move: dict, field: 
         power_mods.append(atk_item_mod["physical_power_mult"])
     if move["category"] == "special" and atk_item_mod.get("special_power_mult"):
         power_mods.append(atk_item_mod["special_power_mult"])
-    power_mods.append(abilities.power_multiplier(attacker, move_type, float(move["power"]), weather))
+    power_mods.append(
+        abilities.power_multiplier(attacker, move_type, float(move["power"]), weather, move_name)
+    )
 
     # Terrain boosts its matching type for grounded attackers, and Misty Terrain
     # halves Dragon moves against grounded defenders.
@@ -343,7 +348,7 @@ def compute_damage(attacker: Combatant, defender: Combatant, move: dict, field: 
     if type_eff > 1 and atk_item_mod.get("se_only_mult"):
         se_mult *= atk_item_mod["se_only_mult"]
     ability_mult = abilities.final_damage_multiplier(
-        attacker, defender, move_type, move["category"], type_eff
+        attacker, defender, move_type, move["category"], type_eff, move_name
     )
 
     # Doubles: spread moves hit multiple targets for 0.75x each. We don't know

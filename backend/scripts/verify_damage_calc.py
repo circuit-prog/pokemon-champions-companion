@@ -94,6 +94,24 @@ CASES = [
      mon("kingambit", "defiant", item="black-glasses"), mon("garchomp", ""), "kowtow-cleave", None,
      mon("kingambit", "defiant"), 1.2),
 
+    # Sound-move abilities. Liquid Voice is the reason Primarina's Hyper Voice
+    # hits like a STAB Water move rather than a resisted Normal one.
+    ("Liquid Voice (sound move -> Water, gains STAB on Primarina)",
+     mon("primarina", "liquid-voice"), mon("kingambit", ""), "hyper-voice", None,
+     mon("primarina", "torrent"), 3.0),
+
+    ("Liquid Voice leaves a non-sound move alone",
+     mon("primarina", "liquid-voice"), mon("kingambit", ""), "moonblast", None,
+     mon("primarina", "torrent"), 1.0),
+
+    ("Punk Rock boosts its own sound moves (x1.3)",
+     mon("primarina", "punk-rock"), mon("kingambit", ""), "hyper-voice", None,
+     mon("primarina", "torrent"), 1.3),
+
+    ("Punk Rock halves incoming sound moves (x0.5)",
+     mon("primarina", "torrent"), mon("kingambit", "punk-rock"), "hyper-voice", None,
+     None, 0.5, mon("kingambit", "defiant")),
+
     ("Guts through a burn (no halving, plus x1.5)",
      mon("conkeldurr", "guts", status="burn"), mon("garchomp", ""), "close-combat", None,
      mon("conkeldurr", "sheer-force", status="burn"), 3.0),
@@ -106,6 +124,7 @@ IMMUNITY_CASES = [
     ("Volt Absorb blocks Electric", mon("pikachu", ""), mon("lanturn", "volt-absorb"), "thunderbolt"),
     ("Sap Sipper blocks Grass", mon("venusaur", ""), mon("azumarill", "sap-sipper"), "energy-ball"),
     ("Storm Drain blocks Water", mon("pelipper", ""), mon("gastrodon", "storm-drain"), "surf"),
+    ("Soundproof blocks a sound move", mon("primarina", ""), mon("bouffalant", "soundproof"), "hyper-voice"),
 ]
 
 

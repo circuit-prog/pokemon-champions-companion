@@ -51,7 +51,7 @@ def calc_damage(req: DamageCalcRequest, db: Session = Depends(get_db)):
 
     result = compute_damage(
         attacker, defender,
-        move={"type": move.type, "category": move.category, "power": move.power},
+        move={"name": move.name, "type": move.type, "category": move.category, "power": move.power},
         field=req.field.model_dump(),
     )
     return result
@@ -77,7 +77,7 @@ def calc_survival(req: SurvivalRequest, db: Session = Depends(get_db)):
         return SurvivalResult(found=False, reason="That move deals no direct damage.")
 
     attacker = _to_combatant(attacker_pokemon, req.attacker)
-    move_dict = {"type": move.type, "category": move.category, "power": move.power}
+    move_dict = {"name": move.name, "type": move.type, "category": move.category, "power": move.power}
 
     # Which defensive stat the move actually targets.
     def_stat_key = "def" if move.category == "physical" else "spd"
@@ -267,7 +267,7 @@ def calc_team_matchups(req: TeamMatchupRequest, db: Session = Depends(get_db)):
             for move in selected_moves:
                 result = compute_damage(
                     attacker, target_combatant,
-                    move={"type": move.type, "category": move.category, "power": move.power},
+                    move={"name": move.name, "type": move.type, "category": move.category, "power": move.power},
                     field=field,
                 )
                 if result.get("error") or result.get("immune"):
@@ -286,6 +286,7 @@ def calc_team_matchups(req: TeamMatchupRequest, db: Session = Depends(get_db)):
                 incoming = compute_damage(
                     target_combatant, attacker,
                     move={
+                        "name": target.top_move.name,
                         "type": target.top_move.type,
                         "category": target.top_move.category,
                         "power": target.top_move.power,
@@ -435,7 +436,7 @@ def calc_versus(req: VersusRequest, db: Session = Depends(get_db)):
                     continue
                 result = compute_damage(
                     attacker, defender,
-                    move={"type": move.type, "category": move.category, "power": move.power},
+                    move={"name": move.name, "type": move.type, "category": move.category, "power": move.power},
                     field=field,
                 )
                 if result.get("error"):
