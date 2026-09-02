@@ -512,3 +512,21 @@ export function getMetaPool(offset = 0, limit = 20): Promise<{ total: number; it
     `/api/calc/meta-pool?offset=${offset}&limit=${limit}`
   );
 }
+
+export interface TopTeamRoster {
+  rank: number;
+  author: string | null;
+  record: string | null;
+  tournament: string | null;
+  /** Each member built with its own real most-used set - we don't have
+   *  per-team spreads, so this is each Pokemon's individual tracked usage,
+   *  the same data Breaker/Waller and the meta pool use. A member with no
+   *  tracked usage of its own comes back with real base stats but a blank set. */
+  roster: MetaPoolEntryOut[];
+}
+
+/** One real tournament team's six Pokemon, ready to run in Meta Calcs'
+ *  Team vs Team mode - "vs a popular team" using that team's actual sets. */
+export function getTopTeamRoster(rank: number): Promise<TopTeamRoster> {
+  return getJson<TopTeamRoster>(`/api/calc/top-team-roster/${rank}`);
+}

@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { calcVersus, getMetaPool } from "../api";
-import type { VersusPair, MetaPoolEntryOut, TeamMatchupMember } from "../api";
+import { calcVersus, getMetaPool, getTopTeams, getTopTeamRoster } from "../api";
+import type { VersusPair, MetaPoolEntryOut, TeamMatchupMember, TopTeamOut } from "../api";
 import type { SavedTeam, TeamSlotData } from "../teamStorage";
 import "./MetaCalcsPanel.css";
 
-/** The four ways to ask "how does this matchup go".
+/** The five ways to ask "how does this matchup go".
  *
  * They're all the same underlying question - some attackers against some
  * defenders - so they share one request and one renderer; the mode only
  * decides what goes on each side and what the picker selects. */
-type Mode = "team-vs-1" | "one-vs-team" | "one-vs-meta" | "meta-vs-1";
+type Mode = "team-vs-1" | "one-vs-team" | "one-vs-meta" | "meta-vs-1" | "team-vs-team";
 
 const MODES: { key: Mode; label: string; blurb: string; pickerLabel: string }[] = [
   {
@@ -35,6 +35,15 @@ const MODES: { key: Mode; label: string; blurb: string; pickerLabel: string }[] 
     label: "Meta → 1",
     blurb: "See how the ranked meta attacks one of your Pokemon.",
     pickerLabel: "Defender",
+  },
+  {
+    key: "team-vs-team",
+    label: "Team → Team",
+    blurb:
+      "See how your full team matches up against a real tournament team, using that team's actual " +
+      "items, abilities and EV spreads (each Pokemon's own most-used set - Pikalytics doesn't publish " +
+      "per-team spreads, only who's on the team).",
+    pickerLabel: "Opponent team",
   },
 ];
 
@@ -138,6 +147,9 @@ export default function MetaCalcsPanel({ team }: { team: SavedTeam }) {
   const [mode, setMode] = useState<Mode>("team-vs-1");
   const [pool, setPool] = useState<MetaPoolEntryOut[]>([]);
   const [poolTotal, setPoolTotal] = useState(0);
+  const [topTeams, setTopTeams] = useState<TopTeamOut[]>([]);
+  const [opponentRoster, setOpponentRoster] = useState<MetaPoolEntryOut[] | null>(null);
+  const [opponentName, setOpponentName] = useState<string | null>(null);
   const [selected, setSelected] = useState<string>("");
   const [pairs, setPairs] = useState<VersusPair[] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -145,8 +157,10 @@ export default function MetaCalcsPanel({ team }: { team: SavedTeam }) {
   const [shown, setShown] = useState(PAGE_SIZE);
 
   const config = MODES.find((m) => m.key === mode)!;
-  // Two modes pick from the meta, two pick from your own team.
+  // Some modes pick from the ranked meta, some pick from your own team, one
+  // picks a real tournament team.
   const picksFromMeta = mode === "team-vs-1" || mode === "one-vs-team";
+  const picksFromTopTeams = mode === "team-vs-team";
   // Two modes run against the whole ranked meta, and so need paging.
   const scansMeta = mode === "one-vs-meta" || mode === "meta-vs-1";
 
@@ -157,17 +171,45 @@ export default function MetaCalcsPanel({ team }: { team: SavedTeam }) {
         setPoolTotal(page.total);
       })
       .catch(() => setError("Couldn't load the meta. Is the backend running?"));
+    getTopTeams()
+      .then(setTopTeams)
+      .catch(() => {
+        /* Team vs Team just won't have anything to pick if this fails - the
+           other four modes don't depend on it. */
+      });
   }, []);
 
   // Reset the selection whenever the mode changes the kind of thing it picks.
   useEffect(() => {
     setShown(PAGE_SIZE);
+    setOpponentRoster(null);
+    setOpponentName(null);
     if (picksFromMeta) setSelected(pool[0]?.pokemon_name ?? "");
+    else if (picksFromTopTeams) setSelected(topTeams[0] ? String(topTeams[0].rank) : "");
     else setSelected(team.slots[0]?.pokemon.name ?? "");
-  }, [mode, pool, team, picksFromMeta]);
+  }, [mode, pool, topTeams, team, picksFromMeta, picksFromTopTeams]);
+
+  // Team vs Team's opponent roster is a separate fetch (each member's real
+  // set), so it's loaded on its own rather than blocking the picker.
+  useEffect(() => {
+    if (!picksFromTopTeams || !selected) return;
+    let cancelled = false;
+    setOpponentRoster(null);
+    getTopTeamRoster(Number(selected))
+      .then((result) => {
+        if (cancelled) return;
+        setOpponentRoster(result.roster);
+        setOpponentName(result.author ? `${result.author}'s team (${result.record ?? "?"})` : "that team");
+      })
+      .catch(() => !cancelled && setError("Couldn't load that team's roster."));
+    return () => {
+      cancelled = true;
+    };
+  }, [picksFromTopTeams, selected]);
 
   useEffect(() => {
     if (!selected) return;
+    if (picksFromTopTeams && !opponentRoster) return; // still loading the roster
     let cancelled = false;
     setLoading(true);
     setError(null);
@@ -191,6 +233,9 @@ export default function MetaCalcsPanel({ team }: { team: SavedTeam }) {
     } else if (mode === "meta-vs-1" && teamMember) {
       attackers = pool.slice(0, shown).map(metaToMember);
       defenders = [slotToMember(teamMember)];
+    } else if (mode === "team-vs-team" && opponentRoster) {
+      attackers = teamMembers;
+      defenders = opponentRoster.map(metaToMember);
     }
 
     if (attackers.length === 0 || defenders.length === 0) {
@@ -207,7 +252,7 @@ export default function MetaCalcsPanel({ team }: { team: SavedTeam }) {
     return () => {
       cancelled = true;
     };
-  }, [mode, selected, team, pool, shown]);
+  }, [mode, selected, team, pool, shown, picksFromTopTeams, opponentRoster]);
 
   if (team.slots.length === 0) {
     return <p className="subtitle">Add some Pokemon to your team first.</p>;
@@ -232,7 +277,19 @@ export default function MetaCalcsPanel({ team }: { team: SavedTeam }) {
 
   const options = picksFromMeta
     ? pool.map((p) => ({ value: p.pokemon_name, label: `#${p.rank} ${p.display_name}` }))
-    : team.slots.map((s) => ({ value: s.pokemon.name, label: s.pokemon.display_name }));
+    : picksFromTopTeams
+      ? topTeams.map((t) => ({
+          value: String(t.rank),
+          label: `#${t.rank} ${t.author ?? "Unknown"} (${t.record ?? "?"})`,
+        }))
+      : team.slots.map((s) => ({ value: s.pokemon.name, label: s.pokemon.display_name }));
+
+  // Same reasoning as the "incomplete" warning above, but for the opponent's
+  // side: most of a real team's six aren't individually ranked, so they come
+  // back with real base stats but no tracked set to build from.
+  const opponentGaps = (opponentRoster ?? [])
+    .filter((m) => !m.ability && !m.item)
+    .map((m) => m.display_name);
 
   return (
     <div className="meta-calcs-panel">
@@ -269,12 +326,24 @@ export default function MetaCalcsPanel({ team }: { team: SavedTeam }) {
       </p>
 
       {error && <div className="error-banner">{error}</div>}
+      {picksFromTopTeams && !opponentRoster && !error && (
+        <p className="subtitle">Loading {opponentName ?? "that team"}'s roster...</p>
+      )}
       {loading && <p className="subtitle">Running calcs...</p>}
 
       {incomplete.length > 0 && (
         <div className="calc-warning">
           These numbers use whatever your team currently has set, and some of it is blank:{" "}
           {incomplete.join("; ")}. Fill those in on the Teams page and the calcs will reflect them.
+        </div>
+      )}
+
+      {opponentGaps.length > 0 && (
+        <div className="calc-warning">
+          Pikalytics doesn't publish per-team spreads, only rosters - {opponentGaps.join(", ")}{" "}
+          {opponentGaps.length === 1 ? "isn't" : "aren't"} individually tracked, so{" "}
+          {opponentGaps.length === 1 ? "it's" : "they're"} calculated with a blank set (real base stats,
+          no item or ability).
         </div>
       )}
 

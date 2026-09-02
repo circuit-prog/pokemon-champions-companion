@@ -494,6 +494,57 @@ def calc_versus(req: VersusRequest, db: Session = Depends(get_db)):
 MAX_SPREADS_RETURNED = 6
 
 
+def _meta_entry_for_row(db: Session, row: PokemonUsageStats) -> dict:
+    """A ranked Pokemon's real most-used set, in the shape both the meta pool
+    and the Team vs Team roster endpoint return - factored out so a tracked
+    team member is built identically whichever list it came from."""
+    _, ability, item = _resolve_top_set(db, row)
+    spreads = json.loads(row.spreads_json or "[]")
+    top_spread = spreads[0] if spreads else {}
+    top_move_names = {m["name"].lower() for m in json.loads(row.moves_json or "[]")[:4]}
+    return {
+        "pokemon_name": row.pokemon.name,
+        "display_name": row.pokemon.display_name,
+        "sprite_url": row.pokemon.sprite_url,
+        "rank": row.rank,
+        # Base speed so the frontend can build a speed ladder without a
+        # second request per Pokemon.
+        "base_speed": row.pokemon.speed,
+        "ability": ability,
+        "item": item,
+        "nature": top_spread.get("nature", "hardy"),
+        "evs": top_spread.get("evs", {}),
+        # The most-used spread is often only a narrow plurality - Charizard
+        # -Mega-Y's top spread is a bulky one on 7.0% while the standard
+        # fast set sits on 5.6% - so a single spread misrepresents what you
+        # will actually face. Callers that care about the range (Speed IQ
+        # asking "can I outrun it") get the full list and pick for
+        # themselves rather than inheriting one arbitrary answer.
+        "spreads": spreads[:MAX_SPREADS_RETURNED],
+        "moves": [m.name for m in row.pokemon.moves if m.display_name.lower() in top_move_names],
+    }
+
+
+def _blank_entry_for(pokemon: Pokemon, rank: int = 0) -> dict:
+    """A roster member we have no tracked usage for - most of a real
+    tournament team's six won't be individually ranked. Real Pokemon, real
+    base stats, but nothing to build a set from, so it's left blank rather
+    than guessed at."""
+    return {
+        "pokemon_name": pokemon.name,
+        "display_name": pokemon.display_name,
+        "sprite_url": pokemon.sprite_url,
+        "rank": rank,
+        "base_speed": pokemon.speed,
+        "ability": "",
+        "item": "",
+        "nature": "hardy",
+        "evs": {},
+        "spreads": [],
+        "moves": [],
+    }
+
+
 @router.get("/meta-pool")
 def get_meta_pool(offset: int = 0, limit: int = 20, db: Session = Depends(get_db)):
     """The ranked meta as ready-to-use calc targets, paged.
@@ -510,34 +561,53 @@ def get_meta_pool(offset: int = 0, limit: int = 20, db: Session = Depends(get_db
         .all()
     )
 
-    entries = []
-    for row in rows:
-        if not row.pokemon:
-            continue
-        _, ability, item = _resolve_top_set(db, row)
-        spreads = json.loads(row.spreads_json or "[]")
-        top_spread = spreads[0] if spreads else {}
-        top_move_names = {m["name"].lower() for m in json.loads(row.moves_json or "[]")[:4]}
-        entries.append({
-            "pokemon_name": row.pokemon.name,
-            "display_name": row.pokemon.display_name,
-            "sprite_url": row.pokemon.sprite_url,
-            "rank": row.rank,
-            # Base speed so the frontend can build a speed ladder without a
-            # second request per Pokemon.
-            "base_speed": row.pokemon.speed,
-            "ability": ability,
-            "item": item,
-            "nature": top_spread.get("nature", "hardy"),
-            "evs": top_spread.get("evs", {}),
-            # The most-used spread is often only a narrow plurality - Charizard
-            # -Mega-Y's top spread is a bulky one on 7.0% while the standard
-            # fast set sits on 5.6% - so a single spread misrepresents what you
-            # will actually face. Callers that care about the range (Speed IQ
-            # asking "can I outrun it") get the full list and pick for
-            # themselves rather than inheriting one arbitrary answer.
-            "spreads": spreads[:MAX_SPREADS_RETURNED],
-            "moves": [m.name for m in row.pokemon.moves if m.display_name.lower() in top_move_names],
-        })
-
+    entries = [_meta_entry_for_row(db, row) for row in rows if row.pokemon]
     return {"total": total, "items": entries}
+
+
+@router.get("/top-team-roster/{rank}")
+def get_top_team_roster(rank: int, db: Session = Depends(get_db)):
+    """One real tournament team's six Pokemon, each built with its own
+    most-used item/ability/nature/EVs/moves - for Meta Calcs' Team vs Team
+    mode, so "6 of my Pokemon vs a popular team" means the popular team's
+    actual sets, not six blank Pokemon with the right names and nothing else.
+
+    We don't have per-team spreads (Pikalytics' Top Teams data is rosters
+    only, no movesets), so each member is built from its own individual
+    tracked usage - the same real-world data Breaker/Waller and the meta pool
+    already use. A team member that isn't itself a ranked/tracked Pokemon
+    comes back with real base stats but a blank set, same as importing that
+    team via "Import this team" already does.
+    """
+    from app.models.pokemon import TopTeam
+    from app.name_resolver import resolve_names
+
+    team = db.query(TopTeam).filter(TopTeam.rank == rank).first()
+    if not team:
+        raise HTTPException(status_code=404, detail=f"No top team with rank {rank}")
+
+    names = json.loads(team.pokemon_json)
+    resolved = resolve_names(db, set(names))
+
+    roster = []
+    for name in names:
+        slug = resolved.get(name, (None, None))[0]
+        if not slug:
+            continue
+        pokemon = db.query(Pokemon).filter(Pokemon.name == slug).first()
+        if not pokemon:
+            continue
+        usage_row = (
+            db.query(PokemonUsageStats)
+            .filter(PokemonUsageStats.pokemon_id == pokemon.id)
+            .first()
+        )
+        roster.append(_meta_entry_for_row(db, usage_row) if usage_row else _blank_entry_for(pokemon))
+
+    return {
+        "rank": team.rank,
+        "author": team.author,
+        "record": team.record,
+        "tournament": team.tournament,
+        "roster": roster,
+    }
