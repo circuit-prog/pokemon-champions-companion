@@ -136,7 +136,10 @@ def calc_survival(req: SurvivalRequest, db: Session = Depends(get_db)):
     )
 
 
-def _build_combatant(pokemon: Pokemon, evs=None, nature="hardy", ability="", item="", level=50) -> Combatant:
+def _build_combatant(
+    pokemon: Pokemon, evs=None, nature="hardy", ability="", item="", level=50,
+    status="healthy", current_hp_percent=100.0,
+) -> Combatant:
     base_stats = {
         "hp": pokemon.hp, "atk": pokemon.attack, "def": pokemon.defense,
         "spa": pokemon.special_attack, "spd": pokemon.special_defense, "spe": pokemon.speed,
@@ -144,6 +147,7 @@ def _build_combatant(pokemon: Pokemon, evs=None, nature="hardy", ability="", ite
     return Combatant(
         base_stats=base_stats, types=[pokemon.type1, pokemon.type2],
         evs=evs or {}, nature=nature, ability=ability, item=item, level=level,
+        status=status, current_hp_percent=current_hp_percent,
     )
 
 
@@ -246,6 +250,7 @@ def calc_team_matchups(req: TeamMatchupRequest, db: Session = Depends(get_db)):
         attacker = _build_combatant(
             pokemon, evs=member.evs, nature=member.nature,
             ability=member.ability or "", item=member.item or "", level=member.level,
+            status=member.status, current_hp_percent=member.current_hp_percent,
         )
 
         selected_moves = [
@@ -417,6 +422,7 @@ def calc_versus(req: VersusRequest, db: Session = Depends(get_db)):
         attacker = _build_combatant(
             atk_pokemon, evs=atk_spec.evs, nature=atk_spec.nature,
             ability=atk_spec.ability or "", item=atk_spec.item or "", level=atk_spec.level,
+            status=atk_spec.status, current_hp_percent=atk_spec.current_hp_percent,
         )
         atk_item_label = _item_label(db, atk_spec.item)
         moves = [m for m in atk_pokemon.moves if m.name in atk_spec.moves]
@@ -426,6 +432,7 @@ def calc_versus(req: VersusRequest, db: Session = Depends(get_db)):
             defender = _build_combatant(
                 def_pokemon, evs=def_spec.evs, nature=def_spec.nature,
                 ability=def_spec.ability or "", item=def_spec.item or "", level=def_spec.level,
+                status=def_spec.status, current_hp_percent=def_spec.current_hp_percent,
             )
 
             atk_speed, def_speed = attacker.stat("spe"), defender.stat("spe")

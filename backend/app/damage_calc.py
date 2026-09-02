@@ -250,7 +250,13 @@ def compute_damage(attacker: Combatant, defender: Combatant, move: dict, field: 
     if type_eff == 0:
         return {"immune": True, "reason": f"{move_type}-type moves have no effect on the defender (type immunity)."}
 
+    # An ability that sets weather does so simply by being on the field, so a
+    # Drought Charizard is always in sun whether or not the user ticked it.
+    # An explicit field choice still wins - the user may be modelling a turn
+    # where someone else's weather is up.
     weather = field.get("weather", "none")
+    if weather == "none":
+        weather = abilities.implied_weather(attacker.ability, defender.ability)
 
     atk_stat = attacker.stat(atk_stat_key)
     atk_stat = math.floor(atk_stat * stage_multiplier(attacker.stages.get(atk_stat_key, 0)))
@@ -278,7 +284,7 @@ def compute_damage(attacker: Combatant, defender: Combatant, move: dict, field: 
     if def_stat_key == "def" and def_item_mod.get("def_mult"):
         def_stat = math.floor(def_stat * def_item_mod["def_mult"])
 
-    crit_on = bool(field.get("crit"))
+    crit_on = bool(field.get("crit")) and not abilities.prevents_crit(defender.ability)
     if not crit_on:
         if move["category"] == "physical" and field.get("reflect"):
             def_stat = math.floor(def_stat * 1.5)
@@ -308,6 +314,8 @@ def compute_damage(attacker: Combatant, defender: Combatant, move: dict, field: 
     # Terrain boosts its matching type for grounded attackers, and Misty Terrain
     # halves Dragon moves against grounded defenders.
     terrain = field.get("terrain", "none")
+    if terrain == "none":
+        terrain = abilities.implied_terrain(attacker.ability, defender.ability)
     terrain_mult = 1.0
     if terrain != "none":
         atk_grounded = is_grounded(attacker.types, attacker.ability)

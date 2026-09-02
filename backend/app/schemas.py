@@ -176,7 +176,15 @@ class PokemonUsageOut(BaseModel):
 
 
 class TeamMemberIn(BaseModel):
-    """One of your team's Pokemon, for the Breaker/Waller matchup matrix."""
+    """One of your team's Pokemon, for Meta Calcs and the Breaker/Waller matrix.
+
+    Status and current HP are here because several abilities key off them -
+    Guts and Marvel Scale need a status condition, Multiscale and the pinch
+    abilities (Overgrow, Blaze, Torrent, Swarm) need an HP threshold. Without
+    them these panels silently calculated every Pokemon as healthy and at full
+    HP, so those abilities did nothing here even though the calculator
+    modelled them correctly.
+    """
     pokemon_name: str
     evs: dict = {}
     nature: str = "hardy"
@@ -184,6 +192,8 @@ class TeamMemberIn(BaseModel):
     item: Optional[str] = None
     level: int = 50
     moves: List[str] = []  # move slugs currently selected on this Pokemon
+    status: str = "healthy"
+    current_hp_percent: float = 100.0
 
 
 class TeamMatchupRequest(BaseModel):
