@@ -357,6 +357,13 @@ export interface VersusSide {
   sprite_url: string | null;
   speed: number;
   moves_first: boolean;
+  /** The set this number was actually calculated with, so an applied ability
+   *  is distinguishable from a blank one. */
+  ability: string;
+  item: string;
+  spread: string;
+  /** Parts of the set left blank ("ability", "item", "EVs"). */
+  missing: string[];
 }
 
 export interface VersusMoveResult {

@@ -76,6 +76,10 @@ function VerdictIcon({ verdict }: { verdict: "good" | "warning" | "bad" }) {
 }
 
 function SideCard({ side }: { side: VersusPair["attacker"] }) {
+  // Spell out the set each number came from. Abilities and items move damage
+  // a long way but never appeared anywhere, so there was no way to tell an
+  // applied ability from an empty one.
+  const parts = [side.ability, side.item].filter(Boolean);
   return (
     <div className={side.moves_first ? "calc-side first" : "calc-side"}>
       {side.sprite_url && <img src={side.sprite_url} alt="" />}
@@ -84,6 +88,13 @@ function SideCard({ side }: { side: VersusPair["attacker"] }) {
         <span className="calc-side-speed">
           {side.speed} Speed
           {side.moves_first && <span className="moves-first-badge">▶▶ Moves first</span>}
+        </span>
+        <span className="calc-side-set">
+          {side.spread}
+          {parts.length > 0 && ` · ${parts.join(" · ")}`}
+          {side.missing.length > 0 && (
+            <span className="calc-side-missing"> · no {side.missing.join(", ")}</span>
+          )}
         </span>
       </div>
     </div>
@@ -202,6 +213,23 @@ export default function MetaCalcsPanel({ team }: { team: SavedTeam }) {
     return <p className="subtitle">Add some Pokemon to your team first.</p>;
   }
 
+  // Blank fields aren't ignored by the calculator - they're genuinely empty,
+  // and the resulting numbers are lower than they will be in a real battle.
+  const incomplete = team.slots
+    .map((slot) => {
+      const gaps: string[] = [];
+      if (!slot.ability) gaps.push("no ability");
+      if (!slot.item) gaps.push("no item");
+      if (!Object.values(slot.evs).some((v) => v > 0)) gaps.push("no EVs");
+      if (gaps.length === 0) return null;
+      const list =
+        gaps.length === 1
+          ? gaps[0]
+          : `${gaps.slice(0, -1).join(", ")} and ${gaps[gaps.length - 1]}`;
+      return `${slot.pokemon.display_name} has ${list}`;
+    })
+    .filter((x): x is string => x !== null);
+
   const options = picksFromMeta
     ? pool.map((p) => ({ value: p.pokemon_name, label: `#${p.rank} ${p.display_name}` }))
     : team.slots.map((s) => ({ value: s.pokemon.name, label: s.pokemon.display_name }));
@@ -242,6 +270,13 @@ export default function MetaCalcsPanel({ team }: { team: SavedTeam }) {
 
       {error && <div className="error-banner">{error}</div>}
       {loading && <p className="subtitle">Running calcs...</p>}
+
+      {incomplete.length > 0 && (
+        <div className="calc-warning">
+          These numbers use whatever your team currently has set, and some of it is blank:{" "}
+          {incomplete.join("; ")}. Fill those in on the Teams page and the calcs will reflect them.
+        </div>
+      )}
 
       {pairs && pairs.length > 0 && (
         <div className="calc-pairs">

@@ -231,3 +231,26 @@
     width: 100%;
   }
 }
+
+
+.calc-side-set {
+  font-size: 0.72rem;
+  color: #7d8ba0;
+  line-height: 1.3;
+  margin-top: 0.1rem;
+}
+
+.calc-side-missing {
+  color: #b8791a;
+}
+
+.calc-warning {
+  background: #fdf3e2;
+  border: 1px solid #f0dcb4;
+  border-left: 3px solid #b8791a;
+  border-radius: 6px;
+  padding: 0.55rem 0.8rem;
+  margin-bottom: 0.9rem;
+  font-size: 0.85rem;
+  color: #6b5220;
+}

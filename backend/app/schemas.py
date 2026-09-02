@@ -216,12 +216,21 @@ class TeamMatchupRow(BaseModel):
 
 
 class VersusSide(BaseModel):
-    """One Pokemon in a matchup, as the UI needs to draw it."""
+    """One Pokemon in a matchup, as the UI needs to draw it.
+
+    Carries the set it was actually calculated with. Abilities and items
+    change damage a lot but never appeared in the calc line, so there was no
+    way to tell a set that was applied from one that was empty.
+    """
     pokemon_name: str
     display_name: str
     sprite_url: Optional[str]
     speed: int
     moves_first: bool
+    ability: str = ""
+    item: str = ""
+    spread: str = ""            # "Adamant 32/32/0/0/2/0"
+    missing: List[str] = []     # parts of the set left blank, so we can say so
 
 
 class VersusMoveResult(BaseModel):

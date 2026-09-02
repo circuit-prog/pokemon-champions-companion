@@ -102,14 +102,29 @@ def main():
                 spreads_json=json.dumps(data.get("spreads", [])),
             ))
 
-            db.add(UsageSnapshot(
-                format=fmt,
-                scraped_at=scraped_at,
-                pokemon_name=slug,
-                rank=data["rank"],
-                win_rate=None,
-                record=None,
-            ))
+            # One snapshot per Pokemon per scrape run. Re-running the
+            # loader on the same data used to append a duplicate set every
+            # time, which would show up as phantom movement in the trend.
+            existing = (
+                db.query(UsageSnapshot)
+                .filter(
+                    UsageSnapshot.format == fmt,
+                    UsageSnapshot.scraped_at == scraped_at,
+                    UsageSnapshot.pokemon_name == slug,
+                )
+                .first()
+            )
+            if existing:
+                existing.rank = data["rank"]
+            else:
+                db.add(UsageSnapshot(
+                    format=fmt,
+                    scraped_at=scraped_at,
+                    pokemon_name=slug,
+                    rank=data["rank"],
+                    win_rate=None,
+                    record=None,
+                ))
             loaded += 1
 
         db.commit()

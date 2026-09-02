@@ -6,6 +6,8 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.pokemon import Pokemon, PokemonUsageStats, TeamCore, TopTeam, UsageSnapshot
 from app.name_resolver import resolve_names
+from typing import Optional
+
 from app.schemas import MetaRankingEntry, TeamCoreOut, TopTeamOut, UsageTrendPoint
 
 router = APIRouter(prefix="/api/meta", tags=["meta"])
@@ -97,3 +99,32 @@ def get_usage_trend(name: str, db: Session = Depends(get_db)):
         UsageTrendPoint(scraped_at=r.scraped_at, rank=r.rank, win_rate=r.win_rate)
         for r in rows
     ]
+
+
+@router.get("/source")
+def get_data_source(db: Session = Depends(get_db)):
+    """Where the meta data came from and when.
+
+    Without this the site presents figures with no indication of age, so you
+    can't tell this week's meta from a month-old snapshot.
+    """
+    fmt = _current_format(db)
+    tracked = db.query(PokemonUsageStats).count()
+
+    runs = (
+        db.query(UsageSnapshot.scraped_at)
+        .filter(UsageSnapshot.format == fmt)
+        .distinct()
+        .order_by(UsageSnapshot.scraped_at.desc())
+        .all()
+    )
+
+    return {
+        "format": fmt,
+        "tracked_pokemon": tracked,
+        "last_updated": runs[0][0] if runs else None,
+        "snapshot_count": len(runs),
+        # Usage, spreads, moves, items and abilities come from Smogon; win
+        # rate, team cores and tournament teams from Pikalytics.
+        "sources": ["Smogon", "Pikalytics"],
+    }

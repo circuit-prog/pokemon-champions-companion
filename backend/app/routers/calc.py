@@ -148,14 +148,22 @@ def _build_combatant(pokemon: Pokemon, evs=None, nature="hardy", ability="", ite
 
 
 class _MetaTarget:
-    """A top-usage Pokemon set up with its real most-used ability and move."""
+    """A top-usage Pokemon set up the way people actually run it.
 
-    def __init__(self, pokemon, rank, top_move, top_ability, top_item):
+    Carries the EV spread and nature as well as the ability, item and move:
+    running these targets on a blank neutral spread understated how hard they
+    hit and overstated how easily they're knocked out, which is the opposite
+    of useful when the whole point is to find what threatens you.
+    """
+
+    def __init__(self, pokemon, rank, top_move, top_ability, top_item, nature="hardy", evs=None):
         self.pokemon = pokemon
         self.rank = rank
         self.top_move = top_move        # Move row, or None
         self.top_ability = top_ability  # ability slug, or ""
         self.top_item = top_item        # item slug, or ""
+        self.nature = nature
+        self.evs = evs or {}
 
 
 def _resolve_top_set(db: Session, row: PokemonUsageStats):
@@ -211,7 +219,13 @@ def _load_meta_pool(db: Session, pool_size: int):
         if not row.pokemon:
             continue
         top_move, ability, item = _resolve_top_set(db, row)
-        targets.append(_MetaTarget(row.pokemon, row.rank, top_move, ability, item))
+        spreads = json.loads(row.spreads_json or "[]")
+        top_spread = spreads[0] if spreads else {}
+        targets.append(_MetaTarget(
+            row.pokemon, row.rank, top_move, ability, item,
+            nature=top_spread.get("nature", "hardy"),
+            evs=top_spread.get("evs", {}),
+        ))
     return targets
 
 
@@ -244,7 +258,8 @@ def calc_team_matchups(req: TeamMatchupRequest, db: Session = Depends(get_db)):
 
         for target in pool:
             target_combatant = _build_combatant(
-                target.pokemon, ability=target.top_ability, item=target.top_item,
+                target.pokemon, evs=target.evs, nature=target.nature,
+                ability=target.top_ability, item=target.top_item,
             )
 
             # Offense: our best selected move against this target.
@@ -346,6 +361,39 @@ def _item_label(db: Session, slug) -> str:
     return f"{item.display_name} " if item else ""
 
 
+_SPREAD_ORDER = ["hp", "atk", "def", "spa", "spd", "spe"]
+
+
+def _pretty(slug) -> str:
+    return (slug or "").replace("-", " ").title()
+
+
+def _describe_side(db: Session, pokemon, spec, speed: int, moves_first: bool):
+    """Everything the UI needs to show which set a number came from."""
+    evs = spec.evs or {}
+    spread = "/".join(str(evs.get(k, 0)) for k in _SPREAD_ORDER)
+
+    missing = []
+    if not spec.ability:
+        missing.append("ability")
+    if not spec.item:
+        missing.append("item")
+    if not any(evs.get(k, 0) for k in _SPREAD_ORDER):
+        missing.append("EVs")
+
+    return VersusSide(
+        pokemon_name=pokemon.name,
+        display_name=pokemon.display_name,
+        sprite_url=pokemon.sprite_url,
+        speed=speed,
+        moves_first=moves_first,
+        ability=_pretty(spec.ability),
+        item=_item_label(db, spec.item).strip(),
+        spread=f"{_pretty(spec.nature)} {spread}",
+        missing=missing,
+    )
+
+
 def _verdict_for(pct_high, ko_text, immune: bool) -> str:
     """Green when the attack genuinely threatens, red when it does nothing,
     amber in between - roughly how a player reads a calc at a glance."""
@@ -425,16 +473,8 @@ def calc_versus(req: VersusRequest, db: Session = Depends(get_db)):
                 ))
 
             pairs.append(VersusPair(
-                attacker=VersusSide(
-                    pokemon_name=atk_pokemon.name, display_name=atk_pokemon.display_name,
-                    sprite_url=atk_pokemon.sprite_url, speed=atk_speed,
-                    moves_first=atk_speed > def_speed,
-                ),
-                defender=VersusSide(
-                    pokemon_name=def_pokemon.name, display_name=def_pokemon.display_name,
-                    sprite_url=def_pokemon.sprite_url, speed=def_speed,
-                    moves_first=def_speed > atk_speed,
-                ),
+                attacker=_describe_side(db, atk_pokemon, atk_spec, atk_speed, atk_speed > def_speed),
+                defender=_describe_side(db, def_pokemon, def_spec, def_speed, def_speed > atk_speed),
                 results=results,
             ))
 
