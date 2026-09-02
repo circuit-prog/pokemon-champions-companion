@@ -84,14 +84,29 @@ def get_top_teams(
     ]
 
 
+def _current_format(db: Session):
+    """The format our current usage rows are for, so trend/freshness never mix
+    data from a source we've since switched away from."""
+    row = db.query(PokemonUsageStats).first()
+    return row.format if row else None
+
+
 @router.get("/trend/{name}", response_model=list[UsageTrendPoint])
 def get_usage_trend(name: str, db: Session = Depends(get_db)):
-    """Usage rank / win rate over time for one Pokemon. Only has data from
-    scrape runs we've recorded ourselves - Pikalytics publishes current data
-    only, so early on this will be a single point."""
+    """Usage rank over time for one Pokemon, scoped to the current format.
+
+    We switched data source (Pikalytics -> Smogon) partway through, and the
+    old snapshots rank against a different pool - mixing them in would show
+    movement that never happened. History can only accumulate going forward;
+    neither source publishes past months in a form we keep.
+    """
+    fmt = _current_format(db)
     rows = (
         db.query(UsageSnapshot)
-        .filter(UsageSnapshot.pokemon_name == name.lower())
+        .filter(
+            UsageSnapshot.pokemon_name == name.lower(),
+            UsageSnapshot.format == fmt,
+        )
         .order_by(UsageSnapshot.scraped_at)
         .all()
     )
@@ -101,8 +116,8 @@ def get_usage_trend(name: str, db: Session = Depends(get_db)):
     ]
 
 
-@router.get("/source")
-def get_data_source(db: Session = Depends(get_db)):
+@router.get("/freshness")
+def get_data_freshness(db: Session = Depends(get_db)):
     """Where the meta data came from and when.
 
     Without this the site presents figures with no indication of age, so you

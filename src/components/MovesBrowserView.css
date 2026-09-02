@@ -1,0 +1,158 @@
+.moves-browser {
+  text-align: left;
+}
+
+.moves-filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.moves-search {
+  flex: 1;
+  min-width: 200px;
+  box-sizing: border-box;
+  padding: 0.55rem 0.8rem;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.moves-filters select {
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 0.88rem;
+  text-transform: capitalize;
+}
+
+.moves-status {
+  color: #888;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.moves-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.move-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.5rem 0.8rem;
+  border: none;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+}
+
+.move-row:hover {
+  background: #f7f9ff;
+}
+
+.move-row.open {
+  background: #eef4ff;
+}
+
+.move-row-category {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: #888;
+  width: 3.5rem;
+}
+
+.move-row-name {
+  flex: 1;
+  font-weight: 600;
+}
+
+.move-row-power,
+.move-row-acc {
+  font-size: 0.82rem;
+  color: #666;
+  width: 5rem;
+  text-align: right;
+}
+
+.move-row-chevron {
+  color: #999;
+  width: 1rem;
+}
+
+.move-row-effect {
+  margin: 0;
+  padding: 0 0.8rem 0.5rem 5.5rem;
+  font-size: 0.78rem;
+  color: #888;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fff;
+}
+
+.move-learners {
+  padding: 0.6rem 0.8rem;
+  background: #fafbff;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.move-learners-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.move-learner-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid #ddd;
+  font-size: 0.78rem;
+}
+
+.move-learner-chip img {
+  width: 20px;
+  height: 20px;
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.5rem;
+}
+
+.item-card {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.6rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.item-card img {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.item-card-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.item-card-effect {
+  font-size: 0.78rem;
+  color: #888;
+  margin-top: 0.2rem;
+}

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { browsePokemon } from "../api";
 import type { PokemonSummary } from "../api";
 import { TYPE_COLORS } from "../typeColors";
+import { ALL_TYPES } from "../typeChart";
 import AddToTeam from "./AddToTeam";
 import "./PokemonTable.css";
 
@@ -38,6 +39,9 @@ export default function PokemonTable({
   onSelectDetail?: (name: string) => void;
 }) {
   const [query, setQuery] = useState("");
+  const [abilityQuery, setAbilityQuery] = useState("");
+  const [activeTypes, setActiveTypes] = useState<string[]>([]);
+  const [showFilters, setShowFilters] = useState(false);
   const [results, setResults] = useState<PokemonSummary[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -45,6 +49,10 @@ export default function PokemonTable({
   const [error, setError] = useState<string | null>(null);
   const [sortKey, setSortKey] = useState<SortKey>("usage");
   const [sortDesc, setSortDesc] = useState(false);
+
+  function toggleType(t: string) {
+    setActiveTypes((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]));
+  }
 
   // Sorting and searching are server-side, so changing either re-queries from
   // the start. Sorting in the browser used to reorder only the rows already
@@ -57,6 +65,8 @@ export default function PokemonTable({
       setError(null);
       browsePokemon({
         search: query,
+        ability: abilityQuery || undefined,
+        types: activeTypes.length > 0 ? activeTypes : undefined,
         sort: sortKey,
         order: sortDesc ? "desc" : "asc",
         limit: PAGE_SIZE,
@@ -81,12 +91,14 @@ export default function PokemonTable({
       cancelled = true;
       clearTimeout(handle);
     };
-  }, [query, sortKey, sortDesc]);
+  }, [query, abilityQuery, activeTypes, sortKey, sortDesc]);
 
   function loadMore() {
     setLoadingMore(true);
     browsePokemon({
       search: query,
+      ability: abilityQuery || undefined,
+      types: activeTypes.length > 0 ? activeTypes : undefined,
       sort: sortKey,
       order: sortDesc ? "desc" : "asc",
       limit: PAGE_SIZE,
@@ -111,13 +123,60 @@ export default function PokemonTable({
 
   return (
     <div className="pokemon-table-wrap">
-      <input
-        className="pokemon-table-search"
-        type="text"
-        placeholder="Search Pokemon by name..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
+      <div className="pokemon-table-search-row">
+        <input
+          className="pokemon-table-search"
+          type="text"
+          placeholder="Search Pokemon by name..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <button
+          type="button"
+          className={showFilters ? "pokemon-filter-toggle active" : "pokemon-filter-toggle"}
+          onClick={() => setShowFilters((v) => !v)}
+        >
+          Filters{activeTypes.length > 0 || abilityQuery ? ` (${activeTypes.length + (abilityQuery ? 1 : 0)})` : ""}
+        </button>
+      </div>
+
+      {showFilters && (
+        <div className="pokemon-filters">
+          <div className="pokemon-filter-types">
+            {ALL_TYPES.map((t) => (
+              <button
+                key={t}
+                type="button"
+                className={activeTypes.includes(t) ? "type-chip active" : "type-chip"}
+                style={activeTypes.includes(t) ? { background: TYPE_COLORS[t] ?? TYPE_COLORS.unknown, color: "#fff" } : undefined}
+                onClick={() => toggleType(t)}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+          <input
+            className="pokemon-ability-search"
+            type="text"
+            placeholder="Filter by ability, e.g. levitate..."
+            value={abilityQuery}
+            onChange={(e) => setAbilityQuery(e.target.value)}
+          />
+          {(activeTypes.length > 0 || abilityQuery) && (
+            <button
+              type="button"
+              className="pokemon-filter-clear"
+              onClick={() => {
+                setActiveTypes([]);
+                setAbilityQuery("");
+              }}
+            >
+              Clear filters
+            </button>
+          )}
+        </div>
+      )}
+
       {error && <div className="error-banner">{error}</div>}
       <div className="search-status">
         {loading

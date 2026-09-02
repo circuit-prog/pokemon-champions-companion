@@ -126,6 +126,12 @@ export interface BrowseOptions {
   order?: "asc" | "desc";
   limit?: number;
   offset?: number;
+  /** Match Pokemon with ANY of these types. */
+  types?: string[];
+  /** Substring match against ability display names, e.g. "levitate". */
+  ability?: string;
+  minStats?: Partial<Record<"hp" | "attack" | "defense" | "special_attack" | "special_defense" | "speed", number>>;
+  maxStats?: Partial<Record<"hp" | "attack" | "defense" | "special_attack" | "special_defense" | "speed", number>>;
 }
 
 /** Browse the dex with server-side sorting and paging.
@@ -139,6 +145,14 @@ export async function browsePokemon(options: BrowseOptions = {}): Promise<Pokemo
   if (options.search) params.set("search", options.search);
   if (options.sort) params.set("sort", options.sort);
   if (options.order) params.set("order", options.order);
+  if (options.types && options.types.length > 0) params.set("types", options.types.join(","));
+  if (options.ability) params.set("ability", options.ability);
+  for (const [stat, value] of Object.entries(options.minStats ?? {})) {
+    params.set(`min_${stat}`, String(value));
+  }
+  for (const [stat, value] of Object.entries(options.maxStats ?? {})) {
+    params.set(`max_${stat}`, String(value));
+  }
   params.set("limit", String(options.limit ?? 100));
   params.set("offset", String(options.offset ?? 0));
 
@@ -156,6 +170,72 @@ export function getPokemon(name: string): Promise<PokemonDetail> {
 export function searchItems(query: string): Promise<ItemOut[]> {
   const params = query ? `?search=${encodeURIComponent(query)}` : "";
   return getJson<ItemOut[]>(`/api/items${params}`);
+}
+
+// --- standalone Moves / Abilities / Items browsers --------------------------
+//
+// The team builder's pickers (searchItems above, MovePicker, AbilityPicker)
+// already existed but only ever searched within one Pokemon's learnset. These
+// browse the full reference data on their own pages, with real filters and a
+// reverse lookup ("which Pokemon actually have this").
+
+export interface ReferencePage<T> {
+  items: T[];
+  total: number;
+}
+
+async function getPagedJson<T>(path: string): Promise<ReferencePage<T>> {
+  const res = await fetch(`${API_BASE}${path}`);
+  if (!res.ok) throw new Error(`Request to ${path} failed: ${res.status}`);
+  const items = (await res.json()) as T[];
+  const total = Number(res.headers.get("X-Total-Count") ?? items.length);
+  return { items, total };
+}
+
+export interface MoveBrowseOptions {
+  search?: string;
+  type?: string;
+  category?: string;
+  minPower?: number;
+  maxPower?: number;
+  limit?: number;
+  offset?: number;
+}
+
+export function browseMoves(options: MoveBrowseOptions = {}): Promise<ReferencePage<MoveOut>> {
+  const params = new URLSearchParams();
+  if (options.search) params.set("search", options.search);
+  if (options.type) params.set("type", options.type);
+  if (options.category) params.set("category", options.category);
+  if (options.minPower != null) params.set("min_power", String(options.minPower));
+  if (options.maxPower != null) params.set("max_power", String(options.maxPower));
+  params.set("limit", String(options.limit ?? 50));
+  params.set("offset", String(options.offset ?? 0));
+  return getPagedJson<MoveOut>(`/api/moves?${params.toString()}`);
+}
+
+export function getMoveLearners(name: string): Promise<PokemonSummary[]> {
+  return getJson<PokemonSummary[]>(`/api/moves/${encodeURIComponent(name)}/learners`);
+}
+
+export function browseAbilities(search = "", limit = 50, offset = 0): Promise<ReferencePage<AbilityOut>> {
+  const params = new URLSearchParams();
+  if (search) params.set("search", search);
+  params.set("limit", String(limit));
+  params.set("offset", String(offset));
+  return getPagedJson<AbilityOut>(`/api/abilities?${params.toString()}`);
+}
+
+export function getAbilityHolders(name: string): Promise<PokemonSummary[]> {
+  return getJson<PokemonSummary[]>(`/api/abilities/${encodeURIComponent(name)}/pokemon`);
+}
+
+export function browseItems(search = "", limit = 50, offset = 0): Promise<ReferencePage<ItemOut>> {
+  const params = new URLSearchParams();
+  if (search) params.set("search", search);
+  params.set("limit", String(limit));
+  params.set("offset", String(offset));
+  return getPagedJson<ItemOut>(`/api/items?${params.toString()}`);
 }
 
 export interface UsageEntry {
@@ -252,6 +332,20 @@ export interface UsageTrendPoint {
 
 export function getUsageTrend(name: string): Promise<UsageTrendPoint[]> {
   return getJson<UsageTrendPoint[]>(`/api/meta/trend/${encodeURIComponent(name)}`);
+}
+
+export interface DataFreshness {
+  format: string | null;
+  tracked_pokemon: number;
+  last_updated: string | null;
+  snapshot_count: number;
+  sources: string[];
+}
+
+/** When the meta data was last pulled, and where from - so the site never
+ *  presents a number with no indication of how current it is. */
+export function getDataFreshness(): Promise<DataFreshness> {
+  return getJson<DataFreshness>("/api/meta/freshness");
 }
 
 export function calcDamage(

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getPokemon, getPokemonUsage } from "../api";
-import type { PokemonDetail, PokemonUsageOut } from "../api";
+import { getPokemon, getPokemonUsage, getUsageTrend } from "../api";
+import type { PokemonDetail, PokemonUsageOut, UsageTrendPoint } from "../api";
 import { TYPE_COLORS } from "../typeColors";
 import AddToTeam from "./AddToTeam";
 import ChecksAndCounters from "./ChecksAndCounters";
@@ -18,15 +18,25 @@ const STAT_BARS: { key: keyof PokemonDetail; label: string; color: string }[] = 
 export default function PokemonDetailPage({ name, onBack }: { name: string; onBack: () => void }) {
   const [pokemon, setPokemon] = useState<PokemonDetail | null>(null);
   const [usage, setUsage] = useState<PokemonUsageOut | null>(null);
+  const [trend, setTrend] = useState<UsageTrendPoint[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setPokemon(null);
     setUsage(null);
+    setTrend(null);
     setError(null);
     getPokemon(name).then(setPokemon).catch(() => setError("Couldn't load this Pokemon. Is the backend running?"));
     getPokemonUsage(name).then(setUsage).catch(() => {});
+    getUsageTrend(name).then(setTrend).catch(() => setTrend([]));
   }, [name]);
+
+  // Rising/falling: compare the oldest tracked rank we have to the current
+  // one. Lower rank number = more used, so a decreasing rank is "rising".
+  // We've only been snapshotting since we switched to Smogon, so this stays
+  // quiet until a second scrape run gives us something to compare.
+  const trendDelta =
+    trend && trend.length >= 2 ? trend[0].rank - trend[trend.length - 1].rank : null;
 
   if (error) {
     return (
@@ -88,7 +98,21 @@ export default function PokemonDetailPage({ name, onBack }: { name: string; onBa
         {usage && (
           <div className="pokemon-detail-usage-badge">
             <span className="usage-badge-label">Meta Rank</span>
-            <span className="usage-badge-value">#{usage.rank}</span>
+            <span className="usage-badge-value">
+              #{usage.rank}
+              {trendDelta !== null && trendDelta !== 0 && (
+                <span
+                  className={trendDelta > 0 ? "trend-arrow trend-up" : "trend-arrow trend-down"}
+                  title={
+                    trendDelta > 0
+                      ? `Risen ${trendDelta} rank${trendDelta === 1 ? "" : "s"} since we started tracking`
+                      : `Fallen ${Math.abs(trendDelta)} rank${Math.abs(trendDelta) === 1 ? "" : "s"} since we started tracking`
+                  }
+                >
+                  {trendDelta > 0 ? "▲" : "▼"}
+                </span>
+              )}
+            </span>
             {usage.win_rate != null && <span className="usage-badge-sub">{usage.win_rate}% win rate</span>}
             {usage.record && <span className="usage-badge-sub">{usage.record}</span>}
           </div>

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import or_, case
 
 from app.database import get_db
-from app.models.pokemon import Pokemon, PokemonUsageStats
+from app.models.pokemon import Pokemon, PokemonUsageStats, Ability
 from app.name_resolver import resolve_names
 from app.schemas import PokemonSummary, PokemonDetail, PokemonUsageOut, UsageEntry, SpreadEntry
 
@@ -44,10 +44,29 @@ SORT_COLUMNS = {
 }
 
 
+# One entry per base stat the frontend can filter on with min_X / max_X.
+_STAT_COLUMNS = {
+    "hp": Pokemon.hp,
+    "attack": Pokemon.attack,
+    "defense": Pokemon.defense,
+    "special_attack": Pokemon.special_attack,
+    "special_defense": Pokemon.special_defense,
+    "speed": Pokemon.speed,
+}
+
+
 @router.get("", response_model=list[PokemonSummary])
 def list_pokemon(
     response: Response,
     search: Optional[str] = Query(None, description="Filter by name, case-insensitive substring match"),
+    types: Optional[str] = Query(None, description="Comma-separated types; matches Pokemon with ANY of these types"),
+    ability: Optional[str] = Query(None, description="Filter to Pokemon that can have an ability matching this substring"),
+    min_hp: Optional[int] = Query(None), max_hp: Optional[int] = Query(None),
+    min_attack: Optional[int] = Query(None), max_attack: Optional[int] = Query(None),
+    min_defense: Optional[int] = Query(None), max_defense: Optional[int] = Query(None),
+    min_special_attack: Optional[int] = Query(None), max_special_attack: Optional[int] = Query(None),
+    min_special_defense: Optional[int] = Query(None), max_special_defense: Optional[int] = Query(None),
+    min_speed: Optional[int] = Query(None), max_speed: Optional[int] = Query(None),
     sort: str = Query("usage", description="usage | name | hp | attack | defense | special_attack | special_defense | speed | bst"),
     order: str = Query("", description="asc | desc; defaults to whatever suits the sort column"),
     limit: int = Query(100, le=2000),
@@ -55,6 +74,11 @@ def list_pokemon(
     db: Session = Depends(get_db),
 ):
     """Browse or search the dex.
+
+    Supports the Showdown-style multi-field search the team builder promised
+    but the Pokedex never delivered: name text, one or more types, an ability
+    substring, and min/max thresholds on any base stat, all combinable in one
+    request rather than name-only.
 
     Returns the total number of matches in the X-Total-Count header so the
     frontend can page through everything rather than silently showing a
@@ -67,6 +91,35 @@ def list_pokemon(
     if search:
         like = f"%{search.lower()}%"
         query = query.filter(or_(Pokemon.name.ilike(like), Pokemon.display_name.ilike(like)))
+
+    if types:
+        wanted = [t.strip().lower() for t in types.split(",") if t.strip()]
+        if wanted:
+            query = query.filter(or_(Pokemon.type1.in_(wanted), Pokemon.type2.in_(wanted)))
+
+    if ability:
+        like = f"%{ability.lower()}%"
+        query = query.filter(Pokemon.abilities.any(Ability.display_name.ilike(like)))
+
+    stat_bounds = {
+        "hp": (min_hp, max_hp),
+        "attack": (min_attack, max_attack),
+        "defense": (min_defense, max_defense),
+        "special_attack": (min_special_attack, max_special_attack),
+        "special_defense": (min_special_defense, max_special_defense),
+        "speed": (min_speed, max_speed),
+    }
+    for stat_name, (lo, hi) in stat_bounds.items():
+        column = _STAT_COLUMNS[stat_name]
+        if lo is not None:
+            query = query.filter(column >= lo)
+        if hi is not None:
+            query = query.filter(column <= hi)
+
+    # A many-to-many ability filter can duplicate rows if a Pokemon matches on
+    # more than one ability - dedupe before counting/paging.
+    if ability:
+        query = query.distinct()
 
     total = query.count()
 

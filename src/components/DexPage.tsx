@@ -3,16 +3,22 @@ import PokemonTable from "./PokemonTable";
 import MetaRankingsView from "./MetaRankingsView";
 import TeamCoresView from "./TeamCoresView";
 import TopTeamsView from "./TopTeamsView";
+import MovesBrowserView from "./MovesBrowserView";
+import AbilitiesBrowserView from "./AbilitiesBrowserView";
+import ItemsBrowserView from "./ItemsBrowserView";
 import PokemonDetailPage from "./PokemonDetailPage";
 import "./DexPage.css";
 
-type SubTab = "all" | "meta" | "cores" | "teams";
+type SubTab = "all" | "meta" | "cores" | "teams" | "moves" | "abilities" | "items";
 
 const TABS: { key: SubTab; label: string }[] = [
   { key: "all", label: "All Pokemon" },
   { key: "meta", label: "Meta Rankings" },
   { key: "cores", label: "Team Cores" },
   { key: "teams", label: "Top Teams" },
+  { key: "moves", label: "Moves" },
+  { key: "abilities", label: "Abilities" },
+  { key: "items", label: "Items" },
 ];
 
 /** Keep ?dex= (tab) and ?mon= (detail page) in the URL so any dex view is
@@ -93,6 +99,9 @@ export default function DexPage() {
       {subTab === "meta" && <MetaRankingsView onSelectDetail={setDetailName} />}
       {subTab === "cores" && <TeamCoresView />}
       {subTab === "teams" && <TopTeamsView />}
+      {subTab === "moves" && <MovesBrowserView />}
+      {subTab === "abilities" && <AbilitiesBrowserView />}
+      {subTab === "items" && <ItemsBrowserView />}
     </div>
   );
 }

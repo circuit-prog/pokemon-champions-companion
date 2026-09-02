@@ -191,3 +191,18 @@
   height: 26px;
   flex-shrink: 0;
 }
+
+.trend-arrow {
+  display: inline-block;
+  font-size: 0.65em;
+  margin-left: 0.3rem;
+  vertical-align: middle;
+}
+
+.trend-up {
+  color: #2e8b57;
+}
+
+.trend-down {
+  color: #c0392b;
+}

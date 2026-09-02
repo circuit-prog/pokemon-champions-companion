@@ -1,14 +1,25 @@
 import { useEffect, useState } from "react";
-import { getMetaRankings } from "../api";
-import type { MetaRankingEntry } from "../api";
+import { getMetaRankings, getDataFreshness } from "../api";
+import type { MetaRankingEntry, DataFreshness } from "../api";
 import { TYPE_COLORS } from "../typeColors";
 import "./MetaRankingsView.css";
 
+function formatFreshness(iso: string): string {
+  const then = new Date(iso);
+  const diffMs = Date.now() - then.getTime();
+  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  if (days <= 0) return "today";
+  if (days === 1) return "yesterday";
+  return `${days} days ago`;
+}
+
 export default function MetaRankingsView({ onSelectDetail }: { onSelectDetail: (name: string) => void }) {
   const [rankings, setRankings] = useState<MetaRankingEntry[] | null>(null);
+  const [freshness, setFreshness] = useState<DataFreshness | null>(null);
 
   useEffect(() => {
     getMetaRankings().then(setRankings).catch(() => setRankings([]));
+    getDataFreshness().then(setFreshness).catch(() => setFreshness(null));
   }, []);
 
   if (!rankings) return <p>Loading...</p>;
@@ -23,6 +34,12 @@ export default function MetaRankingsView({ onSelectDetail }: { onSelectDetail: (
         ({rankings.length} Pokemon tracked), with usage percentages and real EV spreads. Win rates,
         where shown, come from Pikalytics.
       </p>
+      {freshness?.last_updated && (
+        <p className="meta-freshness">
+          Meta data as of {formatFreshness(freshness.last_updated)}
+          {" "}({new Date(freshness.last_updated).toLocaleDateString()})
+        </p>
+      )}
 
       <h3>Top {top20.length} Pokemon</h3>
       <div className="top-grid">

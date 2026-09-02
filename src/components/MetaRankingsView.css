@@ -119,3 +119,10 @@
   white-space: nowrap;
   margin-left: 0.6rem;
 }
+
+.meta-freshness {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: -0.4rem;
+  margin-bottom: 0.75rem;
+}
