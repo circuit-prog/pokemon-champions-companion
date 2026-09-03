@@ -2,6 +2,10 @@
   min-height: 100vh;
 }
 
+.app-page.hidden {
+  display: none;
+}
+
 .app-header {
   border-bottom: 1px solid var(--border);
   padding: 1rem 1.5rem;

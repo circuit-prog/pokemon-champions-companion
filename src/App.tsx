@@ -20,21 +20,7 @@ function App() {
   const [editingTeamId, setEditingTeamId] = useState<string | null>(null)
 
   function goToTab(next: Tab) {
-    setEditingTeamId(null)
     setTab(next)
-  }
-
-  let content
-  if (tab === 'teams' && editingTeamId) {
-    content = <TeamEditorPage teamId={editingTeamId} onBack={() => setEditingTeamId(null)} />
-  } else if (tab === 'teams') {
-    content = <TeamsListPage onOpenTeam={setEditingTeamId} />
-  } else if (tab === 'dex') {
-    content = <DexPage />
-  } else if (tab === 'tools') {
-    content = <TeamToolsPage />
-  } else {
-    content = <DamageCalculator />
   }
 
   return (
@@ -56,7 +42,27 @@ function App() {
           </button>
         </nav>
       </header>
-      {content}
+
+      {/* Every page stays mounted once visited, and switching tabs just hides
+       *  the others - so whatever you were doing on a page (a half-built
+       *  damage calc, a scrolled matchup grid) is still there when you come
+       *  back to it, instead of resetting on every visit. */}
+      <div className={tab === 'teams' ? 'app-page' : 'app-page hidden'}>
+        {editingTeamId ? (
+          <TeamEditorPage teamId={editingTeamId} onBack={() => setEditingTeamId(null)} />
+        ) : (
+          <TeamsListPage onOpenTeam={setEditingTeamId} />
+        )}
+      </div>
+      <div className={tab === 'dex' ? 'app-page' : 'app-page hidden'}>
+        <DexPage />
+      </div>
+      <div className={tab === 'tools' ? 'app-page' : 'app-page hidden'}>
+        <TeamToolsPage />
+      </div>
+      <div className={tab === 'calc' ? 'app-page' : 'app-page hidden'}>
+        <DamageCalculator />
+      </div>
     </div>
   )
 }

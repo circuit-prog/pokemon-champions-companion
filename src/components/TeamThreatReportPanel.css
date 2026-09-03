@@ -1,0 +1,38 @@
+.threat-report-panel {
+  text-align: left;
+}
+
+.threat-report-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.threat-meta-rank {
+  color: #9aa7ba;
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
+.threat-pressure {
+  color: #c0392b;
+}
+
+.threat-best-answer {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.9rem 0.5rem 2.6rem;
+  font-size: 0.78rem;
+  color: #7d8ba0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.threat-best-answer img {
+  width: 20px;
+  height: 20px;
+}
+
+.threat-best-answer strong {
+  color: #1f7a4d;
+}

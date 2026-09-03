@@ -6,7 +6,72 @@ import type { TargetSpec } from "./TargetPicker";
 import SurvivalMinimizer from "./SurvivalMinimizer";
 import { buildShareUrl, readShareUrl, exportShowdownSet } from "../calcShare";
 import { TYPE_COLORS } from "../typeColors";
+import { loadTeams } from "../teamStorage";
+import type { SavedTeam, TeamSlotData } from "../teamStorage";
 import "./DamageCalculator.css";
+
+/** A saved team slot as the calculator wants it. Team slots and TargetSpec
+ *  use the same EV shape (StatKey-keyed), so this is a direct copy, not a
+ *  conversion - only the battle-state fields (level/status/HP/stages) that a
+ *  saved slot has no opinion on get calculator defaults. */
+function slotToTargetSpec(slot: TeamSlotData): TargetSpec {
+  return {
+    pokemon: slot.pokemon,
+    nature: slot.nature,
+    evs: slot.evs,
+    ability: slot.ability,
+    item: slot.item,
+    level: 50,
+    status: "healthy",
+    currentHpPercent: 100,
+    stages: {},
+  };
+}
+
+/** Dropdown that fills a calculator side from an already-built team slot,
+ *  so checking a matchup you've already built doesn't mean retyping the set
+ *  you already have saved. */
+function LoadFromTeam({ onPick }: { onPick: (spec: TargetSpec) => void }) {
+  const [teams, setTeams] = useState<SavedTeam[]>([]);
+
+  useEffect(() => {
+    setTeams(loadTeams());
+  }, []);
+
+  const hasAny = teams.some((t) => t.slots.length > 0);
+  if (!hasAny) return null;
+
+  return (
+    <label className="load-from-team">
+      <span>Load from a team</span>
+      <select
+        value=""
+        onChange={(e) => {
+          const [teamId, slotIndexStr] = e.target.value.split("::");
+          const team = teams.find((t) => t.id === teamId);
+          const slot = team?.slots[Number(slotIndexStr)];
+          if (slot) onPick(slotToTargetSpec(slot));
+          e.target.value = "";
+        }}
+      >
+        <option value="" disabled>
+          Choose a Pokemon...
+        </option>
+        {teams
+          .filter((t) => t.slots.length > 0)
+          .map((t) => (
+            <optgroup key={t.id} label={t.name}>
+              {t.slots.map((s, i) => (
+                <option key={`${t.id}-${i}`} value={`${t.id}::${i}`}>
+                  {s.pokemon.display_name}
+                </option>
+              ))}
+            </optgroup>
+          ))}
+      </select>
+    </label>
+  );
+}
 
 interface FieldState {
   crit: boolean;
@@ -284,8 +349,14 @@ export default function DamageCalculator() {
       <FieldControls field={field} onChange={setField} />
 
       <div className="calc-builders">
-        <TargetPicker label="Pokemon 1" target={p1} onChange={setP1} advanced />
-        <TargetPicker label="Pokemon 2" target={p2} onChange={setP2} advanced />
+        <div className="calc-builder-col">
+          <LoadFromTeam onPick={setP1} />
+          <TargetPicker label="Pokemon 1" target={p1} onChange={setP1} advanced />
+        </div>
+        <div className="calc-builder-col">
+          <LoadFromTeam onPick={setP2} />
+          <TargetPicker label="Pokemon 2" target={p2} onChange={setP2} advanced />
+        </div>
       </div>
 
       {p1 && p2 && (

@@ -281,3 +281,25 @@
 .subtitle {
   color: #666;
 }
+
+.calc-builder-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.load-from-team {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.78rem;
+  color: #7d8ba0;
+}
+
+.load-from-team select {
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.88rem;
+  background: #f7f9fc;
+}

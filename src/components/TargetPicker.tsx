@@ -46,11 +46,17 @@ const STATUSES = [
 // -6 through +6 stat stages, as shown in competitive calculators.
 const STAGE_OPTIONS = [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6];
 
-export function defaultTargetSpec(pokemon: PokemonDetail, ability = "", item = ""): TargetSpec {
+export function defaultTargetSpec(
+  pokemon: PokemonDetail,
+  ability = "",
+  item = "",
+  nature = "hardy",
+  evs: Record<StatKey, number> = EMPTY_EVS
+): TargetSpec {
   return {
     pokemon,
-    nature: "hardy",
-    evs: { ...EMPTY_EVS },
+    nature,
+    evs: { ...evs },
     ability,
     item,
     level: 50,
@@ -60,10 +66,36 @@ export function defaultTargetSpec(pokemon: PokemonDetail, ability = "", item = "
   };
 }
 
-function MiniItemSearch({ onPick }: { onPick: (name: string) => void }) {
+/** `selected` is the item slug currently on the target.
+ *
+ *  Originally this box only knew its own typed-in query, never the target's
+ *  actual saved item - so loading a set from a team (or a shared calc link)
+ *  filled in the ability but left the item box blank, even though the item
+ *  was really set underneath. Same fix as SlotEditor's ItemSearch: resolve
+ *  the slug to a real item and show it, with a clear button. */
+function MiniItemSearch({ selected, onPick }: { selected: string; onPick: (name: string) => void }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ItemOut[]>([]);
   const [open, setOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<ItemOut | null>(null);
+
+  useEffect(() => {
+    if (!selected) {
+      setSelectedItem(null);
+      return;
+    }
+    if (selectedItem?.name === selected) return;
+    let cancelled = false;
+    searchItems(selected.replace(/-/g, " "))
+      .then((items) => {
+        if (cancelled) return;
+        setSelectedItem(items.find((i) => i.name === selected) ?? null);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [selected, selectedItem]);
 
   useEffect(() => {
     const handle = setTimeout(() => {
@@ -74,27 +106,55 @@ function MiniItemSearch({ onPick }: { onPick: (name: string) => void }) {
   }, [query]);
 
   return (
-    <div className="target-item-search">
+    <div
+      className="target-item-search"
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) setOpen(false);
+      }}
+    >
+      {selectedItem && (
+        <div className="item-selected">
+          {selectedItem.sprite_url && <img src={selectedItem.sprite_url} alt="" />}
+          <span>{selectedItem.display_name}</span>
+          <button
+            type="button"
+            className="item-clear"
+            title="Remove held item"
+            onClick={() => {
+              setSelectedItem(null);
+              onPick("");
+            }}
+          >
+            ×
+          </button>
+        </div>
+      )}
       <input
         type="text"
-        placeholder="Item (optional)..."
+        placeholder={selectedItem ? "Change item..." : "Item (optional)..."}
         value={query}
         onChange={(e) => {
           setQuery(e.target.value);
           setOpen(true);
         }}
+        onFocus={() => setOpen(true)}
       />
       {open && results.length > 0 && (
         <div className="target-item-results">
           {results.map((it) => (
             <button
               key={it.id}
-              onClick={() => {
+              type="button"
+              onMouseDown={(e) => {
+                e.preventDefault();
+                setSelectedItem(it);
                 onPick(it.name);
-                setQuery(it.display_name);
+                setQuery("");
+                setResults([]);
                 setOpen(false);
               }}
             >
+              {it.sprite_url && <img src={it.sprite_url} alt="" style={{ width: 18, height: 18 }} />}
               {it.display_name}
             </button>
           ))}
@@ -121,7 +181,7 @@ export default function TargetPicker({
   const [searchOpen, setSearchOpen] = useState(false);
   // What we auto-filled from real usage data, so the user can see that this is
   // the meta's most-used set rather than a blank default they need to fill in.
-  const [appliedSet, setAppliedSet] = useState<{ ability: string; item: string } | null>(null);
+  const [appliedSet, setAppliedSet] = useState<{ ability: string; item: string; spread: boolean } | null>(null);
 
   useEffect(() => {
     if (!searchOpen) return;
@@ -138,10 +198,12 @@ export default function TargetPicker({
     let item = "";
     let appliedAbility = "";
     let appliedItem = "";
+    let nature = "hardy";
+    let evs = EMPTY_EVS;
+    let appliedSpread = false;
 
-    // Auto-fill the most-used real ability/item for this Pokemon, if we have
-    // tracked usage data for it. EV spreads aren't in the scraped data, so
-    // those stay at 0 for the user to fill in manually.
+    // Auto-fill the most-used real ability/item/EV spread for this Pokemon,
+    // if we have tracked usage data for it.
     try {
       const usage = await getPokemonUsage(p.name);
       const topAbilityName = usage?.abilities[0]?.name.toLowerCase();
@@ -161,12 +223,22 @@ export default function TargetPicker({
           appliedItem = match.display_name;
         }
       }
+      const topSpread = usage?.spreads[0];
+      if (topSpread) {
+        nature = topSpread.nature;
+        evs = { ...EMPTY_EVS, ...(topSpread.evs as Partial<Record<StatKey, number>>) };
+        appliedSpread = true;
+      }
     } catch {
-      // no usage data for this Pokemon - leave ability/item blank for manual entry
+      // no usage data for this Pokemon - leave ability/item/EVs blank for manual entry
     }
 
-    setAppliedSet(appliedAbility || appliedItem ? { ability: appliedAbility, item: appliedItem } : null);
-    onChange(defaultTargetSpec(detail, ability, item));
+    setAppliedSet(
+      appliedAbility || appliedItem || appliedSpread
+        ? { ability: appliedAbility, item: appliedItem, spread: appliedSpread }
+        : null
+    );
+    onChange(defaultTargetSpec(detail, ability, item, nature, evs));
     setQuery(p.display_name);
     setResults([]);
     setSearchOpen(false);
@@ -207,8 +279,9 @@ export default function TargetPicker({
           {appliedSet && (
             <div className="applied-set-note">
               Using this Pokemon's most-used set:{" "}
-              {[appliedSet.ability, appliedSet.item].filter(Boolean).join(" + ")}. EVs stay at 0 - real EV spreads
-              aren't published in the usage data. Change anything below to override.
+              {[appliedSet.ability, appliedSet.item].filter(Boolean).join(" + ")}
+              {appliedSet.spread ? ", with its most-used real EV spread and nature" : ""}. Change anything below to
+              override.
             </div>
           )}
 
@@ -226,7 +299,7 @@ export default function TargetPicker({
 
           <label className="field">
             Item
-            <MiniItemSearch onPick={(item) => onChange({ ...target, item })} />
+            <MiniItemSearch selected={target.item} onPick={(item) => onChange({ ...target, item })} />
           </label>
 
           <label className="field">

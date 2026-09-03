@@ -8,9 +8,18 @@ import MoveIQPanel from "./MoveIQPanel";
 import BreakerPanel from "./BreakerPanel";
 import WallerPanel from "./WallerPanel";
 import TeamVsTeamPanel from "./TeamVsTeamPanel";
+import TeamThreatReportPanel from "./TeamThreatReportPanel";
 import "./TeamToolsPage.css";
 
-type SubTab = "speediq" | "metacalcs" | "typematchups" | "moveiq" | "breaker" | "waller" | "teamvsteam";
+type SubTab =
+  | "speediq"
+  | "metacalcs"
+  | "typematchups"
+  | "moveiq"
+  | "breaker"
+  | "waller"
+  | "teamvsteam"
+  | "threatreport";
 
 const TABS: { key: SubTab; label: string }[] = [
   { key: "speediq", label: "SpeedIQ" },
@@ -20,12 +29,22 @@ const TABS: { key: SubTab; label: string }[] = [
   { key: "breaker", label: "Breaker" },
   { key: "waller", label: "Waller" },
   { key: "teamvsteam", label: "Team vs Team" },
+  { key: "threatreport", label: "Threat Report" },
 ];
 
 export default function TeamToolsPage() {
   const [teams, setTeams] = useState<SavedTeam[]>([]);
   const [teamId, setTeamId] = useState<string>("");
   const [subTab, setSubTab] = useState<SubTab>("speediq");
+  // Only ever mount a sub-tab's panel once you've actually opened it, so
+  // switching tabs doesn't fire all 8 tools' backend requests up front -
+  // but once opened, keep it mounted (hidden via CSS) so it doesn't reset.
+  const [visited, setVisited] = useState<Set<SubTab>>(new Set(["speediq"]));
+
+  function openSubTab(next: SubTab) {
+    setSubTab(next);
+    setVisited((prev) => (prev.has(next) ? prev : new Set(prev).add(next)));
+  }
 
   useEffect(() => {
     const loaded = loadTeams();
@@ -42,24 +61,45 @@ export default function TeamToolsPage() {
     setTeams((prev) => prev.map((t) => (t.id === next.id ? next : t)));
   }
 
-  function renderPanel() {
+  // Every sub-tab stays mounted once visited (hidden via CSS instead of
+  // unmounted) so switching between them, e.g. to check Speed IQ then coming
+  // back to Breaker, doesn't throw away what was on screen.
+  function renderPanels() {
     if (!team) return null;
-    switch (subTab) {
-      case "speediq":
-        return <SpeedIQPanel team={team} />;
-      case "metacalcs":
-        return <MetaCalcsPanel team={team} />;
-      case "typematchups":
-        return <TypeMatchupsPanel team={team} />;
-      case "moveiq":
-        return <MoveIQPanel team={team} onTeamChange={applyTeamChange} />;
-      case "breaker":
-        return <BreakerPanel team={team} />;
-      case "waller":
-        return <WallerPanel team={team} />;
-      case "teamvsteam":
-        return <TeamVsTeamPanel team={team} />;
-    }
+    return TABS.filter((t) => visited.has(t.key)).map((t) => {
+      let panel;
+      switch (t.key) {
+        case "speediq":
+          panel = <SpeedIQPanel team={team} />;
+          break;
+        case "metacalcs":
+          panel = <MetaCalcsPanel team={team} />;
+          break;
+        case "typematchups":
+          panel = <TypeMatchupsPanel team={team} />;
+          break;
+        case "moveiq":
+          panel = <MoveIQPanel team={team} onTeamChange={applyTeamChange} />;
+          break;
+        case "breaker":
+          panel = <BreakerPanel team={team} />;
+          break;
+        case "waller":
+          panel = <WallerPanel team={team} />;
+          break;
+        case "teamvsteam":
+          panel = <TeamVsTeamPanel team={team} />;
+          break;
+        case "threatreport":
+          panel = <TeamThreatReportPanel team={team} />;
+          break;
+      }
+      return (
+        <div key={t.key} className={subTab === t.key ? "" : "hidden"}>
+          {panel}
+        </div>
+      );
+    });
   }
 
   return (
@@ -87,13 +127,13 @@ export default function TeamToolsPage() {
             <>
               <nav className="team-tools-tabs">
                 {TABS.map((t) => (
-                  <button key={t.key} className={subTab === t.key ? "active" : ""} onClick={() => setSubTab(t.key)}>
+                  <button key={t.key} className={subTab === t.key ? "active" : ""} onClick={() => openSubTab(t.key)}>
                     {t.label}
                   </button>
                 ))}
               </nav>
 
-              {renderPanel()}
+              {renderPanels()}
             </>
           )}
         </>
