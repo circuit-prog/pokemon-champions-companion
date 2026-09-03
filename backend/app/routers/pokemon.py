@@ -126,13 +126,19 @@ def list_pokemon(
     if sort == "usage" or sort not in SORT_COLUMNS:
         # Real tracked-usage Pokemon first (most-used first), then everyone
         # else - so browsing surfaces what's actually relevant right now.
-        ordering = [
-            case((PokemonUsageStats.rank.is_(None), 1), else_=0),
-            PokemonUsageStats.rank.asc(),
-            Pokemon.display_name.asc(),
-        ]
+        # "desc" flips the rank order within the tracked group (worst-first
+        # instead of best-first) and the name tiebreak, but untracked
+        # Pokemon stay last either way - they're not "worse", they're just
+        # not comparable, so flipping them to the front on desc would be
+        # wrong. (Reversing the *list order* instead of each key's own
+        # direction - the previous bug - collapsed this into a plain
+        # alphabetical sort, since the tiebreak column ended up sorted
+        # before the rank column.)
+        untracked_last = case((PokemonUsageStats.rank.is_(None), 1), else_=0)
         if order == "desc":
-            ordering = list(reversed([o for o in ordering]))
+            ordering = [untracked_last, PokemonUsageStats.rank.desc(), Pokemon.display_name.desc()]
+        else:
+            ordering = [untracked_last, PokemonUsageStats.rank.asc(), Pokemon.display_name.asc()]
     else:
         column = SORT_COLUMNS[sort]
         # Stats read most naturally highest-first; names A-Z.

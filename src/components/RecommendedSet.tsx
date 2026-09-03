@@ -24,11 +24,15 @@ export default function RecommendedSet({ pokemonName }: { pokemonName: string })
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
     setSlot(null);
     setError(null);
     buildSlot(pokemonName)
-      .then(setSlot)
-      .catch(() => setError("Couldn't build a recommended set. Is the backend running?"));
+      .then((s) => !cancelled && setSlot(s))
+      .catch(() => !cancelled && setError("Couldn't build a recommended set. Is the backend running?"));
+    return () => {
+      cancelled = true;
+    };
   }, [pokemonName]);
 
   if (error) return null;

@@ -100,22 +100,6 @@ DEFENSIVE_ITEM_MODS = {
     "assault-vest": {"spd_mult": 1.5},
 }
 
-ABILITY_DAMAGE_MODS = {
-    "huge-power": {"atk_stat_mult": 2},
-    "pure-power": {"atk_stat_mult": 2},
-    "adaptability": {"stab_mult": 2},
-    "technician": {"low_power_mult": 1.5, "low_power_threshold": 60},
-    "solid-rock": {"se_reduce_mult": 0.75},
-    "filter": {"se_reduce_mult": 0.75},
-    "thick-fat": {"fire_ice_reduce_mult": 0.5},
-    "levitate": {"immune_to_type": "ground"},
-    "water-absorb": {"immune_to_type": "water"},
-    "volt-absorb": {"immune_to_type": "electric"},
-    "flash-fire": {"immune_to_type": "fire"},
-    "sap-sipper": {"immune_to_type": "grass"},
-}
-
-
 # --- the games' fixed-point modifier arithmetic ---------------------------
 #
 # Damage modifiers are 4096ths, chained together before being applied, and

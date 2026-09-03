@@ -24,13 +24,23 @@ export default function PokemonDetailPage({ name, onBack }: { name: string; onBa
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
     setPokemon(null);
     setUsage(null);
     setTrend(null);
     setError(null);
-    getPokemon(name).then(setPokemon).catch(() => setError("Couldn't load this Pokemon. Is the backend running?"));
-    getPokemonUsage(name).then(setUsage).catch(() => {});
-    getUsageTrend(name).then(setTrend).catch(() => setTrend([]));
+    getPokemon(name)
+      .then((p) => !cancelled && setPokemon(p))
+      .catch(() => !cancelled && setError("Couldn't load this Pokemon. Is the backend running?"));
+    getPokemonUsage(name)
+      .then((u) => !cancelled && setUsage(u))
+      .catch(() => {});
+    getUsageTrend(name)
+      .then((t) => !cancelled && setTrend(t))
+      .catch(() => !cancelled && setTrend([]));
+    return () => {
+      cancelled = true;
+    };
   }, [name]);
 
   // Rising/falling: compare the oldest tracked rank we have to the current
