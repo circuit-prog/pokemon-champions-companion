@@ -4,6 +4,7 @@ import type { PokemonSummary } from "../api";
 import { TYPE_COLORS } from "../typeColors";
 import { ALL_TYPES } from "../typeChart";
 import AddToTeam from "./AddToTeam";
+import { roleLabelFromStats } from "../roleLabel";
 import "./PokemonTable.css";
 
 // "usage" preserves the order the backend returned (real meta usage rank
@@ -201,6 +202,7 @@ export default function PokemonTable({
                 </th>
               ))}
               <th>Types</th>
+              <th>Role</th>
               <th>Abilities</th>
               <th />
             </tr>
@@ -235,6 +237,7 @@ export default function PokemonTable({
                     </span>
                   )}
                 </td>
+                <td className="pokemon-table-role">{roleLabelFromStats(p)}</td>
                 <td className="pokemon-table-abilities">{p.abilities.join(", ")}</td>
                 <td>
                   {onPick ? (

@@ -422,17 +422,22 @@
   </header>
 
   <div class="progress-strip">
-    <div class="progress-item"><span class="n">24</span><span class="lbl">Fixed</span></div>
+    <div class="progress-item"><span class="n">31</span><span class="lbl">Fixed</span></div>
     <div class="progress-item"><span class="n">0</span><span class="lbl">Partly done</span></div>
-    <div class="progress-item"><span class="n">23</span><span class="lbl">Still open</span></div>
+    <div class="progress-item"><span class="n">16</span><span class="lbl">Still open</span></div>
     <div class="progress-item" style="flex:1;min-width:17rem">
       <span class="lbl">Last updated</span>
       <span style="color:var(--ink-2);font-size:.92rem">
-        2 September 2026 - Tiers 1-3 complete: the Smogon data switch, the EV
-        formula fix, a full ability/item audit across all three calculators,
-        rebuilt Meta Calcs / Type Matchups / Speed IQ, multi-field Pokedex
-        search with type and ability filters, standalone Moves/Abilities/Items
-        browsers with reverse lookup, and the trend/freshness stamps.
+        3 September 2026 - Tiers 1-5 complete. Tier 4 added the Team Threat
+        Report, "load from team" in the damage calculator (which also fixed
+        an item-display bug found while testing it), and confirmed Meta
+        Calcs/Type Matchups/Speed IQ/Team vs Team already covered the rest.
+        Tier 5 added a Start Here landing page, a Recommended Set card on
+        every Pokemon's page, and role labels (Wall / Speed control /
+        Physical attacker, etc.) on the Pokedex table and detail pages. Also:
+        every page and Team Tools sub-tab now stays mounted when you switch
+        away instead of resetting, and the damage calculator now applies a
+        Pokemon's real EV spread instead of leaving EVs at 0.
       </span>
     </div>
   </div>
@@ -516,23 +521,23 @@
 
     <h3>F · Analysis depth</h3>
     <div class="finds">
-      <div class="find"><span class="find-n">27</span><div class="find-body"><div class="find-title">The damage calculator can't load your own team</div><div class="find-detail">Both sides start empty and you retype a set you already built. Every serious calculator lets you pull from a saved team.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find done"><span class="find-n">27</span><div class="find-body"><div class="find-title">The damage calculator can't load your own team</div><div class="find-detail">Both sides start empty and you retype a set you already built. Every serious calculator lets you pull from a saved team.</div><span class="fixed-note">Fixed - "Load from a team" on both sides</span></div><span class="chip blocking">Blocking</span></div>
       <div class="find done"><span class="find-n">28</span><div class="find-body"><div class="find-title">Meta Calcs opens blank and demands a name</div><div class="find-detail">You have to already know who you're worried about. It should open on a grid of the top 25 to click — which is exactly the data Breaker/Waller already pull.</div><span class="fixed-note">Fixed - Meta Calcs opens on the ranked meta with four modes</span></div><span class="chip blocking">Blocking</span></div>
-      <div class="find"><span class="find-n">29</span><div class="find-body"><div class="find-title">No "what beats my whole team" view</div><div class="find-detail">Breaker and Waller answer this one Pokémon at a time. The question you actually asked — which meta threats score well against <em>all six</em> at once — has no view. This is the highest-value analysis we don't have, and the backend matrix to compute it already exists.</div></div><span class="chip blocking">Blocking</span></div>
+      <div class="find done"><span class="find-n">29</span><div class="find-body"><div class="find-title">No "what beats my whole team" view</div><div class="find-detail">Breaker and Waller answer this one Pokémon at a time. The question you actually asked — which meta threats score well against <em>all six</em> at once — has no view. This is the highest-value analysis we don't have, and the backend matrix to compute it already exists.</div><span class="fixed-note">Fixed - the Threat Report ranks meta Pokemon by pressure on your whole team</span></div><span class="chip blocking">Blocking</span></div>
       <div class="find done"><span class="find-n">30</span><div class="find-body"><div class="find-title">Type Matchups is defensive only</div><div class="find-detail">It shows what hits your team hard, never what your team's typing hits hard. You asked for both directions.</div><span class="fixed-note">Fixed - the grid now covers offence and defence together</span></div><span class="chip major">Major</span></div>
       <div class="find done"><span class="find-n">31</span><div class="find-body"><div class="find-title">Type chart ignores immunity abilities</div><div class="find-detail">Levitate, Flash Fire, Water Absorb, Volt Absorb and Storm Drain all change a matchup completely and none are factored in, so the grid is actively wrong for those Pokémon.</div><span class="fixed-note">Fixed - immunity and resist abilities are honoured</span></div><span class="chip major">Major</span></div>
       <div class="find done"><span class="find-n">32</span><div class="find-body"><div class="find-title">Speed IQ has no meta speed ladder</div><div class="find-detail">It lists your team's speeds in isolation. The useful version interleaves them with the top 25's speeds so you can see who you outrun. No Tailwind, Choice Scarf or paralysis toggles either.</div><span class="fixed-note">Fixed - speed ladder vs the meta with Tailwind / Trick Room / Scarf toggles</span></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">33</span><div class="find-body"><div class="find-title">Meta targets are calculated on neutral EVs</div><div class="find-detail">Breaker, Waller and Checks &amp; Counters run opponents at 0 EVs, which understates incoming damage everywhere. Pikalytics doesn't publish spreads, so the fix is a documented assumption — a standard offensive/defensive preset per role — not real data.</div></div><span class="chip major">Major</span></div>
-      <div class="find"><span class="find-n">34</span><div class="find-body"><div class="find-title">No team-vs-team analysis</div><div class="find-detail">We have 10 real tournament teams. Nothing scores your team against them, which is the closest thing to a practice result the data allows.</div></div><span class="chip major">Major</span></div>
+      <div class="find done"><span class="find-n">34</span><div class="find-body"><div class="find-title">No team-vs-team analysis</div><div class="find-detail">We have 10 real tournament teams. Nothing scores your team against them, which is the closest thing to a practice result the data allows.</div><span class="fixed-note">Fixed - Team vs Team scores your team against any real tournament team, both directions</span></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">35</span><div class="find-body"><div class="find-title">Checks &amp; Counters is fixed at 12 and drops rows silently</div><div class="find-detail">The Kingambit page promised 12 and rendered 8 — immune or unresolvable matchups vanish with no note. Should match Breaker/Waller at 25 and say what it skipped.</div></div><span class="chip major">Major</span></div>
     </div>
 
     <h3>G · The beginner on-ramp</h3>
     <div class="finds">
-      <div class="find"><span class="find-n">36</span><div class="find-body"><div class="find-title">Nothing tells a newcomer where to start</div><div class="find-detail">The site opens on an empty team list. There's no "here is the current best Pokémon, here are the best sets, here are three teams that win" surface — which is the thing you said you wanted most for someone with limited competitive experience.</div></div><span class="chip blocking">Blocking</span></div>
-      <div class="find"><span class="find-n">37</span><div class="find-body"><div class="find-title">No recommended-set generator</div><div class="find-detail">Nowhere can you say "give me a good Garchomp" and get a filled set, despite having the usage data to build one for all 50 tracked Pokémon.</div></div><span class="chip blocking">Blocking</span></div>
-      <div class="find"><span class="find-n">38</span><div class="find-body"><div class="find-title">No starter teams</div><div class="find-detail">A new user has no way to get a working team without building one from nothing.</div></div><span class="chip major">Major</span></div>
-      <div class="find"><span class="find-n">39</span><div class="find-body"><div class="find-title">Roles are never named</div><div class="find-detail">Nothing labels a Pokémon a physical attacker, a wall, or speed control, so the stat table means little without prior knowledge.</div></div><span class="chip major">Major</span></div>
+      <div class="find done"><span class="find-n">36</span><div class="find-body"><div class="find-title">Nothing tells a newcomer where to start</div><div class="find-detail">The site opens on an empty team list. There's no "here is the current best Pokémon, here are the best sets, here are three teams that win" surface — which is the thing you said you wanted most for someone with limited competitive experience.</div><span class="fixed-note">Fixed - a Start Here landing page with the top ranked Pokemon and importable starter teams</span></div><span class="chip blocking">Blocking</span></div>
+      <div class="find done"><span class="find-n">37</span><div class="find-body"><div class="find-title">No recommended-set generator</div><div class="find-detail">Nowhere can you say "give me a good Garchomp" and get a filled set, despite having the usage data to build one for all 50 tracked Pokémon.</div><span class="fixed-note">Fixed - a Recommended Set card on every Pokemon's page</span></div><span class="chip blocking">Blocking</span></div>
+      <div class="find done"><span class="find-n">38</span><div class="find-body"><div class="find-title">No starter teams</div><div class="find-detail">A new user has no way to get a working team without building one from nothing.</div><span class="fixed-note">Fixed - Start Here surfaces 3 real winning teams, one click to import</span></div><span class="chip major">Major</span></div>
+      <div class="find done"><span class="find-n">39</span><div class="find-body"><div class="find-title">Roles are never named</div><div class="find-detail">Nothing labels a Pokémon a physical attacker, a wall, or speed control, so the stat table means little without prior knowledge.</div><span class="fixed-note">Fixed - a Role column on the Pokedex table and a role badge on each Pokemon's page</span></div><span class="chip major">Major</span></div>
     </div>
 
     <h3>H · Interface polish</h3>

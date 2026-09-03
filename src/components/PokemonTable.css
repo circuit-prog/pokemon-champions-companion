@@ -201,3 +201,9 @@
   opacity: 0.6;
   cursor: default;
 }
+
+.pokemon-table-role {
+  font-size: 0.8rem;
+  color: #5c6b80;
+  white-space: nowrap;
+}

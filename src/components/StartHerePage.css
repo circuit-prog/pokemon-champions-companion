@@ -1,0 +1,86 @@
+.start-here-page {
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.start-here-section {
+  margin-top: 1.75rem;
+}
+
+.start-here-note {
+  color: #7d8ba0;
+  font-size: 0.85rem;
+  margin: 0.15rem 0 0.75rem;
+}
+
+.start-here-mon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.75rem;
+}
+
+.start-here-mon-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: center;
+  background: #fafcff;
+}
+
+.start-here-mon-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.start-here-mon-btn img {
+  width: 56px;
+  height: 56px;
+}
+
+.start-here-mon-rank {
+  color: #9aa7ba;
+  font-size: 0.75rem;
+}
+
+.start-here-mon-pct {
+  color: #1f7a4d;
+  font-size: 0.78rem;
+}
+
+.start-here-team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.85rem;
+}
+
+.start-here-team-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: #fafcff;
+}
+
+.start-here-team-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.start-here-links {
+  padding-left: 1.2rem;
+  color: #4a5568;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}

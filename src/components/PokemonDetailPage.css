@@ -206,3 +206,14 @@
 .trend-down {
   color: #c0392b;
 }
+
+.role-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #5b6fa8;
+  background: #eef1fb;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  margin-left: 0.3rem;
+}

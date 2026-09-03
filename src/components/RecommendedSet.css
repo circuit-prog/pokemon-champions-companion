@@ -1,0 +1,40 @@
+.recommended-set {
+  text-align: left;
+  margin: 1rem 0 1.5rem;
+}
+
+.recommended-set-note {
+  color: #7d8ba0;
+  font-size: 0.85rem;
+  margin: 0.15rem 0 0.6rem;
+}
+
+.recommended-set-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: #fafcff;
+  max-width: 640px;
+}
+
+.recommended-set-row {
+  display: flex;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.recommended-set-label {
+  width: 70px;
+  flex-shrink: 0;
+  color: #7d8ba0;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  padding-top: 0.15rem;
+}
+
+.recommended-set-add {
+  margin-top: 0.3rem;
+}

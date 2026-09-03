@@ -4,6 +4,8 @@ import type { PokemonDetail, PokemonUsageOut, UsageTrendPoint } from "../api";
 import { TYPE_COLORS } from "../typeColors";
 import AddToTeam from "./AddToTeam";
 import ChecksAndCounters from "./ChecksAndCounters";
+import RecommendedSet from "./RecommendedSet";
+import { roleLabel } from "../roleLabel";
 import "./PokemonDetailPage.css";
 
 const STAT_BARS: { key: keyof PokemonDetail; label: string; color: string }[] = [
@@ -87,6 +89,7 @@ export default function PokemonDetailPage({ name, onBack }: { name: string; onBa
                 {pokemon.type2}
               </span>
             )}
+            <span className="role-badge">{roleLabel(pokemon, usage)}</span>
           </div>
           <div className="pokemon-detail-add">
             <AddToTeam
@@ -118,6 +121,8 @@ export default function PokemonDetailPage({ name, onBack }: { name: string; onBa
           </div>
         )}
       </div>
+
+      <RecommendedSet pokemonName={pokemon.name} />
 
       <div className="pokemon-detail-columns">
         <div>
