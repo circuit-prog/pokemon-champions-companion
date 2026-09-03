@@ -107,7 +107,7 @@ export default function StartHerePage() {
         <ul className="start-here-links">
           <li>Built a team already? Open it in <strong>Team Tools</strong> for Speed IQ, matchups, and the Threat Report.</li>
           <li>Want to check a specific matchup? Use the <strong>Damage Calculator</strong> - it can load straight from a saved team.</li>
-          <li>Curious about the whole meta? <strong>Pokedex → Meta</strong> has full rankings, top teams and proven cores.</li>
+          <li>Curious about the whole meta? <strong>Meta</strong> has full rankings, top teams and proven cores.</li>
         </ul>
       </section>
     </div>

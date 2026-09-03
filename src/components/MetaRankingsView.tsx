@@ -16,13 +16,17 @@ function formatFreshness(iso: string): string {
 export default function MetaRankingsView({ onSelectDetail }: { onSelectDetail: (name: string) => void }) {
   const [rankings, setRankings] = useState<MetaRankingEntry[] | null>(null);
   const [freshness, setFreshness] = useState<DataFreshness | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    getMetaRankings().then(setRankings).catch(() => setRankings([]));
+    getMetaRankings()
+      .then(setRankings)
+      .catch(() => setError("Couldn't reach the backend."));
     getDataFreshness().then(setFreshness).catch(() => setFreshness(null));
   }, []);
 
-  if (!rankings) return <p>Loading...</p>;
+  if (error) return <p className="error-banner">{error}</p>;
+  if (!rankings) return <p className="subtitle">Loading...</p>;
   if (rankings.length === 0) return <p className="subtitle">No usage data available yet.</p>;
 
   const top20 = rankings.slice(0, 20);

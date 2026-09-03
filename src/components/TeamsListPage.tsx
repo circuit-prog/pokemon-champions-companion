@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { loadTeams, createTeam, deleteTeam, duplicateTeam, updateTeam } from "../teamStorage";
 import type { SavedTeam } from "../teamStorage";
 import { importShowdownTeam } from "../showdownImport";
+import { exportTeamToShowdown } from "../teamExport";
 import "./TeamsListPage.css";
 
 const UNCATEGORIZED = "(uncategorized)";
@@ -61,6 +62,34 @@ export default function TeamsListPage({ onOpenTeam }: { onOpenTeam: (teamId: str
   function handleDuplicate(id: string) {
     duplicateTeam(id);
     refresh();
+  }
+
+  function handleRename(team: SavedTeam) {
+    const name = prompt("Rename team", team.name);
+    if (name == null || !name.trim() || name === team.name) return;
+    updateTeam({ ...team, name: name.trim() });
+    refresh();
+  }
+
+  function handleSetFolder(team: SavedTeam) {
+    const folder = prompt(
+      "Move to folder (existing or new name, blank for uncategorized)",
+      team.folder
+    );
+    if (folder == null || folder === team.folder) return;
+    updateTeam({ ...team, folder: folder.trim() });
+    refresh();
+  }
+
+  async function handleExport(team: SavedTeam) {
+    const text = exportTeamToShowdown(team);
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("Copied to clipboard in Showdown export format.");
+    } catch {
+      // Clipboard access can be blocked - fall back to showing it directly.
+      prompt("Copy this team (Showdown format):", text);
+    }
   }
 
   const folders = Array.from(new Set(teams.map((t) => t.folder || UNCATEGORIZED)));
@@ -134,7 +163,12 @@ export default function TeamsListPage({ onOpenTeam }: { onOpenTeam: (teamId: str
                 <div className="team-card-name">{team.name}</div>
               </button>
               <div className="team-card-actions">
+                <button onClick={() => handleRename(team)}>Rename</button>
+                <button onClick={() => handleSetFolder(team)}>Folder</button>
                 <button onClick={() => handleDuplicate(team.id)}>Duplicate</button>
+                <button onClick={() => handleExport(team)} disabled={team.slots.length === 0}>
+                  Export
+                </button>
                 <button onClick={() => handleDelete(team.id)} className="danger">
                   Delete
                 </button>

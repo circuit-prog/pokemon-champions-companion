@@ -188,17 +188,24 @@
 
 .team-card-actions {
   display: flex;
+  flex-wrap: wrap;
   border-top: 1px solid #eee;
 }
 
 .team-card-actions button {
-  flex: 1;
-  padding: 0.4rem;
+  flex: 1 1 auto;
+  min-width: 3.6rem;
+  padding: 0.4rem 0.3rem;
   border: none;
   background: #fafafa;
   cursor: pointer;
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   color: #555;
+}
+
+.team-card-actions button:disabled {
+  color: #bbb;
+  cursor: not-allowed;
 }
 
 .team-card-actions button:hover {

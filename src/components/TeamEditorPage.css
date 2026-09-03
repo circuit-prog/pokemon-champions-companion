@@ -96,3 +96,18 @@
 .remove-slot-btn:hover {
   background: #ffe3e3;
 }
+
+.team-copy-link-btn {
+  flex-shrink: 0;
+  padding: 0.35rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #cfe0ff;
+  background: white;
+  color: #2a5cb8;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.team-copy-link-btn:hover {
+  background: #e4edfc;
+}

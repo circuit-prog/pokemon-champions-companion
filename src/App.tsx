@@ -1,28 +1,46 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import StartHerePage from './components/StartHerePage'
 import TeamsListPage from './components/TeamsListPage'
 import TeamEditorPage from './components/TeamEditorPage'
 import DexPage from './components/DexPage'
+import MetaPage from './components/MetaPage'
 import DamageCalculator from './components/DamageCalculator'
 import TeamToolsPage from './components/TeamToolsPage'
 import './App.css'
 
-type Tab = 'start' | 'teams' | 'dex' | 'calc' | 'tools'
+type Tab = 'start' | 'teams' | 'dex' | 'meta' | 'calc' | 'tools'
 
 function App() {
   // Shared links open straight to the view they point at:
-  // ?calc= -> damage calculator, ?dex= / ?mon= -> Pokedex.
+  // ?calc= -> damage calculator, ?dex= / ?mon= -> Pokedex, ?meta= -> Meta, ?team= -> that team's editor.
   const [tab, setTab] = useState<Tab>(() => {
     const params = new URLSearchParams(window.location.search)
     if (params.has('calc')) return 'calc'
+    if (params.has('meta')) return 'meta'
     if (params.has('dex') || params.has('mon')) return 'dex'
+    if (params.has('team')) return 'teams'
     return 'start'
   })
-  const [editingTeamId, setEditingTeamId] = useState<string | null>(null)
+  const [editingTeamId, setEditingTeamId] = useState<string | null>(
+    () => new URLSearchParams(window.location.search).get('team')
+  )
 
   function goToTab(next: Tab) {
     setTab(next)
   }
+
+  // Keeps a saved team's editor URL-addressable and shareable, matching the
+  // existing ?calc=/?dex=/?mon= pattern - a team card link now survives a
+  // refresh or a bookmark instead of always landing back on the list.
+  useEffect(() => {
+    const url = new URL(window.location.href)
+    if (tab === 'teams' && editingTeamId) {
+      url.searchParams.set('team', editingTeamId)
+    } else {
+      url.searchParams.delete('team')
+    }
+    window.history.replaceState(null, '', url)
+  }, [tab, editingTeamId])
 
   return (
     <div className="app-shell">
@@ -37,6 +55,9 @@ function App() {
           </button>
           <button className={tab === 'dex' ? 'active' : ''} onClick={() => goToTab('dex')}>
             Pokedex
+          </button>
+          <button className={tab === 'meta' ? 'active' : ''} onClick={() => goToTab('meta')}>
+            Meta
           </button>
           <button className={tab === 'tools' ? 'active' : ''} onClick={() => goToTab('tools')}>
             Team Tools
@@ -62,7 +83,10 @@ function App() {
         )}
       </div>
       <div className={tab === 'dex' ? 'app-page' : 'app-page hidden'}>
-        <DexPage />
+        <DexPage active={tab === 'dex'} />
+      </div>
+      <div className={tab === 'meta' ? 'app-page' : 'app-page hidden'}>
+        <MetaPage active={tab === 'meta'} />
       </div>
       <div className={tab === 'tools' ? 'app-page' : 'app-page hidden'}>
         <TeamToolsPage />

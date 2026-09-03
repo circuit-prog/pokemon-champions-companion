@@ -14,6 +14,14 @@ export default function TeamEditorPage({ teamId, onBack }: { teamId: string; onB
   const [team, setTeam] = useState<SavedTeam | null>(null);
   const [activeIndex, setActiveIndex] = useState<number | "add">(0);
   const [error, setError] = useState<string | null>(null);
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  function copyLink() {
+    navigator.clipboard?.writeText(window.location.href).then(() => {
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 1500);
+    });
+  }
 
   useEffect(() => {
     const loaded = getTeam(teamId);
@@ -107,6 +115,9 @@ export default function TeamEditorPage({ teamId, onBack }: { teamId: string; onB
           ← Teams
         </button>
         <input className="team-name-input" value={team.name} onChange={(e) => renameTeam(e.target.value)} />
+        <button className="team-copy-link-btn" onClick={copyLink}>
+          {linkCopied ? "Copied!" : "Copy link"}
+        </button>
       </div>
 
       {error && <div className="error-banner">{error}</div>}

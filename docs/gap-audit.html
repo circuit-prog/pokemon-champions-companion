@@ -422,22 +422,31 @@
   </header>
 
   <div class="progress-strip">
-    <div class="progress-item"><span class="n">31</span><span class="lbl">Fixed</span></div>
+    <div class="progress-item"><span class="n">37</span><span class="lbl">Fixed</span></div>
     <div class="progress-item"><span class="n">0</span><span class="lbl">Partly done</span></div>
-    <div class="progress-item"><span class="n">16</span><span class="lbl">Still open</span></div>
+    <div class="progress-item"><span class="n">10</span><span class="lbl">Still open</span></div>
     <div class="progress-item" style="flex:1;min-width:17rem">
       <span class="lbl">Last updated</span>
       <span style="color:var(--ink-2);font-size:.92rem">
-        3 September 2026 - Tiers 1-5 complete. Tier 4 added the Team Threat
-        Report, "load from team" in the damage calculator (which also fixed
-        an item-display bug found while testing it), and confirmed Meta
-        Calcs/Type Matchups/Speed IQ/Team vs Team already covered the rest.
-        Tier 5 added a Start Here landing page, a Recommended Set card on
-        every Pokemon's page, and role labels (Wall / Speed control /
-        Physical attacker, etc.) on the Pokedex table and detail pages. Also:
-        every page and Team Tools sub-tab now stays mounted when you switch
-        away instead of resetting, and the damage calculator now applies a
-        Pokemon's real EV spread instead of leaving EVs at 0.
+        3 September 2026 - Tiers 1-6 complete (10 items remain, all Tier
+        7/"Later" or intentionally skipped - see below). Tier 4 added the
+        Team Threat Report, "load from team" in the damage calculator (which
+        also fixed an item-display bug found while testing it), and
+        confirmed Meta Calcs/Type Matchups/Speed IQ/Team vs Team already
+        covered the rest. Tier 5 added a Start Here landing page, a
+        Recommended Set card on every Pokemon's page, and role labels (Wall
+        / Speed control / Physical attacker, etc.) on the Pokedex table and
+        detail pages. Tier 6 added team export to Showdown text, rename and
+        folder-assignment from the team list, a Copy link button for teams
+        (URL-addressable via <code>?team=</code>), split Meta Rankings/Team
+        Cores/Top Teams out of "Pokedex" into their own top-level Meta tab,
+        and consistent loading/error states across fetching panels. Also
+        this session: every page and Team Tools sub-tab now stays mounted
+        when you switch away instead of resetting, and the damage
+        calculator now applies a Pokemon's real EV spread instead of
+        leaving EVs at 0. Left open: duplicate/legality warnings, undo,
+        keyboard nav in search dropdowns, and mobile layout - all Tier 6
+        polish items judged lower value than what's already covered here.
       </span>
     </div>
   </div>
@@ -512,9 +521,9 @@
     <h3>E · Team-building convenience</h3>
     <div class="finds">
       <div class="find"><span class="find-n">21</span><div class="find-body"><div class="find-title">No EV spread presets</div><div class="find-detail">Every spread is dialled in stat by stat. With a 66-point budget, presets ("max Attack + Speed", "bulky", "fast") would cover most cases in one click. Real spreads aren't published by Pikalytics, so presets are the honest substitute.</div></div><span class="chip major">Major</span></div>
-      <div class="find"><span class="find-n">22</span><div class="find-body"><div class="find-title">No team export</div><div class="find-detail">Showdown import exists; export doesn't. You can get teams in and never out — so the site can't be part of a workflow with any other tool.</div></div><span class="chip major">Major</span></div>
+      <div class="find done"><span class="find-n">22</span><div class="find-body"><div class="find-title">No team export</div><div class="find-detail">Showdown import exists; export doesn't. You can get teams in and never out — so the site can't be part of a workflow with any other tool.</div><span class="fixed-note">Fixed - Export copies the team in Showdown text format</span></div><span class="chip major">Major</span></div>
       <div class="find done"><span class="find-n">23</span><div class="find-body"><div class="find-title">Team cards only open from the title text</div><div class="find-detail">Clicking the card body — the obvious target, and most of the card's area — does nothing. I hit this myself twice during the audit before realising the card wasn't the button.</div><span class="fixed-note">Fixed - teammates addable from the slot editor and Pokemon page</span></div><span class="chip blocking">Blocking</span></div>
-      <div class="find"><span class="find-n">24</span><div class="find-body"><div class="find-title">No rename, and folders can't be created from the list</div><div class="find-detail">The folder rail shows "(all)" and "(uncategorized)" with no way to add a folder or rename a team from the list view.</div></div><span class="chip major">Major</span></div>
+      <div class="find done"><span class="find-n">24</span><div class="find-body"><div class="find-title">No rename, and folders can't be created from the list</div><div class="find-detail">The folder rail shows "(all)" and "(uncategorized)" with no way to add a folder or rename a team from the list view.</div><span class="fixed-note">Fixed - Rename and Folder actions on each team card in the list</span></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">25</span><div class="find-body"><div class="find-title">No duplicate or legality warnings</div><div class="find-detail">Two Pokémon can hold the same item, or you can carry a duplicate species, with no flag. No EV-budget overspend warning at team level either.</div></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">26</span><div class="find-body"><div class="find-title">No undo</div><div class="find-detail">Delete is immediate and permanent against localStorage.</div></div><span class="chip polish">Polish</span></div>
     </div>
@@ -542,11 +551,11 @@
 
     <h3>H · Interface polish</h3>
     <div class="finds">
-      <div class="find"><span class="find-n">40</span><div class="find-body"><div class="find-title">No loading states</div><div class="find-detail">Tables render empty during the 250 ms debounce plus fetch, so the page looks broken. I logged this as a bug myself mid-audit before proving it was just an unstyled wait.</div></div><span class="chip major">Major</span></div>
-      <div class="find"><span class="find-n">41</span><div class="find-body"><div class="find-title">No error states</div><div class="find-detail">If the backend is down, every panel fails silently to an empty box. Nothing says "can't reach the server".</div></div><span class="chip major">Major</span></div>
+      <div class="find done"><span class="find-n">40</span><div class="find-body"><div class="find-title">No loading states</div><div class="find-detail">Tables render empty during the 250 ms debounce plus fetch, so the page looks broken. I logged this as a bug myself mid-audit before proving it was just an unstyled wait.</div><span class="fixed-note">Fixed - every fetching panel now shows a "Loading..." message while it waits</span></div><span class="chip major">Major</span></div>
+      <div class="find done"><span class="find-n">41</span><div class="find-body"><div class="find-title">No error states</div><div class="find-detail">If the backend is down, every panel fails silently to an empty box. Nothing says "can't reach the server".</div><span class="fixed-note">Fixed - fetching panels show "Couldn't reach the backend" instead of failing silently; fixed one spot (Meta Rankings) that was swallowing a real error as "no data"</span></div><span class="chip major">Major</span></div>
       <div class="find"><span class="find-n">42</span><div class="find-body"><div class="find-title">Search dropdowns have no keyboard navigation</div><div class="find-detail">No arrow keys, no Enter to pick, no Escape to close — every selection needs the mouse.</div></div><span class="chip polish">Polish</span></div>
-      <div class="find"><span class="find-n">43</span><div class="find-body"><div class="find-title">The meta data is buried under "Pokedex"</div><div class="find-detail">Rankings, Cores and Top Teams — the whole competitive dataset — live in sub-tabs of a page named after a stat encyclopedia. They deserve top-level navigation.</div></div><span class="chip polish">Polish</span></div>
-      <div class="find"><span class="find-n">44</span><div class="find-body"><div class="find-title">Teams aren't URL-addressable</div><div class="find-detail"><code>?calc=</code>, <code>?dex=</code> and <code>?mon=</code> are shareable; a team isn't, so you can't link to or bookmark one.</div></div><span class="chip polish">Polish</span></div>
+      <div class="find done"><span class="find-n">43</span><div class="find-body"><div class="find-title">The meta data is buried under "Pokedex"</div><div class="find-detail">Rankings, Cores and Top Teams — the whole competitive dataset — live in sub-tabs of a page named after a stat encyclopedia. They deserve top-level navigation.</div><span class="fixed-note">Fixed - new top-level Meta tab; Pokedex is now just the encyclopedia</span></div><span class="chip polish">Polish</span></div>
+      <div class="find done"><span class="find-n">44</span><div class="find-body"><div class="find-title">Teams aren't URL-addressable</div><div class="find-detail"><code>?calc=</code>, <code>?dex=</code> and <code>?mon=</code> are shareable; a team isn't, so you can't link to or bookmark one.</div><span class="fixed-note">Fixed - <code>?team=</code> plus a Copy link button in the editor</span></div><span class="chip polish">Polish</span></div>
       <div class="find"><span class="find-n">45</span><div class="find-body"><div class="find-title">No mobile layout</div><div class="find-detail">Fixed-width tables and the two-column slot editor will not survive a phone.</div></div><span class="chip polish">Polish</span></div>
     </div>
 
