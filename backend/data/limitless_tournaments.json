@@ -1,0 +1,395 @@
+[
+  {
+    "external_id": "437",
+    "name": "World Championships 2026",
+    "date": "2026-08-27",
+    "player_count": 395,
+    "source_url": "https://limitlessvgc.com/tournaments/437",
+    "results": [
+      {
+        "placement": 1,
+        "player": "Takuma Yamazaki",
+        "roster": [
+          "floette-eternal",
+          "basculegion",
+          "kingambit",
+          "dragonite",
+          "garchomp",
+          "sneasler"
+        ]
+      },
+      {
+        "placement": 2,
+        "player": "Hiroshi Onishi",
+        "roster": [
+          "kingambit",
+          "basculegion",
+          "garchomp",
+          "charizard",
+          "whimsicott",
+          "floette-eternal"
+        ]
+      },
+      {
+        "placement": 3,
+        "player": "Zachary Weed",
+        "roster": [
+          "froslass",
+          "sneasler",
+          "lycanroc-dusk",
+          "basculegion",
+          "kingambit",
+          "scovillain"
+        ]
+      },
+      {
+        "placement": 4,
+        "player": "Jo\u00e3o Felipe Leite",
+        "roster": [
+          "froslass",
+          "kingambit",
+          "sneasler",
+          "lycanroc-dusk",
+          "basculegion",
+          "scovillain"
+        ]
+      },
+      {
+        "placement": 5,
+        "player": "Antonio S\u00e1nchez",
+        "roster": [
+          "incineroar",
+          "toxapex",
+          "garchomp",
+          "charizard",
+          "venusaur",
+          "sylveon"
+        ]
+      },
+      {
+        "placement": 6,
+        "player": "YUYA WAKASUGI",
+        "roster": [
+          "whimsicott",
+          "basculegion",
+          "floette-eternal",
+          "dragonite",
+          "sneasler",
+          "kingambit"
+        ]
+      },
+      {
+        "placement": 7,
+        "player": "Stefano Greppi",
+        "roster": [
+          "sylveon",
+          "aerodactyl",
+          "farigiraf",
+          "garchomp",
+          "kingambit",
+          "charizard"
+        ]
+      },
+      {
+        "placement": 8,
+        "player": "Giovanni Piscitelli",
+        "roster": [
+          "garchomp",
+          "kingambit",
+          "charizard",
+          "whimsicott",
+          "basculegion",
+          "floette-eternal"
+        ]
+      },
+      {
+        "placement": 9,
+        "player": "Shohei Kimura",
+        "roster": [
+          "charizard",
+          "kingambit",
+          "floette-eternal",
+          "whimsicott",
+          "garchomp",
+          "basculegion"
+        ]
+      },
+      {
+        "placement": 10,
+        "player": "Carson St Denis",
+        "roster": [
+          "garchomp",
+          "sneasler",
+          "kingambit",
+          "basculegion",
+          "charizard",
+          "whimsicott"
+        ]
+      },
+      {
+        "placement": 11,
+        "player": "Cary D'Ortona",
+        "roster": [
+          "farigiraf",
+          "arcanine-hisui",
+          "sylveon",
+          "staraptor",
+          "raichu",
+          "kingambit"
+        ]
+      },
+      {
+        "placement": 12,
+        "player": "Emilio Forbes",
+        "roster": [
+          "aerodactyl",
+          "raichu",
+          "kingambit",
+          "sylveon",
+          "tsareena",
+          "sneasler"
+        ]
+      },
+      {
+        "placement": 13,
+        "player": "Navjit Joshi",
+        "roster": [
+          "whimsicott",
+          "arcanine-hisui",
+          "raichu",
+          "kingambit",
+          "staraptor",
+          "sylveon"
+        ]
+      },
+      {
+        "placement": 14,
+        "player": "Justin Tang",
+        "roster": [
+          "sneasler",
+          "sinistcha",
+          "kingambit",
+          "blastoise",
+          "delphox",
+          "incineroar"
+        ]
+      },
+      {
+        "placement": 15,
+        "player": "Filip Wo\u017aniak",
+        "roster": [
+          "venusaur",
+          "primarina",
+          "kingambit",
+          "farigiraf",
+          "torkoal",
+          "blaziken"
+        ]
+      },
+      {
+        "placement": 16,
+        "player": "Chloe Bourke",
+        "roster": [
+          "kingambit",
+          "kleavor",
+          "metagross",
+          "whimsicott",
+          "raichu",
+          "basculegion"
+        ]
+      },
+      {
+        "placement": 17,
+        "player": "Narawitch Naenna",
+        "roster": [
+          "pelipper",
+          "charizard",
+          "archaludon",
+          "grimmsnarl",
+          "swampert",
+          "venusaur"
+        ]
+      },
+      {
+        "placement": 18,
+        "player": "Nikolaj H\u00f8j Nielsen",
+        "roster": [
+          "camerupt",
+          "kingambit",
+          "sylveon",
+          "kangaskhan",
+          "farigiraf",
+          "aerodactyl"
+        ]
+      },
+      {
+        "placement": 19,
+        "player": "Taran Birdee",
+        "roster": [
+          "basculegion",
+          "garchomp",
+          "charizard",
+          "whimsicott",
+          "kingambit",
+          "floette-eternal"
+        ]
+      },
+      {
+        "placement": 20,
+        "player": "Raghav Malaviya",
+        "roster": [
+          "swampert",
+          "grimmsnarl",
+          "archaludon",
+          "venusaur",
+          "charizard",
+          "pelipper"
+        ]
+      },
+      {
+        "placement": 21,
+        "player": "alexander canseco salas",
+        "roster": [
+          "sneasler",
+          "sylveon",
+          "farigiraf",
+          "staraptor",
+          "kingambit",
+          "garchomp"
+        ]
+      },
+      {
+        "placement": 22,
+        "player": "Simone Sanvito",
+        "roster": [
+          "excadrill",
+          "staraptor",
+          "sinistcha",
+          "milotic",
+          "gholdengo",
+          "tyranitar"
+        ]
+      },
+      {
+        "placement": 23,
+        "player": "William Brown",
+        "roster": [
+          "venusaur",
+          "swampert",
+          "grimmsnarl",
+          "charizard",
+          "pelipper",
+          "archaludon"
+        ]
+      },
+      {
+        "placement": 24,
+        "player": "Dawei Si",
+        "roster": [
+          "sinistcha",
+          "incineroar",
+          "delphox",
+          "vanilluxe",
+          "milotic",
+          "floette-eternal"
+        ]
+      },
+      {
+        "placement": 25,
+        "player": "Oliver Eskolin",
+        "roster": [
+          "tyranitar",
+          "milotic",
+          "sinistcha",
+          "gholdengo",
+          "staraptor",
+          "excadrill"
+        ]
+      },
+      {
+        "placement": 26,
+        "player": "Justin Cerioni",
+        "roster": [
+          "aegislash",
+          "sylveon",
+          "venusaur",
+          "charizard",
+          "garchomp",
+          "incineroar"
+        ]
+      },
+      {
+        "placement": 27,
+        "player": "Paul Chua",
+        "roster": [
+          "charizard",
+          "sylveon",
+          "incineroar",
+          "venusaur",
+          "toxapex",
+          "garchomp"
+        ]
+      },
+      {
+        "placement": 28,
+        "player": "Rahim Farzan",
+        "roster": [
+          "raichu",
+          "staraptor",
+          "kingambit",
+          "sylveon",
+          "arcanine-hisui",
+          "basculegion"
+        ]
+      },
+      {
+        "placement": 29,
+        "player": "Mattie Morgan",
+        "roster": [
+          "kingambit",
+          "floette-eternal",
+          "charizard",
+          "basculegion",
+          "garchomp",
+          "whimsicott"
+        ]
+      },
+      {
+        "placement": 30,
+        "player": "Kiran Singh",
+        "roster": [
+          "gholdengo",
+          "milotic",
+          "excadrill",
+          "staraptor",
+          "tyranitar",
+          "sinistcha"
+        ]
+      },
+      {
+        "placement": 31,
+        "player": "Jonathan Marston",
+        "roster": [
+          "kingambit",
+          "whimsicott",
+          "basculegion",
+          "staraptor",
+          "kleavor",
+          "maushold"
+        ]
+      },
+      {
+        "placement": 32,
+        "player": "Yan Sym",
+        "roster": [
+          "farigiraf",
+          "arcanine-hisui",
+          "kingambit",
+          "staraptor",
+          "raichu",
+          "sylveon"
+        ]
+      }
+    ]
+  }
+]

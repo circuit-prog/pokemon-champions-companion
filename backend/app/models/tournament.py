@@ -21,6 +21,10 @@ class Tournament(Base):
     player_count = Column(Integer, nullable=True)
     source_url = Column(String, nullable=True)
     notes = Column(String, nullable=True)
+    # The limitlessvgc.com tournament id, e.g. "437" - lets the weekly scraper
+    # tell "already imported" from "new" without relying on name/date matching.
+    # Null for tournaments entered by hand through the admin form.
+    external_id = Column(String, unique=True, nullable=True)
 
     results = relationship(
         "TournamentResult", back_populates="tournament", cascade="all, delete-orphan"

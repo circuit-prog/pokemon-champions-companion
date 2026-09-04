@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Weekly launchd job: runs run_tournament_scrape.sh to pull new Regulation
+  M-B tournament results from limitlessvgc.com, independent of whether the
+  app or backend server happen to be running.
+
+  Points at this worktree checkout, since that's where the app actually
+  runs from day to day. If this worktree is ever removed, re-point
+  ProgramArguments/StandardOutPath/StandardErrorPath below at wherever the
+  repo lives instead and reload the job.
+
+  Install:
+    cp backend/scripts/com.pcc.tournamentscrape.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.pcc.tournamentscrape.plist
+
+  Run once by hand to test immediately, without waiting for the schedule:
+    launchctl start com.pcc.tournamentscrape
+
+  Check it's loaded:
+    launchctl list | grep pcc
+
+  Uninstall:
+    launchctl unload ~/Library/LaunchAgents/com.pcc.tournamentscrape.plist
+    rm ~/Library/LaunchAgents/com.pcc.tournamentscrape.plist
+
+  Logs land in backend/data/tournament_scrape.log (both stdout and stderr).
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.pcc.tournamentscrape</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/shnayershapiro/GameProjects/pokemon-champions-companion/.claude/worktrees/phase1-team-builder/backend/scripts/run_tournament_scrape.sh</string>
+    </array>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Weekday</key>
+        <integer>1</integer>
+        <key>Hour</key>
+        <integer>9</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>/Users/shnayershapiro/GameProjects/pokemon-champions-companion/.claude/worktrees/phase1-team-builder/backend/data/tournament_scrape.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/shnayershapiro/GameProjects/pokemon-champions-companion/.claude/worktrees/phase1-team-builder/backend/data/tournament_scrape.log</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>
