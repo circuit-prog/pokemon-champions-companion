@@ -23,6 +23,7 @@ from app.schemas import (
     TournamentResultOut,
     TournamentRosterSlotOut,
     TournamentSearchHit,
+    TournamentStatEntry,
     TournamentSummaryOut,
 )
 
@@ -137,6 +138,23 @@ def get_tournament(tournament_id: int, db: Session = Depends(get_db)):
         for name in top_names
     ]
 
+    tournament_stats = []
+    if t.stats_json:
+        raw_stats = json.loads(t.stats_json)
+        stats_lookup = _sprite_lookup(db, {s["pokemon_name"] for s in raw_stats})
+        for s in raw_stats:
+            display_name, sprite_url = stats_lookup.get(s["pokemon_name"], (s["pokemon_name"], None))
+            tournament_stats.append(
+                TournamentStatEntry(
+                    pokemon_name=s["pokemon_name"],
+                    display_name=display_name,
+                    sprite_url=sprite_url,
+                    count=s["count"],
+                    share_percent=s.get("share_percent"),
+                    points=s.get("points"),
+                )
+            )
+
     return TournamentDetailOut(
         id=t.id,
         name=t.name,
@@ -147,6 +165,7 @@ def get_tournament(tournament_id: int, db: Session = Depends(get_db)):
         notes=t.notes,
         results=[_result_out(db, r) for r in results],
         most_brought=most_brought,
+        tournament_stats=tournament_stats,
     )
 
 

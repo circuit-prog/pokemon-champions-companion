@@ -21,7 +21,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.database import SessionLocal
-from app.models.pokemon import Pokemon
+from app.models.pokemon import Ability, Item, Move, Pokemon
 from app.models.tournament import Tournament, TournamentResult
 
 DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "limitless_tournaments.json"
@@ -33,6 +33,9 @@ def main():
     db = SessionLocal()
     try:
         known_slugs = {p.name for p in db.query(Pokemon.name).all()}
+        item_by_name = {i.display_name.lower(): i.name for i in db.query(Item.display_name, Item.name).all()}
+        ability_by_name = {a.display_name.lower(): a.name for a in db.query(Ability.display_name, Ability.name).all()}
+        move_by_name = {m.display_name.lower(): m.name for m in db.query(Move.display_name, Move.name).all()}
 
         def resolve_slug(slug):
             """Species with gender/battle/family forms (Basculegion, Maushold,
@@ -62,12 +65,25 @@ def main():
                 skipped_existing += 1
                 continue
 
+            stats = []
+            for s in entry.get("stats", []):
+                resolved = resolve_slug(s["pokemon_name"])
+                if not resolved:
+                    continue
+                stats.append({
+                    "pokemon_name": resolved,
+                    "count": s["count"],
+                    "share_percent": s.get("share_percent"),
+                    "points": s.get("points"),
+                })
+
             tournament = Tournament(
                 name=entry["name"],
                 date=entry["date"],
                 player_count=entry.get("player_count"),
                 source_url=entry.get("source_url"),
                 external_id=entry["external_id"],
+                stats_json=json.dumps(stats) if stats else None,
             )
             db.add(tournament)
             db.flush()  # assigns tournament.id for the results below
@@ -75,12 +91,23 @@ def main():
             unmatched = set()
             for r in entry["results"]:
                 roster = []
-                for slug in r["roster"]:
-                    resolved = resolve_slug(slug)
+                for slot in r["roster"]:
+                    resolved = resolve_slug(slot["pokemon_name"])
                     if not resolved:
-                        unmatched.add(slug)
+                        unmatched.add(slot["pokemon_name"])
                         continue
-                    roster.append({"pokemon_name": resolved, "evs": {}, "nature": "hardy", "moves": []})
+                    item = item_by_name.get((slot.get("item") or "").lower())
+                    ability = ability_by_name.get((slot.get("ability") or "").lower())
+                    moves = [move_by_name[m.lower()] for m in slot.get("moves", []) if m.lower() in move_by_name]
+                    nature = (slot.get("nature") or "hardy").lower()
+                    roster.append({
+                        "pokemon_name": resolved,
+                        "item": item,
+                        "ability": ability,
+                        "nature": nature,
+                        "evs": {},
+                        "moves": moves,
+                    })
                 if not roster:
                     continue
                 db.add(

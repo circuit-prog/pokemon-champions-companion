@@ -611,6 +611,15 @@ export interface MostBroughtEntry {
   count: number;
 }
 
+export interface TournamentStatEntry {
+  pokemon_name: string;
+  display_name: string;
+  sprite_url: string | null;
+  count: number;
+  share_percent: number | null;
+  points: number | null;
+}
+
 export interface TournamentDetail {
   id: number;
   name: string;
@@ -621,6 +630,7 @@ export interface TournamentDetail {
   notes: string | null;
   results: TournamentResultOut[];
   most_brought: MostBroughtEntry[];
+  tournament_stats: TournamentStatEntry[];
 }
 
 export interface TournamentSearchHit {

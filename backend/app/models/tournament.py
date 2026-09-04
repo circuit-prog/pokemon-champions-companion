@@ -1,9 +1,12 @@
-"""Admin-entered tournament results.
+"""Tournament results - both hand-entered through the admin form and
+auto-imported weekly by scrape_limitless_tournaments.py /
+load_limitless_tournaments.py.
 
 Separate from TopTeam (backend/scripts/load_pikalytics_data.py), which is a
-scraped, name-only snapshot of Pikalytics' current top 10. These tables hold
-manually entered results - full team sets, not just species - for events the
-scrape doesn't cover in that depth, and are never touched by the scraper.
+scraped, name-only snapshot of Pikalytics' current top 10 and fully
+replaced on every scrape run. These tables are historical record instead -
+nothing here is ever deleted or overwritten by a scrape, so a hand-added
+note or set correction on an auto-imported result survives future runs.
 """
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
@@ -25,6 +28,11 @@ class Tournament(Base):
     # tell "already imported" from "new" without relying on name/date matching.
     # Null for tournaments entered by hand through the admin form.
     external_id = Column(String, unique=True, nullable=True)
+    # Tournament-wide "most successful Pokemon" (name/count/share/points),
+    # scraped from limitlessvgc.com's own /statistics page - a larger sample
+    # than just the top-32 results this app stores, so kept separately
+    # rather than derived from `results`. JSON list, null until scraped.
+    stats_json = Column(String, nullable=True)
 
     results = relationship(
         "TournamentResult", back_populates="tournament", cascade="all, delete-orphan"

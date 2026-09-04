@@ -1,25 +1,38 @@
 """Scrape official Pokemon Champions (Regulation M-B) tournament results from
-limitlessvgc.com: which events happened, who placed where, and their team
-(species only - see the note below on why sets aren't included).
+limitlessvgc.com: which events happened, who placed where, their team
+(item/ability/nature/moves - no EVs, see below), and tournament-wide
+"most successful Pokemon" stats.
 
 Only scrapes limitlessvgc.com, whose robots.txt allows crawling everything
-(`Disallow:` with no paths). Full per-Pokemon sets (item/ability/nature/EVs/
-moves) live on RK9.gg's roster pages instead, and RK9.gg's robots.txt
-explicitly disallows /roster/, /pairings/, /decklist/public/, and the
-teamlist paths - exactly where that data lives - so this deliberately never
-touches RK9.gg. Species-only rosters are still enough for "most brought";
-add real sets by hand afterwards through the Tournaments admin form if you
-want a specific result fully filled in.
+(`Disallow:` with no paths). RK9.gg also has full team sets, but its
+robots.txt explicitly disallows /roster/, /pairings/, /decklist/public/,
+and the teamlist paths - exactly where that data lives - so this
+deliberately never touches RK9.gg. Turns out limitlessvgc.com has (almost)
+the same data on its own /tournaments/<id>/teams page, which robots.txt
+does allow: item, ability, nature and all 4 moves per Pokemon. The one
+thing it doesn't have anywhere is EVs (checked: no Spreads/EVs section
+exists on Limitless at all) - add those by hand through the admin form for
+any specific result you want fully filled in.
 
-Each tournament's own page (limitlessvgc.com/tournaments/<id>) already has
-everything needed in one request: date, player count, format, and a
-standings table with rank/player/country/roster - no need to page through
-the table (tournaments are small enough that it's never paginated) or visit
-a separate standings/roster page.
+Three pages per M-B tournament:
+  /tournaments/<id>            - date, player count, format, top-32 standings
+                                  (rank/player/species roster)
+  /tournaments/<id>/teams      - full sets (item/ability/nature/moves) per
+                                  placement, matched up with the roster above
+  /tournaments/<id>/statistics - "most successful Pokemon" across every
+                                  tracked player (a larger sample than the
+                                  top 32 above), with win-rate context
 
 Writes backend/data/limitless_tournaments.json:
 [{"external_id", "name", "date", "player_count", "source_url",
-  "results": [{"placement", "player", "roster": ["<pokemon-slug>", ...]}]}]
+  "results": [{"placement", "player",
+               "roster": [{"pokemon_name", "item", "ability", "nature",
+                           "moves": [...]}]}],
+  "stats": [{"pokemon_name", "count", "share_percent", "points"}]}]
+
+Display names (item/ability/nature/move text) are resolved to our own dex
+slugs in load_limitless_tournaments.py, not here - this script stays
+DB-agnostic like the site's other scrapers.
 
 Usage:
     backend/venv/bin/python backend/scripts/scrape_limitless_tournaments.py
@@ -27,6 +40,7 @@ Usage:
 import json
 import re
 import time
+from datetime import datetime
 from pathlib import Path
 
 import requests
@@ -87,7 +101,6 @@ def parse_tournament(html, external_id):
     date_iso = None
     if date_match:
         try:
-            from datetime import datetime
             date_iso = datetime.strptime(
                 f"{date_match.group(1)} {date_match.group(2)} {date_match.group(3)}", "%d %B %Y"
             ).date().isoformat()
@@ -120,6 +133,57 @@ def parse_tournament(html, external_id):
     }
 
 
+def parse_teams(html):
+    """The /teams page: full sets (item/ability/nature/moves - no EVs, see
+    the module docstring) per placement. Returns {placement: [{"pokemon_name",
+    "item", "ability", "nature", "moves"}]}."""
+    soup = BeautifulSoup(html, "lxml")
+    teams = {}
+    for toggle in soup.select(".teamlist-toggle[data-target]"):
+        m = re.match(r"team-(\d+)$", toggle.get("data-target", ""))
+        if not m:
+            continue
+        placement = int(m.group(1))
+        container = soup.select_one(f'[data-name="{toggle["data-target"]}"]')
+        if not container:
+            continue
+        pokes = []
+        for pkmn in container.select(".pkmn[data-id]"):
+            item_el = pkmn.select_one(".item")
+            ability_el = pkmn.select_one(".ability")
+            nature_el = pkmn.select_one(".nature")
+            pokes.append({
+                "pokemon_name": pkmn["data-id"],
+                "item": item_el.get_text(strip=True) if item_el else None,
+                "ability": ability_el.get_text(strip=True).removeprefix("Ability: ") if ability_el else None,
+                "nature": nature_el.get_text(strip=True).removesuffix(" Nature") if nature_el else None,
+                "moves": [li.get_text(strip=True) for li in pkmn.select("ul.moves li")],
+            })
+        teams[placement] = pokes
+    return teams
+
+
+def parse_statistics(html):
+    """The /statistics page's "Most successful Pokemon" table - a larger
+    sample than the top-32 results (every tracked player), with win-rate
+    context via `points`."""
+    soup = BeautifulSoup(html, "lxml")
+    stats = []
+    for row in soup.select("table.data-table tr[data-count]"):
+        img = row.select_one("img.pokemon[alt]")
+        cells = row.find_all("td")
+        if not img or len(cells) < 6:
+            continue
+        share_text = cells[4].get_text(strip=True).rstrip("%")
+        stats.append({
+            "pokemon_name": img["alt"],
+            "count": int(row.get("data-count", 0)),
+            "share_percent": float(share_text) if share_text.replace(".", "", 1).isdigit() else None,
+            "points": int(row["data-points"]) if row.get("data-points") else None,
+        })
+    return stats
+
+
 def main():
     print("Finding Regulation M-B tournaments...")
     listing = find_mb_tournaments()
@@ -134,8 +198,23 @@ def main():
             if not parsed:
                 print(f"  [{i}/{len(listing)}] {entry['name']}: skipped (not M-B on detail page)")
                 continue
+
+            teams_html = fetch(f"{BASE}/tournaments/{external_id}/teams")
+            teams_by_placement = parse_teams(teams_html)
+            for result in parsed["results"]:
+                full_sets = teams_by_placement.get(result["placement"], [])
+                by_species = {s["pokemon_name"]: s for s in full_sets}
+                result["roster"] = [
+                    by_species.get(slug, {"pokemon_name": slug, "item": None, "ability": None, "nature": None, "moves": []})
+                    for slug in result["roster"]
+                ]
+
+            stats_html = fetch(f"{BASE}/tournaments/{external_id}/statistics")
+            parsed["stats"] = parse_statistics(stats_html)
+
             tournaments.append(parsed)
-            print(f"  [{i}/{len(listing)}] {parsed['name']}: {len(parsed['results'])} results")
+            print(f"  [{i}/{len(listing)}] {parsed['name']}: {len(parsed['results'])} results, "
+                  f"{len(parsed['stats'])} stat rows")
         except Exception as e:
             print(f"  [{i}/{len(listing)}] {entry['name']}: FAILED ({e})")
 

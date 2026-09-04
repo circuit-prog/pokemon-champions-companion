@@ -376,6 +376,18 @@ class MostBroughtEntry(BaseModel):
     count: int
 
 
+class TournamentStatEntry(BaseModel):
+    """One row of limitlessvgc.com's own "most successful Pokemon" table for
+    a tournament - a larger sample (every tracked player, not just the top
+    32 this app stores results for) with win-rate context via `points`."""
+    pokemon_name: str
+    display_name: str
+    sprite_url: Optional[str] = None
+    count: int
+    share_percent: Optional[float] = None
+    points: Optional[int] = None
+
+
 class TournamentDetailOut(BaseModel):
     id: int
     name: str
@@ -386,6 +398,7 @@ class TournamentDetailOut(BaseModel):
     notes: Optional[str] = None
     results: List[TournamentResultOut]
     most_brought: List[MostBroughtEntry]
+    tournament_stats: List[TournamentStatEntry] = []
 
 
 class TournamentSearchHit(BaseModel):

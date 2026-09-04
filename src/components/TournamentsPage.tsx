@@ -26,6 +26,13 @@ import TournamentResultEditor from "./TournamentResultEditor";
 import "./MetaCalcsPanel.css"; // reuses .calc-pair / .calc-side / .calc-line for the comparison view
 import "./TournamentsPage.css";
 
+function titleCase(slug: string): string {
+  return slug
+    .split("-")
+    .map((w) => w[0]?.toUpperCase() + w.slice(1))
+    .join(" ");
+}
+
 type View =
   | { kind: "list" }
   | { kind: "detail"; id: number }
@@ -153,6 +160,7 @@ export default function TournamentsPage() {
   const [filter, setFilter] = useState("");
   const [filterHits, setFilterHits] = useState<TournamentSearchHit[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [expandedResult, setExpandedResult] = useState<number | null>(null);
 
   function refreshList() {
     getTournaments()
@@ -293,13 +301,35 @@ export default function TournamentsPage() {
 
         {detail.most_brought.length > 0 && (
           <div className="tournament-most-brought">
-            <h3>Most brought</h3>
+            <h3>Most brought (top {detail.results.length})</h3>
             <div className="tournament-most-brought-list">
               {detail.most_brought.map((m) => (
                 <div className="tournament-most-brought-entry" key={m.pokemon_name}>
                   {m.sprite_url && <img src={m.sprite_url} alt="" />}
                   <span>{m.display_name}</span>
                   <span className="tournament-most-brought-count">{m.count}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {detail.tournament_stats.length > 0 && (
+          <div className="tournament-most-brought">
+            <h3>Tournament-wide stats</h3>
+            <p className="subtitle">
+              Every tracked player at this event, not just the top {detail.results.length} above - from
+              limitlessvgc.com's own statistics page.
+            </p>
+            <div className="tournament-most-brought-list">
+              {detail.tournament_stats.map((s) => (
+                <div className="tournament-most-brought-entry" key={s.pokemon_name}>
+                  {s.sprite_url && <img src={s.sprite_url} alt="" />}
+                  <span>{s.display_name}</span>
+                  <span className="tournament-most-brought-count">
+                    {s.count}
+                    {s.share_percent != null && ` (${s.share_percent}%)`}
+                  </span>
                 </div>
               ))}
             </div>
@@ -314,28 +344,55 @@ export default function TournamentsPage() {
         </div>
 
         <div className="tournament-results-list">
-          {detail.results.map((r) => (
-            <div className="tournament-result-card" key={r.id}>
-              <div className="tournament-result-row">
-                <span className="tournament-result-placement">#{r.placement}</span>
-                {r.player && <strong>{r.player}</strong>}
-                {r.is_dark_horse && <span className="dark-horse-badge">Dark horse</span>}
-                <div className="tournament-result-roster">
-                  {r.roster.map((slot) => (
-                    <img key={slot.pokemon_name} src={slot.sprite_url ?? undefined} alt={slot.display_name} title={slot.display_name} />
-                  ))}
-                </div>
-                <div className="tournament-result-actions-inline">
-                  <button onClick={() => setView({ kind: "edit-result", tournamentId: detail.id, result: r })}>Edit</button>
-                  <button className="danger" onClick={() => removeResult(detail.id, r.id)}>
-                    Delete
+          {detail.results.map((r) => {
+            const hasSets = r.roster.some((s) => s.item || s.ability || s.moves.length > 0);
+            const open = expandedResult === r.id;
+            return (
+              <div className="tournament-result-card" key={r.id}>
+                <div className="tournament-result-row">
+                  <span className="tournament-result-placement">#{r.placement}</span>
+                  {r.player && <strong>{r.player}</strong>}
+                  {r.is_dark_horse && <span className="dark-horse-badge">Dark horse</span>}
+                  <button
+                    className="tournament-result-roster tournament-result-roster-btn"
+                    onClick={() => setExpandedResult(open ? null : r.id)}
+                    title={hasSets ? "Show sets" : "No set data on this result yet"}
+                  >
+                    {r.roster.map((slot) => (
+                      <img key={slot.pokemon_name} src={slot.sprite_url ?? undefined} alt={slot.display_name} title={slot.display_name} />
+                    ))}
                   </button>
+                  <div className="tournament-result-actions-inline">
+                    <button onClick={() => setView({ kind: "edit-result", tournamentId: detail.id, result: r })}>Edit</button>
+                    <button className="danger" onClick={() => removeResult(detail.id, r.id)}>
+                      Delete
+                    </button>
+                  </div>
                 </div>
+                {r.notes && <p className="tournament-result-notes">{r.notes}</p>}
+                {open && (
+                  <div className="tournament-result-sets">
+                    {r.roster.map((slot) => (
+                      <div className="tournament-result-set" key={slot.pokemon_name}>
+                        {slot.sprite_url && <img src={slot.sprite_url} alt="" />}
+                        <div>
+                          <strong>{slot.display_name}</strong>
+                          <span className="subtitle">
+                            {[slot.ability, slot.item].filter(Boolean).map(titleCase).join(" · ") || "No set data"}
+                            {slot.nature && slot.nature !== "hardy" && ` · ${titleCase(slot.nature)}`}
+                          </span>
+                          {slot.moves.length > 0 && (
+                            <span className="subtitle">{slot.moves.map(titleCase).join(", ")}</span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <CompareToMyTeam result={r} />
               </div>
-              {r.notes && <p className="tournament-result-notes">{r.notes}</p>}
-              <CompareToMyTeam result={r} />
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     );

@@ -157,6 +157,42 @@
   height: 28px;
 }
 
+.tournament-result-roster-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  justify-content: flex-start;
+}
+
+.tournament-result-sets {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.6rem 0 0.3rem;
+  padding: 0.6rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background: #fafcff;
+}
+
+.tournament-result-set {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tournament-result-set img {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.tournament-result-set > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
 .tournament-result-actions-inline {
   display: flex;
   gap: 0.4rem;
