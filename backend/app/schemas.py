@@ -315,3 +315,83 @@ class MetaRankingEntry(BaseModel):
     type2: Optional[str]
     usage_percent: Optional[float]
     win_rate: Optional[float] = None
+
+
+class TournamentRosterSlot(BaseModel):
+    """One Pokemon in a tournament result's team - mirrors TeamMemberIn minus
+    the battle-state fields (level/status/HP), which don't apply to a
+    historical record."""
+    pokemon_name: str
+    evs: dict = {}
+    nature: str = "hardy"
+    ability: Optional[str] = None
+    item: Optional[str] = None
+    moves: List[str] = []
+
+
+class TournamentRosterSlotOut(TournamentRosterSlot):
+    display_name: str
+    sprite_url: Optional[str] = None
+
+
+class TournamentResultIn(BaseModel):
+    placement: int
+    player: Optional[str] = None
+    roster: List[TournamentRosterSlot]
+    notes: Optional[str] = None
+    is_dark_horse: bool = False
+
+
+class TournamentResultOut(BaseModel):
+    id: int
+    placement: int
+    player: Optional[str] = None
+    roster: List[TournamentRosterSlotOut]
+    notes: Optional[str] = None
+    is_dark_horse: bool = False
+
+
+class TournamentIn(BaseModel):
+    name: str
+    date: str
+    format: str = "gen9championsvgc2026regmb"
+    player_count: Optional[int] = None
+    source_url: Optional[str] = None
+    notes: Optional[str] = None
+
+
+class TournamentSummaryOut(BaseModel):
+    id: int
+    name: str
+    date: str
+    format: str
+    player_count: Optional[int] = None
+    result_count: int
+
+
+class MostBroughtEntry(BaseModel):
+    pokemon_name: str
+    display_name: str
+    sprite_url: Optional[str] = None
+    count: int
+
+
+class TournamentDetailOut(BaseModel):
+    id: int
+    name: str
+    date: str
+    format: str
+    player_count: Optional[int] = None
+    source_url: Optional[str] = None
+    notes: Optional[str] = None
+    results: List[TournamentResultOut]
+    most_brought: List[MostBroughtEntry]
+
+
+class TournamentSearchHit(BaseModel):
+    tournament_id: int
+    tournament_name: str
+    tournament_date: str
+    result_id: int
+    player: Optional[str] = None
+    placement: int

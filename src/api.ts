@@ -108,6 +108,25 @@ async function postJson<T>(path: string, body: unknown): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+async function putJson<T>(path: string, body: unknown): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(`Request to ${path} failed: ${res.status}`);
+  }
+  return res.json() as Promise<T>;
+}
+
+async function deleteJson(path: string): Promise<void> {
+  const res = await fetch(`${API_BASE}${path}`, { method: "DELETE" });
+  if (!res.ok) {
+    throw new Error(`Request to ${path} failed: ${res.status}`);
+  }
+}
+
 export function searchPokemon(query: string): Promise<PokemonSummary[]> {
   const params = query ? `?search=${encodeURIComponent(query)}` : "";
   return getJson<PokemonSummary[]>(`/api/pokemon${params}`);
@@ -534,4 +553,121 @@ export interface TopTeamRoster {
  *  Team vs Team mode - "vs a popular team" using that team's actual sets. */
 export function getTopTeamRoster(rank: number): Promise<TopTeamRoster> {
   return getJson<TopTeamRoster>(`/api/calc/top-team-roster/${rank}`);
+}
+
+export interface TournamentRosterSlot {
+  pokemon_name: string;
+  evs: Record<string, number>;
+  nature: string;
+  ability?: string | null;
+  item?: string | null;
+  moves: string[];
+}
+
+export interface TournamentRosterSlotOut extends TournamentRosterSlot {
+  display_name: string;
+  sprite_url: string | null;
+}
+
+export interface TournamentResultIn {
+  placement: number;
+  player?: string | null;
+  roster: TournamentRosterSlot[];
+  notes?: string | null;
+  is_dark_horse: boolean;
+}
+
+export interface TournamentResultOut {
+  id: number;
+  placement: number;
+  player: string | null;
+  roster: TournamentRosterSlotOut[];
+  notes: string | null;
+  is_dark_horse: boolean;
+}
+
+export interface TournamentIn {
+  name: string;
+  date: string;
+  format?: string;
+  player_count?: number | null;
+  source_url?: string | null;
+  notes?: string | null;
+}
+
+export interface TournamentSummary {
+  id: number;
+  name: string;
+  date: string;
+  format: string;
+  player_count: number | null;
+  result_count: number;
+}
+
+export interface MostBroughtEntry {
+  pokemon_name: string;
+  display_name: string;
+  sprite_url: string | null;
+  count: number;
+}
+
+export interface TournamentDetail {
+  id: number;
+  name: string;
+  date: string;
+  format: string;
+  player_count: number | null;
+  source_url: string | null;
+  notes: string | null;
+  results: TournamentResultOut[];
+  most_brought: MostBroughtEntry[];
+}
+
+export interface TournamentSearchHit {
+  tournament_id: number;
+  tournament_name: string;
+  tournament_date: string;
+  result_id: number;
+  player: string | null;
+  placement: number;
+}
+
+export function getTournaments(): Promise<TournamentSummary[]> {
+  return getJson<TournamentSummary[]>("/api/tournaments");
+}
+
+export function getTournament(id: number): Promise<TournamentDetail> {
+  return getJson<TournamentDetail>(`/api/tournaments/${id}`);
+}
+
+export function searchTournamentsByPokemon(pokemonName: string): Promise<TournamentSearchHit[]> {
+  return getJson<TournamentSearchHit[]>(`/api/tournaments/search?pokemon=${encodeURIComponent(pokemonName)}`);
+}
+
+export function createTournament(body: TournamentIn): Promise<TournamentSummary> {
+  return postJson<TournamentSummary>("/api/tournaments", body);
+}
+
+export function updateTournament(id: number, body: TournamentIn): Promise<TournamentSummary> {
+  return putJson<TournamentSummary>(`/api/tournaments/${id}`, body);
+}
+
+export function deleteTournament(id: number): Promise<void> {
+  return deleteJson(`/api/tournaments/${id}`);
+}
+
+export function addTournamentResult(tournamentId: number, body: TournamentResultIn): Promise<TournamentResultOut> {
+  return postJson<TournamentResultOut>(`/api/tournaments/${tournamentId}/results`, body);
+}
+
+export function updateTournamentResult(
+  tournamentId: number,
+  resultId: number,
+  body: TournamentResultIn
+): Promise<TournamentResultOut> {
+  return putJson<TournamentResultOut>(`/api/tournaments/${tournamentId}/results/${resultId}`, body);
+}
+
+export function deleteTournamentResult(tournamentId: number, resultId: number): Promise<void> {
+  return deleteJson(`/api/tournaments/${tournamentId}/results/${resultId}`);
 }

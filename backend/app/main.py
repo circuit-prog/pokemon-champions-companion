@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import Base, engine
-from app.routers import pokemon, reference, calc, meta
+from app.routers import pokemon, reference, calc, meta, tournaments
 
 Base.metadata.create_all(bind=engine)
 
@@ -23,6 +23,7 @@ app.include_router(pokemon.router)
 app.include_router(reference.router)
 app.include_router(calc.router)
 app.include_router(meta.router)
+app.include_router(tournaments.router)
 
 
 @app.get("/api/health")
