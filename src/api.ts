@@ -587,6 +587,7 @@ export interface TournamentResultOut {
   player_external_id: string | null;
   prize_money: string | null;
   points: number | null;
+  record: string | null;
 }
 
 export interface TournamentIn {
@@ -605,6 +606,7 @@ export interface TournamentSummary {
   format: string;
   player_count: number | null;
   result_count: number;
+  is_online: boolean;
 }
 
 export interface MostBroughtEntry {
@@ -634,6 +636,7 @@ export interface TournamentDetail {
   results: TournamentResultOut[];
   most_brought: MostBroughtEntry[];
   tournament_stats: TournamentStatEntry[];
+  is_online: boolean;
 }
 
 export interface TournamentSearchHit {

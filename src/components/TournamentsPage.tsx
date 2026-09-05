@@ -289,7 +289,9 @@ export default function TournamentsPage() {
 
         <div className="tournament-detail-header">
           <div>
-            <h2>{detail.name}</h2>
+            <h2>
+              {detail.name} {detail.is_online && <span className="online-badge">Online</span>}
+            </h2>
             <p className="subtitle">
               {detail.date}
               {detail.player_count != null && ` · ${detail.player_count} players`}
@@ -377,9 +379,11 @@ export default function TournamentsPage() {
                     ) : (
                       <strong>{r.player}</strong>
                     ))}
-                  {(r.prize_money || r.points != null) && (
+                  {(r.prize_money || r.points != null || r.record) && (
                     <span className="tournament-result-payout">
-                      {[r.prize_money, r.points != null ? `${r.points} pts` : null].filter(Boolean).join(" · ")}
+                      {[r.prize_money, r.points != null ? `${r.points} pts` : null, r.record]
+                        .filter(Boolean)
+                        .join(" · ")}
                     </span>
                   )}
                   {r.is_dark_horse && <span className="dark-horse-badge">Dark horse</span>}
@@ -478,7 +482,9 @@ export default function TournamentsPage() {
         <div className="tournament-list">
           {tournaments.map((t) => (
             <button key={t.id} className="tournament-card" onClick={() => setView({ kind: "detail", id: t.id })}>
-              <strong>{t.name}</strong>
+              <strong>
+                {t.name} {t.is_online && <span className="online-badge">Online</span>}
+              </strong>
               <span className="subtitle">
                 {t.date}
                 {t.player_count != null && ` · ${t.player_count} players`} · {t.result_count} results

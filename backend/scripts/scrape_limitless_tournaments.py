@@ -59,7 +59,10 @@ import requests
 from bs4 import BeautifulSoup
 
 BASE = "https://limitlessvgc.com"
-TARGET_FORMAT = "m-b"  # the only Champions regulation this app tracks
+# Both real Pokemon Champions regulations so far: m-a (pre-Mega, now history)
+# and m-b (current, includes Megas). Older tags (svf/svi/svh/...) are
+# Scarlet/Violet VGC, a different game - not tracked here.
+TARGET_FORMATS = {"m-a", "m-b"}
 TOP_N_RESULTS = 128
 MAX_LISTING_PAGES = 20  # generous ceiling; the listing stops early once exhausted
 REQUEST_DELAY_SECONDS = 0.5  # be polite to the source site
@@ -74,11 +77,11 @@ def fetch(url):
     return resp.text
 
 
-def find_mb_tournaments():
-    """Walk the tournament listing, collecting {external_id, name} for every
-    Regulation M-B event. The listing has no server-side format filter (the
-    dropdown is client-side JS), so this filters each row's own
-    data-format attribute instead."""
+def find_champions_tournaments():
+    """Walk the tournament listing, collecting {external_id, name, format}
+    for every real Pokemon Champions event (M-A or M-B). The listing has no
+    server-side format filter (the dropdown is client-side JS), so this
+    filters each row's own data-format attribute instead."""
     found = []
     for page in range(1, MAX_LISTING_PAGES + 1):
         html = fetch(f"{BASE}/tournaments?page={page}")
@@ -87,23 +90,24 @@ def find_mb_tournaments():
         if not rows:
             break
         for row in rows:
-            if row.get("data-format") != TARGET_FORMAT:
+            fmt = row.get("data-format")
+            if fmt not in TARGET_FORMATS:
                 continue
             link = row.select_one("td a[href^='/tournaments/']")
             if not link:
                 continue
             external_id = link["href"].rsplit("/", 1)[-1]
-            found.append({"external_id": external_id, "name": link.get_text(strip=True)})
-        print(f"  listing page {page}: {len(rows)} rows, {len(found)} M-B tournaments so far")
+            found.append({"external_id": external_id, "name": link.get_text(strip=True), "format": fmt})
+        print(f"  listing page {page}: {len(rows)} rows, {len(found)} Champions tournaments so far")
     return found
 
 
-def parse_tournament(html, external_id):
+def parse_tournament(html, external_id, expected_format):
     soup = BeautifulSoup(html, "lxml")
 
-    format_link = soup.select_one("a[href*='format=m-b']")
+    format_link = soup.select_one(f"a[href*='format={expected_format}']")
     if not format_link:
-        return None  # not actually M-B (listing/detail can disagree in edge cases) - skip
+        return None  # listing/detail page disagree on format (rare) - skip
 
     infobox = soup.select_one(".infobox-line")
     info_text = infobox.get_text(" ", strip=True) if infobox else ""
@@ -146,6 +150,7 @@ def parse_tournament(html, external_id):
         "external_id": external_id,
         "name": name,
         "date": date_iso,
+        "format": expected_format,
         "player_count": player_count,
         "source_url": f"{BASE}/tournaments/{external_id}",
         "results": results,
@@ -265,9 +270,9 @@ def extract_result_payout(html, tournament_external_id):
 
 
 def main():
-    print("Finding Regulation M-B tournaments...")
-    listing = find_mb_tournaments()
-    print(f"Found {len(listing)} M-B tournaments.")
+    print("Finding Pokemon Champions tournaments (M-A and M-B)...")
+    listing = find_champions_tournaments()
+    print(f"Found {len(listing)} Champions tournaments.")
 
     # Cache players across the whole run - the same person often places in
     # more than one tournament. Cache the raw HTML (not just the parsed
@@ -282,9 +287,9 @@ def main():
         external_id = entry["external_id"]
         try:
             html = fetch(f"{BASE}/tournaments/{external_id}")
-            parsed = parse_tournament(html, external_id)
+            parsed = parse_tournament(html, external_id, entry["format"])
             if not parsed:
-                print(f"  [{i}/{len(listing)}] {entry['name']}: skipped (not M-B on detail page)")
+                print(f"  [{i}/{len(listing)}] {entry['name']}: skipped (format mismatch on detail page)")
                 continue
 
             teams_html = fetch(f"{BASE}/tournaments/{external_id}/teams")

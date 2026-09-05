@@ -352,12 +352,13 @@ class TournamentResultOut(BaseModel):
     player_external_id: Optional[str] = None
     prize_money: Optional[str] = None
     points: Optional[int] = None
+    record: Optional[str] = None
 
 
 class TournamentIn(BaseModel):
     name: str
     date: str
-    format: str = "gen9championsvgc2026regmb"
+    format: str = "m-b"
     player_count: Optional[int] = None
     source_url: Optional[str] = None
     notes: Optional[str] = None
@@ -370,6 +371,7 @@ class TournamentSummaryOut(BaseModel):
     format: str
     player_count: Optional[int] = None
     result_count: int
+    is_online: bool = False
 
 
 class MostBroughtEntry(BaseModel):
@@ -402,6 +404,7 @@ class TournamentDetailOut(BaseModel):
     results: List[TournamentResultOut]
     most_brought: List[MostBroughtEntry]
     tournament_stats: List[TournamentStatEntry] = []
+    is_online: bool = False
 
 
 class TournamentSearchHit(BaseModel):

@@ -146,6 +146,16 @@
   border-radius: 999px;
 }
 
+.online-badge {
+  background: #e4edfc;
+  color: #2a5cb8;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  vertical-align: middle;
+}
+
 .tournament-result-roster {
   display: flex;
   gap: 0.15rem;

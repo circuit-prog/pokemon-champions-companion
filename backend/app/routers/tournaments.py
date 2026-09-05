@@ -60,6 +60,7 @@ def _result_out(db: Session, result: TournamentResult) -> TournamentResultOut:
         player_external_id=result.player_external_id,
         prize_money=result.prize_money,
         points=result.points,
+        record=result.record,
     )
 
 
@@ -92,6 +93,7 @@ def list_tournaments(db: Session = Depends(get_db)):
             format=t.format,
             player_count=t.player_count,
             result_count=len(t.results),
+            is_online=t.is_online,
         )
         for t in tournaments
     ]
@@ -170,6 +172,7 @@ def get_tournament(tournament_id: int, db: Session = Depends(get_db)):
         results=[_result_out(db, r) for r in results],
         most_brought=most_brought,
         tournament_stats=tournament_stats,
+        is_online=t.is_online,
     )
 
 
@@ -180,7 +183,8 @@ def create_tournament(body: TournamentIn, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(t)
     return TournamentSummaryOut(
-        id=t.id, name=t.name, date=t.date, format=t.format, player_count=t.player_count, result_count=0
+        id=t.id, name=t.name, date=t.date, format=t.format, player_count=t.player_count, result_count=0,
+        is_online=t.is_online,
     )
 
 
@@ -192,7 +196,8 @@ def update_tournament(tournament_id: int, body: TournamentIn, db: Session = Depe
     db.commit()
     db.refresh(t)
     return TournamentSummaryOut(
-        id=t.id, name=t.name, date=t.date, format=t.format, player_count=t.player_count, result_count=len(t.results)
+        id=t.id, name=t.name, date=t.date, format=t.format, player_count=t.player_count,
+        result_count=len(t.results), is_online=t.is_online,
     )
 
 

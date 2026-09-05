@@ -20,14 +20,23 @@ class Tournament(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     date = Column(String, nullable=False)  # ISO date (YYYY-MM-DD)
-    format = Column(String, nullable=False, default="gen9championsvgc2026regmb")
+    # "m-a" or "m-b" - the actual Champions regulation this event ran under,
+    # not a fixed default, since both are now tracked (M-A was the regulation
+    # before Megas were introduced; M-B is current).
+    format = Column(String, nullable=False, default="m-b")
     player_count = Column(Integer, nullable=True)
     source_url = Column(String, nullable=True)
     notes = Column(String, nullable=True)
-    # The limitlessvgc.com tournament id, e.g. "437" - lets the weekly scraper
-    # tell "already imported" from "new" without relying on name/date matching.
-    # Null for tournaments entered by hand through the admin form.
+    # The source site's own tournament id (limitlessvgc.com's numeric ids for
+    # official in-person events, play.limitlesstcg.com's hex ids for online
+    # ones) - lets each weekly scraper tell "already imported" from "new"
+    # without relying on name/date matching. Null for tournaments entered by
+    # hand through the admin form.
     external_id = Column(String, unique=True, nullable=True)
+    # True for community-run online tournaments (play.limitlesstcg.com),
+    # false for official in-person events (limitlessvgc.com) or hand-entered
+    # results - distinguishes the two scraped sources in the UI.
+    is_online = Column(Boolean, nullable=False, default=False)
     # Tournament-wide "most successful Pokemon" (name/count/share/points),
     # scraped from limitlessvgc.com's own /statistics page - a larger sample
     # than just the top-32 results this app stores, so kept separately
@@ -58,6 +67,10 @@ class TournamentResult(Base):
     player_external_id = Column(String, nullable=True)
     prize_money = Column(String, nullable=True)
     points = Column(Integer, nullable=True)
+    # "W-L-T" - only populated for online tournaments (play.limitlesstcg.com
+    # publishes a Swiss record per entrant; limitlessvgc.com's standings
+    # pages don't).
+    record = Column(String, nullable=True)
 
     tournament = relationship("Tournament", back_populates="results")
 
