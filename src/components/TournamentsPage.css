@@ -17,6 +17,13 @@
   border: 1px solid #ccc;
 }
 
+.tournament-min-players-input {
+  width: 7rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
 .tournament-filter-hits {
   display: flex;
   flex-direction: column;

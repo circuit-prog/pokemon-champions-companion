@@ -161,6 +161,7 @@ export default function TournamentsPage() {
   const [tournaments, setTournaments] = useState<TournamentSummary[] | null>(null);
   const [detail, setDetail] = useState<TournamentDetail | null>(null);
   const [filter, setFilter] = useState("");
+  const [minPlayers, setMinPlayers] = useState("");
   const [filterHits, setFilterHits] = useState<TournamentSearchHit[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [expandedResult, setExpandedResult] = useState<number | null>(null);
@@ -447,6 +448,14 @@ export default function TournamentsPage() {
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         />
+        <input
+          className="tournament-min-players-input"
+          type="number"
+          min={0}
+          placeholder="Min players"
+          value={minPlayers}
+          onChange={(e) => setMinPlayers(e.target.value)}
+        />
         <button className="new-team-btn" onClick={() => setView({ kind: "edit-tournament", id: null })}>
           + New Tournament
         </button>
@@ -480,7 +489,9 @@ export default function TournamentsPage() {
         <p className="subtitle">No tournaments logged yet. Add one to get started.</p>
       ) : (
         <div className="tournament-list">
-          {tournaments.map((t) => (
+          {tournaments
+            .filter((t) => !minPlayers || (t.player_count ?? 0) >= Number(minPlayers))
+            .map((t) => (
             <button key={t.id} className="tournament-card" onClick={() => setView({ kind: "detail", id: t.id })}>
               <strong>
                 {t.name} {t.is_online && <span className="online-badge">Online</span>}

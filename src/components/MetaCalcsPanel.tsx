@@ -151,6 +151,7 @@ export default function MetaCalcsPanel({ team }: { team: SavedTeam }) {
   const [opponentRoster, setOpponentRoster] = useState<MetaPoolEntryOut[] | null>(null);
   const [opponentName, setOpponentName] = useState<string | null>(null);
   const [selected, setSelected] = useState<string>("");
+  const [targetFilter, setTargetFilter] = useState("");
   const [pairs, setPairs] = useState<VersusPair[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -284,6 +285,10 @@ export default function MetaCalcsPanel({ team }: { team: SavedTeam }) {
         }))
       : team.slots.map((s) => ({ value: s.pokemon.name, label: s.pokemon.display_name }));
 
+  const filteredOptions = targetFilter.trim()
+    ? options.filter((o) => o.label.toLowerCase().includes(targetFilter.trim().toLowerCase()))
+    : options;
+
   // Same reasoning as the "incomplete" warning above, but for the opponent's
   // side: most of a real team's six aren't individually ranked, so they come
   // back with real base stats but no tracked set to build from.
@@ -310,8 +315,16 @@ export default function MetaCalcsPanel({ team }: { team: SavedTeam }) {
 
         <label className="calc-picker">
           <span className="calc-toolbar-label">{config.pickerLabel}</span>
+          <input
+            type="text"
+            className="calc-target-filter"
+            placeholder="Search..."
+            value={targetFilter}
+            onChange={(e) => setTargetFilter(e.target.value)}
+          />
           <select value={selected} onChange={(e) => setSelected(e.target.value)}>
-            {options.map((o) => (
+            {filteredOptions.length === 0 && <option value="">No matches</option>}
+            {filteredOptions.map((o) => (
               <option key={o.value} value={o.value}>
                 {o.label}
               </option>
