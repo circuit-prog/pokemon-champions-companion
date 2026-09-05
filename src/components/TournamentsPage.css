@@ -306,3 +306,47 @@
   padding: 0.2rem 0;
   text-align: left;
 }
+
+.tournaments-facets {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 0.75rem 0 1.25rem;
+}
+
+.tournaments-facet-group {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tournaments-facet-label {
+  color: #7d8ba0;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.facet-chip {
+  border: 1px solid #d5dee8;
+  background: #fafcff;
+  color: #4a5568;
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.facet-chip.active {
+  background: #2a5cb8;
+  border-color: #2a5cb8;
+  color: white;
+}
+
+.tournaments-facet-group select {
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #d5dee8;
+  font-size: 0.85rem;
+}

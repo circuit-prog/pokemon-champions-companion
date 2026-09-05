@@ -165,6 +165,13 @@ export default function TournamentsPage() {
   const [filterHits, setFilterHits] = useState<TournamentSearchHit[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [expandedResult, setExpandedResult] = useState<number | null>(null);
+  const [sortKey, setSortKey] = useState<"date" | "players" | "results">("date");
+  const [formatFilter, setFormatFilter] = useState<"all" | "m-a" | "m-b">("all");
+  const [sourceFilter, setSourceFilter] = useState<"all" | "online" | "in-person">("all");
+  const [myTeams, setMyTeams] = useState<SavedTeam[]>([]);
+  const [myTeamId, setMyTeamId] = useState("");
+  const [myTeamTournamentIds, setMyTeamTournamentIds] = useState<Set<number> | null>(null);
+  const [myTeamLoading, setMyTeamLoading] = useState(false);
 
   function refreshList() {
     getTournaments()
@@ -182,10 +189,32 @@ export default function TournamentsPage() {
     if (view.kind === "list") {
       refreshList();
       setDetail(null);
+      setMyTeams(loadTeams());
     } else if (view.kind === "detail") {
       refreshDetail(view.id);
     }
   }, [view]);
+
+  // "Only my team's Pokemon" - reuses the existing per-Pokemon search
+  // endpoint (one call per unique species on the team) rather than fetching
+  // full details for every tournament just to check its roster.
+  useEffect(() => {
+    if (!myTeamId) {
+      setMyTeamTournamentIds(null);
+      return;
+    }
+    const team = myTeams.find((t) => t.id === myTeamId);
+    if (!team) return;
+    const species = Array.from(new Set(team.slots.map((s) => s.pokemon.name)));
+    setMyTeamLoading(true);
+    Promise.all(species.map((name) => searchTournamentsByPokemon(name).catch(() => [])))
+      .then((results) => {
+        const ids = new Set<number>();
+        results.flat().forEach((hit) => ids.add(hit.tournament_id));
+        setMyTeamTournamentIds(ids);
+      })
+      .finally(() => setMyTeamLoading(false));
+  }, [myTeamId, myTeams]);
 
   useEffect(() => {
     if (!filter.trim()) {
@@ -461,6 +490,58 @@ export default function TournamentsPage() {
         </button>
       </div>
 
+      <div className="tournaments-facets">
+        <div className="tournaments-facet-group">
+          <span className="tournaments-facet-label">Format</span>
+          {(["all", "m-b", "m-a"] as const).map((f) => (
+            <button
+              key={f}
+              className={formatFilter === f ? "facet-chip active" : "facet-chip"}
+              onClick={() => setFormatFilter(f)}
+            >
+              {f === "all" ? "All" : f.toUpperCase()}
+            </button>
+          ))}
+        </div>
+
+        <div className="tournaments-facet-group">
+          <span className="tournaments-facet-label">Source</span>
+          {(["all", "online", "in-person"] as const).map((s) => (
+            <button
+              key={s}
+              className={sourceFilter === s ? "facet-chip active" : "facet-chip"}
+              onClick={() => setSourceFilter(s)}
+            >
+              {s === "all" ? "All" : s === "online" ? "Online" : "In-person"}
+            </button>
+          ))}
+        </div>
+
+        <label className="tournaments-facet-group">
+          <span className="tournaments-facet-label">Sort</span>
+          <select value={sortKey} onChange={(e) => setSortKey(e.target.value as typeof sortKey)}>
+            <option value="date">Newest first</option>
+            <option value="players">Most players</option>
+            <option value="results">Most results</option>
+          </select>
+        </label>
+
+        {myTeams.length > 0 && (
+          <label className="tournaments-facet-group">
+            <span className="tournaments-facet-label">My team's Pokemon</span>
+            <select value={myTeamId} onChange={(e) => setMyTeamId(e.target.value)}>
+              <option value="">Off</option>
+              {myTeams.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.name}
+                </option>
+              ))}
+            </select>
+            {myTeamLoading && <span className="subtitle">Loading...</span>}
+          </label>
+        )}
+      </div>
+
       {filterHits && (
         <div className="tournament-filter-hits">
           {filterHits.length === 0 ? (
@@ -491,6 +572,18 @@ export default function TournamentsPage() {
         <div className="tournament-list">
           {tournaments
             .filter((t) => !minPlayers || (t.player_count ?? 0) >= Number(minPlayers))
+            .filter((t) => formatFilter === "all" || t.format === formatFilter)
+            .filter(
+              (t) =>
+                sourceFilter === "all" ||
+                (sourceFilter === "online" ? t.is_online : !t.is_online)
+            )
+            .filter((t) => !myTeamTournamentIds || myTeamTournamentIds.has(t.id))
+            .sort((a, b) => {
+              if (sortKey === "players") return (b.player_count ?? 0) - (a.player_count ?? 0);
+              if (sortKey === "results") return b.result_count - a.result_count;
+              return a.date < b.date ? 1 : -1;
+            })
             .map((t) => (
             <button key={t.id} className="tournament-card" onClick={() => setView({ kind: "detail", id: t.id })}>
               <strong>
