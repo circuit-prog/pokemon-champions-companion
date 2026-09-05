@@ -320,7 +320,21 @@ export default function MetaCalcsPanel({ team }: { team: SavedTeam }) {
             className="calc-target-filter"
             placeholder="Search..."
             value={targetFilter}
-            onChange={(e) => setTargetFilter(e.target.value)}
+            onChange={(e) => {
+              const next = e.target.value;
+              setTargetFilter(next);
+              // Typing should actually change which target the calc runs
+              // against, not just narrow what the dropdown shows - without
+              // this, the dropdown's visible list updated but `selected`
+              // (what the comparison below actually uses) silently stayed
+              // on whatever was picked before you started typing.
+              const matches = next.trim()
+                ? options.filter((o) => o.label.toLowerCase().includes(next.trim().toLowerCase()))
+                : options;
+              if (next.trim() && matches.length > 0 && !matches.some((o) => o.value === selected)) {
+                setSelected(matches[0].value);
+              }
+            }}
           />
           <select value={selected} onChange={(e) => setSelected(e.target.value)}>
             {filteredOptions.length === 0 && <option value="">No matches</option>}
