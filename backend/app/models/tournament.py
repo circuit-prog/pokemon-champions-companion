@@ -44,7 +44,7 @@ class TournamentResult(Base):
 
     id = Column(Integer, primary_key=True)
     tournament_id = Column(Integer, ForeignKey("tournaments.id"), nullable=False)
-    placement = Column(Integer, nullable=False)  # 1-32
+    placement = Column(Integer, nullable=False)  # 1-128
     player = Column(String, nullable=True)
     # JSON list of up to 6 {pokemon_name, item, ability, nature, evs, moves} -
     # mirrors TeamMemberIn (schemas.py) minus battle-state fields, which don't
@@ -52,5 +52,28 @@ class TournamentResult(Base):
     roster_json = Column(String, nullable=False)
     notes = Column(String, nullable=True)
     is_dark_horse = Column(Boolean, nullable=False, default=False)
+    # limitlessvgc.com's own player id (e.g. "4965"), plus what THIS result
+    # specifically paid out - null for admin-entered results, which have no
+    # player page to look these up against.
+    player_external_id = Column(String, nullable=True)
+    prize_money = Column(String, nullable=True)
+    points = Column(Integer, nullable=True)
 
     tournament = relationship("Tournament", back_populates="results")
+
+
+class Player(Base):
+    """A limitlessvgc.com player: career totals, refreshed every scrape run
+    (unlike Tournament/TournamentResult, which are immutable history once
+    written - a player's career total keeps growing, so it's meant to be
+    overwritten). Only exists for players encountered through the scraper;
+    admin-entered results never create one."""
+    __tablename__ = "players"
+
+    external_id = Column(String, primary_key=True)
+    name = Column(String, nullable=False)
+    country = Column(String, nullable=True)
+    money_won = Column(String, nullable=True)
+    points_earned = Column(Integer, nullable=True)
+    # {"international": {"1st","2nd","t4","t8","total"}, "regionals": {...}}
+    top_cuts_json = Column(String, nullable=True)

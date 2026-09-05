@@ -10,6 +10,7 @@ import {
   deleteTournamentResult,
   searchTournamentsByPokemon,
   calcVersus,
+  getPlayer,
 } from "../api";
 import type {
   TournamentSummary,
@@ -19,6 +20,7 @@ import type {
   TournamentIn,
   TournamentSearchHit,
   VersusPair,
+  PlayerDetail,
 } from "../api";
 import { loadTeams } from "../teamStorage";
 import type { SavedTeam } from "../teamStorage";
@@ -37,7 +39,8 @@ type View =
   | { kind: "list" }
   | { kind: "detail"; id: number }
   | { kind: "edit-tournament"; id: number | null }
-  | { kind: "edit-result"; tournamentId: number; result: TournamentResultOut | null };
+  | { kind: "edit-result"; tournamentId: number; result: TournamentResultOut | null }
+  | { kind: "player"; externalId: string; back: View };
 
 function VerdictIcon({ verdict }: { verdict: "good" | "warning" | "bad" }) {
   const glyph = verdict === "good" ? "✓" : verdict === "warning" ? "⚠" : "✗";
@@ -265,6 +268,16 @@ export default function TournamentsPage() {
     );
   }
 
+  if (view.kind === "player") {
+    return (
+      <PlayerView
+        externalId={view.externalId}
+        onBack={() => setView(view.back)}
+        onOpenTournament={(id) => setView({ kind: "detail", id })}
+      />
+    );
+  }
+
   if (view.kind === "detail") {
     if (!detail) return <p className="subtitle">Loading...</p>;
     return (
@@ -351,7 +364,24 @@ export default function TournamentsPage() {
               <div className="tournament-result-card" key={r.id}>
                 <div className="tournament-result-row">
                   <span className="tournament-result-placement">#{r.placement}</span>
-                  {r.player && <strong>{r.player}</strong>}
+                  {r.player &&
+                    (r.player_external_id ? (
+                      <button
+                        className="tournament-player-link"
+                        onClick={() =>
+                          setView({ kind: "player", externalId: r.player_external_id as string, back: view })
+                        }
+                      >
+                        {r.player}
+                      </button>
+                    ) : (
+                      <strong>{r.player}</strong>
+                    ))}
+                  {(r.prize_money || r.points != null) && (
+                    <span className="tournament-result-payout">
+                      {[r.prize_money, r.points != null ? `${r.points} pts` : null].filter(Boolean).join(" · ")}
+                    </span>
+                  )}
                   {r.is_dark_horse && <span className="dark-horse-badge">Dark horse</span>}
                   <button
                     className="tournament-result-roster tournament-result-roster-btn"
@@ -425,8 +455,15 @@ export default function TournamentsPage() {
           ) : (
             filterHits.map((h) => (
               <button key={h.result_id} className="tournament-filter-hit" onClick={() => setView({ kind: "detail", id: h.tournament_id })}>
-                <strong>{h.tournament_name}</strong> ({h.tournament_date}) - #{h.placement}
-                {h.player && ` · ${h.player}`}
+                <div>
+                  <strong>{h.tournament_name}</strong> ({h.tournament_date}) - #{h.placement}
+                  {h.player && ` · ${h.player}`}
+                </div>
+                <div className="tournament-result-roster">
+                  {h.roster.map((slot) => (
+                    <img key={slot.pokemon_name} src={slot.sprite_url ?? undefined} alt={slot.display_name} title={slot.display_name} />
+                  ))}
+                </div>
               </button>
             ))
           )}
@@ -516,6 +553,91 @@ function TournamentForm({
           </button>
         </div>
       </div>
+    </div>
+  );
+}
+
+const TIER_LABELS: Record<string, string> = { international: "Internationals", regionals: "Regionals" };
+
+/** A player's career stats (money won, points, top cuts by tier) and their
+ *  full tournament history across every event this app has tracked -
+ *  reads straight from our own already-loaded results, not a fresh scrape. */
+function PlayerView({
+  externalId,
+  onBack,
+  onOpenTournament,
+}: {
+  externalId: string;
+  onBack: () => void;
+  onOpenTournament: (tournamentId: number) => void;
+}) {
+  const [player, setPlayer] = useState<PlayerDetail | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setPlayer(null);
+    setError(null);
+    getPlayer(externalId)
+      .then(setPlayer)
+      .catch(() => setError("Couldn't load this player. Is the backend running?"));
+  }, [externalId]);
+
+  return (
+    <div className="tournaments-page">
+      <button className="back-btn" onClick={onBack}>
+        ← Back
+      </button>
+      {error && <p className="error-banner">{error}</p>}
+      {!player ? (
+        <p className="subtitle">Loading...</p>
+      ) : (
+        <>
+          <h2>
+            {player.name} {player.country && <span className="subtitle">({player.country})</span>}
+          </h2>
+          <p className="subtitle">
+            {player.money_won && `${player.money_won} won`}
+            {player.money_won && player.points_earned != null && " · "}
+            {player.points_earned != null && `${player.points_earned} championship points`}
+          </p>
+
+          {Object.keys(player.top_cuts).length > 0 && (
+            <div className="tournament-most-brought-list">
+              {Object.entries(player.top_cuts).map(([tier, cuts]) => (
+                <div className="tournament-most-brought-entry" key={tier}>
+                  <span>{TIER_LABELS[tier] ?? titleCase(tier)}</span>
+                  <span className="tournament-most-brought-count">
+                    {cuts["1st"]}x 1st, {cuts["2nd"]}x 2nd, {cuts.t4}x T4, {cuts.t8}x T8 ({cuts.total} top cuts)
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <h3>Tournament history ({player.results.length})</h3>
+          <div className="tournament-results-list">
+            {player.results.map((r) => (
+              <div className="tournament-result-card" key={r.tournament_id}>
+                <button className="tournament-player-history-row" onClick={() => onOpenTournament(r.tournament_id)}>
+                  <span className="tournament-result-placement">#{r.placement}</span>
+                  <strong>{r.tournament_name}</strong>
+                  <span className="subtitle">{r.tournament_date}</span>
+                  {(r.prize_money || r.points != null) && (
+                    <span className="tournament-result-payout">
+                      {[r.prize_money, r.points != null ? `${r.points} pts` : null].filter(Boolean).join(" · ")}
+                    </span>
+                  )}
+                  <div className="tournament-result-roster">
+                    {r.roster.map((slot) => (
+                      <img key={slot.pokemon_name} src={slot.sprite_url ?? undefined} alt={slot.display_name} title={slot.display_name} />
+                    ))}
+                  </div>
+                </button>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

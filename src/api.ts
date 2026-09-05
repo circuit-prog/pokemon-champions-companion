@@ -584,6 +584,9 @@ export interface TournamentResultOut {
   roster: TournamentRosterSlotOut[];
   notes: string | null;
   is_dark_horse: boolean;
+  player_external_id: string | null;
+  prize_money: string | null;
+  points: number | null;
 }
 
 export interface TournamentIn {
@@ -640,6 +643,38 @@ export interface TournamentSearchHit {
   result_id: number;
   player: string | null;
   placement: number;
+  roster: TournamentRosterSlotOut[];
+}
+
+export interface PlayerOut {
+  external_id: string;
+  name: string;
+  country: string | null;
+  money_won: string | null;
+  points_earned: number | null;
+  top_cuts: Record<string, { "1st": number; "2nd": number; t4: number; t8: number; total: number }>;
+}
+
+export interface PlayerResultOut {
+  tournament_id: number;
+  tournament_name: string;
+  tournament_date: string;
+  placement: number;
+  prize_money: string | null;
+  points: number | null;
+  roster: TournamentRosterSlotOut[];
+}
+
+export interface PlayerDetail extends PlayerOut {
+  results: PlayerResultOut[];
+}
+
+export function getPlayers(): Promise<PlayerOut[]> {
+  return getJson<PlayerOut[]>("/api/players");
+}
+
+export function getPlayer(externalId: string): Promise<PlayerDetail> {
+  return getJson<PlayerDetail>(`/api/players/${externalId}`);
 }
 
 export function getTournaments(): Promise<TournamentSummary[]> {

@@ -9,6 +9,7 @@
       {
         "placement": 1,
         "player": "Takuma Yamazaki",
+        "player_external_id": "4965",
         "roster": [
           {
             "pokemon_name": "floette-eternal",
@@ -82,11 +83,14 @@
               "Feint"
             ]
           }
-        ]
+        ],
+        "prize_money": "30K$",
+        "points": 42
       },
       {
         "placement": 2,
         "player": "Hiroshi Onishi",
+        "player_external_id": "4966",
         "roster": [
           {
             "pokemon_name": "kingambit",
@@ -160,11 +164,14 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": "20K$",
+        "points": 38
       },
       {
         "placement": 3,
         "player": "Zachary Weed",
+        "player_external_id": "2523",
         "roster": [
           {
             "pokemon_name": "froslass",
@@ -238,11 +245,14 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": "15K$",
+        "points": 34
       },
       {
         "placement": 4,
         "player": "Jo\u00e3o Felipe Leite",
+        "player_external_id": "4467",
         "roster": [
           {
             "pokemon_name": "froslass",
@@ -316,11 +326,14 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": "15K$",
+        "points": 34
       },
       {
         "placement": 5,
         "player": "Antonio S\u00e1nchez",
+        "player_external_id": "1517",
         "roster": [
           {
             "pokemon_name": "incineroar",
@@ -394,11 +407,14 @@
               "Yawn"
             ]
           }
-        ]
+        ],
+        "prize_money": "10K$",
+        "points": 30
       },
       {
         "placement": 6,
         "player": "YUYA WAKASUGI",
+        "player_external_id": "4967",
         "roster": [
           {
             "pokemon_name": "whimsicott",
@@ -472,11 +488,14 @@
               "Sucker Punch"
             ]
           }
-        ]
+        ],
+        "prize_money": "10K$",
+        "points": 30
       },
       {
         "placement": 7,
         "player": "Stefano Greppi",
+        "player_external_id": "3179",
         "roster": [
           {
             "pokemon_name": "sylveon",
@@ -550,11 +569,14 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": "10K$",
+        "points": 30
       },
       {
         "placement": 8,
         "player": "Giovanni Piscitelli",
+        "player_external_id": "1147",
         "roster": [
           {
             "pokemon_name": "garchomp",
@@ -628,11 +650,14 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": "10K$",
+        "points": 30
       },
       {
         "placement": 9,
         "player": "Shohei Kimura",
+        "player_external_id": "1127",
         "roster": [
           {
             "pokemon_name": "charizard",
@@ -706,11 +731,14 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": "5K$",
+        "points": 24
       },
       {
         "placement": 10,
         "player": "Carson St Denis",
+        "player_external_id": "659",
         "roster": [
           {
             "pokemon_name": "garchomp",
@@ -784,11 +812,14 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": "5K$",
+        "points": 24
       },
       {
         "placement": 11,
         "player": "Cary D'Ortona",
+        "player_external_id": "3997",
         "roster": [
           {
             "pokemon_name": "farigiraf",
@@ -862,11 +893,14 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": "5K$",
+        "points": 24
       },
       {
         "placement": 12,
         "player": "Emilio Forbes",
+        "player_external_id": "157",
         "roster": [
           {
             "pokemon_name": "aerodactyl",
@@ -940,11 +974,14 @@
               "Feint"
             ]
           }
-        ]
+        ],
+        "prize_money": "5K$",
+        "points": 24
       },
       {
         "placement": 13,
         "player": "Navjit Joshi",
+        "player_external_id": "2074",
         "roster": [
           {
             "pokemon_name": "whimsicott",
@@ -1018,11 +1055,14 @@
               "Hyper Voice"
             ]
           }
-        ]
+        ],
+        "prize_money": "5K$",
+        "points": 24
       },
       {
         "placement": 14,
         "player": "Justin Tang",
+        "player_external_id": "1932",
         "roster": [
           {
             "pokemon_name": "sneasler",
@@ -1096,11 +1136,14 @@
               "Fake Out"
             ]
           }
-        ]
+        ],
+        "prize_money": "5K$",
+        "points": 24
       },
       {
         "placement": 15,
         "player": "Filip Wo\u017aniak",
+        "player_external_id": "2868",
         "roster": [
           {
             "pokemon_name": "venusaur",
@@ -1174,11 +1217,14 @@
               "Detect"
             ]
           }
-        ]
+        ],
+        "prize_money": "5K$",
+        "points": 24
       },
       {
         "placement": 16,
         "player": "Chloe Bourke",
+        "player_external_id": "2481",
         "roster": [
           {
             "pokemon_name": "kingambit",
@@ -1252,11 +1298,14 @@
               "Aqua Jet"
             ]
           }
-        ]
+        ],
+        "prize_money": "5K$",
+        "points": 24
       },
       {
         "placement": 17,
         "player": "Narawitch Naenna",
+        "player_external_id": "4968",
         "roster": [
           {
             "pokemon_name": "pelipper",
@@ -1330,11 +1379,14 @@
               "Leaf Storm"
             ]
           }
-        ]
+        ],
+        "prize_money": null,
+        "points": 20
       },
       {
         "placement": 18,
         "player": "Nikolaj H\u00f8j Nielsen",
+        "player_external_id": "3944",
         "roster": [
           {
             "pokemon_name": "camerupt",
@@ -1408,11 +1460,14 @@
               "Tailwind"
             ]
           }
-        ]
+        ],
+        "prize_money": null,
+        "points": 20
       },
       {
         "placement": 19,
         "player": "Taran Birdee",
+        "player_external_id": "1153",
         "roster": [
           {
             "pokemon_name": "basculegion",
@@ -1486,11 +1541,14 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": null,
+        "points": 20
       },
       {
         "placement": 20,
         "player": "Raghav Malaviya",
+        "player_external_id": "351",
         "roster": [
           {
             "pokemon_name": "swampert",
@@ -1564,11 +1622,14 @@
               "Tailwind"
             ]
           }
-        ]
+        ],
+        "prize_money": null,
+        "points": 20
       },
       {
         "placement": 21,
         "player": "alexander canseco salas",
+        "player_external_id": "4969",
         "roster": [
           {
             "pokemon_name": "sneasler",
@@ -1642,11 +1703,14 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": null,
+        "points": 20
       },
       {
         "placement": 22,
         "player": "Simone Sanvito",
+        "player_external_id": "3",
         "roster": [
           {
             "pokemon_name": "excadrill",
@@ -1720,11 +1784,14 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": null,
+        "points": 20
       },
       {
         "placement": 23,
         "player": "William Brown",
+        "player_external_id": "3308",
         "roster": [
           {
             "pokemon_name": "venusaur",
@@ -1798,11 +1865,14 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": null,
+        "points": 20
       },
       {
         "placement": 24,
         "player": "Dawei Si",
+        "player_external_id": "1234",
         "roster": [
           {
             "pokemon_name": "sinistcha",
@@ -1876,11 +1946,14 @@
               "Moonblast"
             ]
           }
-        ]
+        ],
+        "prize_money": null,
+        "points": 20
       },
       {
         "placement": 25,
         "player": "Oliver Eskolin",
+        "player_external_id": "1023",
         "roster": [
           {
             "pokemon_name": "tyranitar",
@@ -1954,11 +2027,14 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": null,
+        "points": 20
       },
       {
         "placement": 26,
         "player": "Justin Cerioni",
+        "player_external_id": "4133",
         "roster": [
           {
             "pokemon_name": "aegislash",
@@ -2032,11 +2108,14 @@
               "Parting Shot"
             ]
           }
-        ]
+        ],
+        "prize_money": null,
+        "points": 20
       },
       {
         "placement": 27,
         "player": "Paul Chua",
+        "player_external_id": "150",
         "roster": [
           {
             "pokemon_name": "charizard",
@@ -2110,11 +2189,14 @@
               "Stomping Tantrum"
             ]
           }
-        ]
+        ],
+        "prize_money": null,
+        "points": 20
       },
       {
         "placement": 28,
         "player": "Rahim Farzan",
+        "player_external_id": "2024",
         "roster": [
           {
             "pokemon_name": "raichu",
@@ -2188,11 +2270,14 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": null,
+        "points": 20
       },
       {
         "placement": 29,
         "player": "Mattie Morgan",
+        "player_external_id": "1170",
         "roster": [
           {
             "pokemon_name": "kingambit",
@@ -2266,11 +2351,14 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": null,
+        "points": 20
       },
       {
         "placement": 30,
         "player": "Kiran Singh",
+        "player_external_id": "2051",
         "roster": [
           {
             "pokemon_name": "gholdengo",
@@ -2344,11 +2432,14 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": null,
+        "points": 20
       },
       {
         "placement": 31,
         "player": "Jonathan Marston",
+        "player_external_id": "603",
         "roster": [
           {
             "pokemon_name": "kingambit",
@@ -2422,11 +2513,14 @@
               "Charm"
             ]
           }
-        ]
+        ],
+        "prize_money": null,
+        "points": 20
       },
       {
         "placement": 32,
         "player": "Yan Sym",
+        "player_external_id": "463",
         "roster": [
           {
             "pokemon_name": "farigiraf",
@@ -2500,7 +2594,2034 @@
               "Detect"
             ]
           }
-        ]
+        ],
+        "prize_money": null,
+        "points": 20
+      },
+      {
+        "placement": 33,
+        "player": "Alex Underhill",
+        "player_external_id": "358",
+        "roster": [
+          {
+            "pokemon_name": "grimmsnarl",
+            "item": "Light Clay",
+            "ability": "Prankster",
+            "nature": "Sassy",
+            "moves": [
+              "Spirit Break",
+              "Reflect",
+              "Light Screen",
+              "Parting Shot"
+            ]
+          },
+          {
+            "pokemon_name": "swampert",
+            "item": "Swampertite",
+            "ability": "Torrent",
+            "nature": "Adamant",
+            "moves": [
+              "Wave Crash",
+              "Earthquake",
+              "Ice Punch",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "venusaur",
+            "item": "Focus Sash",
+            "ability": "Chlorophyll",
+            "nature": "Modest",
+            "moves": [
+              "Sleep Powder",
+              "Sludge Bomb",
+              "Leaf Storm",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "pelipper",
+            "item": "Sitrus Berry",
+            "ability": "Drizzle",
+            "nature": "Bold",
+            "moves": [
+              "Weather Ball",
+              "Hurricane",
+              "Wide Guard",
+              "Tailwind"
+            ]
+          },
+          {
+            "pokemon_name": "charizard",
+            "item": "Charizardite Y",
+            "ability": "Blaze",
+            "nature": "Modest",
+            "moves": [
+              "Heat Wave",
+              "Weather Ball",
+              "Hurricane",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "archaludon",
+            "item": "Leftovers",
+            "ability": "Stamina",
+            "nature": "Calm",
+            "moves": [
+              "Electro Shot",
+              "Dragon Pulse",
+              "Flash Cannon",
+              "Protect"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 34,
+        "player": "Ryoma Okamoto",
+        "player_external_id": "2516",
+        "roster": [
+          {
+            "pokemon_name": "venusaur",
+            "item": "Wide Lens",
+            "ability": "Chlorophyll",
+            "nature": "Modest",
+            "moves": [
+              "Leaf Storm",
+              "Sludge Bomb",
+              "Protect",
+              "Sleep Powder"
+            ]
+          },
+          {
+            "pokemon_name": "incineroar",
+            "item": "Sitrus Berry",
+            "ability": "Intimidate",
+            "nature": "Careful",
+            "moves": [
+              "Flare Blitz",
+              "Darkest Lariat",
+              "Fake Out",
+              "Parting Shot"
+            ]
+          },
+          {
+            "pokemon_name": "charizard",
+            "item": "Charizardite Y",
+            "ability": "Blaze",
+            "nature": "Modest",
+            "moves": [
+              "Heat Wave",
+              "Weather Ball",
+              "Ancient Power",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "aerodactyl",
+            "item": "Focus Sash",
+            "ability": "Unnerve",
+            "nature": "Jolly",
+            "moves": [
+              "Rock Slide",
+              "Dual Wingbeat",
+              "Protect",
+              "Tailwind"
+            ]
+          },
+          {
+            "pokemon_name": "sylveon",
+            "item": "Fairy Feather",
+            "ability": "Pixilate",
+            "nature": "Modest",
+            "moves": [
+              "Hyper Voice",
+              "Hyper Beam",
+              "Quick Attack",
+              "Detect"
+            ]
+          },
+          {
+            "pokemon_name": "garchomp",
+            "item": "Life Orb",
+            "ability": "Rough Skin",
+            "nature": "Jolly",
+            "moves": [
+              "Dragon Claw",
+              "Earthquake",
+              "Stomping Tantrum",
+              "Protect"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 35,
+        "player": "Nader El bacha",
+        "player_external_id": "2635",
+        "roster": [
+          {
+            "pokemon_name": "glimmora",
+            "item": "Life Orb",
+            "ability": "Toxic Debris",
+            "nature": "Timid",
+            "moves": [
+              "Sludge Bomb",
+              "Power Gem",
+              "Earth Power",
+              "Spiky Shield"
+            ]
+          },
+          {
+            "pokemon_name": "basculegion",
+            "item": "Choice Scarf",
+            "ability": "Adaptability",
+            "nature": "Adamant",
+            "moves": [
+              "Wave Crash",
+              "Last Respects",
+              "Aqua Jet",
+              "Flip Turn"
+            ]
+          },
+          {
+            "pokemon_name": "kingambit",
+            "item": "Chople Berry",
+            "ability": "Defiant",
+            "nature": "Brave",
+            "moves": [
+              "Kowtow Cleave",
+              "Iron Head",
+              "Sucker Punch",
+              "Low Kick"
+            ]
+          },
+          {
+            "pokemon_name": "whimsicott",
+            "item": "Focus Sash",
+            "ability": "Prankster",
+            "nature": "Timid",
+            "moves": [
+              "Moonblast",
+              "Tailwind",
+              "Protect",
+              "Encore"
+            ]
+          },
+          {
+            "pokemon_name": "staraptor",
+            "item": "Staraptite",
+            "ability": "Intimidate",
+            "nature": "Adamant",
+            "moves": [
+              "Close Combat",
+              "Brave Bird",
+              "Roost",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "tyranitar",
+            "item": "Sitrus Berry",
+            "ability": "Sand Stream",
+            "nature": "Adamant",
+            "moves": [
+              "Rock Slide",
+              "Knock Off",
+              "Protect",
+              "Earthquake"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 36,
+        "player": "Victor Jimenez Coll",
+        "player_external_id": "3050",
+        "roster": [
+          {
+            "pokemon_name": "whimsicott",
+            "item": "Focus Sash",
+            "ability": "Prankster",
+            "nature": "Timid",
+            "moves": [
+              "Protect",
+              "Moonblast",
+              "Encore",
+              "Tailwind"
+            ]
+          },
+          {
+            "pokemon_name": "floette-eternal",
+            "item": "Floettite",
+            "ability": "Flower Veil",
+            "nature": "Modest",
+            "moves": [
+              "Protect",
+              "Dazzling Gleam",
+              "Light of Ruin",
+              "Moonblast"
+            ]
+          },
+          {
+            "pokemon_name": "glimmora",
+            "item": "Shuca Berry",
+            "ability": "Toxic Debris",
+            "nature": "Timid",
+            "moves": [
+              "Spiky Shield",
+              "Power Gem",
+              "Sludge Bomb",
+              "Earth Power"
+            ]
+          },
+          {
+            "pokemon_name": "basculegion",
+            "item": "Life Orb",
+            "ability": "Adaptability",
+            "nature": "Adamant",
+            "moves": [
+              "Protect",
+              "Wave Crash",
+              "Last Respects",
+              "Aqua Jet"
+            ]
+          },
+          {
+            "pokemon_name": "kingambit",
+            "item": "Occa Berry",
+            "ability": "Defiant",
+            "nature": "Adamant",
+            "moves": [
+              "Low Kick",
+              "Kowtow Cleave",
+              "Sucker Punch",
+              "Iron Head"
+            ]
+          },
+          {
+            "pokemon_name": "charizard",
+            "item": "Charizardite Y",
+            "ability": "Blaze",
+            "nature": "Modest",
+            "moves": [
+              "Protect",
+              "Heat Wave",
+              "Weather Ball",
+              "Ancient Power"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 37,
+        "player": "\u8061\u592a \u5d8b\u8c37",
+        "player_external_id": "4970",
+        "roster": [
+          {
+            "pokemon_name": "staraptor",
+            "item": "Staraptite",
+            "ability": "Intimidate",
+            "nature": "Jolly",
+            "moves": [
+              "Brave Bird",
+              "Tailwind",
+              "Close Combat",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "sylveon",
+            "item": "Fairy Feather",
+            "ability": "Pixilate",
+            "nature": "Modest",
+            "moves": [
+              "Hyper Voice",
+              "Quick Attack",
+              "Yawn",
+              "Detect"
+            ]
+          },
+          {
+            "pokemon_name": "arcanine-hisui",
+            "item": "Focus Sash",
+            "ability": "Rock Head",
+            "nature": "Jolly",
+            "moves": [
+              "Flare Blitz",
+              "Head Smash",
+              "Extreme Speed",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "kingambit",
+            "item": "Occa Berry",
+            "ability": "Defiant",
+            "nature": "Adamant",
+            "moves": [
+              "Kowtow Cleave",
+              "Sucker Punch",
+              "Iron Head",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "raichu",
+            "item": "Raichunite Y",
+            "ability": "Lightning Rod",
+            "nature": "Timid",
+            "moves": [
+              "Zap Cannon",
+              "Focus Blast",
+              "Fake Out",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "farigiraf",
+            "item": "Sitrus Berry",
+            "ability": "Armor Tail",
+            "nature": "Bold",
+            "moves": [
+              "Psychic",
+              "Trick Room",
+              "Helping Hand",
+              "Protect"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 38,
+        "player": "Ryan Kenrick Chua",
+        "player_external_id": "4971",
+        "roster": [
+          {
+            "pokemon_name": "arcanine-hisui",
+            "item": "Focus Sash",
+            "ability": "Rock Head",
+            "nature": "Jolly",
+            "moves": [
+              "Protect",
+              "Extreme Speed",
+              "Rock Slide",
+              "Flare Blitz"
+            ]
+          },
+          {
+            "pokemon_name": "staraptor",
+            "item": "Staraptite",
+            "ability": "Intimidate",
+            "nature": "Jolly",
+            "moves": [
+              "Protect",
+              "Tailwind",
+              "Brave Bird",
+              "Close Combat"
+            ]
+          },
+          {
+            "pokemon_name": "raichu",
+            "item": "Raichunite Y",
+            "ability": "Lightning Rod",
+            "nature": "Timid",
+            "moves": [
+              "Protect",
+              "Fake Out",
+              "Focus Blast",
+              "Zap Cannon"
+            ]
+          },
+          {
+            "pokemon_name": "kingambit",
+            "item": "Life Orb",
+            "ability": "Defiant",
+            "nature": "Adamant",
+            "moves": [
+              "Protect",
+              "Swords Dance",
+              "Sucker Punch",
+              "Kowtow Cleave"
+            ]
+          },
+          {
+            "pokemon_name": "sylveon",
+            "item": "Fairy Feather",
+            "ability": "Pixilate",
+            "nature": "Modest",
+            "moves": [
+              "Detect",
+              "Quick Attack",
+              "Yawn",
+              "Hyper Voice"
+            ]
+          },
+          {
+            "pokemon_name": "farigiraf",
+            "item": "Sitrus Berry",
+            "ability": "Armor Tail",
+            "nature": "Calm",
+            "moves": [
+              "Protect",
+              "Helping Hand",
+              "Trick Room",
+              "Psychic"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 39,
+        "player": "Kota Kawabe",
+        "player_external_id": "1746",
+        "roster": [
+          {
+            "pokemon_name": "floette-eternal",
+            "item": "Floettite",
+            "ability": "Flower Veil",
+            "nature": "Modest",
+            "moves": [
+              "Moonblast",
+              "Dazzling Gleam",
+              "Light of Ruin",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "delphox",
+            "item": "Delphoxite",
+            "ability": "Blaze",
+            "nature": "Timid",
+            "moves": [
+              "Heat Wave",
+              "Psychic",
+              "Will-O-Wisp",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "whimsicott",
+            "item": "Focus Sash",
+            "ability": "Prankster",
+            "nature": "Timid",
+            "moves": [
+              "Moonblast",
+              "Encore",
+              "Tailwind",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "kingambit",
+            "item": "Chople Berry",
+            "ability": "Defiant",
+            "nature": "Adamant",
+            "moves": [
+              "Kowtow Cleave",
+              "Sucker Punch",
+              "Iron Head",
+              "Low Kick"
+            ]
+          },
+          {
+            "pokemon_name": "garchomp",
+            "item": "Life Orb",
+            "ability": "Rough Skin",
+            "nature": "Jolly",
+            "moves": [
+              "Stomping Tantrum",
+              "Dragon Claw",
+              "Rock Slide",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "basculegion",
+            "item": "Choice Scarf",
+            "ability": "Adaptability",
+            "nature": "Jolly",
+            "moves": [
+              "Wave Crash",
+              "Aqua Jet",
+              "Flip Turn",
+              "Last Respects"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 40,
+        "player": "Caelan Brown",
+        "player_external_id": "1977",
+        "roster": [
+          {
+            "pokemon_name": "dragonite",
+            "item": "Life Orb",
+            "ability": "Inner Focus",
+            "nature": "Adamant",
+            "moves": [
+              "Dragon Claw",
+              "Superpower",
+              "Extreme Speed",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "ninetales-alola",
+            "item": "Choice Scarf",
+            "ability": "Snow Warning",
+            "nature": "Timid",
+            "moves": [
+              "Blizzard",
+              "Icy Wind",
+              "Freeze-Dry",
+              "Encore"
+            ]
+          },
+          {
+            "pokemon_name": "sneasler",
+            "item": "Focus Sash",
+            "ability": "Unburden",
+            "nature": "Adamant",
+            "moves": [
+              "Close Combat",
+              "Dire Claw",
+              "Rock Slide",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "swampert",
+            "item": "Leftovers",
+            "ability": "Torrent",
+            "nature": "Brave",
+            "moves": [
+              "High Horsepower",
+              "Flip Turn",
+              "Yawn",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "gengar",
+            "item": "Gengarite",
+            "ability": "Cursed Body",
+            "nature": "Modest",
+            "moves": [
+              "Shadow Ball",
+              "Sludge Bomb",
+              "Substitute",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "incineroar",
+            "item": "Sitrus Berry",
+            "ability": "Intimidate",
+            "nature": "Adamant",
+            "moves": [
+              "Flare Blitz",
+              "Throat Chop",
+              "Fake Out",
+              "Parting Shot"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 41,
+        "player": "Naoto Mizobuchi",
+        "player_external_id": "1104",
+        "roster": [
+          {
+            "pokemon_name": "charizard",
+            "item": "Charizardite Y",
+            "ability": "Blaze",
+            "nature": "Modest",
+            "moves": [
+              "Heat Wave",
+              "Ancient Power",
+              "Weather Ball",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "aerodactyl",
+            "item": "Focus Sash",
+            "ability": "Unnerve",
+            "nature": "Jolly",
+            "moves": [
+              "Rock Slide",
+              "Dual Wingbeat",
+              "Tailwind",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "garchomp",
+            "item": "Life Orb",
+            "ability": "Rough Skin",
+            "nature": "Jolly",
+            "moves": [
+              "Dragon Claw",
+              "Rock Slide",
+              "Earthquake",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "sylveon",
+            "item": "Fairy Feather",
+            "ability": "Pixilate",
+            "nature": "Modest",
+            "moves": [
+              "Hyper Voice",
+              "Hyper Beam",
+              "Quick Attack",
+              "Detect"
+            ]
+          },
+          {
+            "pokemon_name": "incineroar",
+            "item": "Sitrus Berry",
+            "ability": "Intimidate",
+            "nature": "Impish",
+            "moves": [
+              "Fake Out",
+              "Flare Blitz",
+              "Throat Chop",
+              "Parting Shot"
+            ]
+          },
+          {
+            "pokemon_name": "venusaur",
+            "item": "Wide Lens",
+            "ability": "Chlorophyll",
+            "nature": "Modest",
+            "moves": [
+              "Sleep Powder",
+              "Leaf Storm",
+              "Sludge Bomb",
+              "Protect"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 42,
+        "player": "Adrien Hurley",
+        "player_external_id": "1462",
+        "roster": [
+          {
+            "pokemon_name": "sylveon",
+            "item": "Fairy Feather",
+            "ability": "Pixilate",
+            "nature": "Modest",
+            "moves": [
+              "Hyper Voice",
+              "Hyper Beam",
+              "Quick Attack",
+              "Detect"
+            ]
+          },
+          {
+            "pokemon_name": "incineroar",
+            "item": "Sitrus Berry",
+            "ability": "Intimidate",
+            "nature": "Impish",
+            "moves": [
+              "Fake Out",
+              "Flare Blitz",
+              "Parting Shot",
+              "Throat Chop"
+            ]
+          },
+          {
+            "pokemon_name": "garchomp",
+            "item": "Choice Scarf",
+            "ability": "Rough Skin",
+            "nature": "Adamant",
+            "moves": [
+              "Dragon Claw",
+              "Earthquake",
+              "Stomping Tantrum",
+              "Rock Slide"
+            ]
+          },
+          {
+            "pokemon_name": "charizard",
+            "item": "Charizardite Y",
+            "ability": "Solar Power",
+            "nature": "Timid",
+            "moves": [
+              "Heat Wave",
+              "Ancient Power",
+              "Weather Ball",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "venusaur",
+            "item": "Focus Sash",
+            "ability": "Chlorophyll",
+            "nature": "Modest",
+            "moves": [
+              "Sleep Powder",
+              "Sludge Bomb",
+              "Leaf Storm",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "aerodactyl",
+            "item": "Aerodactylite",
+            "ability": "Unnerve",
+            "nature": "Jolly",
+            "moves": [
+              "Rock Slide",
+              "Ice Fang",
+              "Tailwind",
+              "Protect"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 43,
+        "player": "Caleb Wijesinha",
+        "player_external_id": "1442",
+        "roster": [
+          {
+            "pokemon_name": "kingambit",
+            "item": "Life Orb",
+            "ability": "Defiant",
+            "nature": "Adamant",
+            "moves": [
+              "Kowtow Cleave",
+              "Protect",
+              "Swords Dance",
+              "Sucker Punch"
+            ]
+          },
+          {
+            "pokemon_name": "sinistcha",
+            "item": "Colbur Berry",
+            "ability": "Hospitality",
+            "nature": "Bold",
+            "moves": [
+              "Matcha Gotcha",
+              "Rage Powder",
+              "Trick Room",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "incineroar",
+            "item": "Sitrus Berry",
+            "ability": "Intimidate",
+            "nature": "Careful",
+            "moves": [
+              "Fake Out",
+              "Flare Blitz",
+              "Helping Hand",
+              "Parting Shot"
+            ]
+          },
+          {
+            "pokemon_name": "sneasler",
+            "item": "Focus Sash",
+            "ability": "Poison Touch",
+            "nature": "Jolly",
+            "moves": [
+              "Close Combat",
+              "Fake Out",
+              "Quick Guard",
+              "Dire Claw"
+            ]
+          },
+          {
+            "pokemon_name": "delphox",
+            "item": "Delphoxite",
+            "ability": "Blaze",
+            "nature": "Timid",
+            "moves": [
+              "Protect",
+              "Psychic",
+              "Nasty Plot",
+              "Heat Wave"
+            ]
+          },
+          {
+            "pokemon_name": "floette-eternal",
+            "item": "Floettite",
+            "ability": "Flower Veil",
+            "nature": "Modest",
+            "moves": [
+              "Dazzling Gleam",
+              "Protect",
+              "Draining Kiss",
+              "Calm Mind"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 44,
+        "player": "Louis Markl",
+        "player_external_id": "2924",
+        "roster": [
+          {
+            "pokemon_name": "floette-eternal",
+            "item": "Floettite",
+            "ability": "Flower Veil",
+            "nature": "Timid",
+            "moves": [
+              "Protect",
+              "Dazzling Gleam",
+              "Calm Mind",
+              "Draining Kiss"
+            ]
+          },
+          {
+            "pokemon_name": "kingambit",
+            "item": "Black Glasses",
+            "ability": "Defiant",
+            "nature": "Adamant",
+            "moves": [
+              "Protect",
+              "Sucker Punch",
+              "Kowtow Cleave",
+              "Swords Dance"
+            ]
+          },
+          {
+            "pokemon_name": "sinistcha",
+            "item": "Focus Sash",
+            "ability": "Hospitality",
+            "nature": "Modest",
+            "moves": [
+              "Protect",
+              "Rage Powder",
+              "Matcha Gotcha",
+              "Shadow Ball"
+            ]
+          },
+          {
+            "pokemon_name": "basculegion",
+            "item": "Choice Scarf",
+            "ability": "Adaptability",
+            "nature": "Jolly",
+            "moves": [
+              "Flip Turn",
+              "Wave Crash",
+              "Aqua Jet",
+              "Last Respects"
+            ]
+          },
+          {
+            "pokemon_name": "incineroar",
+            "item": "Sitrus Berry",
+            "ability": "Intimidate",
+            "nature": "Careful",
+            "moves": [
+              "Fake Out",
+              "Parting Shot",
+              "Flare Blitz",
+              "Helping Hand"
+            ]
+          },
+          {
+            "pokemon_name": "sneasler",
+            "item": "White Herb",
+            "ability": "Unburden",
+            "nature": "Adamant",
+            "moves": [
+              "Protect",
+              "Fake Out",
+              "Dire Claw",
+              "Close Combat"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 45,
+        "player": "Yuya Tada",
+        "player_external_id": "3956",
+        "roster": [
+          {
+            "pokemon_name": "garchomp",
+            "item": "Held Item:",
+            "ability": "Rough Skin",
+            "nature": "Jolly",
+            "moves": [
+              "Dragon Claw",
+              "Stomping Tantrum",
+              "Rock Slide",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "basculegion",
+            "item": "Mystic Water",
+            "ability": "Adaptability",
+            "nature": "Adamant",
+            "moves": [
+              "Wave Crash",
+              "Last Respects",
+              "Aqua Jet",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "kingambit",
+            "item": "Occa Berry",
+            "ability": "Defiant",
+            "nature": "Adamant",
+            "moves": [
+              "Kowtow Cleave",
+              "Sucker Punch",
+              "Low Kick",
+              "Iron Head"
+            ]
+          },
+          {
+            "pokemon_name": "whimsicott",
+            "item": "Focus Sash",
+            "ability": "Prankster",
+            "nature": "Timid",
+            "moves": [
+              "Moonblast",
+              "Tailwind",
+              "Encore",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "floette-eternal",
+            "item": "Floettite",
+            "ability": "Flower Veil",
+            "nature": "Timid",
+            "moves": [
+              "Moonblast",
+              "Dazzling Gleam",
+              "Light of Ruin",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "charizard",
+            "item": "Charizardite Y",
+            "ability": "Solar Power",
+            "nature": "Timid",
+            "moves": [
+              "Heat Wave",
+              "Weather Ball",
+              "Ancient Power",
+              "Protect"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 46,
+        "player": "Markus Hamann",
+        "player_external_id": "6",
+        "roster": [
+          {
+            "pokemon_name": "basculegion",
+            "item": "Life Orb",
+            "ability": "Adaptability",
+            "nature": "Adamant",
+            "moves": [
+              "Wave Crash",
+              "Last Respects",
+              "Aqua Jet",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "arcanine-hisui",
+            "item": "Focus Sash",
+            "ability": "Rock Head",
+            "nature": "Jolly",
+            "moves": [
+              "Flare Blitz",
+              "Head Smash",
+              "Extreme Speed",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "sylveon",
+            "item": "Fairy Feather",
+            "ability": "Pixilate",
+            "nature": "Modest",
+            "moves": [
+              "Hyper Voice",
+              "Hyper Beam",
+              "Quick Attack",
+              "Detect"
+            ]
+          },
+          {
+            "pokemon_name": "raichu",
+            "item": "Raichunite Y",
+            "ability": "Lightning Rod",
+            "nature": "Timid",
+            "moves": [
+              "Zap Cannon",
+              "Focus Blast",
+              "Fake Out",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "kingambit",
+            "item": "Chople Berry",
+            "ability": "Defiant",
+            "nature": "Adamant",
+            "moves": [
+              "Kowtow Cleave",
+              "Sucker Punch",
+              "Low Kick",
+              "Iron Head"
+            ]
+          },
+          {
+            "pokemon_name": "staraptor",
+            "item": "Staraptite",
+            "ability": "Intimidate",
+            "nature": "Jolly",
+            "moves": [
+              "Brave Bird",
+              "Close Combat",
+              "Tailwind",
+              "Protect"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 47,
+        "player": "Hirofumi Kimura",
+        "player_external_id": "1105",
+        "roster": [
+          {
+            "pokemon_name": "incineroar",
+            "item": "Sitrus Berry",
+            "ability": "Intimidate",
+            "nature": "Impish",
+            "moves": [
+              "Fake Out",
+              "Flare Blitz",
+              "Parting Shot",
+              "Helping Hand"
+            ]
+          },
+          {
+            "pokemon_name": "sinistcha",
+            "item": "Colbur Berry",
+            "ability": "Hospitality",
+            "nature": "Bold",
+            "moves": [
+              "Matcha Gotcha",
+              "Rage Powder",
+              "Protect",
+              "Trick Room"
+            ]
+          },
+          {
+            "pokemon_name": "blastoise",
+            "item": "Blastoisinite",
+            "ability": "Torrent",
+            "nature": "Timid",
+            "moves": [
+              "Water Spout",
+              "Dark Pulse",
+              "Protect",
+              "Shell Smash"
+            ]
+          },
+          {
+            "pokemon_name": "sneasler",
+            "item": "Focus Sash",
+            "ability": "Poison Touch",
+            "nature": "Jolly",
+            "moves": [
+              "Close Combat",
+              "Dire Claw",
+              "Quick Guard",
+              "Fake Out"
+            ]
+          },
+          {
+            "pokemon_name": "kingambit",
+            "item": "Black Glasses",
+            "ability": "Defiant",
+            "nature": "Adamant",
+            "moves": [
+              "Sucker Punch",
+              "Kowtow Cleave",
+              "Protect",
+              "Swords Dance"
+            ]
+          },
+          {
+            "pokemon_name": "delphox",
+            "item": "Delphoxite",
+            "ability": "Blaze",
+            "nature": "Timid",
+            "moves": [
+              "Heat Wave",
+              "Nasty Plot",
+              "Psychic",
+              "Protect"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 48,
+        "player": "Behzad Muntazir",
+        "player_external_id": "2977",
+        "roster": [
+          {
+            "pokemon_name": "farigiraf",
+            "item": "Sitrus Berry",
+            "ability": "Armor Tail",
+            "nature": "Sassy",
+            "moves": [
+              "Psychic",
+              "Helping Hand",
+              "Trick Room",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "torkoal",
+            "item": "Charcoal",
+            "ability": "Drought",
+            "nature": "Quiet",
+            "moves": [
+              "Eruption",
+              "Weather Ball",
+              "Protect",
+              "Ancient Power"
+            ]
+          },
+          {
+            "pokemon_name": "incineroar",
+            "item": "Black Glasses",
+            "ability": "Intimidate",
+            "nature": "Relaxed",
+            "moves": [
+              "Flare Blitz",
+              "Darkest Lariat",
+              "Fake Out",
+              "Parting Shot"
+            ]
+          },
+          {
+            "pokemon_name": "venusaur",
+            "item": "Held Item:",
+            "ability": "Chlorophyll",
+            "nature": "Modest",
+            "moves": [
+              "Leaf Storm",
+              "Sludge Bomb",
+              "Earth Power",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "staraptor",
+            "item": "Staraptite",
+            "ability": "Intimidate",
+            "nature": "Jolly",
+            "moves": [
+              "Brave Bird",
+              "Close Combat",
+              "Roost",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "sneasler",
+            "item": "Focus Sash",
+            "ability": "Poison Touch",
+            "nature": "Adamant",
+            "moves": [
+              "Fake Out",
+              "Dire Claw",
+              "Close Combat",
+              "Rock Slide"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 49,
+        "player": "Dorian Qui\u00f1onez",
+        "player_external_id": "2514",
+        "roster": [
+          {
+            "pokemon_name": "dragonite",
+            "item": "Life Orb",
+            "ability": "Inner Focus",
+            "nature": "Adamant",
+            "moves": [
+              "Dragon Claw",
+              "Superpower",
+              "Extreme Speed",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "sneasler",
+            "item": "Focus Sash",
+            "ability": "Unburden",
+            "nature": "Adamant",
+            "moves": [
+              "Close Combat",
+              "Dire Claw",
+              "Rock Slide",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "incineroar",
+            "item": "Sitrus Berry",
+            "ability": "Intimidate",
+            "nature": "Impish",
+            "moves": [
+              "Parting Shot",
+              "Flare Blitz",
+              "Throat Chop",
+              "Fake Out"
+            ]
+          },
+          {
+            "pokemon_name": "kingambit",
+            "item": "Black Glasses",
+            "ability": "Defiant",
+            "nature": "Adamant",
+            "moves": [
+              "Kowtow Cleave",
+              "Sucker Punch",
+              "Protect",
+              "Low Kick"
+            ]
+          },
+          {
+            "pokemon_name": "ninetales-alola",
+            "item": "Choice Scarf",
+            "ability": "Snow Warning",
+            "nature": "Timid",
+            "moves": [
+              "Blizzard",
+              "Freeze-Dry",
+              "Icy Wind",
+              "Encore"
+            ]
+          },
+          {
+            "pokemon_name": "gengar",
+            "item": "Gengarite",
+            "ability": "Cursed Body",
+            "nature": "Timid",
+            "moves": [
+              "Shadow Ball",
+              "Sludge Bomb",
+              "Substitute",
+              "Protect"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 50,
+        "player": "Tom Winter",
+        "player_external_id": "1852",
+        "roster": [
+          {
+            "pokemon_name": "incineroar",
+            "item": "Sitrus Berry",
+            "ability": "Intimidate",
+            "nature": "Impish",
+            "moves": [
+              "Fake Out",
+              "Flare Blitz",
+              "Helping Hand",
+              "Parting Shot"
+            ]
+          },
+          {
+            "pokemon_name": "charizard",
+            "item": "Charizardite Y",
+            "ability": "Blaze",
+            "nature": "Timid",
+            "moves": [
+              "Heat Wave",
+              "Weather Ball",
+              "Ancient Power",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "basculegion",
+            "item": "Choice Scarf",
+            "ability": "Adaptability",
+            "nature": "Jolly",
+            "moves": [
+              "Wave Crash",
+              "Last Respects",
+              "Flip Turn",
+              "Aqua Jet"
+            ]
+          },
+          {
+            "pokemon_name": "venusaur",
+            "item": "Wide Lens",
+            "ability": "Chlorophyll",
+            "nature": "Modest",
+            "moves": [
+              "Leaf Storm",
+              "Earth Power",
+              "Sleep Powder",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "kingambit",
+            "item": "Life Orb",
+            "ability": "Defiant",
+            "nature": "Adamant",
+            "moves": [
+              "Kowtow Cleave",
+              "Sucker Punch",
+              "Swords Dance",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "sneasler",
+            "item": "Focus Sash",
+            "ability": "Poison Touch",
+            "nature": "Jolly",
+            "moves": [
+              "Close Combat",
+              "Dire Claw",
+              "Protect",
+              "Fake Out"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 51,
+        "player": "Brandon Davis",
+        "player_external_id": "1787",
+        "roster": [
+          {
+            "pokemon_name": "sylveon",
+            "item": "Life Orb",
+            "ability": "Pixilate",
+            "nature": "Quiet",
+            "moves": [
+              "Detect",
+              "Quick Attack",
+              "Hyper Voice",
+              "Hyper Beam"
+            ]
+          },
+          {
+            "pokemon_name": "incineroar",
+            "item": "White Herb",
+            "ability": "Intimidate",
+            "nature": "Adamant",
+            "moves": [
+              "Fake Out",
+              "Flare Blitz",
+              "Darkest Lariat",
+              "Close Combat"
+            ]
+          },
+          {
+            "pokemon_name": "abomasnow",
+            "item": "Abomasite",
+            "ability": "Snow Warning",
+            "nature": "Quiet",
+            "moves": [
+              "Ice Shard",
+              "Blizzard",
+              "Energy Ball",
+              "Earth Power"
+            ]
+          },
+          {
+            "pokemon_name": "maushold",
+            "item": "Wide Lens",
+            "ability": "Technician",
+            "nature": "Jolly",
+            "moves": [
+              "Protect",
+              "Follow Me",
+              "After You",
+              "Population Bomb"
+            ]
+          },
+          {
+            "pokemon_name": "farigiraf",
+            "item": "Sitrus Berry",
+            "ability": "Armor Tail",
+            "nature": "Relaxed",
+            "moves": [
+              "Trick Room",
+              "Helping Hand",
+              "Twin Beam",
+              "Thunderbolt"
+            ]
+          },
+          {
+            "pokemon_name": "camerupt",
+            "item": "Cameruptite",
+            "ability": "Solid Rock",
+            "nature": "Quiet",
+            "moves": [
+              "Protect",
+              "Earth Power",
+              "Heat Wave",
+              "Ancient Power"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 52,
+        "player": "Nils Dunlop",
+        "player_external_id": "20",
+        "roster": [
+          {
+            "pokemon_name": "venusaur",
+            "item": "Focus Sash",
+            "ability": "Chlorophyll",
+            "nature": "Modest",
+            "moves": [
+              "Leaf Storm",
+              "Sludge Bomb",
+              "Sleep Powder",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "mudsdale",
+            "item": "Life Orb",
+            "ability": "Inner Focus",
+            "nature": "Brave",
+            "moves": [
+              "High Horsepower",
+              "Rock Slide",
+              "Heavy Slam",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "charizard",
+            "item": "Charizardite Y",
+            "ability": "Blaze",
+            "nature": "Timid",
+            "moves": [
+              "Heat Wave",
+              "Weather Ball",
+              "Ancient Power",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "farigiraf",
+            "item": "Sitrus Berry",
+            "ability": "Armor Tail",
+            "nature": "Calm",
+            "moves": [
+              "Psychic",
+              "Thunderbolt",
+              "Trick Room",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "incineroar",
+            "item": "Chople Berry",
+            "ability": "Intimidate",
+            "nature": "Adamant",
+            "moves": [
+              "Fake Out",
+              "Flare Blitz",
+              "Darkest Lariat",
+              "Parting Shot"
+            ]
+          },
+          {
+            "pokemon_name": "floette-eternal",
+            "item": "Floettite",
+            "ability": "Flower Veil",
+            "nature": "Modest",
+            "moves": [
+              "Dazzling Gleam",
+              "Moonblast",
+              "Light of Ruin",
+              "Protect"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 53,
+        "player": "Pok Yin Evan Choi",
+        "player_external_id": "4972",
+        "roster": [
+          {
+            "pokemon_name": "charizard",
+            "item": "Charizardite Y",
+            "ability": "Blaze",
+            "nature": "Modest",
+            "moves": [
+              "Heat Wave",
+              "Weather Ball",
+              "Solar Beam",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "kingambit",
+            "item": "Focus Sash",
+            "ability": "Defiant",
+            "nature": "Adamant",
+            "moves": [
+              "Kowtow Cleave",
+              "Sucker Punch",
+              "Iron Head",
+              "Low Kick"
+            ]
+          },
+          {
+            "pokemon_name": "aerodactyl",
+            "item": "Aerodactylite",
+            "ability": "Unnerve",
+            "nature": "Jolly",
+            "moves": [
+              "Rock Slide",
+              "Dual Wingbeat",
+              "Tailwind",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "sylveon",
+            "item": "Fairy Feather",
+            "ability": "Pixilate",
+            "nature": "Modest",
+            "moves": [
+              "Hyper Voice",
+              "Hyper Beam",
+              "Quick Attack",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "farigiraf",
+            "item": "Sitrus Berry",
+            "ability": "Armor Tail",
+            "nature": "Relaxed",
+            "moves": [
+              "Psychic",
+              "Thunderbolt",
+              "Trick Room",
+              "Helping Hand"
+            ]
+          },
+          {
+            "pokemon_name": "garchomp",
+            "item": "Life Orb",
+            "ability": "Rough Skin",
+            "nature": "Jolly",
+            "moves": [
+              "Dragon Claw",
+              "Stomping Tantrum",
+              "Earthquake",
+              "Protect"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 54,
+        "player": "Joji Kaieda",
+        "player_external_id": "3999",
+        "roster": [
+          {
+            "pokemon_name": "kingambit",
+            "item": "Occa Berry",
+            "ability": "Defiant",
+            "nature": "Adamant",
+            "moves": [
+              "Kowtow Cleave",
+              "Sucker Punch",
+              "Iron Head",
+              "Low Kick"
+            ]
+          },
+          {
+            "pokemon_name": "charizard",
+            "item": "Charizardite Y",
+            "ability": "Blaze",
+            "nature": "Timid",
+            "moves": [
+              "Heat Wave",
+              "Weather Ball",
+              "Ancient Power",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "basculegion",
+            "item": "Life Orb",
+            "ability": "Adaptability",
+            "nature": "Adamant",
+            "moves": [
+              "Wave Crash",
+              "Last Respects",
+              "Aqua Jet",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "floette-eternal",
+            "item": "Floettite",
+            "ability": "Flower Veil",
+            "nature": "Modest",
+            "moves": [
+              "Moonblast",
+              "Dazzling Gleam",
+              "Light of Ruin",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "whimsicott",
+            "item": "Focus Sash",
+            "ability": "Prankster",
+            "nature": "Timid",
+            "moves": [
+              "Moonblast",
+              "Tailwind",
+              "Encore",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "garchomp",
+            "item": "Sitrus Berry",
+            "ability": "Rough Skin",
+            "nature": "Jolly",
+            "moves": [
+              "Dragon Claw",
+              "Earthquake",
+              "Rock Slide",
+              "Protect"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 55,
+        "player": "Enrique Grimaldo",
+        "player_external_id": "3919",
+        "roster": [
+          {
+            "pokemon_name": "sinistcha",
+            "item": "Kasib Berry",
+            "ability": "Hospitality",
+            "nature": "Calm",
+            "moves": [
+              "Matcha Gotcha",
+              "Rage Powder",
+              "Trick Room",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "basculegion",
+            "item": "Choice Scarf",
+            "ability": "Adaptability",
+            "nature": "Jolly",
+            "moves": [
+              "Wave Crash",
+              "Last Respects",
+              "Soak",
+              "Flip Turn"
+            ]
+          },
+          {
+            "pokemon_name": "archaludon",
+            "item": "Leftovers",
+            "ability": "Stamina",
+            "nature": "Modest",
+            "moves": [
+              "Electro Shot",
+              "Dragon Pulse",
+              "Protect",
+              "Flash Cannon"
+            ]
+          },
+          {
+            "pokemon_name": "floette-eternal",
+            "item": "Floettite",
+            "ability": "Flower Veil",
+            "nature": "Modest",
+            "moves": [
+              "Calm Mind",
+              "Moonblast",
+              "Dazzling Gleam",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "pelipper",
+            "item": "Focus Sash",
+            "ability": "Drizzle",
+            "nature": "Modest",
+            "moves": [
+              "Hurricane",
+              "Weather Ball",
+              "Tailwind",
+              "Wide Guard"
+            ]
+          },
+          {
+            "pokemon_name": "incineroar",
+            "item": "Sitrus Berry",
+            "ability": "Intimidate",
+            "nature": "Adamant",
+            "moves": [
+              "Flare Blitz",
+              "Fake Out",
+              "Parting Shot",
+              "Throat Chop"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 56,
+        "player": "Stefano De Maria",
+        "player_external_id": "2898",
+        "roster": [
+          {
+            "pokemon_name": "charizard",
+            "item": "Charizardite Y",
+            "ability": "Blaze",
+            "nature": "Modest",
+            "moves": [
+              "Heat Wave",
+              "Weather Ball",
+              "Hurricane",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "grimmsnarl",
+            "item": "Light Clay",
+            "ability": "Prankster",
+            "nature": "Sassy",
+            "moves": [
+              "Light Screen",
+              "Spirit Break",
+              "Reflect",
+              "Parting Shot"
+            ]
+          },
+          {
+            "pokemon_name": "venusaur",
+            "item": "Focus Sash",
+            "ability": "Chlorophyll",
+            "nature": "Modest",
+            "moves": [
+              "Protect",
+              "Sludge Bomb",
+              "Sleep Powder",
+              "Leaf Storm"
+            ]
+          },
+          {
+            "pokemon_name": "swampert",
+            "item": "Swampertite",
+            "ability": "Torrent",
+            "nature": "Adamant",
+            "moves": [
+              "Ice Punch",
+              "Wave Crash",
+              "Earthquake",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "archaludon",
+            "item": "Leftovers",
+            "ability": "Stamina",
+            "nature": "Calm",
+            "moves": [
+              "Protect",
+              "Dragon Pulse",
+              "Flash Cannon",
+              "Electro Shot"
+            ]
+          },
+          {
+            "pokemon_name": "pelipper",
+            "item": "Sitrus Berry",
+            "ability": "Drizzle",
+            "nature": "Modest",
+            "moves": [
+              "Hurricane",
+              "Weather Ball",
+              "Wide Guard",
+              "Tailwind"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
+      },
+      {
+        "placement": 57,
+        "player": "Jannik Koch",
+        "player_external_id": "2002",
+        "roster": [
+          {
+            "pokemon_name": "sylveon",
+            "item": "Fairy Feather",
+            "ability": "Pixilate",
+            "nature": "Modest",
+            "moves": [
+              "Hyper Voice",
+              "Hyper Beam",
+              "Quick Attack",
+              "Detect"
+            ]
+          },
+          {
+            "pokemon_name": "arcanine-hisui",
+            "item": "Focus Sash",
+            "ability": "Rock Head",
+            "nature": "Jolly",
+            "moves": [
+              "Flare Blitz",
+              "Head Smash",
+              "Extreme Speed",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "kingambit",
+            "item": "Chople Berry",
+            "ability": "Defiant",
+            "nature": "Adamant",
+            "moves": [
+              "Kowtow Cleave",
+              "Sucker Punch",
+              "Low Kick",
+              "Iron Head"
+            ]
+          },
+          {
+            "pokemon_name": "raichu",
+            "item": "Raichunite Y",
+            "ability": "Lightning Rod",
+            "nature": "Timid",
+            "moves": [
+              "Zap Cannon",
+              "Focus Blast",
+              "Fake Out",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "basculegion",
+            "item": "Life Orb",
+            "ability": "Adaptability",
+            "nature": "Adamant",
+            "moves": [
+              "Wave Crash",
+              "Last Respects",
+              "Aqua Jet",
+              "Protect"
+            ]
+          },
+          {
+            "pokemon_name": "staraptor",
+            "item": "Staraptite",
+            "ability": "Intimidate",
+            "nature": "Jolly",
+            "moves": [
+              "Brave Bird",
+              "Close Combat",
+              "Tailwind",
+              "Protect"
+            ]
+          }
+        ],
+        "prize_money": null,
+        "points": 15
       }
     ],
     "stats": [
@@ -2661,6 +4782,12 @@
         "points": 60
       },
       {
+        "pokemon_name": "scovillain",
+        "count": 2,
+        "share_percent": 3.51,
+        "points": 68
+      },
+      {
         "pokemon_name": "lycanroc-dusk",
         "count": 2,
         "share_percent": 3.51,
@@ -2668,12 +4795,6 @@
       },
       {
         "pokemon_name": "froslass",
-        "count": 2,
-        "share_percent": 3.51,
-        "points": 68
-      },
-      {
-        "pokemon_name": "scovillain",
         "count": 2,
         "share_percent": 3.51,
         "points": 68
@@ -2703,13 +4824,13 @@
         "points": 39
       },
       {
-        "pokemon_name": "maushold",
+        "pokemon_name": "camerupt",
         "count": 2,
         "share_percent": 3.51,
         "points": 35
       },
       {
-        "pokemon_name": "camerupt",
+        "pokemon_name": "maushold",
         "count": 2,
         "share_percent": 3.51,
         "points": 35
@@ -2786,6 +4907,1262 @@
         "share_percent": 1.75,
         "points": 15
       }
-    ]
+    ],
+    "players": {
+      "4965": {
+        "name": "Takuma Yamazaki",
+        "country": "JP",
+        "money_won": "30,000$",
+        "points_earned": 42,
+        "top_cuts": {
+          "international": {
+            "1st": 1,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 1
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "4966": {
+        "name": "Hiroshi Onishi",
+        "country": "JP",
+        "money_won": "20,000$",
+        "points_earned": 38,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 1,
+            "t4": 0,
+            "t8": 0,
+            "total": 1
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "2523": {
+        "name": "Zachary Weed",
+        "country": "US",
+        "money_won": "35,000$",
+        "points_earned": 190,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 1,
+            "t4": 1,
+            "t8": 0,
+            "total": 2
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 1,
+            "t4": 0,
+            "t8": 1,
+            "total": 2
+          }
+        }
+      },
+      "4467": {
+        "name": "Jo\u00e3o Felipe Leite",
+        "country": "BR",
+        "money_won": "17,500$",
+        "points_earned": 67,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 1,
+            "t8": 0,
+            "total": 1
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 1,
+            "total": 1
+          }
+        }
+      },
+      "1517": {
+        "name": "Antonio S\u00e1nchez",
+        "country": "ES",
+        "money_won": "26,000$",
+        "points_earned": 223,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 2,
+            "total": 2
+          },
+          "regionals": {
+            "1st": 1,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 1
+          }
+        }
+      },
+      "4967": {
+        "name": "YUYA WAKASUGI",
+        "country": "JP",
+        "money_won": "10,000$",
+        "points_earned": 30,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 1,
+            "total": 1
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "3179": {
+        "name": "Stefano Greppi",
+        "country": "IT",
+        "money_won": "21,500$",
+        "points_earned": 137,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 1,
+            "total": 1
+          },
+          "regionals": {
+            "1st": 1,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 1
+          }
+        }
+      },
+      "1147": {
+        "name": "Giovanni Piscitelli",
+        "country": "IT",
+        "money_won": "14,500$",
+        "points_earned": 156,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 1,
+            "total": 1
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 1,
+            "t4": 0,
+            "t8": 2,
+            "total": 3
+          }
+        }
+      },
+      "1127": {
+        "name": "Shohei Kimura",
+        "country": "JP",
+        "money_won": "33,000$",
+        "points_earned": 256,
+        "top_cuts": {
+          "international": {
+            "1st": 1,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 1
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 2,
+            "t8": 0,
+            "total": 2
+          }
+        }
+      },
+      "659": {
+        "name": "Carson St Denis",
+        "country": "US",
+        "money_won": "14,750$",
+        "points_earned": 104,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 1,
+            "2nd": 0,
+            "t4": 1,
+            "t8": 1,
+            "total": 3
+          }
+        }
+      },
+      "3997": {
+        "name": "Cary D'Ortona",
+        "country": "US",
+        "money_won": "17,500$",
+        "points_earned": 156,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 1,
+            "2nd": 0,
+            "t4": 1,
+            "t8": 1,
+            "total": 3
+          }
+        }
+      },
+      "157": {
+        "name": "Emilio Forbes",
+        "country": "US",
+        "money_won": "33,750$",
+        "points_earned": 341,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 1,
+            "t4": 0,
+            "t8": 0,
+            "total": 1
+          },
+          "regionals": {
+            "1st": 4,
+            "2nd": 1,
+            "t4": 1,
+            "t8": 3,
+            "total": 9
+          }
+        }
+      },
+      "2074": {
+        "name": "Navjit Joshi",
+        "country": "CA",
+        "money_won": "17,250$",
+        "points_earned": 123,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 1,
+            "total": 1
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 2,
+            "total": 2
+          }
+        }
+      },
+      "1932": {
+        "name": "Justin Tang",
+        "country": "US",
+        "money_won": "44,500$",
+        "points_earned": 422,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 1,
+            "total": 1
+          },
+          "regionals": {
+            "1st": 3,
+            "2nd": 0,
+            "t4": 2,
+            "t8": 6,
+            "total": 11
+          }
+        }
+      },
+      "2868": {
+        "name": "Filip Wo\u017aniak",
+        "country": "PL",
+        "money_won": "5,000$",
+        "points_earned": 44,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "2481": {
+        "name": "Chloe Bourke",
+        "country": "AU",
+        "money_won": "5,750$",
+        "points_earned": 52,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "4968": {
+        "name": "Narawitch Naenna",
+        "country": "TH",
+        "money_won": "-",
+        "points_earned": 20,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "3944": {
+        "name": "Nikolaj H\u00f8j Nielsen",
+        "country": "DK",
+        "money_won": "5,250$",
+        "points_earned": 152,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 1,
+            "total": 1
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "1153": {
+        "name": "Taran Birdee",
+        "country": "GB",
+        "money_won": "18,750$",
+        "points_earned": 312,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 1,
+            "t8": 1,
+            "total": 2
+          },
+          "regionals": {
+            "1st": 1,
+            "2nd": 0,
+            "t4": 1,
+            "t8": 3,
+            "total": 5
+          }
+        }
+      },
+      "351": {
+        "name": "Raghav Malaviya",
+        "country": "US",
+        "money_won": "20,250$",
+        "points_earned": 381,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 1,
+            "t4": 2,
+            "t8": 0,
+            "total": 3
+          },
+          "regionals": {
+            "1st": 1,
+            "2nd": 1,
+            "t4": 4,
+            "t8": 1,
+            "total": 7
+          }
+        }
+      },
+      "4969": {
+        "name": "alexander canseco salas",
+        "country": "MX",
+        "money_won": "-",
+        "points_earned": 20,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "3": {
+        "name": "Simone Sanvito",
+        "country": "IT",
+        "money_won": "28,500$",
+        "points_earned": 341,
+        "top_cuts": {
+          "international": {
+            "1st": 1,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 1
+          },
+          "regionals": {
+            "1st": 2,
+            "2nd": 2,
+            "t4": 3,
+            "t8": 0,
+            "total": 7
+          }
+        }
+      },
+      "3308": {
+        "name": "William Brown",
+        "country": "US",
+        "money_won": "8,500$",
+        "points_earned": 183,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 4,
+            "total": 4
+          }
+        }
+      },
+      "1234": {
+        "name": "Dawei Si",
+        "country": "CN",
+        "money_won": "12,250$",
+        "points_earned": 193,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 1,
+            "total": 1
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 2,
+            "t8": 0,
+            "total": 2
+          }
+        }
+      },
+      "1023": {
+        "name": "Oliver Eskolin",
+        "country": "FI",
+        "money_won": "33,500$",
+        "points_earned": 353,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 1,
+            "t4": 0,
+            "t8": 2,
+            "total": 3
+          },
+          "regionals": {
+            "1st": 1,
+            "2nd": 1,
+            "t4": 2,
+            "t8": 2,
+            "total": 6
+          }
+        }
+      },
+      "4133": {
+        "name": "Justin Cerioni",
+        "country": "IT",
+        "money_won": "750$",
+        "points_earned": 52,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "150": {
+        "name": "Paul Chua",
+        "country": "US",
+        "money_won": "64,250$",
+        "points_earned": 628,
+        "top_cuts": {
+          "international": {
+            "1st": 2,
+            "2nd": 1,
+            "t4": 2,
+            "t8": 0,
+            "total": 5
+          },
+          "regionals": {
+            "1st": 4,
+            "2nd": 4,
+            "t4": 5,
+            "t8": 1,
+            "total": 14
+          }
+        }
+      },
+      "2024": {
+        "name": "Rahim Farzan",
+        "country": "DE",
+        "money_won": "750$",
+        "points_earned": 80,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "1170": {
+        "name": "Mattie Morgan",
+        "country": "IE",
+        "money_won": "22,500$",
+        "points_earned": 316,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 1,
+            "total": 1
+          },
+          "regionals": {
+            "1st": 1,
+            "2nd": 1,
+            "t4": 2,
+            "t8": 2,
+            "total": 6
+          }
+        }
+      },
+      "2051": {
+        "name": "Kiran Singh",
+        "country": "AU",
+        "money_won": "14,000$",
+        "points_earned": 135,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 1,
+            "2nd": 1,
+            "t4": 0,
+            "t8": 4,
+            "total": 6
+          }
+        }
+      },
+      "603": {
+        "name": "Jonathan Marston",
+        "country": "GB",
+        "money_won": "6,750$",
+        "points_earned": 141,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 1,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 3,
+            "total": 4
+          }
+        }
+      },
+      "463": {
+        "name": "Yan Sym",
+        "country": "BR",
+        "money_won": "15,750$",
+        "points_earned": 137,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 1,
+            "t8": 0,
+            "total": 1
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 1,
+            "t4": 1,
+            "t8": 3,
+            "total": 5
+          }
+        }
+      },
+      "358": {
+        "name": "Alex Underhill",
+        "country": "US",
+        "money_won": "23,000$",
+        "points_earned": 345,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 3,
+            "2nd": 2,
+            "t4": 3,
+            "t8": 2,
+            "total": 10
+          }
+        }
+      },
+      "2516": {
+        "name": "Ryoma Okamoto",
+        "country": "JP",
+        "money_won": "-",
+        "points_earned": 27,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "2635": {
+        "name": "Nader El bacha",
+        "country": "BR",
+        "money_won": "6,000$",
+        "points_earned": 36,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 1,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 1
+          }
+        }
+      },
+      "3050": {
+        "name": "Victor Jimenez Coll",
+        "country": "ES",
+        "money_won": "4,500$",
+        "points_earned": 117,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 1,
+            "t8": 0,
+            "total": 1
+          }
+        }
+      },
+      "4970": {
+        "name": "\u8061\u592a \u5d8b\u8c37",
+        "country": "JP",
+        "money_won": "-",
+        "points_earned": 15,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "4971": {
+        "name": "Ryan Kenrick Chua",
+        "country": "PH",
+        "money_won": "-",
+        "points_earned": 15,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "1746": {
+        "name": "Kota Kawabe",
+        "country": "JP",
+        "money_won": "-",
+        "points_earned": 42,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "1977": {
+        "name": "Caelan Brown",
+        "country": "US",
+        "money_won": "3,250$",
+        "points_earned": 110,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 2,
+            "total": 2
+          }
+        }
+      },
+      "1104": {
+        "name": "Naoto Mizobuchi",
+        "country": "JP",
+        "money_won": "18,000$",
+        "points_earned": 121,
+        "top_cuts": {
+          "international": {
+            "1st": 1,
+            "2nd": 0,
+            "t4": 1,
+            "t8": 1,
+            "total": 3
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "1462": {
+        "name": "Adrien Hurley",
+        "country": "US",
+        "money_won": "5,250$",
+        "points_earned": 112,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 1,
+            "total": 1
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "1442": {
+        "name": "Caleb Wijesinha",
+        "country": "AU",
+        "money_won": "2,500$",
+        "points_earned": 56,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 3,
+            "total": 3
+          }
+        }
+      },
+      "2924": {
+        "name": "Louis Markl",
+        "country": "DE",
+        "money_won": "11,500$",
+        "points_earned": 202,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 1,
+            "t4": 1,
+            "t8": 2,
+            "total": 4
+          }
+        }
+      },
+      "3956": {
+        "name": "Yuya Tada",
+        "country": "JP",
+        "money_won": "12,500$",
+        "points_earned": 87,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 2,
+            "t8": 0,
+            "total": 2
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 1,
+            "t4": 0,
+            "t8": 0,
+            "total": 1
+          }
+        }
+      },
+      "6": {
+        "name": "Markus Hamann",
+        "country": "DE",
+        "money_won": "14,500$",
+        "points_earned": 393,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 1,
+            "t8": 3,
+            "total": 4
+          },
+          "regionals": {
+            "1st": 2,
+            "2nd": 1,
+            "t4": 0,
+            "t8": 2,
+            "total": 5
+          }
+        }
+      },
+      "1105": {
+        "name": "Hirofumi Kimura",
+        "country": "JP",
+        "money_won": "22,500$",
+        "points_earned": 127,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 1,
+            "t4": 1,
+            "t8": 0,
+            "total": 2
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "2977": {
+        "name": "Behzad Muntazir",
+        "country": "US",
+        "money_won": "9,750$",
+        "points_earned": 99,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 1,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 1
+          }
+        }
+      },
+      "2514": {
+        "name": "Dorian Qui\u00f1onez",
+        "country": "PE",
+        "money_won": "2,500$",
+        "points_earned": 63,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 1,
+            "t8": 0,
+            "total": 1
+          }
+        }
+      },
+      "1852": {
+        "name": "Tom Winter",
+        "country": "GB",
+        "money_won": "2,750$",
+        "points_earned": 84,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 1,
+            "t8": 0,
+            "total": 1
+          }
+        }
+      },
+      "1787": {
+        "name": "Brandon Davis",
+        "country": "US",
+        "money_won": "3,750$",
+        "points_earned": 96,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 3,
+            "total": 3
+          }
+        }
+      },
+      "20": {
+        "name": "Nils Dunlop",
+        "country": "SE",
+        "money_won": "41,500$",
+        "points_earned": 469,
+        "top_cuts": {
+          "international": {
+            "1st": 1,
+            "2nd": 0,
+            "t4": 1,
+            "t8": 3,
+            "total": 5
+          },
+          "regionals": {
+            "1st": 3,
+            "2nd": 1,
+            "t4": 0,
+            "t8": 3,
+            "total": 7
+          }
+        }
+      },
+      "4972": {
+        "name": "Pok Yin Evan Choi",
+        "country": "HK",
+        "money_won": "-",
+        "points_earned": 15,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "3999": {
+        "name": "Joji Kaieda",
+        "country": "AU",
+        "money_won": "12,250$",
+        "points_earned": 136,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 1,
+            "t4": 1,
+            "t8": 1,
+            "total": 3
+          }
+        }
+      },
+      "3919": {
+        "name": "Enrique Grimaldo",
+        "country": "US",
+        "money_won": "5,250$",
+        "points_earned": 130,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 2,
+            "t8": 0,
+            "total": 2
+          }
+        }
+      },
+      "2898": {
+        "name": "Stefano De Maria",
+        "country": "IT",
+        "money_won": "750$",
+        "points_earned": 52,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "2002": {
+        "name": "Jannik Koch",
+        "country": "DE",
+        "money_won": "-",
+        "points_earned": 67,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      }
+    }
   }
 ]

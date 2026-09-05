@@ -1,5 +1,5 @@
 """Pydantic schemas: define the shape of JSON the API sends back to the frontend."""
-from typing import List, Optional
+from typing import Dict, List, Optional
 from pydantic import BaseModel, ConfigDict
 
 
@@ -349,6 +349,9 @@ class TournamentResultOut(BaseModel):
     roster: List[TournamentRosterSlotOut]
     notes: Optional[str] = None
     is_dark_horse: bool = False
+    player_external_id: Optional[str] = None
+    prize_money: Optional[str] = None
+    points: Optional[int] = None
 
 
 class TournamentIn(BaseModel):
@@ -408,3 +411,28 @@ class TournamentSearchHit(BaseModel):
     result_id: int
     player: Optional[str] = None
     placement: int
+    roster: List[TournamentRosterSlotOut] = []
+
+
+class PlayerOut(BaseModel):
+    external_id: str
+    name: str
+    country: Optional[str] = None
+    money_won: Optional[str] = None
+    points_earned: Optional[int] = None
+    # {"international": {"1st": 1, "2nd": 0, "t4": 0, "t8": 0, "total": 1}, ...}
+    top_cuts: Dict[str, Dict[str, int]] = {}
+
+
+class PlayerResultOut(BaseModel):
+    tournament_id: int
+    tournament_name: str
+    tournament_date: str
+    placement: int
+    prize_money: Optional[str] = None
+    points: Optional[int] = None
+    roster: List[TournamentRosterSlotOut]
+
+
+class PlayerDetailOut(PlayerOut):
+    results: List[PlayerResultOut] = []

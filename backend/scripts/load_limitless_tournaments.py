@@ -22,7 +22,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.database import SessionLocal
 from app.models.pokemon import Ability, Item, Move, Pokemon
-from app.models.tournament import Tournament, TournamentResult
+from app.models.tournament import Player, Tournament, TournamentResult
 
 DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "limitless_tournaments.json"
 
@@ -52,11 +52,27 @@ def main():
             )
             return variant[0] if variant else None
 
-        added, skipped_existing = 0, 0
+        added, skipped_existing, players_upserted = 0, 0, 0
         for entry in data:
             if not entry.get("date"):
                 print(f"  skip '{entry['name']}': couldn't parse a date")
                 continue
+
+            # Refresh player career stats every run regardless of whether the
+            # tournament itself is new - a player's totals keep growing after
+            # we've already loaded the events they came from.
+            for pid, info in entry.get("players", {}).items():
+                player = db.query(Player).filter(Player.external_id == pid).first()
+                if not player:
+                    player = Player(external_id=pid)
+                    db.add(player)
+                player.name = info.get("name") or player.name or pid
+                player.country = info.get("country")
+                player.money_won = info.get("money_won")
+                player.points_earned = info.get("points_earned")
+                player.top_cuts_json = json.dumps(info.get("top_cuts", {}))
+                players_upserted += 1
+            db.commit()
 
             existing = (
                 db.query(Tournament).filter(Tournament.external_id == entry["external_id"]).first()
@@ -117,6 +133,9 @@ def main():
                         player=r.get("player"),
                         roster_json=json.dumps(roster),
                         is_dark_horse=False,
+                        player_external_id=r.get("player_external_id"),
+                        prize_money=r.get("prize_money"),
+                        points=r.get("points"),
                     )
                 )
             db.commit()
@@ -124,7 +143,8 @@ def main():
             note = f" (unmatched: {', '.join(sorted(unmatched))})" if unmatched else ""
             print(f"  added '{tournament.name}' ({len(entry['results'])} results){note}")
 
-        print(f"Added {added} new tournaments, skipped {skipped_existing} already loaded.")
+        print(f"Added {added} new tournaments, skipped {skipped_existing} already loaded, "
+              f"upserted {players_upserted} player records.")
     finally:
         db.close()
 

@@ -14,21 +14,33 @@ thing it doesn't have anywhere is EVs (checked: no Spreads/EVs section
 exists on Limitless at all) - add those by hand through the admin form for
 any specific result you want fully filled in.
 
-Three pages per M-B tournament:
-  /tournaments/<id>            - date, player count, format, top-32 standings
-                                  (rank/player/species roster)
+Per M-B tournament:
+  /tournaments/<id>            - date, player count, format, top-128 standings
+                                  (rank/player/player-id/species roster)
   /tournaments/<id>/teams      - full sets (item/ability/nature/moves) per
                                   placement, matched up with the roster above
   /tournaments/<id>/statistics - "most successful Pokemon" across every
                                   tracked player (a larger sample than the
-                                  top 32 above), with win-rate context
+                                  top 128 above), with win-rate context
+
+Plus, once per unique player encountered across every result (cached for
+the whole run, since the same player often appears in multiple
+tournaments):
+  /players/<id>                - career stats (money won, points earned,
+                                  top-cut counts by tier) and, matched
+                                  against the current tournament's own id,
+                                  the prize money/points that one result
+                                  specifically paid out
 
 Writes backend/data/limitless_tournaments.json:
 [{"external_id", "name", "date", "player_count", "source_url",
-  "results": [{"placement", "player",
+  "results": [{"placement", "player", "player_external_id",
+               "prize_money", "points",
                "roster": [{"pokemon_name", "item", "ability", "nature",
                            "moves": [...]}]}],
-  "stats": [{"pokemon_name", "count", "share_percent", "points"}]}]
+  "stats": [{"pokemon_name", "count", "share_percent", "points"}],
+  "players": {"<player_external_id>": {"name", "country", "money_won",
+                                        "points_earned", "top_cuts"}}}]
 
 Display names (item/ability/nature/move text) are resolved to our own dex
 slugs in load_limitless_tournaments.py, not here - this script stays
@@ -48,7 +60,7 @@ from bs4 import BeautifulSoup
 
 BASE = "https://limitlessvgc.com"
 TARGET_FORMAT = "m-b"  # the only Champions regulation this app tracks
-TOP_N_RESULTS = 32
+TOP_N_RESULTS = 128
 MAX_LISTING_PAGES = 20  # generous ceiling; the listing stops early once exhausted
 REQUEST_DELAY_SECONDS = 0.5  # be polite to the source site
 
@@ -119,7 +131,14 @@ def parse_tournament(html, external_id):
         roster = [img["alt"] for img in row.select(".vgc-team img.pokemon[alt]")]
         if not rank or not roster:
             continue
-        results.append({"placement": int(rank), "player": player, "roster": roster})
+        player_link = row.select_one("a[href^='/players/']")
+        player_external_id = player_link["href"].rsplit("/", 1)[-1] if player_link else None
+        results.append({
+            "placement": int(rank),
+            "player": player,
+            "player_external_id": player_external_id,
+            "roster": roster,
+        })
         if len(results) >= TOP_N_RESULTS:
             break
 
@@ -184,10 +203,79 @@ def parse_statistics(html):
     return stats
 
 
+def parse_player_career(html):
+    """A player's own page: career totals - name, country, money won,
+    points earned, and top-cut counts by tier. One-time per player, safe to
+    cache and reuse across every tournament they appear in this run."""
+    soup = BeautifulSoup(html, "lxml")
+
+    heading = soup.select_one(".infobox-heading")
+    name = heading.get_text(strip=True) if heading else None
+    flag = soup.select_one(".infobox-heading img.flag")
+    country = flag["alt"] if flag else None
+
+    money_won, points_earned = None, None
+    for table in soup.select("table.data-table.center"):
+        rows = table.select("tr")
+        if len(rows) >= 2:
+            cells = rows[1].find_all("td")
+            if len(cells) >= 2:
+                money_won = cells[0].get_text(strip=True) or None
+                points_text = re.sub(r"\D", "", cells[1].get_text(strip=True))
+                points_earned = int(points_text) if points_text else None
+
+    top_cuts = {}
+    for table in soup.select("table.data-table"):
+        header = table.select_one("tr")
+        if not header or not header.get_text(strip=True).startswith("Top Cuts"):
+            continue
+        for row in table.select("tr")[1:]:
+            cells = row.find_all("td")
+            if len(cells) != 6:
+                continue
+            tier = cells[0].get_text(strip=True).lower()
+            top_cuts[tier] = {
+                "1st": int(cells[1].get_text(strip=True) or 0),
+                "2nd": int(cells[2].get_text(strip=True) or 0),
+                "t4": int(cells[3].get_text(strip=True) or 0),
+                "t8": int(cells[4].get_text(strip=True) or 0),
+                "total": int(cells[5].get_text(strip=True) or 0),
+            }
+
+    return {"name": name, "country": country, "money_won": money_won, "points_earned": points_earned, "top_cuts": top_cuts}
+
+
+def extract_result_payout(html, tournament_external_id):
+    """From the SAME player page, what prize money/points that one specific
+    tournament (by its external_id) paid out - re-derived per tournament
+    even when the player page itself is cached, since a cached player's
+    page holds their WHOLE history, not just the current event."""
+    soup = BeautifulSoup(html, "lxml")
+    for row in soup.select("section table.data-table.striped tr"):
+        if not row.select_one(f'a[href="/tournaments/{tournament_external_id}"]'):
+            continue
+        cells = row.find_all("td")
+        if len(cells) >= 7:
+            prize_money = cells[5].get_text(strip=True) or None
+            points_text = cells[6].get_text(strip=True)
+            points = int(points_text) if points_text.isdigit() else None
+            return prize_money, points
+        break
+    return None, None
+
+
 def main():
     print("Finding Regulation M-B tournaments...")
     listing = find_mb_tournaments()
     print(f"Found {len(listing)} M-B tournaments.")
+
+    # Cache players across the whole run - the same person often places in
+    # more than one tournament. Cache the raw HTML (not just the parsed
+    # career info), since prize money/points must be re-derived per
+    # tournament even for an already-seen player - their page holds their
+    # whole history, not just whichever event we first fetched them for.
+    player_html_cache = {}
+    player_career_cache = {}
 
     tournaments = []
     for i, entry in enumerate(listing, start=1):
@@ -211,6 +299,23 @@ def main():
 
             stats_html = fetch(f"{BASE}/tournaments/{external_id}/statistics")
             parsed["stats"] = parse_statistics(stats_html)
+
+            players = {}
+            for result in parsed["results"]:
+                pid = result.get("player_external_id")
+                if not pid:
+                    continue
+                try:
+                    if pid not in player_html_cache:
+                        player_html_cache[pid] = fetch(f"{BASE}/players/{pid}")
+                        player_career_cache[pid] = parse_player_career(player_html_cache[pid])
+                    result["prize_money"], result["points"] = extract_result_payout(
+                        player_html_cache[pid], external_id
+                    )
+                    players[pid] = player_career_cache[pid]
+                except Exception as e:
+                    print(f"    player {pid} FAILED ({e})")
+            parsed["players"] = players
 
             tournaments.append(parsed)
             print(f"  [{i}/{len(listing)}] {parsed['name']}: {len(parsed['results'])} results, "

@@ -57,6 +57,9 @@ def _result_out(db: Session, result: TournamentResult) -> TournamentResultOut:
         roster=_roster_out(db, result.roster_json),
         notes=result.notes,
         is_dark_horse=result.is_dark_horse,
+        player_external_id=result.player_external_id,
+        prize_money=result.prize_money,
+        points=result.points,
     )
 
 
@@ -111,6 +114,7 @@ def search_tournaments_by_pokemon(pokemon: str, db: Session = Depends(get_db)):
                     result_id=r.id,
                     player=r.player,
                     placement=r.placement,
+                    roster=_roster_out(db, r.roster_json),
                 )
             )
     hits.sort(key=lambda h: h.tournament_date, reverse=True)
