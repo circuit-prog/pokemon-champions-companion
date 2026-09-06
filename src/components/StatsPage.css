@@ -1,0 +1,66 @@
+.stats-page {
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.stats-page .tournament-filter-input {
+  max-width: 420px;
+  margin: 1rem 0;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.tournament-trend {
+  margin-bottom: 1rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background: #fafcff;
+}
+
+.tournament-trend-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+}
+
+.tournament-trend-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.tournament-trend-bar-row {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr 3rem;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+}
+
+.tournament-trend-date {
+  color: #7d8ba0;
+}
+
+.tournament-trend-bar-track {
+  background: #e8eef7;
+  border-radius: 999px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.tournament-trend-bar-fill {
+  background: #2a5cb8;
+  height: 100%;
+  border-radius: 999px;
+}
+
+.tournament-trend-percent {
+  text-align: right;
+  color: #4a5568;
+}
