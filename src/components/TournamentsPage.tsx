@@ -9,6 +9,7 @@ import {
   updateTournamentResult,
   deleteTournamentResult,
   searchTournamentsByPokemon,
+  getPokemonTrend,
   calcVersus,
   getPlayer,
 } from "../api";
@@ -19,6 +20,7 @@ import type {
   TournamentResultIn,
   TournamentIn,
   TournamentSearchHit,
+  TournamentTrendPoint,
   VersusPair,
   PlayerDetail,
 } from "../api";
@@ -163,6 +165,7 @@ export default function TournamentsPage() {
   const [filter, setFilter] = useState("");
   const [minPlayers, setMinPlayers] = useState("");
   const [filterHits, setFilterHits] = useState<TournamentSearchHit[] | null>(null);
+  const [trend, setTrend] = useState<TournamentTrendPoint[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [expandedResult, setExpandedResult] = useState<number | null>(null);
   const [sortKey, setSortKey] = useState<"date" | "players" | "results">("date");
@@ -219,12 +222,17 @@ export default function TournamentsPage() {
   useEffect(() => {
     if (!filter.trim()) {
       setFilterHits(null);
+      setTrend(null);
       return;
     }
     const handle = setTimeout(() => {
-      searchTournamentsByPokemon(filter.trim().toLowerCase().replace(/\s+/g, "-"))
+      const slug = filter.trim().toLowerCase().replace(/\s+/g, "-");
+      searchTournamentsByPokemon(slug)
         .then(setFilterHits)
         .catch(() => setFilterHits([]));
+      getPokemonTrend(slug)
+        .then(setTrend)
+        .catch(() => setTrend([]));
     }, 300);
     return () => clearTimeout(handle);
   }, [filter]);
@@ -541,6 +549,29 @@ export default function TournamentsPage() {
           </label>
         )}
       </div>
+
+      {trend && (
+        <div className="tournament-trend">
+          {trend.length === 0 ? (
+            <p className="subtitle">No tournament data for that Pokemon yet.</p>
+          ) : (
+            <>
+              <div className="tournament-trend-title">Usage trend over time</div>
+              <div className="tournament-trend-bars">
+                {trend.map((p) => (
+                  <div key={p.tournament_id} className="tournament-trend-bar-row" title={`${p.tournament_name} (${p.tournament_date}): ${p.count}/${p.total_results} teams`}>
+                    <span className="tournament-trend-date">{p.tournament_date}</span>
+                    <div className="tournament-trend-bar-track">
+                      <div className="tournament-trend-bar-fill" style={{ width: `${Math.max(p.usage_percent, 1)}%` }} />
+                    </div>
+                    <span className="tournament-trend-percent">{p.usage_percent}%</span>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      )}
 
       {filterHits && (
         <div className="tournament-filter-hits">

@@ -417,6 +417,17 @@ class TournamentSearchHit(BaseModel):
     roster: List[TournamentRosterSlotOut] = []
 
 
+class TournamentTrendPoint(BaseModel):
+    """How much one Pokemon was used at one tournament - one point in its
+    usage-over-time trend across every tournament this app has tracked."""
+    tournament_id: int
+    tournament_name: str
+    tournament_date: str
+    count: int
+    total_results: int
+    usage_percent: float
+
+
 class PlayerOut(BaseModel):
     external_id: str
     name: str

@@ -25,6 +25,7 @@ from app.schemas import (
     TournamentSearchHit,
     TournamentStatEntry,
     TournamentSummaryOut,
+    TournamentTrendPoint,
 )
 
 router = APIRouter(prefix="/api/tournaments", tags=["tournaments"])
@@ -121,6 +122,35 @@ def search_tournaments_by_pokemon(pokemon: str, db: Session = Depends(get_db)):
             )
     hits.sort(key=lambda h: h.tournament_date, reverse=True)
     return hits
+
+
+@router.get("/trend", response_model=list[TournamentTrendPoint])
+def get_pokemon_trend(pokemon: str, db: Session = Depends(get_db)):
+    """One Pokemon's usage % across every tracked tournament, oldest first -
+    is it trending up or down? Computed entirely from results already in
+    the DB (no new scraping), one point per tournament that has at least
+    one result, including tournaments where the Pokemon didn't appear at
+    all (0%), so a gap in usage is visible rather than silently skipped."""
+    tournaments = db.query(Tournament).order_by(Tournament.date.asc()).all()
+    points = []
+    for t in tournaments:
+        total = len(t.results)
+        if total == 0:
+            continue
+        count = sum(
+            1 for r in t.results if pokemon in {s["pokemon_name"] for s in json.loads(r.roster_json)}
+        )
+        points.append(
+            TournamentTrendPoint(
+                tournament_id=t.id,
+                tournament_name=t.name,
+                tournament_date=t.date,
+                count=count,
+                total_results=total,
+                usage_percent=round(100 * count / total, 1),
+            )
+        )
+    return points
 
 
 @router.get("/{tournament_id}", response_model=TournamentDetailOut)

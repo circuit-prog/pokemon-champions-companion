@@ -692,6 +692,19 @@ export function searchTournamentsByPokemon(pokemonName: string): Promise<Tournam
   return getJson<TournamentSearchHit[]>(`/api/tournaments/search?pokemon=${encodeURIComponent(pokemonName)}`);
 }
 
+export interface TournamentTrendPoint {
+  tournament_id: number;
+  tournament_name: string;
+  tournament_date: string;
+  count: number;
+  total_results: number;
+  usage_percent: number;
+}
+
+export function getPokemonTrend(pokemonName: string): Promise<TournamentTrendPoint[]> {
+  return getJson<TournamentTrendPoint[]>(`/api/tournaments/trend?pokemon=${encodeURIComponent(pokemonName)}`);
+}
+
 export function createTournament(body: TournamentIn): Promise<TournamentSummary> {
   return postJson<TournamentSummary>("/api/tournaments", body);
 }
