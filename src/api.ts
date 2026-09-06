@@ -588,6 +588,7 @@ export interface TournamentResultOut {
   prize_money: string | null;
   points: number | null;
   record: string | null;
+  archetypes: string[];
 }
 
 export interface TournamentIn {

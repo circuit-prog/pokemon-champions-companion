@@ -35,6 +35,37 @@ router = APIRouter(prefix="/api/tournaments", tags=["tournaments"])
 
 MOST_BROUGHT_COUNT = 10
 
+# Auto-detected team archetypes/playstyles, keyed by tag -> (abilities, moves)
+# that signal it. A team only needs one member with a matching ability or
+# move to earn the tag - this is a heuristic over already-logged sets, not
+# a claim about how the team was actually piloted.
+ARCHETYPE_RULES: list[tuple[str, Set[str], Set[str]]] = [
+    ("Trick Room", set(), {"trick-room"}),
+    ("Tailwind", set(), {"tailwind"}),
+    ("Rain", {"drizzle"}, {"rain-dance"}),
+    ("Sun", {"drought"}, {"sunny-day"}),
+    ("Sand", {"sand-stream"}, {"sandstorm"}),
+    ("Snow", {"snow-warning"}, {"snowscape", "hail"}),
+    ("Screens", set(), {"light-screen", "reflect", "aurora-veil"}),
+    ("Electric Terrain", {"electric-surge", "hadron-engine"}, {"electric-terrain"}),
+    ("Psychic Terrain", {"psychic-surge"}, {"psychic-terrain"}),
+    ("Grassy Terrain", {"grassy-surge"}, {"grassy-terrain"}),
+    ("Misty Terrain", {"misty-surge"}, {"misty-terrain"}),
+]
+
+
+def _team_archetypes(roster: list[dict]) -> list[str]:
+    abilities = {s["ability"] for s in roster if s.get("ability")}
+    moves: Set[str] = set()
+    for s in roster:
+        moves.update(s.get("moves", []))
+    tags = [
+        tag
+        for tag, ability_set, move_set in ARCHETYPE_RULES
+        if (ability_set & abilities) or (move_set & moves)
+    ]
+    return tags
+
 
 def _sprite_lookup(db: Session, names: Set[str]) -> Dict[str, Tuple[str, Optional[str]]]:
     """Our own dex slugs (not scraped display names, so no fuzzy matching
@@ -65,6 +96,7 @@ def _result_out(db: Session, result: TournamentResult) -> TournamentResultOut:
         prize_money=result.prize_money,
         points=result.points,
         record=result.record,
+        archetypes=_team_archetypes(json.loads(result.roster_json)),
     )
 
 
@@ -89,18 +121,24 @@ def _get_result(db: Session, tournament_id: int, result_id: int) -> TournamentRe
 @router.get("", response_model=list[TournamentSummaryOut])
 def list_tournaments(db: Session = Depends(get_db)):
     tournaments = db.query(Tournament).order_by(Tournament.date.desc()).all()
-    return [
-        TournamentSummaryOut(
-            id=t.id,
-            name=t.name,
-            date=t.date,
-            format=t.format,
-            player_count=t.player_count,
-            result_count=len(t.results),
-            is_online=t.is_online,
+    out = []
+    for t in tournaments:
+        tags: Set[str] = set()
+        for r in t.results:
+            tags.update(_team_archetypes(json.loads(r.roster_json)))
+        out.append(
+            TournamentSummaryOut(
+                id=t.id,
+                name=t.name,
+                date=t.date,
+                format=t.format,
+                player_count=t.player_count,
+                result_count=len(t.results),
+                is_online=t.is_online,
+                archetypes=sorted(tags),
+            )
         )
-        for t in tournaments
-    ]
+    return out
 
 
 @router.get("/search", response_model=list[TournamentSearchHit])

@@ -353,6 +353,7 @@ class TournamentResultOut(BaseModel):
     prize_money: Optional[str] = None
     points: Optional[int] = None
     record: Optional[str] = None
+    archetypes: List[str] = []
 
 
 class TournamentIn(BaseModel):
@@ -372,6 +373,7 @@ class TournamentSummaryOut(BaseModel):
     player_count: Optional[int] = None
     result_count: int
     is_online: bool = False
+    archetypes: List[str] = []
 
 
 class MostBroughtEntry(BaseModel):

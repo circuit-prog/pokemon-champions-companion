@@ -172,6 +172,7 @@ export default function TournamentsPage() {
   const [myTeamId, setMyTeamId] = useState("");
   const [myTeamTournamentIds, setMyTeamTournamentIds] = useState<Set<number> | null>(null);
   const [myTeamLoading, setMyTeamLoading] = useState(false);
+  const [playstyleFilter, setPlaystyleFilter] = useState("");
 
   function refreshList() {
     getTournaments()
@@ -192,6 +193,7 @@ export default function TournamentsPage() {
       setMyTeams(loadTeams());
     } else if (view.kind === "detail") {
       refreshDetail(view.id);
+      setPlaystyleFilter("");
     }
   }, [view]);
 
@@ -389,8 +391,29 @@ export default function TournamentsPage() {
           </button>
         </div>
 
+        {(() => {
+          const playstyles = Array.from(new Set(detail.results.flatMap((r) => r.archetypes))).sort();
+          return (
+            playstyles.length > 0 && (
+              <div className="tournaments-facet-group tournament-playstyle-filter">
+                <span className="tournaments-facet-label">Playstyle</span>
+                <select value={playstyleFilter} onChange={(e) => setPlaystyleFilter(e.target.value)}>
+                  <option value="">All</option>
+                  {playstyles.map((p) => (
+                    <option key={p} value={p}>
+                      {p}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )
+          );
+        })()}
+
         <div className="tournament-results-list">
-          {detail.results.map((r) => {
+          {detail.results
+            .filter((r) => !playstyleFilter || r.archetypes.includes(playstyleFilter))
+            .map((r) => {
             const hasSets = r.roster.some((s) => s.item || s.ability || s.moves.length > 0);
             const open = expandedResult === r.id;
             return (
@@ -418,6 +441,11 @@ export default function TournamentsPage() {
                     </span>
                   )}
                   {r.is_dark_horse && <span className="dark-horse-badge">Dark horse</span>}
+                  {r.archetypes.map((tag) => (
+                    <span key={tag} className="archetype-badge">
+                      {tag}
+                    </span>
+                  ))}
                   <button
                     className="tournament-result-roster tournament-result-roster-btn"
                     onClick={() => setExpandedResult(open ? null : r.id)}
