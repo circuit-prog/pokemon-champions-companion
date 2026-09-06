@@ -26,6 +26,9 @@ from app.schemas import (
     TournamentStatEntry,
     TournamentSummaryOut,
     TournamentTrendPoint,
+    PokemonStatsOut,
+    PokemonSetOptionEntry,
+    PokemonTeammateEntry,
 )
 
 router = APIRouter(prefix="/api/tournaments", tags=["tournaments"])
@@ -151,6 +154,117 @@ def get_pokemon_trend(pokemon: str, db: Session = Depends(get_db)):
             )
         )
     return points
+
+
+@router.get("/stats", response_model=PokemonStatsOut)
+def get_pokemon_stats(pokemon: str, db: Session = Depends(get_db)):
+    """Everything derivable about one Pokemon from results already logged:
+    its most common teammates, its most common item/ability/nature/moves,
+    and how it tends to place - all computed live, no extra scraping."""
+    results = db.query(TournamentResult).join(Tournament).all()
+    by_tournament: Dict[int, list[TournamentResult]] = {}
+    for r in results:
+        by_tournament.setdefault(r.tournament_id, []).append(r)
+
+    teammate_counter: Counter[str] = Counter()
+    counter_counter: Counter[str] = Counter()
+    counters_sample_size = 0
+    item_counter: Counter[str] = Counter()
+    ability_counter: Counter[str] = Counter()
+    nature_counter: Counter[str] = Counter()
+    move_counter: Counter[str] = Counter()
+    placements: list[int] = []
+    best_placement: Optional[int] = None
+    best_placement_tournament: Optional[str] = None
+    top_4 = 0
+    top_8 = 0
+
+    for r in results:
+        slots = json.loads(r.roster_json)
+        names = {s["pokemon_name"] for s in slots}
+        if pokemon not in names:
+            continue
+        placements.append(r.placement)
+        # Approximate "counters": Pokemon on teams that placed above this
+        # team in the same tournament. Not real head-to-head battle data
+        # (no bracket/pairing info is available), just a proxy signal.
+        for beater in by_tournament.get(r.tournament_id, []):
+            if beater.placement >= r.placement:
+                continue
+            counters_sample_size += 1
+            for slot in json.loads(beater.roster_json):
+                counter_counter[slot["pokemon_name"]] += 1
+        if best_placement is None or r.placement < best_placement:
+            best_placement = r.placement
+            best_placement_tournament = r.tournament.name
+        if r.placement <= 4:
+            top_4 += 1
+        if r.placement <= 8:
+            top_8 += 1
+        for s in slots:
+            if s["pokemon_name"] == pokemon:
+                if s.get("item"):
+                    item_counter[s["item"]] += 1
+                if s.get("ability"):
+                    ability_counter[s["ability"]] += 1
+                if s.get("nature"):
+                    nature_counter[s["nature"]] += 1
+                for mv in s.get("moves", []):
+                    move_counter[mv] += 1
+            else:
+                teammate_counter[s["pokemon_name"]] += 1
+
+    appearances = len(placements)
+    if appearances == 0:
+        return PokemonStatsOut(pokemon_name=pokemon, appearances=0)
+
+    def top_entries(counter: Counter[str], limit: int) -> list[PokemonSetOptionEntry]:
+        return [
+            PokemonSetOptionEntry(name=name, count=c, percent=round(100 * c / appearances, 1))
+            for name, c in counter.most_common(limit)
+        ]
+
+    teammate_lookup = _sprite_lookup(db, set(teammate_counter.keys()))
+    teammates = [
+        PokemonTeammateEntry(
+            pokemon_name=name,
+            display_name=teammate_lookup.get(name, (name, None))[0],
+            sprite_url=teammate_lookup.get(name, (name, None))[1],
+            count=c,
+            percent=round(100 * c / appearances, 1),
+        )
+        for name, c in teammate_counter.most_common(10)
+    ]
+
+    counter_lookup = _sprite_lookup(db, set(counter_counter.keys()))
+    counters = [
+        PokemonTeammateEntry(
+            pokemon_name=name,
+            display_name=counter_lookup.get(name, (name, None))[0],
+            sprite_url=counter_lookup.get(name, (name, None))[1],
+            count=c,
+            percent=round(100 * c / counters_sample_size, 1) if counters_sample_size else 0.0,
+        )
+        for name, c in counter_counter.most_common(10)
+        if name != pokemon
+    ]
+
+    return PokemonStatsOut(
+        pokemon_name=pokemon,
+        appearances=appearances,
+        teammates=teammates,
+        counters=counters,
+        counters_sample_size=counters_sample_size,
+        items=top_entries(item_counter, 5),
+        abilities=top_entries(ability_counter, 5),
+        natures=top_entries(nature_counter, 5),
+        moves=top_entries(move_counter, 8),
+        average_placement=round(sum(placements) / len(placements), 1),
+        best_placement=best_placement,
+        best_placement_tournament=best_placement_tournament,
+        top_4_finishes=top_4,
+        top_8_finishes=top_8,
+    )
 
 
 @router.get("/{tournament_id}", response_model=TournamentDetailOut)

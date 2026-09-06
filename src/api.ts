@@ -705,6 +705,41 @@ export function getPokemonTrend(pokemonName: string): Promise<TournamentTrendPoi
   return getJson<TournamentTrendPoint[]>(`/api/tournaments/trend?pokemon=${encodeURIComponent(pokemonName)}`);
 }
 
+export interface PokemonTeammateEntry {
+  pokemon_name: string;
+  display_name: string;
+  sprite_url: string | null;
+  count: number;
+  percent: number;
+}
+
+export interface PokemonSetOptionEntry {
+  name: string;
+  count: number;
+  percent: number;
+}
+
+export interface PokemonStats {
+  pokemon_name: string;
+  appearances: number;
+  teammates: PokemonTeammateEntry[];
+  counters: PokemonTeammateEntry[];
+  counters_sample_size: number;
+  items: PokemonSetOptionEntry[];
+  abilities: PokemonSetOptionEntry[];
+  natures: PokemonSetOptionEntry[];
+  moves: PokemonSetOptionEntry[];
+  average_placement: number | null;
+  best_placement: number | null;
+  best_placement_tournament: string | null;
+  top_4_finishes: number;
+  top_8_finishes: number;
+}
+
+export function getPokemonStats(pokemonName: string): Promise<PokemonStats> {
+  return getJson<PokemonStats>(`/api/tournaments/stats?pokemon=${encodeURIComponent(pokemonName)}`);
+}
+
 export function createTournament(body: TournamentIn): Promise<TournamentSummary> {
   return postJson<TournamentSummary>("/api/tournaments", body);
 }

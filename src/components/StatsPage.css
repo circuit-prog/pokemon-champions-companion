@@ -64,3 +64,89 @@
   text-align: right;
   color: #4a5568;
 }
+
+.stats-details {
+  margin-top: 1rem;
+}
+
+.stats-placement-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background: #fafcff;
+  margin-bottom: 1.25rem;
+}
+
+.stats-placement-item {
+  text-align: center;
+}
+
+.stats-placement-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2a5cb8;
+}
+
+.stats-placement-label {
+  font-size: 0.72rem;
+  color: #7d8ba0;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.stats-section {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  background: #fafcff;
+}
+
+.stats-section-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+}
+
+.stats-section-hint {
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: #7d8ba0;
+}
+
+.stats-entry-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.stats-entry-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+}
+
+.stats-entry-row img {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.stats-entry-name {
+  flex: 1;
+}
+
+.stats-entry-percent {
+  color: #2a5cb8;
+  font-weight: 700;
+}

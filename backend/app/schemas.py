@@ -428,6 +428,41 @@ class TournamentTrendPoint(BaseModel):
     usage_percent: float
 
 
+class PokemonTeammateEntry(BaseModel):
+    pokemon_name: str
+    display_name: str
+    sprite_url: Optional[str] = None
+    count: int
+    percent: float
+
+
+class PokemonSetOptionEntry(BaseModel):
+    """One value seen for some set slot (an item, ability, nature, or move)
+    plus how often it was seen, out of every roster slot for this Pokemon."""
+    name: str
+    count: int
+    percent: float
+
+
+class PokemonStatsOut(BaseModel):
+    """Everything we can derive about one Pokemon purely from results
+    already logged - teammates, common sets, and how it tends to place."""
+    pokemon_name: str
+    appearances: int
+    teammates: List[PokemonTeammateEntry] = []
+    counters: List[PokemonTeammateEntry] = []
+    counters_sample_size: int = 0
+    items: List[PokemonSetOptionEntry] = []
+    abilities: List[PokemonSetOptionEntry] = []
+    natures: List[PokemonSetOptionEntry] = []
+    moves: List[PokemonSetOptionEntry] = []
+    average_placement: Optional[float] = None
+    best_placement: Optional[int] = None
+    best_placement_tournament: Optional[str] = None
+    top_4_finishes: int = 0
+    top_8_finishes: int = 0
+
+
 class PlayerOut(BaseModel):
     external_id: str
     name: str
