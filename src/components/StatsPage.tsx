@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getPokemonTrend, getPokemonStats } from "../api";
-import type { TournamentTrendPoint, PokemonStats } from "../api";
+import { getPokemonTrend, getPokemonStats, getPokemonMovers } from "../api";
+import type { TournamentTrendPoint, PokemonStats, PokemonMovers } from "../api";
 import "./StatsPage.css";
 
 function titleCase(slug: string): string {
@@ -10,40 +10,108 @@ function titleCase(slug: string): string {
     .join(" ");
 }
 
-export default function StatsPage() {
-  const [filter, setFilter] = useState("");
-  const [trend, setTrend] = useState<TournamentTrendPoint[] | null>(null);
-  const [stats, setStats] = useState<PokemonStats | null>(null);
+function slugify(name: string): string {
+  return name.trim().toLowerCase().replace(/\s+/g, "-");
+}
+
+type Bracket = "all" | "top8" | "top4";
+
+function MoversLeaderboard({ onPick }: { onPick: (name: string) => void }) {
+  const [movers, setMovers] = useState<PokemonMovers | null>(null);
 
   useEffect(() => {
-    if (!filter.trim()) {
+    getPokemonMovers(8)
+      .then(setMovers)
+      .catch(() => setMovers({ risers: [], fallers: [] }));
+  }, []);
+
+  if (!movers) return <p className="subtitle">Loading movers...</p>;
+  if (movers.risers.length === 0 && movers.fallers.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="stats-grid stats-movers-grid">
+      <div className="stats-section">
+        <div className="stats-section-title">Trending up</div>
+        <div className="stats-entry-list">
+          {movers.risers.map((m) => (
+            <button key={m.pokemon_name} className="stats-mover-row" onClick={() => onPick(m.display_name)}>
+              <img src={m.sprite_url ?? undefined} alt={m.display_name} />
+              <span className="stats-entry-name">{m.display_name}</span>
+              <span className="stats-mover-delta stats-mover-up">
+                +{m.delta}% ({m.early_usage_percent}% → {m.recent_usage_percent}%)
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="stats-section">
+        <div className="stats-section-title">Trending down</div>
+        <div className="stats-entry-list">
+          {movers.fallers.map((m) => (
+            <button key={m.pokemon_name} className="stats-mover-row" onClick={() => onPick(m.display_name)}>
+              <img src={m.sprite_url ?? undefined} alt={m.display_name} />
+              <span className="stats-entry-name">{m.display_name}</span>
+              <span className="stats-mover-delta stats-mover-down">
+                {m.delta}% ({m.early_usage_percent}% → {m.recent_usage_percent}%)
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PokemonLookup({
+  value,
+  onChange,
+  placeholder,
+  onRemove,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder: string;
+  onRemove?: () => void;
+}) {
+  const [trend, setTrend] = useState<TournamentTrendPoint[] | null>(null);
+  const [stats, setStats] = useState<PokemonStats | null>(null);
+  const [bracket, setBracket] = useState<Bracket>("all");
+
+  useEffect(() => {
+    if (!value.trim()) {
       setTrend(null);
       setStats(null);
       return;
     }
     const handle = setTimeout(() => {
-      const slug = filter.trim().toLowerCase().replace(/\s+/g, "-");
+      const slug = slugify(value);
       getPokemonTrend(slug)
         .then(setTrend)
         .catch(() => setTrend([]));
-      getPokemonStats(slug)
+      getPokemonStats(slug, bracket)
         .then(setStats)
         .catch(() => setStats(null));
     }, 300);
     return () => clearTimeout(handle);
-  }, [filter]);
+  }, [value, bracket]);
 
   return (
-    <div className="stats-page">
-      <h2>Stats</h2>
-      <p className="subtitle">See how a Pokemon's usage has changed across every tournament we've tracked.</p>
-
-      <input
-        className="tournament-filter-input"
-        placeholder="Look up a Pokemon's usage trend..."
-        value={filter}
-        onChange={(e) => setFilter(e.target.value)}
-      />
+    <div className="stats-lookup">
+      <div className="stats-lookup-header">
+        <input
+          className="tournament-filter-input"
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        />
+        {onRemove && (
+          <button className="stats-lookup-remove" onClick={onRemove}>
+            Remove
+          </button>
+        )}
+      </div>
 
       {trend && (
         <div className="tournament-trend">
@@ -101,6 +169,19 @@ export default function StatsPage() {
                   <div className="stats-placement-value">{stats.top_8_finishes}</div>
                   <div className="stats-placement-label">Top 8 finishes</div>
                 </div>
+              </div>
+
+              <div className="stats-bracket-toggle">
+                <span className="tournaments-facet-label">Sets from</span>
+                {(["all", "top8", "top4"] as Bracket[]).map((b) => (
+                  <button
+                    key={b}
+                    className={`facet-chip ${bracket === b ? "active" : ""}`}
+                    onClick={() => setBracket(b)}
+                  >
+                    {b === "all" ? "Whole field" : b === "top8" ? "Top 8 only" : "Top 4 only"}
+                  </button>
+                ))}
               </div>
 
               <div className="stats-grid">
@@ -189,6 +270,38 @@ export default function StatsPage() {
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+export default function StatsPage() {
+  const [filter, setFilter] = useState("");
+  const [compareFilter, setCompareFilter] = useState<string | null>(null);
+
+  return (
+    <div className="stats-page">
+      <h2>Stats</h2>
+      <p className="subtitle">See how a Pokemon's usage has changed across every tournament we've tracked.</p>
+
+      <MoversLeaderboard onPick={setFilter} />
+
+      <div className={compareFilter !== null ? "stats-compare-grid" : undefined}>
+        <PokemonLookup value={filter} onChange={setFilter} placeholder="Look up a Pokemon's usage trend..." />
+        {compareFilter !== null ? (
+          <PokemonLookup
+            value={compareFilter}
+            onChange={setCompareFilter}
+            placeholder="Compare against another Pokemon..."
+            onRemove={() => setCompareFilter(null)}
+          />
+        ) : (
+          filter.trim() && (
+            <button className="stats-add-compare" onClick={() => setCompareFilter("")}>
+              + Compare another Pokemon
+            </button>
+          )
+        )}
+      </div>
     </div>
   );
 }

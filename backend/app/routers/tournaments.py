@@ -29,6 +29,7 @@ from app.schemas import (
     PokemonStatsOut,
     PokemonSetOptionEntry,
     PokemonTeammateEntry,
+    PokemonMoverEntry,
 )
 
 router = APIRouter(prefix="/api/tournaments", tags=["tournaments"])
@@ -194,11 +195,20 @@ def get_pokemon_trend(pokemon: str, db: Session = Depends(get_db)):
     return points
 
 
+BRACKET_CUTOFFS = {"top4": 4, "top8": 8}
+
+
 @router.get("/stats", response_model=PokemonStatsOut)
-def get_pokemon_stats(pokemon: str, db: Session = Depends(get_db)):
+def get_pokemon_stats(pokemon: str, bracket: str = "all", db: Session = Depends(get_db)):
     """Everything derivable about one Pokemon from results already logged:
     its most common teammates, its most common item/ability/nature/moves,
-    and how it tends to place - all computed live, no extra scraping."""
+    and how it tends to place - all computed live, no extra scraping.
+
+    `bracket` optionally restricts which of its results count toward the
+    set/teammate breakdown (but not the placement summary, which always
+    reflects every appearance) - e.g. bracket=top8 answers "what do the
+    Pokemon's top-8 finishers actually run" instead of the whole field."""
+    cutoff = BRACKET_CUTOFFS.get(bracket)
     results = db.query(TournamentResult).join(Tournament).all()
     by_tournament: Dict[int, list[TournamentResult]] = {}
     for r in results:
@@ -216,6 +226,7 @@ def get_pokemon_stats(pokemon: str, db: Session = Depends(get_db)):
     best_placement_tournament: Optional[str] = None
     top_4 = 0
     top_8 = 0
+    bracket_appearances = 0
 
     for r in results:
         slots = json.loads(r.roster_json)
@@ -239,6 +250,9 @@ def get_pokemon_stats(pokemon: str, db: Session = Depends(get_db)):
             top_4 += 1
         if r.placement <= 8:
             top_8 += 1
+        if cutoff is not None and r.placement > cutoff:
+            continue
+        bracket_appearances += 1
         for s in slots:
             if s["pokemon_name"] == pokemon:
                 if s.get("item"):
@@ -255,10 +269,11 @@ def get_pokemon_stats(pokemon: str, db: Session = Depends(get_db)):
     appearances = len(placements)
     if appearances == 0:
         return PokemonStatsOut(pokemon_name=pokemon, appearances=0)
+    set_denominator = bracket_appearances or 1
 
     def top_entries(counter: Counter[str], limit: int) -> list[PokemonSetOptionEntry]:
         return [
-            PokemonSetOptionEntry(name=name, count=c, percent=round(100 * c / appearances, 1))
+            PokemonSetOptionEntry(name=name, count=c, percent=round(100 * c / set_denominator, 1))
             for name, c in counter.most_common(limit)
         ]
 
@@ -269,7 +284,7 @@ def get_pokemon_stats(pokemon: str, db: Session = Depends(get_db)):
             display_name=teammate_lookup.get(name, (name, None))[0],
             sprite_url=teammate_lookup.get(name, (name, None))[1],
             count=c,
-            percent=round(100 * c / appearances, 1),
+            percent=round(100 * c / set_denominator, 1),
         )
         for name, c in teammate_counter.most_common(10)
     ]
@@ -303,6 +318,66 @@ def get_pokemon_stats(pokemon: str, db: Session = Depends(get_db)):
         top_4_finishes=top_4,
         top_8_finishes=top_8,
     )
+
+
+MOVERS_MIN_APPEARANCES = 20
+MOVERS_MIN_TOURNAMENTS = 6
+
+
+@router.get("/movers", response_model=Dict[str, list[PokemonMoverEntry]])
+def get_pokemon_movers(limit: int = 10, db: Session = Depends(get_db)):
+    """Which Pokemon are trending up or down, without searching one at a
+    time: usage% per tournament (oldest first, same as /trend) for every
+    Pokemon that's appeared enough to be meaningful, split into an earlier
+    and later half, ranked by the change in average usage% between halves."""
+    tournaments = db.query(Tournament).order_by(Tournament.date.asc()).all()
+    tournaments = [t for t in tournaments if len(t.results) > 0]
+    if len(tournaments) < MOVERS_MIN_TOURNAMENTS:
+        return {"risers": [], "fallers": []}
+
+    usage_by_pokemon: Dict[str, list[float]] = {}
+    appearances_by_pokemon: Counter[str] = Counter()
+    for t in tournaments:
+        total = len(t.results)
+        counts: Counter[str] = Counter()
+        for r in t.results:
+            for slot in json.loads(r.roster_json):
+                counts[slot["pokemon_name"]] += 1
+        for name, c in counts.items():
+            appearances_by_pokemon[name] += c
+        for name in set(counts) | set(usage_by_pokemon.keys()):
+            usage_by_pokemon.setdefault(name, []).append(round(100 * counts.get(name, 0) / total, 1))
+
+    split = len(tournaments) // 2
+    movers = []
+    for name, series in usage_by_pokemon.items():
+        if appearances_by_pokemon[name] < MOVERS_MIN_APPEARANCES:
+            continue
+        early = series[:split]
+        recent = series[split:]
+        early_avg = round(sum(early) / len(early), 1)
+        recent_avg = round(sum(recent) / len(recent), 1)
+        movers.append((name, early_avg, recent_avg, round(recent_avg - early_avg, 1)))
+
+    names = {m[0] for m in movers}
+    lookup = _sprite_lookup(db, names)
+
+    def to_entry(m: tuple[str, float, float, float]) -> PokemonMoverEntry:
+        name, early_avg, recent_avg, delta = m
+        display_name, sprite_url = lookup.get(name, (name, None))
+        return PokemonMoverEntry(
+            pokemon_name=name,
+            display_name=display_name,
+            sprite_url=sprite_url,
+            early_usage_percent=early_avg,
+            recent_usage_percent=recent_avg,
+            delta=delta,
+            appearances=appearances_by_pokemon[name],
+        )
+
+    risers = sorted(movers, key=lambda m: m[3], reverse=True)[:limit]
+    fallers = sorted(movers, key=lambda m: m[3])[:limit]
+    return {"risers": [to_entry(m) for m in risers], "fallers": [to_entry(m) for m in fallers]}
 
 
 @router.get("/{tournament_id}", response_model=TournamentDetailOut)

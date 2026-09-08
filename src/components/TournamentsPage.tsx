@@ -40,7 +40,63 @@ type View =
   | { kind: "detail"; id: number }
   | { kind: "edit-tournament"; id: number | null }
   | { kind: "edit-result"; tournamentId: number; result: TournamentResultOut | null }
-  | { kind: "player"; externalId: string; back: View };
+  | { kind: "player"; externalId: string; back: View }
+  | { kind: "compare"; ids: [number, number] };
+
+function TournamentCompareView({ ids, onBack }: { ids: [number, number]; onBack: () => void }) {
+  const [details, setDetails] = useState<[TournamentDetail, TournamentDetail] | null>(null);
+
+  useEffect(() => {
+    Promise.all([getTournament(ids[0]), getTournament(ids[1])]).then(setDetails);
+  }, [ids]);
+
+  if (!details) return <p className="subtitle">Loading...</p>;
+  const [a, b] = details;
+
+  const aCounts = new Map(a.most_brought.map((e) => [e.pokemon_name, e]));
+  const bCounts = new Map(b.most_brought.map((e) => [e.pokemon_name, e]));
+  const allNames = Array.from(new Set([...aCounts.keys(), ...bCounts.keys()]));
+
+  return (
+    <div className="tournament-compare-view">
+      <button className="back-btn" onClick={onBack}>
+        ← Tournaments
+      </button>
+      <h3>Comparing tournaments</h3>
+      <div className="tournament-compare-columns">
+        <div>
+          <strong>{a.name}</strong>
+          <div className="subtitle">{a.date}</div>
+        </div>
+        <div>
+          <strong>{b.name}</strong>
+          <div className="subtitle">{b.date}</div>
+        </div>
+      </div>
+      <div className="tournament-compare-diff-list">
+        {allNames.map((name) => {
+          const aEntry = aCounts.get(name);
+          const bEntry = bCounts.get(name);
+          const aPct = a.results.length ? Math.round((100 * (aEntry?.count ?? 0)) / a.results.length) : 0;
+          const bPct = b.results.length ? Math.round((100 * (bEntry?.count ?? 0)) / b.results.length) : 0;
+          const display = aEntry?.display_name ?? bEntry?.display_name ?? name;
+          const sprite = aEntry?.sprite_url ?? bEntry?.sprite_url;
+          return (
+            <div key={name} className="tournament-compare-diff-row">
+              <img src={sprite ?? undefined} alt={display} />
+              <span className="tournament-compare-diff-name">{display}</span>
+              <span className="tournament-compare-diff-value">{aEntry ? `${aEntry.count} (${aPct}%)` : "-"}</span>
+              <span className={`tournament-compare-diff-delta ${aPct === bPct ? "" : aPct > bPct ? "down" : "up"}`}>
+                {aPct === bPct ? "=" : aPct > bPct ? "▼" : "▲"}
+              </span>
+              <span className="tournament-compare-diff-value">{bEntry ? `${bEntry.count} (${bPct}%)` : "-"}</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 function VerdictIcon({ verdict }: { verdict: "good" | "warning" | "bad" }) {
   const glyph = verdict === "good" ? "✓" : verdict === "warning" ? "⚠" : "✗";
@@ -173,6 +229,10 @@ export default function TournamentsPage() {
   const [myTeamTournamentIds, setMyTeamTournamentIds] = useState<Set<number> | null>(null);
   const [myTeamLoading, setMyTeamLoading] = useState(false);
   const [playstyleFilter, setPlaystyleFilter] = useState("");
+  const [viewMode, setViewMode] = useState<"list" | "timeline">("list");
+  const [visibleCount, setVisibleCount] = useState(24);
+  const [compareMode, setCompareMode] = useState(false);
+  const [compareIds, setCompareIds] = useState<number[]>([]);
 
   function refreshList() {
     getTournaments()
@@ -196,6 +256,10 @@ export default function TournamentsPage() {
       setPlaystyleFilter("");
     }
   }, [view]);
+
+  useEffect(() => {
+    setVisibleCount(24);
+  }, [minPlayers, formatFilter, sourceFilter, sortKey, myTeamId, viewMode]);
 
   // "Only my team's Pokemon" - reuses the existing per-Pokemon search
   // endpoint (one call per unique species on the team) rather than fetching
@@ -297,6 +361,14 @@ export default function TournamentsPage() {
           onSave={(body) => saveResult(view.tournamentId, view.result?.id ?? null, body)}
           onCancel={() => setView({ kind: "detail", id: view.tournamentId })}
         />
+      </div>
+    );
+  }
+
+  if (view.kind === "compare") {
+    return (
+      <div className="tournaments-page">
+        <TournamentCompareView ids={view.ids} onBack={() => setView({ kind: "list" })} />
       </div>
     );
   }
@@ -519,6 +591,49 @@ export default function TournamentsPage() {
         </button>
       </div>
 
+      <div className="tournaments-list-header">
+        <div className="tournaments-facet-group">
+          <span className="tournaments-facet-label">View</span>
+          {(["list", "timeline"] as const).map((m) => (
+            <button
+              key={m}
+              className={viewMode === m ? "facet-chip active" : "facet-chip"}
+              onClick={() => setViewMode(m)}
+            >
+              {m === "list" ? "List" : "Timeline"}
+            </button>
+          ))}
+        </div>
+        <button
+          className={compareMode ? "facet-chip active" : "facet-chip"}
+          onClick={() => {
+            setCompareMode(!compareMode);
+            setCompareIds([]);
+          }}
+        >
+          {compareMode ? "Cancel compare" : "Compare tournaments"}
+        </button>
+        {compareMode && (
+          <span className="subtitle">
+            {compareIds.length < 2
+              ? `Select ${2 - compareIds.length} more tournament${2 - compareIds.length === 1 ? "" : "s"}`
+              : ""}
+          </span>
+        )}
+        {compareIds.length === 2 && (
+          <button
+            className="new-team-btn"
+            onClick={() => {
+              setView({ kind: "compare", ids: [compareIds[0], compareIds[1]] });
+              setCompareMode(false);
+              setCompareIds([]);
+            }}
+          >
+            Compare selected
+          </button>
+        )}
+      </div>
+
       <div className="tournaments-facets">
         <div className="tournaments-facet-group">
           <span className="tournaments-facet-label">Format</span>
@@ -598,8 +713,8 @@ export default function TournamentsPage() {
       ) : tournaments.length === 0 ? (
         <p className="subtitle">No tournaments logged yet. Add one to get started.</p>
       ) : (
-        <div className="tournament-list">
-          {tournaments
+        (() => {
+          const filtered = tournaments
             .filter((t) => !minPlayers || (t.player_count ?? 0) >= Number(minPlayers))
             .filter((t) => formatFilter === "all" || t.format === formatFilter)
             .filter(
@@ -612,19 +727,73 @@ export default function TournamentsPage() {
               if (sortKey === "players") return (b.player_count ?? 0) - (a.player_count ?? 0);
               if (sortKey === "results") return b.result_count - a.result_count;
               return a.date < b.date ? 1 : -1;
-            })
-            .map((t) => (
-            <button key={t.id} className="tournament-card" onClick={() => setView({ kind: "detail", id: t.id })}>
-              <strong>
-                {t.name} {t.is_online && <span className="online-badge">Online</span>}
-              </strong>
-              <span className="subtitle">
-                {t.date}
-                {t.player_count != null && ` · ${t.player_count} players`} · {t.result_count} results
-              </span>
-            </button>
-          ))}
-        </div>
+            });
+
+          function renderCard(t: TournamentSummary) {
+            const selected = compareIds.includes(t.id);
+            return (
+              <button
+                key={t.id}
+                className={selected ? "tournament-card compare-selected" : "tournament-card"}
+                onClick={() => {
+                  if (compareMode) {
+                    setCompareIds((prev) =>
+                      prev.includes(t.id)
+                        ? prev.filter((id) => id !== t.id)
+                        : prev.length < 2
+                        ? [...prev, t.id]
+                        : prev
+                    );
+                  } else {
+                    setView({ kind: "detail", id: t.id });
+                  }
+                }}
+              >
+                <strong>
+                  {selected && "✓ "}
+                  {t.name} {t.is_online && <span className="online-badge">Online</span>}
+                </strong>
+                <span className="subtitle">
+                  {t.date}
+                  {t.player_count != null && ` · ${t.player_count} players`} · {t.result_count} results
+                </span>
+              </button>
+            );
+          }
+
+          if (viewMode === "timeline") {
+            const groups = new Map<string, TournamentSummary[]>();
+            for (const t of filtered) {
+              const month = t.date.slice(0, 7);
+              if (!groups.has(month)) groups.set(month, []);
+              groups.get(month)!.push(t);
+            }
+            return (
+              <div className="tournament-timeline">
+                {Array.from(groups.entries()).map(([month, items]) => (
+                  <div key={month} className="tournament-timeline-group">
+                    <div className="tournament-timeline-month">
+                      {month} <span className="subtitle">({items.length})</span>
+                    </div>
+                    <div className="tournament-list">{items.map(renderCard)}</div>
+                  </div>
+                ))}
+              </div>
+            );
+          }
+
+          const visible = filtered.slice(0, visibleCount);
+          return (
+            <>
+              <div className="tournament-list">{visible.map(renderCard)}</div>
+              {visibleCount < filtered.length && (
+                <button className="tournament-show-more" onClick={() => setVisibleCount((c) => c + 24)}>
+                  Show more ({filtered.length - visibleCount} remaining)
+                </button>
+              )}
+            </>
+          );
+        })()
       )}
     </div>
   );

@@ -465,6 +465,19 @@ class PokemonStatsOut(BaseModel):
     top_8_finishes: int = 0
 
 
+class PokemonMoverEntry(BaseModel):
+    """One Pokemon's usage% shift between the earlier and later halves of
+    every tracked tournament, oldest first - a proxy for "trending up/down"
+    without having to search one Pokemon at a time."""
+    pokemon_name: str
+    display_name: str
+    sprite_url: Optional[str] = None
+    early_usage_percent: float
+    recent_usage_percent: float
+    delta: float
+    appearances: int
+
+
 class PlayerOut(BaseModel):
     external_id: str
     name: str

@@ -364,3 +364,83 @@
   border-radius: 999px;
 }
 
+.tournament-card.compare-selected {
+  border-color: #2a5cb8;
+  background: #eef4ff;
+}
+
+.tournament-show-more {
+  display: block;
+  margin: 1rem auto 0;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid #d5dee8;
+  border-radius: 999px;
+  background: #fafcff;
+  color: #2a5cb8;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.tournament-timeline-group {
+  margin-bottom: 1.5rem;
+}
+
+.tournament-timeline-month {
+  font-weight: 700;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tournament-compare-view h3 {
+  margin-top: 1rem;
+}
+
+.tournament-compare-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.tournament-compare-diff-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.tournament-compare-diff-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 90px 24px 90px;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  padding: 0.2rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tournament-compare-diff-row img {
+  width: 24px;
+  height: 24px;
+}
+
+.tournament-compare-diff-value {
+  text-align: right;
+  color: #4a5568;
+}
+
+.tournament-compare-diff-delta {
+  text-align: center;
+  font-weight: 700;
+  color: #7d8ba0;
+}
+
+.tournament-compare-diff-delta.up {
+  color: #1f7a4d;
+}
+
+.tournament-compare-diff-delta.down {
+  color: #c53030;
+}
+

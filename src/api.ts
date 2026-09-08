@@ -737,8 +737,29 @@ export interface PokemonStats {
   top_8_finishes: number;
 }
 
-export function getPokemonStats(pokemonName: string): Promise<PokemonStats> {
-  return getJson<PokemonStats>(`/api/tournaments/stats?pokemon=${encodeURIComponent(pokemonName)}`);
+export function getPokemonStats(pokemonName: string, bracket: "all" | "top8" | "top4" = "all"): Promise<PokemonStats> {
+  return getJson<PokemonStats>(
+    `/api/tournaments/stats?pokemon=${encodeURIComponent(pokemonName)}&bracket=${bracket}`
+  );
+}
+
+export interface PokemonMoverEntry {
+  pokemon_name: string;
+  display_name: string;
+  sprite_url: string | null;
+  early_usage_percent: number;
+  recent_usage_percent: number;
+  delta: number;
+  appearances: number;
+}
+
+export interface PokemonMovers {
+  risers: PokemonMoverEntry[];
+  fallers: PokemonMoverEntry[];
+}
+
+export function getPokemonMovers(limit = 10): Promise<PokemonMovers> {
+  return getJson<PokemonMovers>(`/api/tournaments/movers?limit=${limit}`);
 }
 
 export function createTournament(body: TournamentIn): Promise<TournamentSummary> {
