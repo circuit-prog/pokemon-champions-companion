@@ -9,6 +9,7 @@ const ALL_STAT_KEYS: StatKey[] = ["hp", "atk", "def", "spa", "spd", "spe"];
 const STAT_LABELS: Record<StatKey, string> = { hp: "HP", atk: "Atk", def: "Def", spa: "SpA", spd: "SpD", spe: "Spe" };
 
 function titleCase(slug: string): string {
+  if (!slug) return "";
   return slug
     .split("-")
     .map((w) => w[0]?.toUpperCase() + w.slice(1))

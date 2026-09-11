@@ -359,7 +359,7 @@ class TournamentResultOut(BaseModel):
 class TournamentIn(BaseModel):
     name: str
     date: str
-    format: str = "m-b"
+    format: str = "m-c"  # current regulation as of 2026-09-08/09
     player_count: Optional[int] = None
     source_url: Optional[str] = None
     notes: Optional[str] = None

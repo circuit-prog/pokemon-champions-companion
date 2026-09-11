@@ -1,4 +1,5 @@
-"""Pull Pokemon Champions Reg M-B usage data from Smogon's published stats.
+"""Pull Pokemon Champions usage data from Smogon's published stats, for
+whichever regulation Smogon has data for (see FORMAT_PRIORITY below).
 
 Why this exists alongside the Pikalytics scraper:
 
@@ -29,8 +30,15 @@ import requests
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 BASE = "https://www.smogon.com/stats"
-MONTH = "2026-07"
-FORMAT = "gen9championsvgc2026regmb"
+# Smogon publishes monthly, with a lag (checked live 2026-09-11: the newest
+# month up is 2026-08, still M-B only - Regulation M-C, live since
+# 2026-09-08/09, won't have its own Smogon format string until an M-C month
+# closes out). MONTH_CANDIDATES tries newest-first; FORMAT_PRIORITY tries the
+# current regulation's format string before falling back to the previous
+# regulation's, mirroring scrape_usage_ranking.py's same fallback for the
+# same reason.
+MONTH_CANDIDATES = ["2026-09", "2026-08", "2026-07"]
+FORMAT_PRIORITY = ["gen9championsvgc2026regmc", "gen9championsvgc2026regmb"]
 
 # Smogon splits each format by minimum player rating. 1760 is high-level
 # ladder - what strong players actually run, which is what we want when
@@ -50,6 +58,29 @@ def fetch(url: str) -> str:
     resp = requests.get(url, timeout=60)
     resp.raise_for_status()
     return resp.text
+
+
+def try_fetch(url: str):
+    """None on 404 (this month/format combo doesn't exist yet) instead of
+    raising, so main() can walk MONTH_CANDIDATES x FORMAT_PRIORITY."""
+    resp = requests.get(url, timeout=60)
+    if resp.status_code == 404:
+        return None
+    resp.raise_for_status()
+    return resp.text
+
+
+def find_latest_available(month_candidates, format_priority):
+    """The newest (month, format) combo that actually has published stats -
+    walks months newest-first, and within each month tries the current
+    regulation's format before falling back to the previous one."""
+    for month in month_candidates:
+        for fmt in format_priority:
+            url = f"{BASE}/{month}/{fmt}-{RATING}.txt"
+            text = try_fetch(url)
+            if text is not None:
+                return month, fmt, text
+    return None, None, None
 
 
 def parse_usage(text: str) -> dict:
@@ -171,11 +202,17 @@ def parse_movesets(text: str) -> dict:
 
 
 def main():
-    usage_url = f"{BASE}/{MONTH}/{FORMAT}-{RATING}.txt"
-    moveset_url = f"{BASE}/{MONTH}/moveset/{FORMAT}-{RATING}.txt"
+    month, fmt, usage_text = find_latest_available(MONTH_CANDIDATES, FORMAT_PRIORITY)
+    if month is None:
+        raise RuntimeError(
+            f"No Smogon stats found for any of {MONTH_CANDIDATES} x {FORMAT_PRIORITY} - "
+            "check MONTH_CANDIDATES/FORMAT_PRIORITY are still current."
+        )
+    print(f"Using {fmt} for {month} (newest available).")
 
-    print(f"Fetching usage table: {usage_url}")
-    usage = parse_usage(fetch(usage_url))
+    moveset_url = f"{BASE}/{month}/moveset/{fmt}-{RATING}.txt"
+
+    usage = parse_usage(usage_text)
     print(f"  {len(usage)} Pokemon ranked")
 
     print(f"Fetching movesets:    {moveset_url}")
@@ -200,8 +237,8 @@ def main():
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(json.dumps({
-        "format": FORMAT,
-        "month": MONTH,
+        "format": fmt,
+        "month": month,
         "rating": RATING,
         "source": "smogon",
         "scraped_at": datetime.now(timezone.utc).isoformat(),

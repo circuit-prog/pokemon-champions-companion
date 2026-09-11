@@ -218,6 +218,9 @@ IMMUNITY_ABILITIES = {
 NEEDS_MOVE_FLAG = {
     "tough-claws", "iron-fist", "strong-jaw", "mega-launcher", "reckless",
     "fluffy", "unseen-fist", "sheer-force",
+    # Mega Lucario Z's new ability (Regulation M-C) - halves damage from
+    # contact moves, same shape as Fluffy above.
+    "aura-guard",
 }
 
 # Depend on battle state a calculator has no way to know: how many allies have

@@ -4,6 +4,13 @@ import_pokeapi.py.
 
 Run scrape_usage_ranking.py and scrape_usage_detail.py first.
 
+Deletes every existing pokemon_usage_stats row before loading the fresh
+ranking, rather than only touching rows for Pokemon still present in it -
+otherwise a Pokemon that drops out of the current regulation's top ranking
+(because it fell off in usage, or because the ranking now reflects a new
+regulation entirely) would keep showing its last-known rank/usage% forever
+instead of correctly becoming "untracked".
+
 Usage:
     backend/venv/bin/python backend/scripts/load_usage_data.py
 """
@@ -17,7 +24,10 @@ from app.database import SessionLocal
 from app.models.pokemon import Pokemon, PokemonUsageStats
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
-FORMAT = "m-a"
+FORMAT_PATH = DATA_DIR / "usage_format.json"
+# Same fallback as scrape_usage_detail.py - only matters if this is run
+# standalone before the ranking scraper has produced its sidecar file.
+FORMAT = json.loads(FORMAT_PATH.read_text())["format"] if FORMAT_PATH.exists() else "m-b"
 
 
 def main():
@@ -27,6 +37,9 @@ def main():
     db = SessionLocal()
     loaded, skipped = 0, 0
     try:
+        deleted = db.query(PokemonUsageStats).delete()
+        db.commit()
+        print(f"Cleared {deleted} existing usage stats rows before reloading ({FORMAT}).")
         for entry in ranking:
             pokemon = db.query(Pokemon).filter(Pokemon.name == entry["name"]).first()
             if not pokemon:

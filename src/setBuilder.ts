@@ -71,10 +71,20 @@ export async function resolveTopSet(
   }
 
   let ability = "";
-  const topAbility = usage.abilities?.[0]?.name;
-  if (topAbility) {
-    const match = detail.abilities.find((a) => a.display_name.toLowerCase() === topAbility.toLowerCase());
-    if (match) ability = match.name;
+  if (detail.abilities.length === 1) {
+    // A Pokemon with only one legal ability has no real choice to track -
+    // most Mega Evolutions are like this, with a single locked ability
+    // different from their base form's. Matching the base species' most-used
+    // ability name against a Mega's own (single, different) ability list
+    // would almost always fail to match and silently leave this blank, so
+    // skip usage data entirely when there's nothing to choose between.
+    ability = detail.abilities[0].name;
+  } else {
+    const topAbility = usage.abilities?.[0]?.name;
+    if (topAbility) {
+      const match = detail.abilities.find((a) => a.display_name.toLowerCase() === topAbility.toLowerCase());
+      if (match) ability = match.name;
+    }
   }
 
   const topItem = usage.items?.[0]?.name;

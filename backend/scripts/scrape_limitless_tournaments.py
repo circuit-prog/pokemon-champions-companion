@@ -59,10 +59,15 @@ import requests
 from bs4 import BeautifulSoup
 
 BASE = "https://limitlessvgc.com"
-# Both real Pokemon Champions regulations so far: m-a (pre-Mega, now history)
-# and m-b (current, includes Megas). Older tags (svf/svi/svh/...) are
-# Scarlet/Violet VGC, a different game - not tracked here.
-TARGET_FORMATS = {"m-a", "m-b"}
+# Every real Pokemon Champions regulation: m-a (pre-Mega, now history), m-b
+# (2026-05 through 2026-09-08, Megas added), and m-c (current as of
+# 2026-09-08/09, +24 Pokemon and 6 new Mega Evolutions). Older tags
+# (svf/svi/svh/...) are Scarlet/Violet VGC, a different game - not tracked
+# here. m-c hasn't shown up in this site's own data-format attribute yet as
+# of 2026-09-11 (checked live - official in-person M-C events take longer to
+# get reported here than the regulation itself takes to go live), but it's
+# listed up front so the scraper picks it up automatically once it does.
+TARGET_FORMATS = {"m-a", "m-b", "m-c"}
 TOP_N_RESULTS = 128
 MAX_LISTING_PAGES = 20  # generous ceiling; the listing stops early once exhausted
 REQUEST_DELAY_SECONDS = 0.5  # be polite to the source site

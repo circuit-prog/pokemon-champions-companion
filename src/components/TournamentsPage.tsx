@@ -222,7 +222,7 @@ export default function TournamentsPage() {
   const [error, setError] = useState<string | null>(null);
   const [expandedResult, setExpandedResult] = useState<number | null>(null);
   const [sortKey, setSortKey] = useState<"date" | "players" | "results">("date");
-  const [formatFilter, setFormatFilter] = useState<"all" | "m-a" | "m-b">("all");
+  const [formatFilter, setFormatFilter] = useState<"all" | "m-a" | "m-b" | "m-c">("all");
   const [sourceFilter, setSourceFilter] = useState<"all" | "online" | "in-person">("all");
   const [myTeams, setMyTeams] = useState<SavedTeam[]>([]);
   const [myTeamId, setMyTeamId] = useState("");
@@ -637,7 +637,7 @@ export default function TournamentsPage() {
       <div className="tournaments-facets">
         <div className="tournaments-facet-group">
           <span className="tournaments-facet-label">Format</span>
-          {(["all", "m-b", "m-a"] as const).map((f) => (
+          {(["all", "m-c", "m-b", "m-a"] as const).map((f) => (
             <button
               key={f}
               className={formatFilter === f ? "facet-chip active" : "facet-chip"}

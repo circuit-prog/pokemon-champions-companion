@@ -34,7 +34,7 @@ DAMAGE_AFFECTING = {
     "sniper", "neuroforce", "tinted-lens", "adaptability", "dark-aura", "fairy-aura",
     "multiscale", "shadow-shield", "ice-scales", "fur-coat", "thick-fat",
     "heatproof", "purifying-salt", "filter", "solid-rock", "prism-armor",
-    "dry-skin", "fluffy", "wonder-guard", "marvel-scale", "grass-pelt",
+    "dry-skin", "fluffy", "aura-guard", "wonder-guard", "marvel-scale", "grass-pelt",
     "aura-break", "friend-guard", "battle-armor", "shell-armor",
     "levitate", "flash-fire", "water-absorb", "volt-absorb", "storm-drain",
     "lightning-rod", "motor-drive", "sap-sipper", "earth-eater",

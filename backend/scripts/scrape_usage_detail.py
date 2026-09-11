@@ -20,11 +20,18 @@ import requests
 from bs4 import BeautifulSoup
 
 BASE = "https://limitlessvgc.com"
-FORMAT = "m-a"
 REQUEST_DELAY_SECONDS = 0.5
 
 RANKING_PATH = Path(__file__).resolve().parent.parent / "data" / "usage_ranking.json"
+FORMAT_PATH = Path(__file__).resolve().parent.parent / "data" / "usage_format.json"
 OUTPUT_PATH = Path(__file__).resolve().parent.parent / "data" / "usage_detail.json"
+
+# Written by scrape_usage_ranking.py alongside usage_ranking.json - the
+# ranking and detail scrapes must use the same regulation, or a detail page
+# fetched under the wrong format would 404/come back empty. "m-b" fallback
+# only matters if this script is ever run standalone before the ranking
+# scraper has produced its sidecar file.
+FORMAT = json.loads(FORMAT_PATH.read_text())["format"] if FORMAT_PATH.exists() else "m-b"
 
 
 def fetch(url):

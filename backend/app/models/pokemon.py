@@ -84,13 +84,17 @@ class Ability(Base):
 
 
 class PokemonUsageStats(Base):
-    """Real Pokemon Champions competitive usage data for Regulation M-B.
+    """Real Pokemon Champions competitive usage data for the current
+    regulation - which one is in `format` on each row (see
+    scrape_smogon.py's FORMAT_PRIORITY for how "current" is decided; a
+    brand-new regulation falls back to the previous one until Smogon
+    publishes its own numbers for it).
 
-    Sourced from Smogon's published stats for gen9championsvgc2026regmb
-    (~310 Pokemon, with real usage percentages and EV spreads). We previously
-    used Pikalytics' AI API here, which publishes only the top 50 for this
-    format, no usage percentages, and no spreads at all; Pikalytics is still
-    the source for team cores and top tournament teams, which Smogon lacks.
+    Sourced from Smogon's published stats (~310 Pokemon, with real usage
+    percentages and EV spreads). We previously used Pikalytics' AI API here,
+    which publishes only the top 50 for this format, no usage percentages,
+    and no spreads at all; Pikalytics is still the source for team cores and
+    top tournament teams, which Smogon lacks.
 
     Only Pokemon actually seen in ranked play have a row - most of the
     `pokemon` table won't.

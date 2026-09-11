@@ -35,6 +35,12 @@ from pathlib import Path
 
 import requests
 
+# Pikalytics' internal format code for the current regulation - checked live
+# 2026-09-11: no M-C code exists yet (battledataregmc/-s1/-s3 all 404;
+# pikalytics.com's own homepage still only lists battledataregmas2 and
+# battledataregmbs3), despite Regulation M-C being live in-game since
+# 2026-09-08/09. Update this once Pikalytics adds one - grep their homepage
+# HTML for "battledata" to find the new code's exact spelling.
 BASE = "https://www.pikalytics.com/ai/pokedex/battledataregmbs3"
 TOP_N = 50  # Pikalytics' index page publishes the top 50 by usage
 REQUEST_DELAY_SECONDS = 0.5

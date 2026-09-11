@@ -34,9 +34,9 @@ export default function MetaRankingsView({ onSelectDetail }: { onSelectDetail: (
   return (
     <div className="meta-rankings-view">
       <p className="meta-rankings-note">
-        Real Pokemon Champions Regulation M-B ranked battle data from Smogon's published stats
-        ({rankings.length} Pokemon tracked), with usage percentages and real EV spreads. Win rates,
-        where shown, come from Pikalytics.
+        Real Pokemon Champions{freshness?.format && ` Regulation ${freshness.format.toUpperCase()}`} ranked battle
+        data from Smogon's published stats ({rankings.length} Pokemon tracked), with usage percentages and real EV
+        spreads. Win rates, where shown, come from Pikalytics.
       </p>
       {freshness?.last_updated && (
         <p className="meta-freshness">

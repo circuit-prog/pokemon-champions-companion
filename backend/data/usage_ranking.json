@@ -3,498 +3,282 @@
     "rank": 1,
     "name": "kingambit",
     "display_name": "Kingambit",
-    "usage_percent": 65.31
+    "usage_percent": 68.83
   },
   {
     "rank": 2,
     "name": "basculegion",
     "display_name": "Basculegion",
-    "usage_percent": 53.42
+    "usage_percent": 44.16
   },
   {
     "rank": 3,
-    "name": "garchomp",
-    "display_name": "Garchomp",
-    "usage_percent": 46.61
+    "name": "charizard",
+    "display_name": "Charizard",
+    "usage_percent": 41.65
   },
   {
     "rank": 4,
-    "name": "sneasler",
-    "display_name": "Sneasler",
-    "usage_percent": 44.24
+    "name": "garchomp",
+    "display_name": "Garchomp",
+    "usage_percent": 36.62
   },
   {
     "rank": 5,
-    "name": "charizard",
-    "display_name": "Charizard",
-    "usage_percent": 40.85
+    "name": "sylveon",
+    "display_name": "Sylveon",
+    "usage_percent": 33.51
   },
   {
     "rank": 6,
     "name": "floette-eternal",
     "display_name": "Eternal Flower Floette",
-    "usage_percent": 40.7
+    "usage_percent": 29.78
   },
   {
     "rank": 7,
-    "name": "incineroar",
-    "display_name": "Incineroar",
-    "usage_percent": 40.51
+    "name": "sneasler",
+    "display_name": "Sneasler",
+    "usage_percent": 29.18
   },
   {
     "rank": 8,
-    "name": "sinistcha",
-    "display_name": "Sinistcha",
-    "usage_percent": 25.02
+    "name": "whimsicott",
+    "display_name": "Whimsicott",
+    "usage_percent": 28.48
   },
   {
     "rank": 9,
-    "name": "whimsicott",
-    "display_name": "Whimsicott",
-    "usage_percent": 22.86
+    "name": "incineroar",
+    "display_name": "Incineroar",
+    "usage_percent": 26.75
   },
   {
     "rank": 10,
-    "name": "froslass",
-    "display_name": "Froslass",
-    "usage_percent": 18.24
+    "name": "staraptor",
+    "display_name": "Staraptor",
+    "usage_percent": 24.07
   },
   {
     "rank": 11,
-    "name": "aerodactyl",
-    "display_name": "Aerodactyl",
-    "usage_percent": 15.56
+    "name": "venusaur",
+    "display_name": "Venusaur",
+    "usage_percent": 23.72
   },
   {
     "rank": 12,
-    "name": "sylveon",
-    "display_name": "Sylveon",
-    "usage_percent": 14.26
+    "name": "farigiraf",
+    "display_name": "Farigiraf",
+    "usage_percent": 19.74
   },
   {
     "rank": 13,
-    "name": "scovillain",
-    "display_name": "Scovillain",
-    "usage_percent": 13.19
+    "name": "raichu",
+    "display_name": "Raichu",
+    "usage_percent": 16.97
   },
   {
     "rank": 14,
-    "name": "dragonite",
-    "display_name": "Dragonite",
-    "usage_percent": 11.43
+    "name": "sinistcha",
+    "display_name": "Sinistcha",
+    "usage_percent": 14.2
   },
   {
     "rank": 15,
-    "name": "lycanroc-dusk",
-    "display_name": "Lycanroc Dusk",
-    "usage_percent": 9.61
+    "name": "arcanine-hisui",
+    "display_name": "Hisuian Arcanine",
+    "usage_percent": 12.81
   },
   {
     "rank": 16,
-    "name": "farigiraf",
-    "display_name": "Farigiraf",
-    "usage_percent": 9.06
+    "name": "aerodactyl",
+    "display_name": "Aerodactyl",
+    "usage_percent": 11.6
   },
   {
     "rank": 17,
     "name": "archaludon",
     "display_name": "Archaludon",
-    "usage_percent": 8.19
+    "usage_percent": 9.09
   },
   {
-    "rank": 18,
-    "name": "delphox",
-    "display_name": "Delphox",
-    "usage_percent": 7.05
+    "rank": 17,
+    "name": "swampert",
+    "display_name": "Swampert",
+    "usage_percent": 9.09
   },
   {
-    "rank": 19,
-    "name": "venusaur",
-    "display_name": "Venusaur",
-    "usage_percent": 6.75
+    "rank": 17,
+    "name": "pelipper",
+    "display_name": "Pelipper",
+    "usage_percent": 9.09
   },
   {
     "rank": 20,
-    "name": "tyranitar",
-    "display_name": "Tyranitar",
-    "usage_percent": 6.22
+    "name": "dragonite",
+    "display_name": "Dragonite",
+    "usage_percent": 8.83
   },
   {
     "rank": 21,
-    "name": "corviknight",
-    "display_name": "Corviknight",
-    "usage_percent": 5.18
+    "name": "grimmsnarl",
+    "display_name": "Grimmsnarl",
+    "usage_percent": 7.79
   },
   {
     "rank": 22,
-    "name": "gengar",
-    "display_name": "Gengar",
-    "usage_percent": 4.9
+    "name": "delphox",
+    "display_name": "Delphox",
+    "usage_percent": 7.71
   },
   {
     "rank": 23,
-    "name": "pelipper",
-    "display_name": "Pelipper",
-    "usage_percent": 4.74
+    "name": "milotic",
+    "display_name": "Milotic",
+    "usage_percent": 6.93
   },
   {
     "rank": 24,
-    "name": "vivillon",
-    "display_name": "Vivillon",
-    "usage_percent": 4.62
+    "name": "tyranitar",
+    "display_name": "Tyranitar",
+    "usage_percent": 6.49
   },
   {
     "rank": 25,
-    "name": "rotom-wash",
-    "display_name": "Wash Rotom",
-    "usage_percent": 4.34
+    "name": "froslass",
+    "display_name": "Froslass",
+    "usage_percent": 5.89
   },
   {
     "rank": 26,
-    "name": "maushold",
-    "display_name": "Maushold",
-    "usage_percent": 4.31
+    "name": "scovillain",
+    "display_name": "Scovillain",
+    "usage_percent": 5.89
   },
   {
-    "rank": 27,
-    "name": "talonflame",
-    "display_name": "Talonflame",
-    "usage_percent": 4.25
+    "rank": 26,
+    "name": "lycanroc-dusk",
+    "display_name": "Lycanroc Dusk",
+    "usage_percent": 5.89
   },
   {
     "rank": 28,
-    "name": "politoed",
-    "display_name": "Politoed",
-    "usage_percent": 3.91
+    "name": "gholdengo",
+    "display_name": "Gholdengo",
+    "usage_percent": 5.19
   },
   {
-    "rank": 29,
-    "name": "blastoise",
-    "display_name": "Blastoise",
-    "usage_percent": 3.73
+    "rank": 28,
+    "name": "excadrill",
+    "display_name": "Excadrill",
+    "usage_percent": 5.19
   },
   {
     "rank": 30,
-    "name": "glimmora",
-    "display_name": "Glimmora",
-    "usage_percent": 3.67
+    "name": "toxapex",
+    "display_name": "Toxapex",
+    "usage_percent": 4.33
   },
   {
     "rank": 31,
-    "name": "hydreigon",
-    "display_name": "Hydreigon",
-    "usage_percent": 3.48
+    "name": "kleavor",
+    "display_name": "Kleavor",
+    "usage_percent": 3.81
   },
   {
     "rank": 32,
-    "name": "palafin",
-    "display_name": "Palafin",
-    "usage_percent": 3.33
+    "name": "blastoise",
+    "display_name": "Blastoise",
+    "usage_percent": 3.38
   },
   {
-    "rank": 33,
-    "name": "ninetales-alola",
-    "display_name": "Alolan Ninetales",
-    "usage_percent": 3.11
+    "rank": 32,
+    "name": "torkoal",
+    "display_name": "Torkoal",
+    "usage_percent": 3.38
   },
   {
     "rank": 34,
-    "name": "arcanine-hisui",
-    "display_name": "Hisuian Arcanine",
-    "usage_percent": 3.02
+    "name": "camerupt",
+    "display_name": "Camerupt",
+    "usage_percent": 3.03
   },
   {
-    "rank": 35,
-    "name": "ceruledge",
-    "display_name": "Ceruledge",
-    "usage_percent": 2.9
+    "rank": 34,
+    "name": "maushold",
+    "display_name": "Maushold",
+    "usage_percent": 3.03
   },
   {
     "rank": 36,
-    "name": "excadrill",
-    "display_name": "Excadrill",
-    "usage_percent": 2.87
+    "name": "gengar",
+    "display_name": "Gengar",
+    "usage_percent": 2.6
   },
   {
-    "rank": 37,
-    "name": "milotic",
-    "display_name": "Milotic",
-    "usage_percent": 2.77
+    "rank": 36,
+    "name": "glimmora",
+    "display_name": "Glimmora",
+    "usage_percent": 2.6
   },
   {
-    "rank": 38,
-    "name": "espathra",
-    "display_name": "Espathra",
-    "usage_percent": 2.68
+    "rank": 36,
+    "name": "ninetales-alola",
+    "display_name": "Alolan Ninetales",
+    "usage_percent": 2.6
   },
   {
     "rank": 39,
-    "name": "gardevoir",
-    "display_name": "Gardevoir",
-    "usage_percent": 2.62
+    "name": "metagross",
+    "display_name": "Metagross",
+    "usage_percent": 2.08
   },
   {
-    "rank": 40,
-    "name": "aegislash",
-    "display_name": "Aegislash",
-    "usage_percent": 2.5
+    "rank": 39,
+    "name": "primarina",
+    "display_name": "Primarina",
+    "usage_percent": 2.08
   },
   {
-    "rank": 41,
-    "name": "kommo-o",
-    "display_name": "Kommo-o",
-    "usage_percent": 2.37
+    "rank": 39,
+    "name": "blaziken",
+    "display_name": "Blaziken",
+    "usage_percent": 2.08
   },
   {
-    "rank": 42,
-    "name": "kangaskhan",
-    "display_name": "Kangaskhan",
-    "usage_percent": 2.34
+    "rank": 39,
+    "name": "tsareena",
+    "display_name": "Tsareena",
+    "usage_percent": 2.08
   },
   {
     "rank": 43,
-    "name": "scizor",
-    "display_name": "Scizor",
-    "usage_percent": 2.09
+    "name": "kangaskhan",
+    "display_name": "Kangaskhan",
+    "usage_percent": 1.73
   },
   {
-    "rank": 44,
-    "name": "toxapex",
-    "display_name": "Toxapex",
-    "usage_percent": 1.94
+    "rank": 43,
+    "name": "vanilluxe",
+    "display_name": "Vanilluxe",
+    "usage_percent": 1.73
   },
   {
-    "rank": 45,
-    "name": "gyarados",
-    "display_name": "Gyarados",
-    "usage_percent": 1.57
+    "rank": 43,
+    "name": "aegislash",
+    "display_name": "Aegislash",
+    "usage_percent": 1.73
   },
   {
     "rank": 46,
-    "name": "torkoal",
-    "display_name": "Torkoal",
-    "usage_percent": 1.48
+    "name": "mudsdale",
+    "display_name": "Mudsdale",
+    "usage_percent": 1.3
   },
   {
-    "rank": 47,
-    "name": "sableye",
-    "display_name": "Sableye",
-    "usage_percent": 1.36
-  },
-  {
-    "rank": 48,
-    "name": "mimikyu",
-    "display_name": "Mimikyu",
-    "usage_percent": 1.29
-  },
-  {
-    "rank": 49,
-    "name": "mamoswine",
-    "display_name": "Mamoswine",
-    "usage_percent": 1.2
-  },
-  {
-    "rank": 50,
-    "name": "samurott-hisui",
-    "display_name": "Hisuian Samurott",
-    "usage_percent": 1.08
-  },
-  {
-    "rank": 51,
-    "name": "camerupt",
-    "display_name": "Camerupt",
-    "usage_percent": 1.08
-  },
-  {
-    "rank": 52,
-    "name": "kleavor",
-    "display_name": "Kleavor",
-    "usage_percent": 0.99
-  },
-  {
-    "rank": 53,
-    "name": "volcarona",
-    "display_name": "Volcarona",
-    "usage_percent": 0.77
-  },
-  {
-    "rank": 54,
-    "name": "steelix",
-    "display_name": "Steelix",
-    "usage_percent": 0.74
-  },
-  {
-    "rank": 55,
-    "name": "tinkaton",
-    "display_name": "Tinkaton",
-    "usage_percent": 0.71
-  },
-  {
-    "rank": 56,
-    "name": "weavile",
-    "display_name": "Weavile",
-    "usage_percent": 0.68
-  },
-  {
-    "rank": 56,
-    "name": "tsareena",
-    "display_name": "Tsareena",
-    "usage_percent": 0.68
-  },
-  {
-    "rank": 56,
-    "name": "lopunny",
-    "display_name": "Lopunny",
-    "usage_percent": 0.68
-  },
-  {
-    "rank": 59,
-    "name": "skarmory",
-    "display_name": "Skarmory",
-    "usage_percent": 0.52
-  },
-  {
-    "rank": 60,
-    "name": "dragapult",
-    "display_name": "Dragapult",
-    "usage_percent": 0.46
-  },
-  {
-    "rank": 60,
-    "name": "snorlax",
-    "display_name": "Snorlax",
-    "usage_percent": 0.46
-  },
-  {
-    "rank": 62,
-    "name": "orthworm",
-    "display_name": "Orthworm",
-    "usage_percent": 0.37
-  },
-  {
-    "rank": 63,
-    "name": "typhlosion-hisui",
-    "display_name": "Hisuian Typhlosion",
-    "usage_percent": 0.28
-  },
-  {
-    "rank": 63,
-    "name": "empoleon",
-    "display_name": "Empoleon",
-    "usage_percent": 0.28
-  },
-  {
-    "rank": 63,
-    "name": "crabominable",
-    "display_name": "Crabominable",
-    "usage_percent": 0.28
-  },
-  {
-    "rank": 63,
-    "name": "clefable",
-    "display_name": "Clefable",
-    "usage_percent": 0.28
-  },
-  {
-    "rank": 63,
-    "name": "chandelure",
-    "display_name": "Chandelure",
-    "usage_percent": 0.28
-  },
-  {
-    "rank": 68,
-    "name": "primarina",
-    "display_name": "Primarina",
-    "usage_percent": 0.22
-  },
-  {
-    "rank": 68,
-    "name": "manectric",
-    "display_name": "Manectric",
-    "usage_percent": 0.22
-  },
-  {
-    "rank": 68,
-    "name": "azumarill",
-    "display_name": "Azumarill",
-    "usage_percent": 0.22
-  },
-  {
-    "rank": 71,
-    "name": "wyrdeer",
-    "display_name": "Wyrdeer",
-    "usage_percent": 0.18
-  },
-  {
-    "rank": 71,
-    "name": "serperior",
-    "display_name": "Serperior",
-    "usage_percent": 0.18
-  },
-  {
-    "rank": 73,
-    "name": "araquanid",
-    "display_name": "Araquanid",
-    "usage_percent": 0.15
-  },
-  {
-    "rank": 73,
-    "name": "arcanine",
-    "display_name": "Arcanine",
-    "usage_percent": 0.15
-  },
-  {
-    "rank": 75,
-    "name": "gallade",
-    "display_name": "Gallade",
-    "usage_percent": 0.12
-  },
-  {
-    "rank": 76,
+    "rank": 46,
     "name": "abomasnow",
     "display_name": "Abomasnow",
-    "usage_percent": 0.12
-  },
-  {
-    "rank": 77,
-    "name": "rotom-mow",
-    "display_name": "Mow Rotom",
-    "usage_percent": 0.06
-  },
-  {
-    "rank": 77,
-    "name": "rotom-heat",
-    "display_name": "Heat Rotom",
-    "usage_percent": 0.06
-  },
-  {
-    "rank": 77,
-    "name": "lucario",
-    "display_name": "Lucario",
-    "usage_percent": 0.06
-  },
-  {
-    "rank": 80,
-    "name": "oranguru",
-    "display_name": "Oranguru",
-    "usage_percent": 0.0
-  },
-  {
-    "rank": 80,
-    "name": "starmie",
-    "display_name": "Starmie",
-    "usage_percent": 0.0
-  },
-  {
-    "rank": 80,
-    "name": "armarouge",
-    "display_name": "Armarouge",
-    "usage_percent": 0.0
-  },
-  {
-    "rank": 80,
-    "name": "heracross",
-    "display_name": "Heracross",
-    "usage_percent": 0.0
+    "usage_percent": 1.3
   }
 ]
