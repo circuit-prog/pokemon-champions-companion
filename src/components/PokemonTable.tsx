@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { browsePokemon } from "../api";
 import type { PokemonSummary } from "../api";
 import { TYPE_COLORS } from "../typeColors";
@@ -55,11 +55,18 @@ export default function PokemonTable({
     setActiveTypes((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]));
   }
 
+  // Bumped every time the search criteria change, so loadMore() (below) can
+  // tell whether its in-flight request is still for the current search when
+  // it resolves - without this, changing the search text while a "show more"
+  // page is loading appended the stale page onto the new, unrelated results.
+  const searchGeneration = useRef(0);
+
   // Sorting and searching are server-side, so changing either re-queries from
   // the start. Sorting in the browser used to reorder only the rows already
   // fetched, which meant a Pokemon outside the first page could never be found
   // by sorting on a stat no matter what you did.
   useEffect(() => {
+    searchGeneration.current += 1;
     let cancelled = false;
     const handle = setTimeout(() => {
       setLoading(true);
@@ -95,6 +102,7 @@ export default function PokemonTable({
   }, [query, abilityQuery, activeTypes, sortKey, sortDesc]);
 
   function loadMore() {
+    const generation = searchGeneration.current;
     setLoadingMore(true);
     browsePokemon({
       search: query,
@@ -105,7 +113,13 @@ export default function PokemonTable({
       limit: PAGE_SIZE,
       offset: results.length,
     })
-      .then((page) => setResults((prev) => [...prev, ...page.items]))
+      .then((page) => {
+        // The search criteria changed while this page was in flight - a
+        // fresh search effect already replaced `results`, so appending this
+        // now-unrelated page would mix two different searches together.
+        if (generation !== searchGeneration.current) return;
+        setResults((prev) => [...prev, ...page.items]);
+      })
       .catch(() => setError("Couldn't load more results."))
       .finally(() => setLoadingMore(false));
   }
