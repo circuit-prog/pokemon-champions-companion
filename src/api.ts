@@ -789,3 +789,168 @@ export function updateTournamentResult(
 export function deleteTournamentResult(tournamentId: number, resultId: number): Promise<void> {
   return deleteJson(`/api/tournaments/${tournamentId}/results/${resultId}`);
 }
+
+// --- Practice tracker (Phase 4) --------------------------------------------
+
+export type DamageCategory = "big" | "normal" | "weak" | "miss";
+export type PracticeResult = "win" | "loss";
+
+export interface PracticeTurnIn {
+  my_pokemon?: string | null;
+  my_move?: string | null;
+  my_damage?: DamageCategory | null;
+  my_fainted?: boolean;
+  my_switch_in?: string | null;
+  opponent_pokemon?: string | null;
+  opponent_move?: string | null;
+  opponent_damage?: DamageCategory | null;
+  opponent_fainted?: boolean;
+  opponent_switch_in?: string | null;
+  field_notes?: string | null;
+}
+
+export interface PracticeTurnOut extends PracticeTurnIn {
+  id: number;
+  turn_number: number;
+  my_pokemon_display_name: string | null;
+  my_pokemon_sprite_url: string | null;
+  my_switch_in_display_name: string | null;
+  my_switch_in_sprite_url: string | null;
+  opponent_pokemon_display_name: string | null;
+  opponent_pokemon_sprite_url: string | null;
+  opponent_switch_in_display_name: string | null;
+  opponent_switch_in_sprite_url: string | null;
+}
+
+export interface PracticeRosterSlot {
+  pokemon_name: string;
+  display_name: string;
+  sprite_url: string | null;
+}
+
+export interface PracticeGameIn {
+  date: string;
+  my_team_name: string;
+  my_roster: string[];
+  notes?: string | null;
+  replay_link?: string | null;
+}
+
+export interface PracticeGameUpdateIn {
+  result?: PracticeResult | null;
+  replay_link?: string | null;
+  notes?: string | null;
+}
+
+export interface PracticeGameSummary {
+  id: number;
+  date: string;
+  my_team_name: string;
+  result: PracticeResult | null;
+  turn_count: number;
+  opponent_roster: PracticeRosterSlot[];
+}
+
+export interface PracticeGame extends PracticeGameSummary {
+  my_roster: PracticeRosterSlot[];
+  notes: string | null;
+  replay_link: string | null;
+  turns: PracticeTurnOut[];
+}
+
+export interface PracticeStreak {
+  type: PracticeResult | null;
+  length: number;
+}
+
+export interface PracticeTeamStat {
+  team_name: string;
+  games: number;
+  wins: number;
+  win_rate: number;
+}
+
+export interface PracticeTrendPoint {
+  game_id: number;
+  date: string;
+  result: PracticeResult;
+  win_rate_so_far: number;
+}
+
+export interface PracticePokemonStat {
+  pokemon_name: string;
+  display_name: string;
+  sprite_url: string | null;
+  games: number;
+  wins: number;
+  win_rate: number;
+}
+
+export interface PracticeDamageLeader {
+  pokemon_name: string;
+  display_name: string;
+  sprite_url: string | null;
+  big_hits: number;
+  total_hits: number;
+}
+
+export interface PracticeStats {
+  current_streak: PracticeStreak;
+  best_win_streak: number;
+  by_team: PracticeTeamStat[];
+  over_time: PracticeTrendPoint[];
+  vs_opponent_pokemon: PracticePokemonStat[];
+  by_own_pokemon: PracticePokemonStat[];
+  damage_leaders: PracticeDamageLeader[];
+}
+
+export interface PracticeGameFilters {
+  opponent?: string;
+  team?: string;
+  result?: PracticeResult;
+  date_from?: string;
+  date_to?: string;
+}
+
+export function getPracticeGames(filters: PracticeGameFilters = {}): Promise<PracticeGameSummary[]> {
+  const params = new URLSearchParams();
+  if (filters.opponent) params.set("opponent", filters.opponent);
+  if (filters.team) params.set("team", filters.team);
+  if (filters.result) params.set("result", filters.result);
+  if (filters.date_from) params.set("date_from", filters.date_from);
+  if (filters.date_to) params.set("date_to", filters.date_to);
+  const qs = params.toString();
+  return getJson<PracticeGameSummary[]>(`/api/practice${qs ? `?${qs}` : ""}`);
+}
+
+export function getPracticeStats(): Promise<PracticeStats> {
+  return getJson<PracticeStats>("/api/practice/stats");
+}
+
+export function getPracticeGame(id: number): Promise<PracticeGame> {
+  return getJson<PracticeGame>(`/api/practice/${id}`);
+}
+
+export function createPracticeGame(body: PracticeGameIn): Promise<PracticeGame> {
+  return postJson<PracticeGame>("/api/practice", body);
+}
+
+export function updatePracticeGame(id: number, body: PracticeGameUpdateIn): Promise<PracticeGame> {
+  return putJson<PracticeGame>(`/api/practice/${id}`, body);
+}
+
+export function deletePracticeGame(id: number): Promise<void> {
+  return deleteJson(`/api/practice/${id}`);
+}
+
+export function addPracticeTurn(gameId: number, body: PracticeTurnIn): Promise<PracticeTurnOut> {
+  return postJson<PracticeTurnOut>(`/api/practice/${gameId}/turns`, body);
+}
+
+export function updatePracticeTurn(gameId: number, turnNumber: number, body: PracticeTurnIn): Promise<PracticeTurnOut> {
+  return putJson<PracticeTurnOut>(`/api/practice/${gameId}/turns/${turnNumber}`, body);
+}
+
+export function deletePracticeTurn(gameId: number, turnNumber: number): Promise<void> {
+  return deleteJson(`/api/practice/${gameId}/turns/${turnNumber}`);
+}

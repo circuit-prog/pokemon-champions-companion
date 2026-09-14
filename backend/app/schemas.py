@@ -500,3 +500,114 @@ class PlayerResultOut(BaseModel):
 
 class PlayerDetailOut(PlayerOut):
     results: List[PlayerResultOut] = []
+
+
+# --- Practice tracker (Phase 4) -------------------------------------------
+
+class PracticeTurnIn(BaseModel):
+    my_pokemon: Optional[str] = None
+    my_move: Optional[str] = None
+    my_damage: Optional[str] = None  # "big" | "normal" | "weak" | "miss"
+    my_fainted: bool = False
+    my_switch_in: Optional[str] = None
+    opponent_pokemon: Optional[str] = None
+    opponent_move: Optional[str] = None
+    opponent_damage: Optional[str] = None
+    opponent_fainted: bool = False
+    opponent_switch_in: Optional[str] = None
+    field_notes: Optional[str] = None
+
+
+class PracticeTurnOut(PracticeTurnIn):
+    id: int
+    turn_number: int
+    my_pokemon_display_name: Optional[str] = None
+    my_pokemon_sprite_url: Optional[str] = None
+    my_switch_in_display_name: Optional[str] = None
+    my_switch_in_sprite_url: Optional[str] = None
+    opponent_pokemon_display_name: Optional[str] = None
+    opponent_pokemon_sprite_url: Optional[str] = None
+    opponent_switch_in_display_name: Optional[str] = None
+    opponent_switch_in_sprite_url: Optional[str] = None
+
+
+class PracticeRosterSlotOut(BaseModel):
+    pokemon_name: str
+    display_name: str
+    sprite_url: Optional[str] = None
+
+
+class PracticeGameIn(BaseModel):
+    date: str
+    my_team_name: str
+    my_roster: List[str]
+    notes: Optional[str] = None
+    replay_link: Optional[str] = None
+
+
+class PracticeGameUpdateIn(BaseModel):
+    result: Optional[str] = None  # "win" | "loss"
+    replay_link: Optional[str] = None
+    notes: Optional[str] = None
+
+
+class PracticeGameSummaryOut(BaseModel):
+    id: int
+    date: str
+    my_team_name: str
+    result: Optional[str] = None
+    turn_count: int
+    opponent_roster: List[PracticeRosterSlotOut] = []
+
+
+class PracticeGameOut(PracticeGameSummaryOut):
+    my_roster: List[PracticeRosterSlotOut] = []
+    notes: Optional[str] = None
+    replay_link: Optional[str] = None
+    turns: List[PracticeTurnOut] = []
+
+
+class PracticeStreak(BaseModel):
+    type: Optional[str] = None  # "win" | "loss" | None
+    length: int = 0
+
+
+class PracticeTeamStat(BaseModel):
+    team_name: str
+    games: int
+    wins: int
+    win_rate: float
+
+
+class PracticeTrendPoint(BaseModel):
+    game_id: int
+    date: str
+    result: str
+    win_rate_so_far: float
+
+
+class PracticePokemonStat(BaseModel):
+    pokemon_name: str
+    display_name: str
+    sprite_url: Optional[str] = None
+    games: int
+    wins: int
+    win_rate: float
+
+
+class PracticeDamageLeader(BaseModel):
+    pokemon_name: str
+    display_name: str
+    sprite_url: Optional[str] = None
+    big_hits: int
+    total_hits: int
+
+
+class PracticeStatsOut(BaseModel):
+    current_streak: PracticeStreak = PracticeStreak()
+    best_win_streak: int = 0
+    by_team: List[PracticeTeamStat] = []
+    over_time: List[PracticeTrendPoint] = []
+    vs_opponent_pokemon: List[PracticePokemonStat] = []
+    by_own_pokemon: List[PracticePokemonStat] = []
+    damage_leaders: List[PracticeDamageLeader] = []

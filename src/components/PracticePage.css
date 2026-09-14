@@ -1,0 +1,206 @@
+.practice-page {
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.practice-input {
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.practice-textarea {
+  width: 100%;
+  min-height: 4rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.practice-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.practice-list-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
+
+.practice-list-header .practice-input {
+  flex: 1;
+  min-width: 200px;
+}
+
+.practice-game-card {
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
+  cursor: default;
+}
+
+.practice-game-card-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-align: left;
+  padding: 0.85rem 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.practice-delete-btn {
+  align-self: flex-end;
+  margin: 0 0.75rem 0.6rem;
+  font-size: 0.78rem;
+}
+
+.practice-new-game,
+.practice-live-game,
+.practice-detail {
+  max-width: 640px;
+}
+
+.practice-stats-panel {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  background: #fafcff;
+  margin-bottom: 1.25rem;
+}
+
+.practice-stats-summary {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.practice-stats-section {
+  margin-bottom: 1rem;
+}
+
+.practice-bar-loss {
+  background: #c53030 !important;
+}
+
+.practice-turn-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin: 1rem 0;
+}
+
+.practice-turn-side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  background: #fafcff;
+}
+
+.practice-turn-side-title {
+  font-weight: 700;
+  color: #4a5568;
+}
+
+.practice-damage-chips {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.practice-opponent-picker {
+  position: relative;
+  flex: 1;
+}
+
+.practice-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  background: white;
+  border: 1px solid #d5dee8;
+  border-radius: 8px;
+  margin-top: 0.2rem;
+  max-height: 220px;
+  overflow-y: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.practice-suggestion {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.practice-suggestion:hover {
+  background: #f0f4fa;
+}
+
+.practice-suggestion img {
+  width: 22px;
+  height: 22px;
+}
+
+.practice-field-notes {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.practice-finish-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  padding: 0.9rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background: #fafcff;
+}
+
+.practice-turn-log {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.practice-turn-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+.practice-turn-number {
+  color: #7d8ba0;
+  font-weight: 700;
+}
+
+.practice-turn-vs {
+  color: #7d8ba0;
+  font-size: 0.75rem;
+}

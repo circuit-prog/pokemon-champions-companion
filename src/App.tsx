@@ -6,11 +6,12 @@ import DexPage from './components/DexPage'
 import MetaPage from './components/MetaPage'
 import TournamentsPage from './components/TournamentsPage'
 import StatsPage from './components/StatsPage'
+import PracticePage from './components/PracticePage'
 import DamageCalculator from './components/DamageCalculator'
 import TeamToolsPage from './components/TeamToolsPage'
 import './App.css'
 
-type Tab = 'start' | 'teams' | 'dex' | 'meta' | 'tournaments' | 'stats' | 'calc' | 'tools'
+type Tab = 'start' | 'teams' | 'dex' | 'meta' | 'tournaments' | 'stats' | 'practice' | 'calc' | 'tools'
 
 function App() {
   // Shared links open straight to the view they point at:
@@ -67,6 +68,9 @@ function App() {
           <button className={tab === 'stats' ? 'active' : ''} onClick={() => goToTab('stats')}>
             Stats
           </button>
+          <button className={tab === 'practice' ? 'active' : ''} onClick={() => goToTab('practice')}>
+            Practice
+          </button>
           <button className={tab === 'tools' ? 'active' : ''} onClick={() => goToTab('tools')}>
             Team Tools
           </button>
@@ -101,6 +105,9 @@ function App() {
       </div>
       <div className={tab === 'stats' ? 'app-page' : 'app-page hidden'}>
         <StatsPage />
+      </div>
+      <div className={tab === 'practice' ? 'app-page' : 'app-page hidden'}>
+        <PracticePage />
       </div>
       <div className={tab === 'tools' ? 'app-page' : 'app-page hidden'}>
         <TeamToolsPage />
