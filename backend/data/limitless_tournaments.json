@@ -4723,12 +4723,6 @@
         "points": 134
       },
       {
-        "pokemon_name": "archaludon",
-        "count": 6,
-        "share_percent": 10.53,
-        "points": 105
-      },
-      {
         "pokemon_name": "swampert",
         "count": 6,
         "share_percent": 10.53,
@@ -4736,6 +4730,12 @@
       },
       {
         "pokemon_name": "pelipper",
+        "count": 6,
+        "share_percent": 10.53,
+        "points": 105
+      },
+      {
+        "pokemon_name": "archaludon",
         "count": 6,
         "share_percent": 10.53,
         "points": 105
@@ -4771,13 +4771,13 @@
         "points": 75
       },
       {
-        "pokemon_name": "gholdengo",
+        "pokemon_name": "excadrill",
         "count": 3,
         "share_percent": 5.26,
         "points": 60
       },
       {
-        "pokemon_name": "excadrill",
+        "pokemon_name": "gholdengo",
         "count": 3,
         "share_percent": 5.26,
         "points": 60
@@ -4837,12 +4837,6 @@
         "points": 35
       },
       {
-        "pokemon_name": "glimmora",
-        "count": 2,
-        "share_percent": 3.51,
-        "points": 30
-      },
-      {
         "pokemon_name": "ninetales-alola",
         "count": 2,
         "share_percent": 3.51,
@@ -4855,10 +4849,10 @@
         "points": 30
       },
       {
-        "pokemon_name": "blaziken",
-        "count": 1,
-        "share_percent": 1.75,
-        "points": 24
+        "pokemon_name": "glimmora",
+        "count": 2,
+        "share_percent": 3.51,
+        "points": 30
       },
       {
         "pokemon_name": "tsareena",
@@ -4874,6 +4868,12 @@
       },
       {
         "pokemon_name": "primarina",
+        "count": 1,
+        "share_percent": 1.75,
+        "points": 24
+      },
+      {
+        "pokemon_name": "blaziken",
         "count": 1,
         "share_percent": 1.75,
         "points": 24
@@ -4897,13 +4897,13 @@
         "points": 20
       },
       {
-        "pokemon_name": "abomasnow",
+        "pokemon_name": "mudsdale",
         "count": 1,
         "share_percent": 1.75,
         "points": 15
       },
       {
-        "pokemon_name": "mudsdale",
+        "pokemon_name": "abomasnow",
         "count": 1,
         "share_percent": 1.75,
         "points": 15
@@ -30355,13 +30355,13 @@
         "points": 10
       },
       {
-        "pokemon_name": "kangaskhan",
+        "pokemon_name": "ninetales-alola",
         "count": 3,
         "share_percent": 2.22,
         "points": 8
       },
       {
-        "pokemon_name": "ninetales-alola",
+        "pokemon_name": "kangaskhan",
         "count": 3,
         "share_percent": 2.22,
         "points": 8
@@ -30379,13 +30379,13 @@
         "points": 6
       },
       {
-        "pokemon_name": "crabominable",
+        "pokemon_name": "torkoal",
         "count": 3,
         "share_percent": 2.22,
         "points": 4
       },
       {
-        "pokemon_name": "torkoal",
+        "pokemon_name": "crabominable",
         "count": 3,
         "share_percent": 2.22,
         "points": 4
@@ -30415,13 +30415,13 @@
         "points": 8
       },
       {
-        "pokemon_name": "wyrdeer",
+        "pokemon_name": "serperior",
         "count": 1,
         "share_percent": 0.74,
         "points": 6
       },
       {
-        "pokemon_name": "serperior",
+        "pokemon_name": "wyrdeer",
         "count": 1,
         "share_percent": 0.74,
         "points": 6
@@ -30457,6 +30457,18 @@
         "points": 4
       },
       {
+        "pokemon_name": "rotom-heat",
+        "count": 1,
+        "share_percent": 0.74,
+        "points": 2
+      },
+      {
+        "pokemon_name": "azumarill",
+        "count": 1,
+        "share_percent": 0.74,
+        "points": 2
+      },
+      {
         "pokemon_name": "rotom-mow",
         "count": 1,
         "share_percent": 0.74,
@@ -30482,18 +30494,6 @@
       },
       {
         "pokemon_name": "lucario",
-        "count": 1,
-        "share_percent": 0.74,
-        "points": 2
-      },
-      {
-        "pokemon_name": "rotom-heat",
-        "count": 1,
-        "share_percent": 0.74,
-        "points": 2
-      },
-      {
-        "pokemon_name": "azumarill",
         "count": 1,
         "share_percent": 0.74,
         "points": 2
