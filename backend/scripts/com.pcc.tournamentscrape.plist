@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!--
-  Weekly launchd job: runs run_tournament_scrape.sh to pull new Regulation
-  M-B tournament results from limitlessvgc.com, independent of whether the
-  app or backend server happen to be running.
+  Daily launchd job: runs run_tournament_scrape.sh to pull new tournament
+  results (limitlessvgc.com + play.limitlesstcg.com) and refresh Pokemon
+  usage data (Smogon), independent of whether the app or backend server
+  happen to be running.
 
   Points at this worktree checkout, since that's where the app actually
   runs from day to day. If this worktree is ever removed, re-point
@@ -38,8 +39,6 @@
 
     <key>StartCalendarInterval</key>
     <dict>
-        <key>Weekday</key>
-        <integer>1</integer>
         <key>Hour</key>
         <integer>9</integer>
         <key>Minute</key>
