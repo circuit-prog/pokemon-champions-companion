@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { loadTeams, createTeam, deleteTeam, duplicateTeam, updateTeam } from "../teamStorage";
+import { useEffect, useRef, useState } from "react";
+import { loadTeams, createTeam, deleteTeam, duplicateTeam, updateTeam, exportTeamsJson, importTeamsFromJson } from "../teamStorage";
 import type { SavedTeam } from "../teamStorage";
 import { importShowdownTeam } from "../showdownImport";
 import { exportTeamToShowdown } from "../teamExport";
@@ -14,6 +14,8 @@ export default function TeamsListPage({ onOpenTeam }: { onOpenTeam: (teamId: str
   const [importText, setImportText] = useState("");
   const [importing, setImporting] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
+  const [transferMessage, setTransferMessage] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setTeams(loadTeams());
@@ -26,6 +28,38 @@ export default function TeamsListPage({ onOpenTeam }: { onOpenTeam: (teamId: str
   function handleNewTeam() {
     const team = createTeam();
     onOpenTeam(team.id);
+  }
+
+  /** Downloads every saved team as one JSON file - teams live in this
+   *  browser's localStorage only, so this is how you move them to another
+   *  device (paired with handleImportFile below on the receiving end). */
+  function handleExportAll() {
+    const blob = new Blob([exportTeamsJson()], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `pokemon-champions-teams-${new Date().toISOString().slice(0, 10)}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function handleImportFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // allow re-selecting the same file later
+    if (!file) return;
+    setTransferMessage(null);
+    file
+      .text()
+      .then((text) => {
+        const { imported, skipped } = importTeamsFromJson(text);
+        setTransferMessage(
+          imported === 0
+            ? "No new teams to import - they're already here."
+            : `Imported ${imported} team${imported === 1 ? "" : "s"}${skipped > 0 ? ` (${skipped} already present, skipped)` : ""}.`
+        );
+        refresh();
+      })
+      .catch(() => setTransferMessage("Couldn't read that file - is it a teams export from this app?"));
   }
 
   async function handleImport() {
@@ -124,7 +158,21 @@ export default function TeamsListPage({ onOpenTeam }: { onOpenTeam: (teamId: str
           <button className="import-team-btn" onClick={() => setImportOpen((o) => !o)}>
             Import from Showdown
           </button>
+          <button className="import-team-btn" onClick={handleExportAll} disabled={teams.length === 0}>
+            Export all teams
+          </button>
+          <button className="import-team-btn" onClick={() => fileInputRef.current?.click()}>
+            Import teams file
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="application/json"
+            style={{ display: "none" }}
+            onChange={handleImportFile}
+          />
         </div>
+        {transferMessage && <p className="subtitle">{transferMessage}</p>}
 
         {importOpen && (
           <div className="import-panel">

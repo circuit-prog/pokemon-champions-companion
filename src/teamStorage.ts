@@ -91,6 +91,43 @@ export function createTeamWithSlots(name: string, slots: TeamSlotData[]): SavedT
   return team;
 }
 
+/** All saved teams as a JSON string, for moving them to another device/
+ *  browser (localStorage is per-device only - see the module docstring). */
+export function exportTeamsJson(): string {
+  return JSON.stringify(loadTeams(), null, 2);
+}
+
+/** Import teams from a JSON string produced by exportTeamsJson(), merging
+ *  into whatever's already saved on this device. Re-importing the same
+ *  export twice is safe - teams already present (matched by id) are
+ *  skipped rather than duplicated. Throws on malformed input. */
+export function importTeamsFromJson(json: string): { imported: number; skipped: number } {
+  const parsed = JSON.parse(json);
+  if (!Array.isArray(parsed)) {
+    throw new Error("Expected a JSON array of teams.");
+  }
+  const existing = loadTeams();
+  const existingIds = new Set(existing.map((t) => t.id));
+  let imported = 0;
+  let skipped = 0;
+  const merged = [...existing];
+  for (const team of parsed) {
+    if (!team || typeof team !== "object" || typeof team.id !== "string" || !Array.isArray(team.slots)) {
+      skipped++;
+      continue;
+    }
+    if (existingIds.has(team.id)) {
+      skipped++;
+      continue;
+    }
+    merged.push(team as SavedTeam);
+    existingIds.add(team.id);
+    imported++;
+  }
+  saveTeams(merged);
+  return { imported, skipped };
+}
+
 /** Add one Pokemon to an existing team.
  *
  *  Returns a human-readable reason instead of throwing when it can't - the
