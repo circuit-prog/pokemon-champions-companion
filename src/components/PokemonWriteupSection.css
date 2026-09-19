@@ -1,0 +1,35 @@
+.pokemon-writeup-section {
+  margin: 1.25rem 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background: #fafcff;
+  text-align: left;
+}
+
+.pokemon-writeup-empty {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pokemon-writeup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pokemon-writeup-field {
+  margin-top: 0.85rem;
+}
+
+.pokemon-writeup-field h4 {
+  margin: 0 0 0.3rem;
+  color: #4a5568;
+}
+
+.pokemon-writeup-text {
+  white-space: pre-wrap;
+  margin: 0;
+  line-height: 1.5;
+}

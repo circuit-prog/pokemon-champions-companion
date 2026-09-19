@@ -6,9 +6,14 @@ from sqlalchemy.orm import Session
 from sqlalchemy import or_, case
 
 from app.database import get_db
-from app.models.pokemon import Pokemon, PokemonUsageStats, Ability
+from datetime import datetime, timezone
+
+from app.models.pokemon import Pokemon, PokemonUsageStats, Ability, PokemonWriteup
 from app.name_resolver import resolve_names
-from app.schemas import PokemonSummary, PokemonDetail, PokemonUsageOut, UsageEntry, SpreadEntry
+from app.schemas import (
+    PokemonSummary, PokemonDetail, PokemonUsageOut, UsageEntry, SpreadEntry,
+    PokemonWriteupIn, PokemonWriteupOut,
+)
 
 router = APIRouter(prefix="/api/pokemon", tags=["pokemon"])
 
@@ -151,6 +156,35 @@ def list_pokemon(
     return [_to_summary(p) for p in query.offset(offset).limit(limit).all()]
 
 
+@router.get("/writeups", response_model=list[PokemonWriteupOut])
+def list_pokemon_writeups(db: Session = Depends(get_db)):
+    """Every Pokemon with a written meta analysis, for a directory/index
+    view - declared before /{name} so "writeups" is never mistaken for a
+    Pokemon's own slug."""
+    writeups = db.query(PokemonWriteup).all()
+    pokemon_by_name = {
+        p.name: p for p in db.query(Pokemon).filter(Pokemon.name.in_([w.pokemon_name for w in writeups])).all()
+    }
+    out = []
+    for w in writeups:
+        p = pokemon_by_name.get(w.pokemon_name)
+        if not p:
+            continue
+        out.append(
+            PokemonWriteupOut(
+                pokemon_name=p.name,
+                display_name=p.display_name,
+                sprite_url=p.sprite_url,
+                overview=w.overview,
+                moveset_notes=w.moveset_notes,
+                usage_tips=w.usage_tips,
+                checks_and_counters=w.checks_and_counters,
+                updated_at=w.updated_at,
+            )
+        )
+    return out
+
+
 @router.get("/{name}", response_model=PokemonDetail)
 def get_pokemon(name: str, db: Session = Depends(get_db)):
     pokemon = db.query(Pokemon).filter(Pokemon.name == name.lower()).first()
@@ -198,3 +232,69 @@ def get_pokemon_usage(name: str, db: Session = Depends(get_db)):
         teammates=teammate_entries,
         spreads=[SpreadEntry(**s) for s in json.loads(stats.spreads_json or "[]")],
     )
+
+
+@router.get("/{name}/writeup", response_model=PokemonWriteupOut)
+def get_pokemon_writeup(name: str, db: Session = Depends(get_db)):
+    """A hand-written Smogon-style meta analysis, if one exists for this
+    Pokemon (Phase 5 of the roadmap - only worth writing for Pokemon that
+    see real competitive use, so most won't have one)."""
+    pokemon = db.query(Pokemon).filter(Pokemon.name == name.lower()).first()
+    if not pokemon:
+        raise HTTPException(status_code=404, detail=f"Pokemon '{name}' not found")
+
+    writeup = db.query(PokemonWriteup).filter(PokemonWriteup.pokemon_name == pokemon.name).first()
+    if not writeup:
+        raise HTTPException(status_code=404, detail=f"No writeup for '{name}' yet")
+
+    return PokemonWriteupOut(
+        pokemon_name=pokemon.name,
+        display_name=pokemon.display_name,
+        sprite_url=pokemon.sprite_url,
+        overview=writeup.overview,
+        moveset_notes=writeup.moveset_notes,
+        usage_tips=writeup.usage_tips,
+        checks_and_counters=writeup.checks_and_counters,
+        updated_at=writeup.updated_at,
+    )
+
+
+@router.put("/{name}/writeup", response_model=PokemonWriteupOut)
+def save_pokemon_writeup(name: str, body: PokemonWriteupIn, db: Session = Depends(get_db)):
+    pokemon = db.query(Pokemon).filter(Pokemon.name == name.lower()).first()
+    if not pokemon:
+        raise HTTPException(status_code=404, detail=f"Pokemon '{name}' not found")
+
+    writeup = db.query(PokemonWriteup).filter(PokemonWriteup.pokemon_name == pokemon.name).first()
+    if not writeup:
+        writeup = PokemonWriteup(pokemon_name=pokemon.name)
+        db.add(writeup)
+    writeup.overview = body.overview
+    writeup.moveset_notes = body.moveset_notes
+    writeup.usage_tips = body.usage_tips
+    writeup.checks_and_counters = body.checks_and_counters
+    writeup.updated_at = datetime.now(timezone.utc).isoformat()
+    db.commit()
+
+    return PokemonWriteupOut(
+        pokemon_name=pokemon.name,
+        display_name=pokemon.display_name,
+        sprite_url=pokemon.sprite_url,
+        overview=writeup.overview,
+        moveset_notes=writeup.moveset_notes,
+        usage_tips=writeup.usage_tips,
+        checks_and_counters=writeup.checks_and_counters,
+        updated_at=writeup.updated_at,
+    )
+
+
+@router.delete("/{name}/writeup")
+def delete_pokemon_writeup(name: str, db: Session = Depends(get_db)):
+    pokemon = db.query(Pokemon).filter(Pokemon.name == name.lower()).first()
+    if not pokemon:
+        raise HTTPException(status_code=404, detail=f"Pokemon '{name}' not found")
+    writeup = db.query(PokemonWriteup).filter(PokemonWriteup.pokemon_name == pokemon.name).first()
+    if writeup:
+        db.delete(writeup)
+        db.commit()
+    return {"deleted": True}

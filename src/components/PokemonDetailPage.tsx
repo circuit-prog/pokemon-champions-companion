@@ -5,6 +5,7 @@ import { TYPE_COLORS } from "../typeColors";
 import AddToTeam from "./AddToTeam";
 import ChecksAndCounters from "./ChecksAndCounters";
 import RecommendedSet from "./RecommendedSet";
+import PokemonWriteupSection from "./PokemonWriteupSection";
 import { roleLabel } from "../roleLabel";
 import "./PokemonDetailPage.css";
 
@@ -133,6 +134,8 @@ export default function PokemonDetailPage({ name, onBack }: { name: string; onBa
       </div>
 
       <RecommendedSet pokemonName={pokemon.name} />
+
+      <PokemonWriteupSection pokemonName={pokemon.name} />
 
       <div className="pokemon-detail-columns">
         <div>

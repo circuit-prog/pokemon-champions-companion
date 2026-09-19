@@ -353,6 +353,36 @@ export function getUsageTrend(name: string): Promise<UsageTrendPoint[]> {
   return getJson<UsageTrendPoint[]>(`/api/meta/trend/${encodeURIComponent(name)}`);
 }
 
+export interface PokemonWriteupIn {
+  overview?: string | null;
+  moveset_notes?: string | null;
+  usage_tips?: string | null;
+  checks_and_counters?: string | null;
+}
+
+export interface PokemonWriteup extends PokemonWriteupIn {
+  pokemon_name: string;
+  display_name: string;
+  sprite_url: string | null;
+  updated_at: string | null;
+}
+
+export function getPokemonWriteup(name: string): Promise<PokemonWriteup> {
+  return getJson<PokemonWriteup>(`/api/pokemon/${encodeURIComponent(name)}/writeup`);
+}
+
+export function savePokemonWriteup(name: string, body: PokemonWriteupIn): Promise<PokemonWriteup> {
+  return putJson<PokemonWriteup>(`/api/pokemon/${encodeURIComponent(name)}/writeup`, body);
+}
+
+export function deletePokemonWriteup(name: string): Promise<void> {
+  return deleteJson(`/api/pokemon/${encodeURIComponent(name)}/writeup`);
+}
+
+export function listPokemonWriteups(): Promise<PokemonWriteup[]> {
+  return getJson<PokemonWriteup[]>("/api/pokemon/writeups");
+}
+
 export interface DataFreshness {
   format: string | null;
   tracked_pokemon: number;

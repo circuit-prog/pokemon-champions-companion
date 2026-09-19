@@ -165,3 +165,20 @@ class UsageSnapshot(Base):
     rank = Column(Integer, nullable=False)
     win_rate = Column(Float, nullable=True)
     record = Column(String, nullable=True)
+
+
+class PokemonWriteup(Base):
+    """A Smogon-style meta analysis for one Pokemon - Phase 5 ("meta
+    analysis") of the roadmap. Not every Pokemon has one; only worth writing
+    for ones that see real competitive use. Written by hand (initially
+    drafted from tracked usage/set data plus general competitive knowledge,
+    then editable in the app), not scraped or auto-generated.
+    """
+    __tablename__ = "pokemon_writeups"
+
+    pokemon_name = Column(String, primary_key=True)  # slug, matches Pokemon.name
+    overview = Column(String, nullable=True)
+    moveset_notes = Column(String, nullable=True)
+    usage_tips = Column(String, nullable=True)
+    checks_and_counters = Column(String, nullable=True)
+    updated_at = Column(String, nullable=True)  # ISO8601, set on every save

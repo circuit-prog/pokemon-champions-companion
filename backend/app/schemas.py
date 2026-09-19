@@ -611,3 +611,19 @@ class PracticeStatsOut(BaseModel):
     vs_opponent_pokemon: List[PracticePokemonStat] = []
     by_own_pokemon: List[PracticePokemonStat] = []
     damage_leaders: List[PracticeDamageLeader] = []
+
+
+# --- Pokemon writeups (Phase 5) --------------------------------------------
+
+class PokemonWriteupIn(BaseModel):
+    overview: Optional[str] = None
+    moveset_notes: Optional[str] = None
+    usage_tips: Optional[str] = None
+    checks_and_counters: Optional[str] = None
+
+
+class PokemonWriteupOut(PokemonWriteupIn):
+    pokemon_name: str
+    display_name: str
+    sprite_url: Optional[str] = None
+    updated_at: Optional[str] = None
