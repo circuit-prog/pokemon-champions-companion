@@ -36,17 +36,22 @@ WRITEUPS = {
             "- Kingambit doesn't need Speed investment since Sucker Punch does the outspeeding for it."
         ),
         "usage_tips": (
-            "Don't lead with it into an obvious Intimidate or a phazing move if you can help it - Defiant wants to "
-            "come in on a stat drop, not avoid one, so bringing it in reactively after a Fake Out/Intimidate user has "
-            "already committed is often better than sending it out first. Sucker Punch only works on a predicted "
-            "attack, so mix in Kowtow Cleave/Iron Head against Protect-happy or switch-heavy opponents rather than "
-            "locking into Sucker Punch every turn. Swords Dance sets exist but are rarer - most tracked sets forgo "
-            "it since Kingambit is threatening enough on raw stats plus Defiant procs."
+            "Bringing it in on an expected Intimidate or other Attack-lowering move is actively good, not something "
+            "to avoid - Defiant turns that drop into a free +2 Attack the instant it lands, so switching Kingambit "
+            "into a known Intimidate user is a legitimate way to get the boost for free. What it does want to avoid "
+            "is a phazing move (Roar/Whirlwind/Dragon Tail) landing right after that boost, since that forces it out "
+            "and wastes the tempo Defiant just bought. Sucker Punch only works on a predicted attack, so mix in "
+            "Kowtow Cleave/Iron Head against Protect-happy or switch-heavy opponents rather than locking into Sucker "
+            "Punch every turn. Swords Dance sets exist but are rarer - most tracked sets forgo it since Kingambit is "
+            "threatening enough on raw stats plus Defiant procs."
         ),
         "checks_and_counters": (
             "Fast special attackers that never touch its physical bulk (Charizard Mega Y, Delphox Mega) go over the "
-            "top of it cleanly. Ghost-types wall Sucker Punch and Kowtow Cleave outright if they aren't also weak to "
-            "Iron Head. Anything that can out-prioritize or flinch it before it acts (Fake Out into a KO) skips the "
+            "top of it cleanly. Ghost-types are immune to Kowtow Cleave's Fighting typing and wall it outright - but "
+            "they're actually weak to Sucker Punch (Dark-type moves are super effective against Ghost), so they're "
+            "far from a full answer to the set. Fairy-types are the real resist to Sucker Punch, at the cost of "
+            "taking Kowtow Cleave/Iron Head for neutral or worse. Anything that can out-prioritize or flinch it "
+            "before it acts (Fake Out into a KO) skips the "
             "Sucker Punch mind game entirely. Sneasler and Basculegion - both extremely common teammates for it - "
             "are just as often the answer on the opposing side, since a faster, harder-hitting attacker beats "
             "Kingambit before Defiant becomes relevant."
@@ -75,8 +80,10 @@ WRITEUPS = {
         ),
         "checks_and_counters": (
             "Intimidate-immune or Intimidate-punishing abilities (Defiant Kingambit, Clear Body/Own Tempo users) "
-            "shrug off its main gimmick entirely. Bulky Water- and Ground-types eat Flare Blitz comfortably and "
-            "don't fear the recoil trade. Since Incineroar rarely one-shots anything, a Pokemon that can simply "
+            "shrug off its main gimmick entirely. Bulky Water- and Rock-types (both resist Fire) eat Flare Blitz "
+            "comfortably and don't fear the recoil trade - Ground-types don't get the same free pass, since Fire "
+            "hits them for neutral damage rather than resisted. Since Incineroar rarely one-shots anything, a "
+            "Pokemon that can simply "
             "tank a hit and threaten back - Sinistcha and Kingambit both fit, and both are common teammates FOR "
             "Incineroar rather than answers to it - punishes a team leaning too hard on Incineroar for offense."
         ),
@@ -187,10 +194,13 @@ WRITEUPS = {
             "setter can turn it into a much weaker move if they establish their own weather afterward."
         ),
         "checks_and_counters": (
-            "Bulky Water- and Rock-types that resist both Fire and don't fear a Sun-boosted Solar Beam wall it "
-            "outright. Opposing weather setters (Drizzle Pelipper, Sand/Snow setters) directly undercut its entire "
-            "gameplan by overwriting the Sun mid-game. It's most often paired with Garchomp and Whimsicott, who "
-            "cover the Rock/Water answers that would otherwise counter it cleanly."
+            "Water- and Rock-types resist its Fire STAB, but that's exactly what Solar Beam is there to punish - "
+            "both are weak to Grass, so a Water- or Rock-type sitting in expecting to tank Heat Wave can eat a "
+            "Sun-boosted Solar Beam for a lot more than it bargained for instead. The real answers are things that "
+            "resist Fire AND aren't Water/Ground/Rock (a bulky Dragon-type, for instance), or opposing weather "
+            "setters (Drizzle Pelipper, Sand/Snow setters), which directly undercut its entire gameplan by "
+            "overwriting the Sun mid-game. It's most often paired with Garchomp and Whimsicott, who help cover "
+            "whatever it can't threaten directly."
         ),
     },
     "sinistcha": {
@@ -243,11 +253,12 @@ WRITEUPS = {
             "a hit."
         ),
         "checks_and_counters": (
-            "Taunt users that move before Whimsicott (or share the same Prankster-immune-to-Prankster-Taunt "
-            "interaction against Dark-types) shut down its entire support gameplan before it does anything. Dark-"
-            "types are immune to Prankster-boosted status moves entirely, making them a hard wall to its Encore/"
-            "screens plan specifically. It's most often paired with Basculegion and Garchomp, both of which directly "
-            "benefit from the Tailwind speed boost it provides."
+            "Taunt users that move before Whimsicott shut down its entire support gameplan before it does anything. "
+            "Dark-types are immune to Prankster-boosted status moves that target them directly, which hard-walls "
+            "Encore specifically - but that immunity doesn't touch Tailwind or Light Screen, since those affect "
+            "Whimsicott's own side of the field rather than the opponent, so a Dark-type on the field doesn't stop "
+            "the speed control or damage reduction at all. It's most often paired with Basculegion and Garchomp, "
+            "both of which directly benefit from the Tailwind speed boost it provides."
         ),
     },
     "farigiraf": {
@@ -498,9 +509,11 @@ WRITEUPS = {
         ),
         "checks_and_counters": (
             "Opposing weather setters (Charizard Mega Y's Drought especially) directly undo its entire gameplan the "
-            "moment they switch in. Electric- and Grass-type attackers resist its Water-type STAB outright. It's "
-            "frequently paired with Archaludon and Swampert Mega, both of which directly benefit from the Rain it "
-            "provides."
+            "moment they switch in. Electric-type attacks are a real threat rather than something it resists - "
+            "Water/Flying is a clean 4x weakness to Electric, so an Electric-type attacker is one of the most "
+            "efficient ways to remove it. Grass-type attackers resist its Water STAB outright, if not the more "
+            "pressing concern. It's frequently paired with Archaludon and Swampert Mega, both of which directly "
+            "benefit from the Rain it provides."
         ),
     },
     "froslass-mega": {
@@ -549,10 +562,11 @@ WRITEUPS = {
             "item, keeping it flexible between attacking and using Tailwind/Wide Guard depending on the game state."
         ),
         "checks_and_counters": (
-            "Steel-types resist both its Rock and Flying STAB simultaneously and don't fear Ice Fang unless they're "
-            "also part Dragon or Ground. Bulky Pokemon with recovery can outlast the pressure if Aerodactyl Mega "
-            "can't secure a clean KO quickly. It's often paired with Kingambit and Sylveon, both of which cover "
-            "different sides of the Steel-type answers that wall it."
+            "Steel-types resist Rock and Flying, its two STAB moves, and resist Ice Fang too - a clean answer to "
+            "all three of its main attacking options at once, with nothing here to punch through it. Bulky Pokemon "
+            "with recovery can outlast the pressure if Aerodactyl Mega can't secure a clean KO quickly. It's often "
+            "paired with Kingambit and Sylveon, both of which cover different sides of the Steel-type answers that "
+            "wall it."
         ),
     },
 }
