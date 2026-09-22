@@ -46,6 +46,11 @@ function LoadFromTeam({ onPick }: { onPick: (spec: TargetSpec) => void }) {
       <span>Load from a team</span>
       <select
         value=""
+        // The Damage Calculator stays mounted the whole session, so a team
+        // edited on the Teams tab in the meantime wouldn't otherwise show
+        // up here until a full page reload - refresh right as the dropdown
+        // opens instead of only once on first mount.
+        onFocus={() => setTeams(loadTeams())}
         onChange={(e) => {
           const [teamId, slotIndexStr] = e.target.value.split("::");
           const team = teams.find((t) => t.id === teamId);

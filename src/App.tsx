@@ -110,7 +110,7 @@ function App() {
         <PracticePage />
       </div>
       <div className={tab === 'tools' ? 'app-page' : 'app-page hidden'}>
-        <TeamToolsPage />
+        <TeamToolsPage active={tab === 'tools'} />
       </div>
       <div className={tab === 'calc' ? 'app-page' : 'app-page hidden'}>
         <DamageCalculator />

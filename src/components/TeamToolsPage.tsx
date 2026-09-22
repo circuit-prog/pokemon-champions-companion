@@ -32,7 +32,7 @@ const TABS: { key: SubTab; label: string }[] = [
   { key: "threatreport", label: "Threat Report" },
 ];
 
-export default function TeamToolsPage() {
+export default function TeamToolsPage({ active = true }: { active?: boolean }) {
   const [teams, setTeams] = useState<SavedTeam[]>([]);
   const [teamId, setTeamId] = useState<string>("");
   const [subTab, setSubTab] = useState<SubTab>("speediq");
@@ -46,11 +46,19 @@ export default function TeamToolsPage() {
     setVisited((prev) => (prev.has(next) ? prev : new Set(prev).add(next)));
   }
 
+  // Every top-level page stays mounted once visited, so a team edited on
+  // the Teams tab (a separate always-mounted page with its own copy of
+  // this same localStorage data) wouldn't otherwise be seen here until a
+  // full page reload. Re-reading on every visit to this tab picks up any
+  // edit made elsewhere in the meantime, while keeping the current
+  // selection (falling back to the first team only if the selected one
+  // was deleted) so switching tabs doesn't reset what you were looking at.
   useEffect(() => {
+    if (!active) return;
     const loaded = loadTeams();
     setTeams(loaded);
-    if (loaded.length > 0) setTeamId(loaded[0].id);
-  }, []);
+    setTeamId((prev) => (loaded.some((t) => t.id === prev) ? prev : loaded[0]?.id ?? ""));
+  }, [active]);
 
   const team = teams.find((t) => t.id === teamId) ?? null;
 

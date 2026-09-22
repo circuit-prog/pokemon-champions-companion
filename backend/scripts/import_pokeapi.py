@@ -22,6 +22,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.database import Base, engine, SessionLocal
 from app.models.pokemon import Pokemon, Move, Item, Ability
+from scripts.fix_custom_mega_movepools import main as fix_custom_mega_movepools
 
 POKEAPI_BASE = "https://pokeapi.co/api/v2"
 
@@ -171,6 +172,8 @@ def main():
         enrich_moves(db)
         enrich_abilities(db)
         import_items(db)
+        print("Fixing up custom Mega Evolutions PokeAPI has no movepool for...")
+        fix_custom_mega_movepools(db)
         print("Done.")
     finally:
         db.close()

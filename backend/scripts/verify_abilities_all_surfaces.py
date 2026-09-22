@@ -73,13 +73,24 @@ def damage_via_matchups(atk, move, target=None):
 
 # (label, attacker, defender, move, neutral-ability attacker, expected ratio)
 CASES = [
+    # The Breaker/Waller comparison (damage_via_matchups) reads from the
+    # live top-usage pool (/team-matchups), which is a real, intentionally
+    # dynamic product feature - it reflects whatever the current regulation's
+    # actual usage rankings are, not a fixed test fixture. That means a case
+    # with no pinned 7th-field target can silently start comparing against a
+    # different (wrongly- or rightly-typed) pool member whenever the tracked
+    # meta shifts - confirmed 2026-09-22, when a Regulation M-C usage
+    # refresh changed the top-12 pool and broke three of these unpinned
+    # comparisons. Pin every case to a pool member confirmed (live, via
+    # /team-matchups) to have the needed type relationship, and re-verify
+    # the pin any time the pool composition changes meaningfully.
     ("Pixilate", member("sylveon", "pixilate", ["hyper-voice"]),
      member("falinks", "", []), "hyper-voice",
-     member("sylveon", "cute-charm", ["hyper-voice"]), 3.6),
+     member("sylveon", "cute-charm", ["hyper-voice"]), 3.6, "kingambit"),
 
     ("Liquid Voice", member("primarina", "liquid-voice", ["hyper-voice"]),
      member("kingambit", "", []), "hyper-voice",
-     member("primarina", "torrent", ["hyper-voice"]), 3.0),
+     member("primarina", "torrent", ["hyper-voice"]), 3.0, "kingambit"),
 
     ("Adaptability", member("basculegion-male", "adaptability", ["wave-crash"]),
      member("garchomp", "", []), "wave-crash",
@@ -115,11 +126,12 @@ CASES = [
      member("primarina", "torrent", ["hyper-voice"]), 1.3),
 
     # Tinted Lens only does anything against a target that resists the move,
-    # so the Breaker comparison has to be pinned to one that does - Charizard
-    # -Mega-Y takes Bug at a quarter.
+    # so the Breaker comparison has to be pinned to one that does - Sneasler
+    # (Fighting/Poison) resists Bug and is confirmed in the current top-12
+    # pool (live-checked via /team-matchups, 2026-09-22).
     ("Tinted Lens (resisted x2)", member("venomoth", "tinted-lens", ["bug-buzz"]),
      member("steelix", "", []), "bug-buzz",
-     member("venomoth", "shield-dust", ["bug-buzz"]), 2.0, "charizard-mega-y"),
+     member("venomoth", "shield-dust", ["bug-buzz"]), 2.0, "sneasler"),
 
     # Solar Power needs sun but doesn't set it, so the comparison is against
     # another Pokemon in the same sun rather than against clear weather.
