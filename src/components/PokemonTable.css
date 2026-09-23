@@ -207,3 +207,15 @@
   color: #5c6b80;
   white-space: nowrap;
 }
+
+/* The Add button is the last column of a very wide table, so on narrower
+   layouts (notably the Team Editor's "+" tab) it scrolled off the right
+   edge and looked like there was no way to add straight from the team.
+   Pin that last cell to the right edge so it's always reachable. */
+.pokemon-table-wrap td:last-child,
+.pokemon-table-wrap th:last-child {
+  position: sticky;
+  right: 0;
+  background: #fff;
+  box-shadow: -6px 0 6px -6px rgba(0, 0, 0, 0.15);
+}
