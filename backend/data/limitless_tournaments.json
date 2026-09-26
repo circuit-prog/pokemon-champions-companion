@@ -10558,13 +10558,13 @@
         "points": 48
       },
       {
-        "pokemon_name": "delphox",
+        "pokemon_name": "politoed",
         "count": 8,
         "share_percent": 5.16,
         "points": 74
       },
       {
-        "pokemon_name": "politoed",
+        "pokemon_name": "delphox",
         "count": 8,
         "share_percent": 5.16,
         "points": 74
@@ -10696,6 +10696,18 @@
         "points": 12
       },
       {
+        "pokemon_name": "pidgeot",
+        "count": 2,
+        "share_percent": 1.29,
+        "points": 10
+      },
+      {
+        "pokemon_name": "aegislash",
+        "count": 2,
+        "share_percent": 1.29,
+        "points": 10
+      },
+      {
         "pokemon_name": "lycanroc-dusk",
         "count": 2,
         "share_percent": 1.29,
@@ -10709,18 +10721,6 @@
       },
       {
         "pokemon_name": "talonflame",
-        "count": 2,
-        "share_percent": 1.29,
-        "points": 10
-      },
-      {
-        "pokemon_name": "pidgeot",
-        "count": 2,
-        "share_percent": 1.29,
-        "points": 10
-      },
-      {
-        "pokemon_name": "aegislash",
         "count": 2,
         "share_percent": 1.29,
         "points": 10
@@ -10750,13 +10750,13 @@
         "points": 12
       },
       {
-        "pokemon_name": "scovillain",
+        "pokemon_name": "pyroar",
         "count": 1,
         "share_percent": 0.65,
         "points": 10
       },
       {
-        "pokemon_name": "pyroar",
+        "pokemon_name": "scovillain",
         "count": 1,
         "share_percent": 0.65,
         "points": 10
@@ -10780,6 +10780,18 @@
         "points": 7
       },
       {
+        "pokemon_name": "kleavor",
+        "count": 1,
+        "share_percent": 0.65,
+        "points": 5
+      },
+      {
+        "pokemon_name": "azumarill",
+        "count": 1,
+        "share_percent": 0.65,
+        "points": 5
+      },
+      {
         "pokemon_name": "kangaskhan",
         "count": 1,
         "share_percent": 0.65,
@@ -10798,24 +10810,6 @@
         "points": 5
       },
       {
-        "pokemon_name": "kleavor",
-        "count": 1,
-        "share_percent": 0.65,
-        "points": 5
-      },
-      {
-        "pokemon_name": "azumarill",
-        "count": 1,
-        "share_percent": 0.65,
-        "points": 5
-      },
-      {
-        "pokemon_name": "sableye",
-        "count": 1,
-        "share_percent": 0.65,
-        "points": null
-      },
-      {
         "pokemon_name": "starmie",
         "count": 1,
         "share_percent": 0.65,
@@ -10823,6 +10817,12 @@
       },
       {
         "pokemon_name": "ninetales-alola",
+        "count": 1,
+        "share_percent": 0.65,
+        "points": null
+      },
+      {
+        "pokemon_name": "sableye",
         "count": 1,
         "share_percent": 0.65,
         "points": null
@@ -18371,12 +18371,6 @@
         "points": 134
       },
       {
-        "pokemon_name": "swampert",
-        "count": 6,
-        "share_percent": 10.53,
-        "points": 105
-      },
-      {
         "pokemon_name": "pelipper",
         "count": 6,
         "share_percent": 10.53,
@@ -18384,6 +18378,12 @@
       },
       {
         "pokemon_name": "archaludon",
+        "count": 6,
+        "share_percent": 10.53,
+        "points": 105
+      },
+      {
+        "pokemon_name": "swampert",
         "count": 6,
         "share_percent": 10.53,
         "points": 105
@@ -18419,16 +18419,22 @@
         "points": 75
       },
       {
+        "pokemon_name": "gholdengo",
+        "count": 3,
+        "share_percent": 5.26,
+        "points": 60
+      },
+      {
         "pokemon_name": "excadrill",
         "count": 3,
         "share_percent": 5.26,
         "points": 60
       },
       {
-        "pokemon_name": "gholdengo",
-        "count": 3,
-        "share_percent": 5.26,
-        "points": 60
+        "pokemon_name": "lycanroc-dusk",
+        "count": 2,
+        "share_percent": 3.51,
+        "points": 68
       },
       {
         "pokemon_name": "froslass",
@@ -18438,12 +18444,6 @@
       },
       {
         "pokemon_name": "scovillain",
-        "count": 2,
-        "share_percent": 3.51,
-        "points": 68
-      },
-      {
-        "pokemon_name": "lycanroc-dusk",
         "count": 2,
         "share_percent": 3.51,
         "points": 68
@@ -18485,6 +18485,12 @@
         "points": 35
       },
       {
+        "pokemon_name": "gengar",
+        "count": 2,
+        "share_percent": 3.51,
+        "points": 30
+      },
+      {
         "pokemon_name": "glimmora",
         "count": 2,
         "share_percent": 3.51,
@@ -18497,10 +18503,10 @@
         "points": 30
       },
       {
-        "pokemon_name": "gengar",
-        "count": 2,
-        "share_percent": 3.51,
-        "points": 30
+        "pokemon_name": "primarina",
+        "count": 1,
+        "share_percent": 1.75,
+        "points": 24
       },
       {
         "pokemon_name": "blaziken",
@@ -18521,10 +18527,10 @@
         "points": 24
       },
       {
-        "pokemon_name": "primarina",
+        "pokemon_name": "aegislash",
         "count": 1,
         "share_percent": 1.75,
-        "points": 24
+        "points": 20
       },
       {
         "pokemon_name": "vanilluxe",
@@ -18534,12 +18540,6 @@
       },
       {
         "pokemon_name": "kangaskhan",
-        "count": 1,
-        "share_percent": 1.75,
-        "points": 20
-      },
-      {
-        "pokemon_name": "aegislash",
         "count": 1,
         "share_percent": 1.75,
         "points": 20
@@ -30457,16 +30457,22 @@
         "points": 39
       },
       {
+        "pokemon_name": "sableye",
+        "count": 2,
+        "share_percent": 1.28,
+        "points": 21
+      },
+      {
         "pokemon_name": "mimikyu",
         "count": 2,
         "share_percent": 1.28,
         "points": 21
       },
       {
-        "pokemon_name": "sableye",
+        "pokemon_name": "lopunny",
         "count": 2,
         "share_percent": 1.28,
-        "points": 21
+        "points": 18
       },
       {
         "pokemon_name": "kangaskhan",
@@ -30476,12 +30482,6 @@
       },
       {
         "pokemon_name": "tsareena",
-        "count": 2,
-        "share_percent": 1.28,
-        "points": 18
-      },
-      {
-        "pokemon_name": "lopunny",
         "count": 2,
         "share_percent": 1.28,
         "points": 18
@@ -30499,13 +30499,13 @@
         "points": 18
       },
       {
-        "pokemon_name": "glimmora",
+        "pokemon_name": "snorlax",
         "count": 1,
         "share_percent": 0.64,
         "points": 15
       },
       {
-        "pokemon_name": "snorlax",
+        "pokemon_name": "glimmora",
         "count": 1,
         "share_percent": 0.64,
         "points": 15
@@ -30515,6 +30515,12 @@
         "count": 1,
         "share_percent": 0.64,
         "points": 12
+      },
+      {
+        "pokemon_name": "torkoal",
+        "count": 1,
+        "share_percent": 0.64,
+        "points": 9
       },
       {
         "pokemon_name": "volcarona",
@@ -30553,19 +30559,13 @@
         "points": 9
       },
       {
-        "pokemon_name": "torkoal",
-        "count": 1,
-        "share_percent": 0.64,
-        "points": 9
-      },
-      {
-        "pokemon_name": "kleavor",
+        "pokemon_name": "kommo-o",
         "count": 1,
         "share_percent": 0.64,
         "points": 6
       },
       {
-        "pokemon_name": "kommo-o",
+        "pokemon_name": "kleavor",
         "count": 1,
         "share_percent": 0.64,
         "points": 6
@@ -57585,13 +57585,13 @@
         "points": 20
       },
       {
-        "pokemon_name": "sableye",
+        "pokemon_name": "scizor",
         "count": 4,
         "share_percent": 2.76,
         "points": 17
       },
       {
-        "pokemon_name": "scizor",
+        "pokemon_name": "sableye",
         "count": 4,
         "share_percent": 2.76,
         "points": 17
@@ -57669,28 +57669,16 @@
         "points": 24
       },
       {
-        "pokemon_name": "manectric",
-        "count": 1,
-        "share_percent": 0.69,
-        "points": 7
-      },
-      {
         "pokemon_name": "skarmory",
         "count": 1,
         "share_percent": 0.69,
         "points": 7
       },
       {
-        "pokemon_name": "arcanine",
+        "pokemon_name": "manectric",
         "count": 1,
         "share_percent": 0.69,
-        "points": 5
-      },
-      {
-        "pokemon_name": "crabominable",
-        "count": 1,
-        "share_percent": 0.69,
-        "points": 5
+        "points": 7
       },
       {
         "pokemon_name": "azumarill",
@@ -57717,6 +57705,24 @@
         "points": 5
       },
       {
+        "pokemon_name": "arcanine",
+        "count": 1,
+        "share_percent": 0.69,
+        "points": 5
+      },
+      {
+        "pokemon_name": "crabominable",
+        "count": 1,
+        "share_percent": 0.69,
+        "points": 5
+      },
+      {
+        "pokemon_name": "armarouge",
+        "count": 1,
+        "share_percent": 0.69,
+        "points": null
+      },
+      {
         "pokemon_name": "lopunny",
         "count": 1,
         "share_percent": 0.69,
@@ -57724,12 +57730,6 @@
       },
       {
         "pokemon_name": "starmie",
-        "count": 1,
-        "share_percent": 0.69,
-        "points": null
-      },
-      {
-        "pokemon_name": "armarouge",
         "count": 1,
         "share_percent": 0.69,
         "points": null

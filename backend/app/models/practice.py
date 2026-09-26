@@ -30,6 +30,10 @@ class PracticeGame(Base):
     result = Column(String, nullable=True)
     replay_link = Column(String, nullable=True)
     notes = Column(String, nullable=True)
+    # "singles" or "doubles". Doubles turns use the *_b columns on
+    # PracticeTurn for the second active Pokemon per side. Games logged
+    # before this existed are singles.
+    mode = Column(String, nullable=False, default="singles", server_default="singles")
 
     turns = relationship(
         "PracticeTurn",
@@ -57,6 +61,18 @@ class PracticeTurn(Base):
     opponent_damage = Column(String, nullable=True)
     opponent_fainted = Column(Boolean, nullable=False, default=False)
     opponent_switch_in = Column(String, nullable=True)
+
+    # Second active Pokemon per side - only filled in for doubles games.
+    my_pokemon_b = Column(String, nullable=True)
+    my_move_b = Column(String, nullable=True)
+    my_damage_b = Column(String, nullable=True)
+    my_fainted_b = Column(Boolean, nullable=False, default=False, server_default="0")
+    my_switch_in_b = Column(String, nullable=True)
+    opponent_pokemon_b = Column(String, nullable=True)
+    opponent_move_b = Column(String, nullable=True)
+    opponent_damage_b = Column(String, nullable=True)
+    opponent_fainted_b = Column(Boolean, nullable=False, default=False, server_default="0")
+    opponent_switch_in_b = Column(String, nullable=True)
 
     # Free text catch-all for anything not covered above - weather, terrain,
     # status conditions, whatever's worth noting that turn.

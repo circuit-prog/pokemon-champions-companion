@@ -37,7 +37,10 @@ router = APIRouter(prefix="/api/practice", tags=["practice"])
 def _opponent_roster_names(game: PracticeGame) -> List[str]:
     seen: List[str] = []
     for t in game.turns:
-        for name in (t.opponent_pokemon, t.opponent_switch_in):
+        for name in (
+            t.opponent_pokemon, t.opponent_switch_in,
+            t.opponent_pokemon_b, t.opponent_switch_in_b,
+        ):
             if name and name not in seen:
                 seen.append(name)
     return seen
@@ -61,13 +64,17 @@ def _game_summary(db: Session, game: PracticeGame) -> PracticeGameSummaryOut:
         date=game.date,
         my_team_name=game.my_team_name,
         result=game.result,
+        mode=game.mode or "singles",
         turn_count=len(game.turns),
         opponent_roster=_roster_slots(db, _opponent_roster_names(game)),
     )
 
 
 def _turn_out(db: Session, t: PracticeTurn) -> PracticeTurnOut:
-    names = {t.my_pokemon, t.my_switch_in, t.opponent_pokemon, t.opponent_switch_in}
+    names = {
+        t.my_pokemon, t.my_switch_in, t.opponent_pokemon, t.opponent_switch_in,
+        t.my_pokemon_b, t.my_switch_in_b, t.opponent_pokemon_b, t.opponent_switch_in_b,
+    }
     names.discard(None)
     lookup = _sprite_lookup(db, names)
 
@@ -80,6 +87,10 @@ def _turn_out(db: Session, t: PracticeTurn) -> PracticeTurnOut:
     my_switch_display, my_switch_sprite = resolved(t.my_switch_in)
     opp_display, opp_sprite = resolved(t.opponent_pokemon)
     opp_switch_display, opp_switch_sprite = resolved(t.opponent_switch_in)
+    my_b_display, my_b_sprite = resolved(t.my_pokemon_b)
+    my_switch_b_display, my_switch_b_sprite = resolved(t.my_switch_in_b)
+    opp_b_display, opp_b_sprite = resolved(t.opponent_pokemon_b)
+    opp_switch_b_display, opp_switch_b_sprite = resolved(t.opponent_switch_in_b)
 
     return PracticeTurnOut(
         id=t.id,
@@ -94,6 +105,24 @@ def _turn_out(db: Session, t: PracticeTurn) -> PracticeTurnOut:
         opponent_damage=t.opponent_damage,
         opponent_fainted=t.opponent_fainted,
         opponent_switch_in=t.opponent_switch_in,
+        my_pokemon_b=t.my_pokemon_b,
+        my_move_b=t.my_move_b,
+        my_damage_b=t.my_damage_b,
+        my_fainted_b=t.my_fainted_b,
+        my_switch_in_b=t.my_switch_in_b,
+        opponent_pokemon_b=t.opponent_pokemon_b,
+        opponent_move_b=t.opponent_move_b,
+        opponent_damage_b=t.opponent_damage_b,
+        opponent_fainted_b=t.opponent_fainted_b,
+        opponent_switch_in_b=t.opponent_switch_in_b,
+        my_pokemon_b_display_name=my_b_display,
+        my_pokemon_b_sprite_url=my_b_sprite,
+        my_switch_in_b_display_name=my_switch_b_display,
+        my_switch_in_b_sprite_url=my_switch_b_sprite,
+        opponent_pokemon_b_display_name=opp_b_display,
+        opponent_pokemon_b_sprite_url=opp_b_sprite,
+        opponent_switch_in_b_display_name=opp_switch_b_display,
+        opponent_switch_in_b_sprite_url=opp_switch_b_sprite,
         field_notes=t.field_notes,
         my_pokemon_display_name=my_display,
         my_pokemon_sprite_url=my_sprite,
@@ -142,6 +171,7 @@ def list_practice_games(
     result: Optional[str] = None,
     date_from: Optional[str] = None,
     date_to: Optional[str] = None,
+    mode: Optional[str] = None,
     db: Session = Depends(get_db),
 ):
     games = db.query(PracticeGame).order_by(PracticeGame.date.desc(), PracticeGame.id.desc()).all()
@@ -150,6 +180,8 @@ def list_practice_games(
         if team and g.my_team_name != team:
             continue
         if result and g.result != result:
+            continue
+        if mode and (g.mode or "singles") != mode:
             continue
         if date_from and g.date < date_from:
             continue
@@ -163,13 +195,15 @@ def list_practice_games(
 
 
 @router.get("/stats", response_model=PracticeStatsOut)
-def get_practice_stats(db: Session = Depends(get_db)):
+def get_practice_stats(mode: Optional[str] = None, db: Session = Depends(get_db)):
     games = (
         db.query(PracticeGame)
         .filter(PracticeGame.result.isnot(None))
         .order_by(PracticeGame.date.asc(), PracticeGame.id.asc())
         .all()
     )
+    if mode:
+        games = [g for g in games if (g.mode or "singles") == mode]
     if not games:
         return PracticeStatsOut()
 
@@ -235,12 +269,13 @@ def get_practice_stats(db: Session = Depends(get_db)):
             if won:
                 t["wins"] += 1
         for t in g.turns:
-            if not t.my_pokemon or not t.my_damage:
-                continue
-            d = damage_totals.setdefault(t.my_pokemon, {"big_hits": 0, "total_hits": 0})
-            d["total_hits"] += 1
-            if t.my_damage == "big":
-                d["big_hits"] += 1
+            for mon, dmg in ((t.my_pokemon, t.my_damage), (t.my_pokemon_b, t.my_damage_b)):
+                if not mon or not dmg:
+                    continue
+                d = damage_totals.setdefault(mon, {"big_hits": 0, "total_hits": 0})
+                d["total_hits"] += 1
+                if dmg == "big":
+                    d["big_hits"] += 1
 
     def pokemon_stats(totals: Dict[str, Dict[str, int]]) -> List[PracticePokemonStat]:
         lookup = _sprite_lookup(db, set(totals.keys()))
@@ -290,6 +325,7 @@ def create_practice_game(body: PracticeGameIn, db: Session = Depends(get_db)):
         my_roster_json=json.dumps(body.my_roster),
         notes=body.notes,
         replay_link=body.replay_link,
+        mode=body.mode if body.mode in ("singles", "doubles") else "singles",
     )
     db.add(game)
     db.commit()

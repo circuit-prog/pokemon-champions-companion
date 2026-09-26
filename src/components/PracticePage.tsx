@@ -18,6 +18,7 @@ import type {
   PracticeTurnIn,
   DamageCategory,
   PracticeResult,
+  PracticeMode,
   PokemonSummary,
   MoveOut,
 } from "../api";
@@ -131,6 +132,178 @@ function OpponentPicker({
         </div>
       )}
     </div>
+  );
+}
+
+interface SlotState {
+  pokemon: string;
+  move: string;
+  damage: DamageCategory | null;
+  fainted: boolean;
+  switchIn: string;
+}
+const EMPTY_SLOT: SlotState = { pokemon: "", move: "", damage: null, fainted: false, switchIn: "" };
+/** What carries over to the next turn: who is out stays, per-turn specifics clear. */
+const nextTurnSlot = (s: SlotState): SlotState => ({ ...EMPTY_SLOT, pokemon: s.switchIn || (s.fainted ? "" : s.pokemon) });
+
+function modeLabel(m: PracticeMode): string {
+  return m === "doubles" ? "Doubles" : "Singles";
+}
+
+/** One of my active Pokemon (slot A, or slot B in doubles). */
+function MySlotForm({
+  title,
+  slot,
+  onChange,
+  roster,
+  team,
+}: {
+  title: string;
+  slot: SlotState;
+  onChange: (s: SlotState) => void;
+  roster: PracticeGame["my_roster"];
+  team: SavedTeam | null;
+}) {
+  const teamSlot = team?.slots.find((s) => s.pokemon.name === slot.pokemon);
+  const moveOptions = teamSlot?.moves ?? teamSlot?.pokemon.moves.map((m) => m.name) ?? [];
+  const moveDisplay = (slug: string) =>
+    teamSlot?.pokemon.moves.find((m) => m.name === slug)?.display_name ?? titleCase(slug);
+  return (
+    <div className="practice-turn-side">
+      <div className="practice-turn-side-title">{title}</div>
+      <label className="tournaments-facet-group">
+        <span className="tournaments-facet-label">Pokemon</span>
+        <select value={slot.pokemon} onChange={(e) => onChange({ ...slot, pokemon: e.target.value, move: "" })}>
+          <option value="">-</option>
+          {roster.map((p) => (
+            <option key={p.pokemon_name} value={p.pokemon_name}>
+              {p.display_name}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className="tournaments-facet-group">
+        <span className="tournaments-facet-label">Move</span>
+        <select value={slot.move} onChange={(e) => onChange({ ...slot, move: e.target.value })} disabled={!slot.pokemon}>
+          <option value="">-</option>
+          {moveOptions.map((m) => (
+            <option key={m} value={m}>
+              {moveDisplay(m)}
+            </option>
+          ))}
+        </select>
+      </label>
+      <DamageChips value={slot.damage} onChange={(d) => onChange({ ...slot, damage: d })} />
+      <label className="tournaments-facet-group">
+        <span className="tournaments-facet-label">Switch in</span>
+        <select value={slot.switchIn} onChange={(e) => onChange({ ...slot, switchIn: e.target.value })}>
+          <option value="">None</option>
+          {roster.map((p) => (
+            <option key={p.pokemon_name} value={p.pokemon_name}>
+              {p.display_name}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className="checkbox-field">
+        <input type="checkbox" checked={slot.fainted} onChange={(e) => onChange({ ...slot, fainted: e.target.checked })} />
+        Fainted this turn
+      </label>
+    </div>
+  );
+}
+
+/** One of the opponent's active Pokemon. Fetches its learnset itself. */
+function OpponentSlotForm({
+  title,
+  slot,
+  onChange,
+}: {
+  title: string;
+  slot: SlotState;
+  onChange: (s: SlotState) => void;
+}) {
+  const [moves, setMoves] = useState<MoveOut[]>([]);
+  useEffect(() => {
+    if (!slot.pokemon) {
+      setMoves([]);
+      return;
+    }
+    getPokemon(slot.pokemon)
+      .then((p) => setMoves(p.moves))
+      .catch(() => setMoves([]));
+  }, [slot.pokemon]);
+  return (
+    <div className="practice-turn-side">
+      <div className="practice-turn-side-title">{title}</div>
+      <label className="tournaments-facet-group">
+        <span className="tournaments-facet-label">Pokemon</span>
+        <OpponentPicker value={slot.pokemon} onChange={(v) => onChange({ ...slot, pokemon: v, move: "" })} placeholder="Search..." />
+      </label>
+      <label className="tournaments-facet-group">
+        <span className="tournaments-facet-label">Move</span>
+        <select value={slot.move} onChange={(e) => onChange({ ...slot, move: e.target.value })} disabled={!slot.pokemon}>
+          <option value="">-</option>
+          {moves.map((m) => (
+            <option key={m.name} value={m.name}>
+              {m.display_name}
+            </option>
+          ))}
+        </select>
+      </label>
+      <DamageChips value={slot.damage} onChange={(d) => onChange({ ...slot, damage: d })} />
+      <label className="tournaments-facet-group">
+        <span className="tournaments-facet-label">Switch in</span>
+        <OpponentPicker value={slot.switchIn} onChange={(v) => onChange({ ...slot, switchIn: v })} placeholder="If they switched..." />
+      </label>
+      <label className="checkbox-field">
+        <input type="checkbox" checked={slot.fainted} onChange={(e) => onChange({ ...slot, fainted: e.target.checked })} />
+        Fainted this turn
+      </label>
+    </div>
+  );
+}
+
+/** "Garchomp used Earthquake (Big hit) - fainted -> switched to X" for one active slot. */
+function slotText(
+  name: string | null,
+  move: string | null | undefined,
+  damage: DamageCategory | null | undefined,
+  fainted: boolean | undefined,
+  switchName: string | null,
+): string {
+  return (
+    `${name ?? "?"}` +
+    (move ? ` used ${titleCase(move)}` : "") +
+    (damage ? ` (${DAMAGE_LABELS[damage]})` : "") +
+    (fainted ? " - fainted" : "") +
+    (switchName ? ` → switched to ${switchName}` : "")
+  );
+}
+
+function TurnSides({ t, doubles }: { t: PracticeGame["turns"][number]; doubles: boolean }) {
+  return (
+    <>
+      <span>
+        {slotText(t.my_pokemon_display_name, t.my_move, t.my_damage, t.my_fainted, t.my_switch_in_display_name)}
+        {doubles &&
+          " & " +
+            slotText(t.my_pokemon_b_display_name, t.my_move_b, t.my_damage_b, t.my_fainted_b, t.my_switch_in_b_display_name)}
+      </span>
+      <span className="practice-turn-vs">vs</span>
+      <span>
+        {slotText(t.opponent_pokemon_display_name, t.opponent_move, t.opponent_damage, t.opponent_fainted, t.opponent_switch_in_display_name)}
+        {doubles &&
+          " & " +
+            slotText(
+              t.opponent_pokemon_b_display_name,
+              t.opponent_move_b,
+              t.opponent_damage_b,
+              t.opponent_fainted_b,
+              t.opponent_switch_in_b_display_name,
+            )}
+      </span>
+    </>
   );
 }
 
@@ -255,6 +428,7 @@ function NewGameView({ onCreated, onCancel }: { onCreated: (g: PracticeGame) => 
   const [teams, setTeams] = useState<SavedTeam[]>([]);
   const [teamId, setTeamId] = useState("");
   const [notes, setNotes] = useState("");
+  const [mode, setMode] = useState<PracticeMode>("singles");
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -270,6 +444,7 @@ function NewGameView({ onCreated, onCancel }: { onCreated: (g: PracticeGame) => 
       date: todayIso(),
       my_team_name: team.name,
       my_roster: team.slots.map((s) => s.pokemon.name),
+      mode,
       notes: notes.trim() || null,
     })
       .then(onCreated)
@@ -284,6 +459,14 @@ function NewGameView({ onCreated, onCancel }: { onCreated: (g: PracticeGame) => 
         <p className="subtitle">No saved teams yet - build one in Teams first.</p>
       ) : (
         <>
+          <div className="tournaments-facet-group">
+            <span className="tournaments-facet-label">Format</span>
+            {(["singles", "doubles"] as const).map((m) => (
+              <button key={m} className={mode === m ? "facet-chip active" : "facet-chip"} onClick={() => setMode(m)}>
+                {modeLabel(m)}
+              </button>
+            ))}
+          </div>
           <label className="tournaments-facet-group">
             <span className="tournaments-facet-label">Team</span>
             <select value={teamId} onChange={(e) => setTeamId(e.target.value)}>
@@ -326,18 +509,10 @@ function LiveGameView({
   const [myTeam, setMyTeam] = useState<SavedTeam | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const [myPokemon, setMyPokemon] = useState("");
-  const [myMove, setMyMove] = useState("");
-  const [myDamage, setMyDamage] = useState<DamageCategory | null>(null);
-  const [myFainted, setMyFainted] = useState(false);
-  const [mySwitchIn, setMySwitchIn] = useState("");
-
-  const [opponentPokemon, setOpponentPokemon] = useState("");
-  const [opponentMoves, setOpponentMoves] = useState<MoveOut[]>([]);
-  const [opponentMove, setOpponentMove] = useState("");
-  const [opponentDamage, setOpponentDamage] = useState<DamageCategory | null>(null);
-  const [opponentFainted, setOpponentFainted] = useState(false);
-  const [opponentSwitchIn, setOpponentSwitchIn] = useState("");
+  const [myA, setMyA] = useState<SlotState>(EMPTY_SLOT);
+  const [myB, setMyB] = useState<SlotState>(EMPTY_SLOT);
+  const [oppA, setOppA] = useState<SlotState>(EMPTY_SLOT);
+  const [oppB, setOppB] = useState<SlotState>(EMPTY_SLOT);
 
   const [fieldNotes, setFieldNotes] = useState("");
 
@@ -365,52 +540,46 @@ function LiveGameView({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameId]);
 
-  useEffect(() => {
-    if (!opponentPokemon) {
-      setOpponentMoves([]);
-      return;
-    }
-    getPokemon(opponentPokemon)
-      .then((p) => setOpponentMoves(p.moves))
-      .catch(() => setOpponentMoves([]));
-  }, [opponentPokemon]);
-
   if (!game) return <p className="subtitle">Loading...</p>;
 
-  const myMoveOptions =
-    myTeam?.slots.find((s) => s.pokemon.name === myPokemon)?.moves ??
-    myTeam?.slots.find((s) => s.pokemon.name === myPokemon)?.pokemon.moves.map((m) => m.name) ??
-    [];
-  const myMoveDisplay = (slug: string) =>
-    myTeam?.slots.find((s) => s.pokemon.name === myPokemon)?.pokemon.moves.find((m) => m.name === slug)
-      ?.display_name ?? titleCase(slug);
+  const doubles = game.mode === "doubles";
 
   function logTurn() {
     const body: PracticeTurnIn = {
-      my_pokemon: myPokemon || null,
-      my_move: myMove || null,
-      my_damage: myDamage,
-      my_fainted: myFainted,
-      my_switch_in: mySwitchIn || null,
-      opponent_pokemon: opponentPokemon || null,
-      opponent_move: opponentMove || null,
-      opponent_damage: opponentDamage,
-      opponent_fainted: opponentFainted,
-      opponent_switch_in: opponentSwitchIn || null,
+      my_pokemon: myA.pokemon || null,
+      my_move: myA.move || null,
+      my_damage: myA.damage,
+      my_fainted: myA.fainted,
+      my_switch_in: myA.switchIn || null,
+      opponent_pokemon: oppA.pokemon || null,
+      opponent_move: oppA.move || null,
+      opponent_damage: oppA.damage,
+      opponent_fainted: oppA.fainted,
+      opponent_switch_in: oppA.switchIn || null,
       field_notes: fieldNotes.trim() || null,
     };
+    if (doubles) {
+      Object.assign(body, {
+        my_pokemon_b: myB.pokemon || null,
+        my_move_b: myB.move || null,
+        my_damage_b: myB.damage,
+        my_fainted_b: myB.fainted,
+        my_switch_in_b: myB.switchIn || null,
+        opponent_pokemon_b: oppB.pokemon || null,
+        opponent_move_b: oppB.move || null,
+        opponent_damage_b: oppB.damage,
+        opponent_fainted_b: oppB.fainted,
+        opponent_switch_in_b: oppB.switchIn || null,
+      });
+    }
     addPracticeTurn(gameId, body)
       .then(() => {
-        // Keep the active Pokemon selections (usually still the same two
-        // mons out next turn) but clear the per-turn specifics.
-        setMyMove("");
-        setMyDamage(null);
-        setMyFainted(false);
-        setMySwitchIn("");
-        setOpponentMove("");
-        setOpponentDamage(null);
-        setOpponentFainted(false);
-        setOpponentSwitchIn("");
+        // Keep the active Pokemon selections (usually still the same ones
+        // out next turn) but clear the per-turn specifics.
+        setMyA(nextTurnSlot(myA));
+        setMyB(nextTurnSlot(myB));
+        setOppA(nextTurnSlot(oppA));
+        setOppB(nextTurnSlot(oppB));
         setFieldNotes("");
         refresh();
       })
@@ -439,76 +608,15 @@ function LiveGameView({
       </h3>
       {error && <p className="error-banner">{error}</p>}
 
-      <div className="practice-turn-form">
-        <div className="practice-turn-side">
-          <div className="practice-turn-side-title">You</div>
-          <label className="tournaments-facet-group">
-            <span className="tournaments-facet-label">Pokemon</span>
-            <select value={myPokemon} onChange={(e) => setMyPokemon(e.target.value)}>
-              <option value="">-</option>
-              {game.my_roster.map((p) => (
-                <option key={p.pokemon_name} value={p.pokemon_name}>
-                  {p.display_name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="tournaments-facet-group">
-            <span className="tournaments-facet-label">Move</span>
-            <select value={myMove} onChange={(e) => setMyMove(e.target.value)} disabled={!myPokemon}>
-              <option value="">-</option>
-              {myMoveOptions.map((m) => (
-                <option key={m} value={m}>
-                  {myMoveDisplay(m)}
-                </option>
-              ))}
-            </select>
-          </label>
-          <DamageChips value={myDamage} onChange={setMyDamage} />
-          <label className="tournaments-facet-group">
-            <span className="tournaments-facet-label">Switch in</span>
-            <select value={mySwitchIn} onChange={(e) => setMySwitchIn(e.target.value)}>
-              <option value="">None</option>
-              {game.my_roster.map((p) => (
-                <option key={p.pokemon_name} value={p.pokemon_name}>
-                  {p.display_name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="checkbox-field">
-            <input type="checkbox" checked={myFainted} onChange={(e) => setMyFainted(e.target.checked)} />
-            Fainted this turn
-          </label>
-        </div>
-
-        <div className="practice-turn-side">
-          <div className="practice-turn-side-title">Opponent</div>
-          <label className="tournaments-facet-group">
-            <span className="tournaments-facet-label">Pokemon</span>
-            <OpponentPicker value={opponentPokemon} onChange={setOpponentPokemon} placeholder="Search..." />
-          </label>
-          <label className="tournaments-facet-group">
-            <span className="tournaments-facet-label">Move</span>
-            <select value={opponentMove} onChange={(e) => setOpponentMove(e.target.value)} disabled={!opponentPokemon}>
-              <option value="">-</option>
-              {opponentMoves.map((m) => (
-                <option key={m.name} value={m.name}>
-                  {m.display_name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <DamageChips value={opponentDamage} onChange={setOpponentDamage} />
-          <label className="tournaments-facet-group">
-            <span className="tournaments-facet-label">Switch in</span>
-            <OpponentPicker value={opponentSwitchIn} onChange={setOpponentSwitchIn} placeholder="If they switched..." />
-          </label>
-          <label className="checkbox-field">
-            <input type="checkbox" checked={opponentFainted} onChange={(e) => setOpponentFainted(e.target.checked)} />
-            Fainted this turn
-          </label>
-        </div>
+      <div className={doubles ? "practice-turn-form practice-turn-form-doubles" : "practice-turn-form"}>
+        <MySlotForm title={doubles ? "You - Slot A" : "You"} slot={myA} onChange={setMyA} roster={game.my_roster} team={myTeam} />
+        <OpponentSlotForm title={doubles ? "Opponent - Slot A" : "Opponent"} slot={oppA} onChange={setOppA} />
+        {doubles && (
+          <>
+            <MySlotForm title="You - Slot B" slot={myB} onChange={setMyB} roster={game.my_roster} team={myTeam} />
+            <OpponentSlotForm title="Opponent - Slot B" slot={oppB} onChange={setOppB} />
+          </>
+        )}
       </div>
 
       <input
@@ -559,21 +667,7 @@ function LiveGameView({
           {[...game.turns].reverse().map((t) => (
             <div key={t.id} className="practice-turn-row">
               <span className="practice-turn-number">#{t.turn_number}</span>
-              <span>
-                {t.my_pokemon_display_name ?? "?"}
-                {t.my_move ? ` used ${titleCase(t.my_move)}` : ""}
-                {t.my_damage ? ` (${DAMAGE_LABELS[t.my_damage]})` : ""}
-                {t.my_fainted ? " - fainted" : ""}
-                {t.my_switch_in ? ` → switched to ${t.my_switch_in_display_name}` : ""}
-              </span>
-              <span className="practice-turn-vs">vs</span>
-              <span>
-                {t.opponent_pokemon_display_name ?? "?"}
-                {t.opponent_move ? ` used ${titleCase(t.opponent_move)}` : ""}
-                {t.opponent_damage ? ` (${DAMAGE_LABELS[t.opponent_damage]})` : ""}
-                {t.opponent_fainted ? " - fainted" : ""}
-                {t.opponent_switch_in ? ` → switched to ${t.opponent_switch_in_display_name}` : ""}
-              </span>
+              <TurnSides t={t} doubles={game.mode === "doubles"} />
               {t.field_notes && <span className="subtitle">{t.field_notes}</span>}
               <button className="danger" onClick={() => removeTurn(t.turn_number)}>
                 Delete
@@ -601,7 +695,7 @@ function DetailView({ gameId, onBack, onResume }: { gameId: number; onBack: () =
         ← Practice
       </button>
       <h3>
-        {game.my_team_name} - {game.date}
+        {game.my_team_name} - {game.date} <span className="dark-horse-badge">{modeLabel(game.mode)}</span>
         {game.result && (
           <span className={game.result === "win" ? "online-badge" : "dark-horse-badge"}>
             {game.result === "win" ? "Win" : "Loss"}
@@ -630,17 +724,7 @@ function DetailView({ gameId, onBack, onResume }: { gameId: number; onBack: () =
           {game.turns.map((t) => (
             <div key={t.id} className="practice-turn-row">
               <span className="practice-turn-number">#{t.turn_number}</span>
-              <span>
-                {t.my_pokemon_display_name ?? "?"}
-                {t.my_move ? ` used ${titleCase(t.my_move)}` : ""}
-                {t.my_damage ? ` (${DAMAGE_LABELS[t.my_damage]})` : ""}
-              </span>
-              <span className="practice-turn-vs">vs</span>
-              <span>
-                {t.opponent_pokemon_display_name ?? "?"}
-                {t.opponent_move ? ` used ${titleCase(t.opponent_move)}` : ""}
-                {t.opponent_damage ? ` (${DAMAGE_LABELS[t.opponent_damage]})` : ""}
-              </span>
+              <TurnSides t={t} doubles={game.mode === "doubles"} />
               {t.field_notes && <span className="subtitle">{t.field_notes}</span>}
             </div>
           ))}
@@ -659,6 +743,7 @@ export default function PracticePage() {
   const [opponentFilter, setOpponentFilter] = useState("");
   const [teamFilter, setTeamFilter] = useState("");
   const [resultFilter, setResultFilter] = useState<"all" | PracticeResult>("all");
+  const [modeFilter, setModeFilter] = useState<"all" | PracticeMode>("all");
   const [myTeams, setMyTeams] = useState<SavedTeam[]>([]);
 
   function refreshList() {
@@ -666,10 +751,11 @@ export default function PracticePage() {
       opponent: opponentFilter.trim() ? opponentFilter.trim().toLowerCase().replace(/\s+/g, "-") : undefined,
       team: teamFilter || undefined,
       result: resultFilter === "all" ? undefined : resultFilter,
+      mode: modeFilter === "all" ? undefined : modeFilter,
     })
       .then(setGames)
       .catch(() => setError("Couldn't reach the backend."));
-    getPracticeStats().then(setStats).catch(() => setStats(null));
+    getPracticeStats(modeFilter === "all" ? undefined : modeFilter).then(setStats).catch(() => setStats(null));
   }
 
   useEffect(() => {
@@ -679,7 +765,7 @@ export default function PracticePage() {
       return () => clearTimeout(handle);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [view, opponentFilter, teamFilter, resultFilter]);
+  }, [view, opponentFilter, teamFilter, resultFilter, modeFilter]);
 
   function removeGame(id: number) {
     deletePracticeGame(id)
@@ -756,6 +842,15 @@ export default function PracticePage() {
             {r === "all" ? "All" : r === "win" ? "Win" : "Loss"}
           </button>
         ))}
+        {(["all", "singles", "doubles"] as const).map((m) => (
+          <button
+            key={m}
+            className={modeFilter === m ? "facet-chip active" : "facet-chip"}
+            onClick={() => setModeFilter(m)}
+          >
+            {m === "all" ? "All formats" : modeLabel(m)}
+          </button>
+        ))}
         <button className="new-team-btn" onClick={() => setView({ kind: "new-game" })}>
           + New Game
         </button>
@@ -781,7 +876,7 @@ export default function PracticePage() {
                   )}
                 </strong>
                 <span className="subtitle">
-                  {g.date} · {g.turn_count} turns
+                  {g.date} · {modeLabel(g.mode)} · {g.turn_count} turns
                 </span>
                 <div className="tournament-result-roster">
                   {g.opponent_roster.map((p) => (

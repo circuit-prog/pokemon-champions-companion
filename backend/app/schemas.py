@@ -515,6 +515,17 @@ class PracticeTurnIn(BaseModel):
     opponent_damage: Optional[str] = None
     opponent_fainted: bool = False
     opponent_switch_in: Optional[str] = None
+    # Second active Pokemon per side - doubles games only.
+    my_pokemon_b: Optional[str] = None
+    my_move_b: Optional[str] = None
+    my_damage_b: Optional[str] = None
+    my_fainted_b: bool = False
+    my_switch_in_b: Optional[str] = None
+    opponent_pokemon_b: Optional[str] = None
+    opponent_move_b: Optional[str] = None
+    opponent_damage_b: Optional[str] = None
+    opponent_fainted_b: bool = False
+    opponent_switch_in_b: Optional[str] = None
     field_notes: Optional[str] = None
 
 
@@ -529,6 +540,14 @@ class PracticeTurnOut(PracticeTurnIn):
     opponent_pokemon_sprite_url: Optional[str] = None
     opponent_switch_in_display_name: Optional[str] = None
     opponent_switch_in_sprite_url: Optional[str] = None
+    my_pokemon_b_display_name: Optional[str] = None
+    my_pokemon_b_sprite_url: Optional[str] = None
+    my_switch_in_b_display_name: Optional[str] = None
+    my_switch_in_b_sprite_url: Optional[str] = None
+    opponent_pokemon_b_display_name: Optional[str] = None
+    opponent_pokemon_b_sprite_url: Optional[str] = None
+    opponent_switch_in_b_display_name: Optional[str] = None
+    opponent_switch_in_b_sprite_url: Optional[str] = None
 
 
 class PracticeRosterSlotOut(BaseModel):
@@ -543,6 +562,7 @@ class PracticeGameIn(BaseModel):
     my_roster: List[str]
     notes: Optional[str] = None
     replay_link: Optional[str] = None
+    mode: str = "singles"  # "singles" | "doubles"
 
 
 class PracticeGameUpdateIn(BaseModel):
@@ -556,6 +576,7 @@ class PracticeGameSummaryOut(BaseModel):
     date: str
     my_team_name: str
     result: Optional[str] = None
+    mode: str = "singles"
     turn_count: int
     opponent_roster: List[PracticeRosterSlotOut] = []
 

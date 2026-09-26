@@ -824,6 +824,7 @@ export function deleteTournamentResult(tournamentId: number, resultId: number): 
 
 export type DamageCategory = "big" | "normal" | "weak" | "miss";
 export type PracticeResult = "win" | "loss";
+export type PracticeMode = "singles" | "doubles";
 
 export interface PracticeTurnIn {
   my_pokemon?: string | null;
@@ -836,6 +837,17 @@ export interface PracticeTurnIn {
   opponent_damage?: DamageCategory | null;
   opponent_fainted?: boolean;
   opponent_switch_in?: string | null;
+  // Second active Pokemon per side - doubles games only.
+  my_pokemon_b?: string | null;
+  my_move_b?: string | null;
+  my_damage_b?: DamageCategory | null;
+  my_fainted_b?: boolean;
+  my_switch_in_b?: string | null;
+  opponent_pokemon_b?: string | null;
+  opponent_move_b?: string | null;
+  opponent_damage_b?: DamageCategory | null;
+  opponent_fainted_b?: boolean;
+  opponent_switch_in_b?: string | null;
   field_notes?: string | null;
 }
 
@@ -850,6 +862,14 @@ export interface PracticeTurnOut extends PracticeTurnIn {
   opponent_pokemon_sprite_url: string | null;
   opponent_switch_in_display_name: string | null;
   opponent_switch_in_sprite_url: string | null;
+  my_pokemon_b_display_name: string | null;
+  my_pokemon_b_sprite_url: string | null;
+  my_switch_in_b_display_name: string | null;
+  my_switch_in_b_sprite_url: string | null;
+  opponent_pokemon_b_display_name: string | null;
+  opponent_pokemon_b_sprite_url: string | null;
+  opponent_switch_in_b_display_name: string | null;
+  opponent_switch_in_b_sprite_url: string | null;
 }
 
 export interface PracticeRosterSlot {
@@ -862,6 +882,7 @@ export interface PracticeGameIn {
   date: string;
   my_team_name: string;
   my_roster: string[];
+  mode?: PracticeMode;
   notes?: string | null;
   replay_link?: string | null;
 }
@@ -877,6 +898,7 @@ export interface PracticeGameSummary {
   date: string;
   my_team_name: string;
   result: PracticeResult | null;
+  mode: PracticeMode;
   turn_count: number;
   opponent_roster: PracticeRosterSlot[];
 }
@@ -938,6 +960,7 @@ export interface PracticeGameFilters {
   opponent?: string;
   team?: string;
   result?: PracticeResult;
+  mode?: PracticeMode;
   date_from?: string;
   date_to?: string;
 }
@@ -947,14 +970,15 @@ export function getPracticeGames(filters: PracticeGameFilters = {}): Promise<Pra
   if (filters.opponent) params.set("opponent", filters.opponent);
   if (filters.team) params.set("team", filters.team);
   if (filters.result) params.set("result", filters.result);
+  if (filters.mode) params.set("mode", filters.mode);
   if (filters.date_from) params.set("date_from", filters.date_from);
   if (filters.date_to) params.set("date_to", filters.date_to);
   const qs = params.toString();
   return getJson<PracticeGameSummary[]>(`/api/practice${qs ? `?${qs}` : ""}`);
 }
 
-export function getPracticeStats(): Promise<PracticeStats> {
-  return getJson<PracticeStats>("/api/practice/stats");
+export function getPracticeStats(mode?: PracticeMode): Promise<PracticeStats> {
+  return getJson<PracticeStats>(`/api/practice/stats${mode ? `?mode=${mode}` : ""}`);
 }
 
 export function getPracticeGame(id: number): Promise<PracticeGame> {
