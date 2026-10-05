@@ -1008,3 +1008,89 @@ export function updatePracticeTurn(gameId: number, turnNumber: number, body: Pra
 export function deletePracticeTurn(gameId: number, turnNumber: number): Promise<void> {
   return deleteJson(`/api/practice/${gameId}/turns/${turnNumber}`);
 }
+
+// --- Deep meta analysis ------------------------------------------------------
+
+export interface AnalysisTargetRef {
+  pokemon_name: string;
+  display_name: string;
+  sprite_url: string | null;
+}
+
+export interface AnalysisMove {
+  name: string;
+  display_name: string;
+  type: string;
+  category: string;
+  power: number | null;
+  usage_percent: number;
+  avg_pct: number;
+  ohko: number;
+  possible_ohko: number;
+  two_hit: number;
+  immune: number;
+  targets: number;
+  best_targets: (AnalysisTargetRef & { pct_low: number; pct_high: number })[];
+}
+
+export interface AnalysisEntry extends AnalysisTargetRef {
+  rank: number;
+  types: string[];
+  usage_percent: number;
+  ability: string;
+  item: string;
+  nature: string;
+  spread: string;
+  has_spread: boolean;
+  stats: Record<"hp" | "atk" | "def" | "spa" | "spd" | "spe", number>;
+  speed_rank: number;
+  outspeeds: number;
+  outsped_by: number;
+  moves: AnalysisMove[];
+  utility_moves: { name: string; display_name: string; percent: number }[];
+  offence: { avg_best_pct: number; ohko: number; possible_ohko: number; two_hit: number; targets: number };
+  defence: {
+    avg_taken_pct: number;
+    ohko_by: number;
+    possible_ohko_by: number;
+    two_hit_by: number;
+    attackers: number;
+    worst_threats: (AnalysisTargetRef & { move: string; pct_low: number; pct_high: number })[];
+  };
+  archetypes: { tag: string; percent: number }[];
+  archetype_teams: number;
+}
+
+export interface MetaAnalysis {
+  pool_size: number;
+  generated_at: number;
+  compute_seconds: number;
+  entries: AnalysisEntry[];
+}
+
+export interface AnalysisCell extends AnalysisTargetRef {
+  rank: number;
+  pct_low: number;
+  pct_high: number;
+  ko_text: string | null;
+}
+
+export interface PokemonAnalysis {
+  summary: AnalysisEntry;
+  dealt: {
+    name: string;
+    display_name: string;
+    type: string;
+    usage_percent: number;
+    targets: (AnalysisCell & { immune: boolean })[];
+  }[];
+  taken: (AnalysisCell & { move: string; faster: boolean })[];
+}
+
+export function getMetaAnalysis(pool = 100): Promise<MetaAnalysis> {
+  return getJson<MetaAnalysis>(`/api/analysis/meta?pool=${pool}`);
+}
+
+export function getPokemonAnalysis(name: string, pool = 100): Promise<PokemonAnalysis> {
+  return getJson<PokemonAnalysis>(`/api/analysis/pokemon/${encodeURIComponent(name)}?pool=${pool}`);
+}
