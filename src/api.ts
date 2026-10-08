@@ -1091,6 +1091,46 @@ export function getMetaAnalysis(pool = 100): Promise<MetaAnalysis> {
   return getJson<MetaAnalysis>(`/api/analysis/meta?pool=${pool}`);
 }
 
+export interface TeamAnalysisMember extends AnalysisTargetRef {
+  types: string[];
+  ability: string;
+  item: string;
+  nature: string;
+  spread: string;
+  stats: Record<"hp" | "atk" | "def" | "spa" | "spd" | "spe", number>;
+  speed_outspeeds: number;
+  speed_outsped_by: number;
+  move_names: string[];
+  moves: Omit<AnalysisMove, "usage_percent">[];
+  defence: AnalysisEntry["defence"];
+}
+
+export interface TeamAnalysis {
+  pool_size: number;
+  members: TeamAnalysisMember[];
+  type_chart: { type: string; weak: number; resist: number; immune: number; quad: number; net: number }[];
+  coverage: {
+    targets: number;
+    guaranteed_ohko: number;
+    two_hit_or_better: number;
+    gaps: (AnalysisTargetRef & { rank: number; best_pct: number; best_by: string | null; best_move: string | null })[];
+  };
+  threats: (AnalysisTargetRef & {
+    rank: number;
+    hits: number;
+    ohkos: number;
+    targets: string[];
+    faster_than: number;
+  })[];
+  roles: { role: string; have: string[] }[];
+  archetypes: string[];
+  members_without_moves: string[];
+}
+
+export function analyseTeam(team: TeamMatchupMember[], pool = 100): Promise<TeamAnalysis> {
+  return postJson<TeamAnalysis>("/api/analysis/team", { team, pool });
+}
+
 export function getPokemonAnalysis(name: string, pool = 100): Promise<PokemonAnalysis> {
   return getJson<PokemonAnalysis>(`/api/analysis/pokemon/${encodeURIComponent(name)}?pool=${pool}`);
 }

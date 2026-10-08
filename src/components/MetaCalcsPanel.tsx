@@ -150,7 +150,14 @@ export default function MetaCalcsPanel({ team }: { team: SavedTeam }) {
   const [topTeams, setTopTeams] = useState<TopTeamOut[]>([]);
   const [opponentRoster, setOpponentRoster] = useState<MetaPoolEntryOut[] | null>(null);
   const [opponentName, setOpponentName] = useState<string | null>(null);
-  const [selected, setSelected] = useState<string>("");
+  // One remembered pick per kind of thing a mode can choose, so flipping
+  // between modes (and back again) keeps whatever you were looking at instead
+  // of snapping back to the first entry each time.
+  const [selections, setSelections] = useState<Record<"meta" | "team" | "topteam", string>>({
+    meta: "",
+    team: "",
+    topteam: "",
+  });
   const [targetFilter, setTargetFilter] = useState("");
   const [pairs, setPairs] = useState<VersusPair[] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -164,6 +171,9 @@ export default function MetaCalcsPanel({ team }: { team: SavedTeam }) {
   const picksFromTopTeams = mode === "team-vs-team";
   // Two modes run against the whole ranked meta, and so need paging.
   const scansMeta = mode === "one-vs-meta" || mode === "meta-vs-1";
+  const selectionKind = picksFromMeta ? "meta" : picksFromTopTeams ? "topteam" : "team";
+  const selected = selections[selectionKind];
+  const setSelected = (value: string) => setSelections((prev) => ({ ...prev, [selectionKind]: value }));
 
   useEffect(() => {
     getMetaPool(0, 60)
@@ -180,15 +190,30 @@ export default function MetaCalcsPanel({ team }: { team: SavedTeam }) {
       });
   }, []);
 
-  // Reset the selection whenever the mode changes the kind of thing it picks.
+  // Paging and the loaded opponent roster belong to the current mode.
   useEffect(() => {
     setShown(PAGE_SIZE);
     setOpponentRoster(null);
     setOpponentName(null);
-    if (picksFromMeta) setSelected(pool[0]?.pokemon_name ?? "");
-    else if (picksFromTopTeams) setSelected(topTeams[0] ? String(topTeams[0].rank) : "");
-    else setSelected(team.slots[0]?.pokemon.name ?? "");
-  }, [mode, pool, topTeams, team, picksFromMeta, picksFromTopTeams]);
+  }, [mode]);
+
+  // Fall back to the first entry only when this kind has no valid pick yet
+  // (first visit, or the remembered one was removed from the team/meta).
+  useEffect(() => {
+    setSelections((prev) => {
+      const valid = {
+        meta: pool.some((p) => p.pokemon_name === prev.meta),
+        team: team.slots.some((s) => s.pokemon.name === prev.team),
+        topteam: topTeams.some((t) => String(t.rank) === prev.topteam),
+      };
+      const next = {
+        meta: valid.meta ? prev.meta : pool[0]?.pokemon_name ?? "",
+        team: valid.team ? prev.team : team.slots[0]?.pokemon.name ?? "",
+        topteam: valid.topteam ? prev.topteam : topTeams[0] ? String(topTeams[0].rank) : "",
+      };
+      return next.meta === prev.meta && next.team === prev.team && next.topteam === prev.topteam ? prev : next;
+    });
+  }, [pool, topTeams, team]);
 
   // Team vs Team's opponent roster is a separate fetch (each member's real
   // set), so it's loaded on its own rather than blocking the picker.

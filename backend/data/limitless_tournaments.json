@@ -2617,12 +2617,6 @@
         "points": 37
       },
       {
-        "pokemon_name": "arcanine-hisui",
-        "count": 4,
-        "share_percent": 12.9,
-        "points": 23
-      },
-      {
         "pokemon_name": "gholdengo",
         "count": 4,
         "share_percent": 12.9,
@@ -2630,6 +2624,12 @@
       },
       {
         "pokemon_name": "delphox",
+        "count": 4,
+        "share_percent": 12.9,
+        "points": 23
+      },
+      {
+        "pokemon_name": "arcanine-hisui",
         "count": 4,
         "share_percent": 12.9,
         "points": 23
@@ -2647,25 +2647,25 @@
         "points": 30
       },
       {
-        "pokemon_name": "talonflame",
-        "count": 3,
-        "share_percent": 9.68,
-        "points": 16
-      },
-      {
         "pokemon_name": "kommo-o",
         "count": 3,
         "share_percent": 9.68,
         "points": 16
       },
       {
-        "pokemon_name": "tyranitar",
+        "pokemon_name": "talonflame",
+        "count": 3,
+        "share_percent": 9.68,
+        "points": 16
+      },
+      {
+        "pokemon_name": "excadrill",
         "count": 3,
         "share_percent": 9.68,
         "points": 12
       },
       {
-        "pokemon_name": "excadrill",
+        "pokemon_name": "tyranitar",
         "count": 3,
         "share_percent": 9.68,
         "points": 12
@@ -2677,13 +2677,13 @@
         "points": 13
       },
       {
-        "pokemon_name": "gardevoir",
+        "pokemon_name": "armarouge",
         "count": 2,
         "share_percent": 6.45,
         "points": 12
       },
       {
-        "pokemon_name": "armarouge",
+        "pokemon_name": "gardevoir",
         "count": 2,
         "share_percent": 6.45,
         "points": 12
@@ -2713,13 +2713,13 @@
         "points": 18
       },
       {
-        "pokemon_name": "golisopod",
+        "pokemon_name": "politoed",
         "count": 1,
         "share_percent": 3.23,
         "points": 15
       },
       {
-        "pokemon_name": "politoed",
+        "pokemon_name": "golisopod",
         "count": 1,
         "share_percent": 3.23,
         "points": 15
@@ -2735,12 +2735,6 @@
         "count": 1,
         "share_percent": 3.23,
         "points": 9
-      },
-      {
-        "pokemon_name": "primarina",
-        "count": 1,
-        "share_percent": 3.23,
-        "points": 6
       },
       {
         "pokemon_name": "aerodactyl",
@@ -2761,10 +2755,10 @@
         "points": 6
       },
       {
-        "pokemon_name": "klefki",
+        "pokemon_name": "primarina",
         "count": 1,
         "share_percent": 3.23,
-        "points": 4
+        "points": 6
       },
       {
         "pokemon_name": "vivillon",
@@ -2786,6 +2780,12 @@
       },
       {
         "pokemon_name": "dragapult",
+        "count": 1,
+        "share_percent": 3.23,
+        "points": 4
+      },
+      {
+        "pokemon_name": "klefki",
         "count": 1,
         "share_percent": 3.23,
         "points": 4
@@ -14161,6 +14161,12 @@
         "points": 31
       },
       {
+        "pokemon_name": "hatterene",
+        "count": 2,
+        "share_percent": 1.23,
+        "points": 12
+      },
+      {
         "pokemon_name": "camerupt",
         "count": 2,
         "share_percent": 1.23,
@@ -14168,12 +14174,6 @@
       },
       {
         "pokemon_name": "pyroar",
-        "count": 2,
-        "share_percent": 1.23,
-        "points": 12
-      },
-      {
-        "pokemon_name": "hatterene",
         "count": 2,
         "share_percent": 1.23,
         "points": 12
@@ -14197,13 +14197,13 @@
         "points": 5
       },
       {
-        "pokemon_name": "azumarill",
+        "pokemon_name": "altaria",
         "count": 1,
         "share_percent": 0.61,
         "points": 10
       },
       {
-        "pokemon_name": "altaria",
+        "pokemon_name": "azumarill",
         "count": 1,
         "share_percent": 0.61,
         "points": 10
@@ -14305,6 +14305,12 @@
         "points": 5
       },
       {
+        "pokemon_name": "hydreigon",
+        "count": 1,
+        "share_percent": 0.61,
+        "points": null
+      },
+      {
         "pokemon_name": "overqwil",
         "count": 1,
         "share_percent": 0.61,
@@ -14336,12 +14342,6 @@
       },
       {
         "pokemon_name": "persian-alola",
-        "count": 1,
-        "share_percent": 0.61,
-        "points": null
-      },
-      {
-        "pokemon_name": "hydreigon",
         "count": 1,
         "share_percent": 0.61,
         "points": null
@@ -21152,12 +21152,6 @@
         "points": 16
       },
       {
-        "pokemon_name": "froslass",
-        "count": 3,
-        "share_percent": 6.38,
-        "points": 14
-      },
-      {
         "pokemon_name": "sylveon",
         "count": 3,
         "share_percent": 6.38,
@@ -21165,6 +21159,12 @@
       },
       {
         "pokemon_name": "lucario",
+        "count": 3,
+        "share_percent": 6.38,
+        "points": 14
+      },
+      {
+        "pokemon_name": "froslass",
         "count": 3,
         "share_percent": 6.38,
         "points": 14
@@ -21206,22 +21206,16 @@
         "points": 12
       },
       {
-        "pokemon_name": "farigiraf",
-        "count": 2,
-        "share_percent": 4.26,
-        "points": 10
-      },
-      {
         "pokemon_name": "blastoise",
         "count": 2,
         "share_percent": 4.26,
         "points": 10
       },
       {
-        "pokemon_name": "corviknight",
-        "count": 1,
-        "share_percent": 2.13,
-        "points": 8
+        "pokemon_name": "farigiraf",
+        "count": 2,
+        "share_percent": 4.26,
+        "points": 10
       },
       {
         "pokemon_name": "tyranitar",
@@ -21243,6 +21237,12 @@
       },
       {
         "pokemon_name": "mawile",
+        "count": 1,
+        "share_percent": 2.13,
+        "points": 8
+      },
+      {
+        "pokemon_name": "corviknight",
         "count": 1,
         "share_percent": 2.13,
         "points": 8
@@ -21284,12 +21284,6 @@
         "points": 6
       },
       {
-        "pokemon_name": "tsareena",
-        "count": 1,
-        "share_percent": 2.13,
-        "points": 4
-      },
-      {
         "pokemon_name": "weavile",
         "count": 1,
         "share_percent": 2.13,
@@ -21308,13 +21302,13 @@
         "points": 4
       },
       {
-        "pokemon_name": "empoleon",
+        "pokemon_name": "wyrdeer",
         "count": 1,
         "share_percent": 2.13,
         "points": 4
       },
       {
-        "pokemon_name": "wyrdeer",
+        "pokemon_name": "empoleon",
         "count": 1,
         "share_percent": 2.13,
         "points": 4
@@ -21327,6 +21321,12 @@
       },
       {
         "pokemon_name": "altaria",
+        "count": 1,
+        "share_percent": 2.13,
+        "points": 4
+      },
+      {
+        "pokemon_name": "tsareena",
         "count": 1,
         "share_percent": 2.13,
         "points": 4
@@ -22454,7 +22454,9 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": "6K$",
+        "points": 27
       },
       {
         "placement": 2,
@@ -32926,13 +32928,13 @@
         "points": 48
       },
       {
-        "pokemon_name": "politoed",
+        "pokemon_name": "delphox",
         "count": 8,
         "share_percent": 5.16,
         "points": 74
       },
       {
-        "pokemon_name": "delphox",
+        "pokemon_name": "politoed",
         "count": 8,
         "share_percent": 5.16,
         "points": 74
@@ -33028,13 +33030,13 @@
         "points": 22
       },
       {
-        "pokemon_name": "klefki",
+        "pokemon_name": "annihilape",
         "count": 3,
         "share_percent": 1.94,
         "points": 17
       },
       {
-        "pokemon_name": "annihilape",
+        "pokemon_name": "klefki",
         "count": 3,
         "share_percent": 1.94,
         "points": 17
@@ -33064,18 +33066,6 @@
         "points": 12
       },
       {
-        "pokemon_name": "pidgeot",
-        "count": 2,
-        "share_percent": 1.29,
-        "points": 10
-      },
-      {
-        "pokemon_name": "aegislash",
-        "count": 2,
-        "share_percent": 1.29,
-        "points": 10
-      },
-      {
         "pokemon_name": "lycanroc-dusk",
         "count": 2,
         "share_percent": 1.29,
@@ -33089,6 +33079,18 @@
       },
       {
         "pokemon_name": "talonflame",
+        "count": 2,
+        "share_percent": 1.29,
+        "points": 10
+      },
+      {
+        "pokemon_name": "pidgeot",
+        "count": 2,
+        "share_percent": 1.29,
+        "points": 10
+      },
+      {
+        "pokemon_name": "aegislash",
         "count": 2,
         "share_percent": 1.29,
         "points": 10
@@ -33118,22 +33120,16 @@
         "points": 12
       },
       {
-        "pokemon_name": "pyroar",
-        "count": 1,
-        "share_percent": 0.65,
-        "points": 10
-      },
-      {
         "pokemon_name": "scovillain",
         "count": 1,
         "share_percent": 0.65,
         "points": 10
       },
       {
-        "pokemon_name": "noivern",
+        "pokemon_name": "pyroar",
         "count": 1,
         "share_percent": 0.65,
-        "points": 7
+        "points": 10
       },
       {
         "pokemon_name": "hippowdon",
@@ -33148,16 +33144,10 @@
         "points": 7
       },
       {
-        "pokemon_name": "kleavor",
+        "pokemon_name": "noivern",
         "count": 1,
         "share_percent": 0.65,
-        "points": 5
-      },
-      {
-        "pokemon_name": "azumarill",
-        "count": 1,
-        "share_percent": 0.65,
-        "points": 5
+        "points": 7
       },
       {
         "pokemon_name": "kangaskhan",
@@ -33178,6 +33168,24 @@
         "points": 5
       },
       {
+        "pokemon_name": "kleavor",
+        "count": 1,
+        "share_percent": 0.65,
+        "points": 5
+      },
+      {
+        "pokemon_name": "azumarill",
+        "count": 1,
+        "share_percent": 0.65,
+        "points": 5
+      },
+      {
+        "pokemon_name": "sableye",
+        "count": 1,
+        "share_percent": 0.65,
+        "points": null
+      },
+      {
         "pokemon_name": "starmie",
         "count": 1,
         "share_percent": 0.65,
@@ -33188,15 +33196,31 @@
         "count": 1,
         "share_percent": 0.65,
         "points": null
-      },
-      {
-        "pokemon_name": "sableye",
-        "count": 1,
-        "share_percent": 0.65,
-        "points": null
       }
     ],
     "players": {
+      "1088": {
+        "name": "Joseph Ugarte",
+        "country": "US",
+        "money_won": "50,250$",
+        "points_earned": 616,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 3,
+            "t8": 2,
+            "total": 5
+          },
+          "regionals": {
+            "1st": 3,
+            "2nd": 5,
+            "t4": 4,
+            "t8": 4,
+            "total": 16
+          }
+        }
+      },
       "653": {
         "name": "Aditya Subramanian",
         "country": "US",
@@ -40717,6 +40741,12 @@
         "points": 134
       },
       {
+        "pokemon_name": "swampert",
+        "count": 6,
+        "share_percent": 10.53,
+        "points": 105
+      },
+      {
         "pokemon_name": "pelipper",
         "count": 6,
         "share_percent": 10.53,
@@ -40724,12 +40754,6 @@
       },
       {
         "pokemon_name": "archaludon",
-        "count": 6,
-        "share_percent": 10.53,
-        "points": 105
-      },
-      {
-        "pokemon_name": "swampert",
         "count": 6,
         "share_percent": 10.53,
         "points": 105
@@ -40777,12 +40801,6 @@
         "points": 60
       },
       {
-        "pokemon_name": "lycanroc-dusk",
-        "count": 2,
-        "share_percent": 3.51,
-        "points": 68
-      },
-      {
         "pokemon_name": "froslass",
         "count": 2,
         "share_percent": 3.51,
@@ -40790,6 +40808,12 @@
       },
       {
         "pokemon_name": "scovillain",
+        "count": 2,
+        "share_percent": 3.51,
+        "points": 68
+      },
+      {
+        "pokemon_name": "lycanroc-dusk",
         "count": 2,
         "share_percent": 3.51,
         "points": 68
@@ -40807,25 +40831,25 @@
         "points": 44
       },
       {
-        "pokemon_name": "torkoal",
-        "count": 2,
-        "share_percent": 3.51,
-        "points": 39
-      },
-      {
         "pokemon_name": "blastoise",
         "count": 2,
         "share_percent": 3.51,
         "points": 39
       },
       {
-        "pokemon_name": "maushold",
+        "pokemon_name": "torkoal",
+        "count": 2,
+        "share_percent": 3.51,
+        "points": 39
+      },
+      {
+        "pokemon_name": "camerupt",
         "count": 2,
         "share_percent": 3.51,
         "points": 35
       },
       {
-        "pokemon_name": "camerupt",
+        "pokemon_name": "maushold",
         "count": 2,
         "share_percent": 3.51,
         "points": 35
@@ -40849,6 +40873,18 @@
         "points": 30
       },
       {
+        "pokemon_name": "tsareena",
+        "count": 1,
+        "share_percent": 1.75,
+        "points": 24
+      },
+      {
+        "pokemon_name": "metagross",
+        "count": 1,
+        "share_percent": 1.75,
+        "points": 24
+      },
+      {
         "pokemon_name": "primarina",
         "count": 1,
         "share_percent": 1.75,
@@ -40861,16 +40897,10 @@
         "points": 24
       },
       {
-        "pokemon_name": "tsareena",
+        "pokemon_name": "vanilluxe",
         "count": 1,
         "share_percent": 1.75,
-        "points": 24
-      },
-      {
-        "pokemon_name": "metagross",
-        "count": 1,
-        "share_percent": 1.75,
-        "points": 24
+        "points": 20
       },
       {
         "pokemon_name": "kangaskhan",
@@ -40885,19 +40915,13 @@
         "points": 20
       },
       {
-        "pokemon_name": "vanilluxe",
-        "count": 1,
-        "share_percent": 1.75,
-        "points": 20
-      },
-      {
-        "pokemon_name": "abomasnow",
+        "pokemon_name": "mudsdale",
         "count": 1,
         "share_percent": 1.75,
         "points": 15
       },
       {
-        "pokemon_name": "mudsdale",
+        "pokemon_name": "abomasnow",
         "count": 1,
         "share_percent": 1.75,
         "points": 15
@@ -42569,7 +42593,9 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": "5K$",
+        "points": 26
       },
       {
         "placement": 6,
@@ -52705,13 +52731,13 @@
         "points": 57
       },
       {
-        "pokemon_name": "espathra",
+        "pokemon_name": "vivillon",
         "count": 6,
         "share_percent": 3.85,
         "points": 48
       },
       {
-        "pokemon_name": "vivillon",
+        "pokemon_name": "espathra",
         "count": 6,
         "share_percent": 3.85,
         "points": 48
@@ -52771,13 +52797,13 @@
         "points": 39
       },
       {
-        "pokemon_name": "samurott-hisui",
+        "pokemon_name": "talonflame",
         "count": 3,
         "share_percent": 1.92,
         "points": 30
       },
       {
-        "pokemon_name": "talonflame",
+        "pokemon_name": "samurott-hisui",
         "count": 3,
         "share_percent": 1.92,
         "points": 30
@@ -52813,12 +52839,6 @@
         "points": 21
       },
       {
-        "pokemon_name": "kangaskhan",
-        "count": 2,
-        "share_percent": 1.28,
-        "points": 18
-      },
-      {
         "pokemon_name": "tsareena",
         "count": 2,
         "share_percent": 1.28,
@@ -52826,6 +52846,12 @@
       },
       {
         "pokemon_name": "lopunny",
+        "count": 2,
+        "share_percent": 1.28,
+        "points": 18
+      },
+      {
+        "pokemon_name": "kangaskhan",
         "count": 2,
         "share_percent": 1.28,
         "points": 18
@@ -52843,13 +52869,13 @@
         "points": 18
       },
       {
-        "pokemon_name": "glimmora",
+        "pokemon_name": "snorlax",
         "count": 1,
         "share_percent": 0.64,
         "points": 15
       },
       {
-        "pokemon_name": "snorlax",
+        "pokemon_name": "glimmora",
         "count": 1,
         "share_percent": 0.64,
         "points": 15
@@ -52859,6 +52885,24 @@
         "count": 1,
         "share_percent": 0.64,
         "points": 12
+      },
+      {
+        "pokemon_name": "chandelure",
+        "count": 1,
+        "share_percent": 0.64,
+        "points": 9
+      },
+      {
+        "pokemon_name": "typhlosion-hisui",
+        "count": 1,
+        "share_percent": 0.64,
+        "points": 9
+      },
+      {
+        "pokemon_name": "torkoal",
+        "count": 1,
+        "share_percent": 0.64,
+        "points": 9
       },
       {
         "pokemon_name": "volcarona",
@@ -52885,31 +52929,13 @@
         "points": 9
       },
       {
-        "pokemon_name": "chandelure",
-        "count": 1,
-        "share_percent": 0.64,
-        "points": 9
-      },
-      {
-        "pokemon_name": "typhlosion-hisui",
-        "count": 1,
-        "share_percent": 0.64,
-        "points": 9
-      },
-      {
-        "pokemon_name": "torkoal",
-        "count": 1,
-        "share_percent": 0.64,
-        "points": 9
-      },
-      {
-        "pokemon_name": "kleavor",
+        "pokemon_name": "kommo-o",
         "count": 1,
         "share_percent": 0.64,
         "points": 6
       },
       {
-        "pokemon_name": "kommo-o",
+        "pokemon_name": "kleavor",
         "count": 1,
         "share_percent": 0.64,
         "points": 6
@@ -52993,6 +53019,28 @@
             "2nd": 0,
             "t4": 1,
             "t8": 0,
+            "total": 2
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          }
+        }
+      },
+      "1736": {
+        "name": "Ko Tsukide",
+        "country": "JP",
+        "money_won": "21,500$",
+        "points_earned": 135,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 2,
             "total": 2
           },
           "regionals": {
@@ -65679,7 +65727,9 @@
               "Protect"
             ]
           }
-        ]
+        ],
+        "prize_money": null,
+        "points": 2
       },
       {
         "placement": 124,
@@ -66347,13 +66397,13 @@
         "points": 6
       },
       {
-        "pokemon_name": "crabominable",
+        "pokemon_name": "torkoal",
         "count": 3,
         "share_percent": 2.22,
         "points": 4
       },
       {
-        "pokemon_name": "torkoal",
+        "pokemon_name": "crabominable",
         "count": 3,
         "share_percent": 2.22,
         "points": 4
@@ -66383,22 +66433,16 @@
         "points": 8
       },
       {
-        "pokemon_name": "wyrdeer",
-        "count": 1,
-        "share_percent": 0.74,
-        "points": 6
-      },
-      {
         "pokemon_name": "serperior",
         "count": 1,
         "share_percent": 0.74,
         "points": 6
       },
       {
-        "pokemon_name": "abomasnow",
+        "pokemon_name": "wyrdeer",
         "count": 1,
         "share_percent": 0.74,
-        "points": 4
+        "points": 6
       },
       {
         "pokemon_name": "weavile",
@@ -66423,6 +66467,24 @@
         "count": 1,
         "share_percent": 0.74,
         "points": 4
+      },
+      {
+        "pokemon_name": "abomasnow",
+        "count": 1,
+        "share_percent": 0.74,
+        "points": 4
+      },
+      {
+        "pokemon_name": "rotom-heat",
+        "count": 1,
+        "share_percent": 0.74,
+        "points": 2
+      },
+      {
+        "pokemon_name": "azumarill",
+        "count": 1,
+        "share_percent": 0.74,
+        "points": 2
       },
       {
         "pokemon_name": "rotom-mow",
@@ -66455,25 +66517,13 @@
         "points": 2
       },
       {
-        "pokemon_name": "rotom-heat",
-        "count": 1,
-        "share_percent": 0.74,
-        "points": 2
-      },
-      {
-        "pokemon_name": "azumarill",
-        "count": 1,
-        "share_percent": 0.74,
-        "points": 2
-      },
-      {
-        "pokemon_name": "oranguru",
+        "pokemon_name": "heracross",
         "count": 1,
         "share_percent": 0.74,
         "points": null
       },
       {
-        "pokemon_name": "heracross",
+        "pokemon_name": "oranguru",
         "count": 1,
         "share_percent": 0.74,
         "points": null
@@ -69161,6 +69211,28 @@
             "t4": 0,
             "t8": 0,
             "total": 0
+          }
+        }
+      },
+      "4103": {
+        "name": "Francesco Di Biase",
+        "country": "IT",
+        "money_won": "1,000$",
+        "points_earned": 27,
+        "top_cuts": {
+          "international": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 0,
+            "total": 0
+          },
+          "regionals": {
+            "1st": 0,
+            "2nd": 0,
+            "t4": 0,
+            "t8": 1,
+            "total": 1
           }
         }
       },
@@ -79967,13 +80039,13 @@
         "points": 24
       },
       {
-        "pokemon_name": "skarmory",
+        "pokemon_name": "manectric",
         "count": 1,
         "share_percent": 0.69,
         "points": 7
       },
       {
-        "pokemon_name": "manectric",
+        "pokemon_name": "skarmory",
         "count": 1,
         "share_percent": 0.69,
         "points": 7

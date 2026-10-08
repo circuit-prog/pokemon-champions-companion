@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { getMetaAnalysis, getPokemonAnalysis } from "../api";
 import type { AnalysisEntry, MetaAnalysis, PokemonAnalysis } from "../api";
+import PokemonWriteupSection from "./PokemonWriteupSection";
+import TeamAnalysisView from "./TeamAnalysisView";
 import "./AnalysisPage.css";
 
 type SortKey =
@@ -146,6 +148,9 @@ function DetailView({ name, pool, onBack }: { name: string; pool: number; onBack
         </div>
       </div>
 
+      <div className="stats-section-title">How to use {s.display_name}</div>
+      <PokemonWriteupSection pokemonName={s.pokemon_name} />
+
       <div className="stats-section-title">Found on</div>
       {s.archetypes.length === 0 ? (
         <p className="subtitle">No tournament teams logged with this Pokemon yet.</p>
@@ -220,13 +225,14 @@ export default function AnalysisPage({ active }: { active: boolean }) {
   const [filter, setFilter] = useState("");
   const [selected, setSelected] = useState<string | null>(null);
   const [showReport, setShowReport] = useState(true);
+  const [view, setView] = useState<"meta" | "team">("meta");
 
   useEffect(() => {
-    if (!active || data) return;
+    if (!active || data || view !== "meta") return;
     getMetaAnalysis(100)
       .then(setData)
       .catch(() => setError("Couldn't run the analysis. Is the backend running?"));
-  }, [active, data]);
+  }, [active, data, view]);
 
   const rows = useMemo(() => {
     if (!data) return [];
@@ -238,7 +244,7 @@ export default function AnalysisPage({ active }: { active: boolean }) {
 
   const report = useMemo(() => (data ? buildReport(data.entries) : []), [data]);
 
-  if (selected && data) {
+  if (selected && data && view === "meta") {
     return (
       <div className="analysis-page">
         <DetailView name={selected} pool={data.pool_size} onBack={() => setSelected(null)} />
@@ -249,6 +255,18 @@ export default function AnalysisPage({ active }: { active: boolean }) {
   return (
     <div className="analysis-page">
       <h2>Deep Analysis</h2>
+      <div className="analysis-controls">
+        <button className={view === "meta" ? "facet-chip active" : "facet-chip"} onClick={() => setView("meta")}>
+          The meta (top 100)
+        </button>
+        <button className={view === "team" ? "facet-chip active" : "facet-chip"} onClick={() => setView("team")}>
+          My team
+        </button>
+      </div>
+      <div className={view === "team" ? "" : "hidden"}>
+        <TeamAnalysisView active={active && view === "team"} />
+      </div>
+      <div className={view === "meta" ? "" : "hidden"}>
       <p className="subtitle">
         Each of the top 100 Pokemon, built with its most-used ability, item and EV spread, using its four most-used
         damaging moves against every other Pokemon in the top 100 (and their best move back). Percentages are of the
@@ -373,6 +391,7 @@ export default function AnalysisPage({ active }: { active: boolean }) {
           </div>
         </>
       )}
+      </div>
     </div>
   );
 }

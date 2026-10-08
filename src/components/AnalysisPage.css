@@ -178,3 +178,88 @@
 .analysis-cell-move {
   color: #666;
 }
+
+.analysis-page .hidden {
+  display: none;
+}
+
+.analysis-team-members {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 0.75rem;
+  margin: 0.75rem 0 1.25rem;
+}
+
+.analysis-team-member {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.75rem;
+  background: #fafcff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.analysis-team-member .analysis-detail-head {
+  margin-bottom: 0.25rem;
+}
+
+.analysis-team-member .analysis-detail-head .analysis-sprite {
+  width: 56px;
+  height: 56px;
+}
+
+.analysis-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 0.4rem;
+  margin: 0.75rem 0 1.25rem;
+}
+
+.analysis-type-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.35rem;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+  background: #fafcff;
+}
+
+.analysis-type-cell.bad {
+  background: #fff1f0;
+  border-color: #f2a3a0;
+}
+
+.analysis-type-cell.good {
+  background: #f0faf3;
+  border-color: #a6d9b5;
+}
+
+.analysis-roles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.4rem;
+  margin: 0.75rem 0 1.25rem;
+}
+
+.analysis-role {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.85rem;
+  border: 1px solid #e0e0e0;
+}
+
+.analysis-role.have {
+  background: #f0faf3;
+  border-color: #a6d9b5;
+}
+
+.analysis-role.missing {
+  background: #fff8e6;
+  border-color: #ecd28a;
+}
